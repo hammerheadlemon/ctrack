@@ -2,8 +2,8 @@ import pytest
 from django.test import RequestFactory
 
 from ctrack.users.models import User
-from ctrack.organisations.models import Organisation
-from ctrack.users.tests.factories import UserFactory, OrganisationFactory
+from ctrack.organisations.models import Organisation, Address
+from ctrack.users.tests.factories import UserFactory, OrganisationFactory, AddressFactory
 
 
 @pytest.fixture(autouse=True)
@@ -20,6 +20,9 @@ def user() -> User:
 def org() -> Organisation:
     return OrganisationFactory()
 
+@pytest.fixture
+def addr() -> Address:
+    return AddressFactory()
 
 @pytest.fixture
 def request_factory() -> RequestFactory:
