@@ -2,7 +2,8 @@ import pytest
 from django.test import RequestFactory
 
 from ctrack.users.models import User
-from ctrack.users.tests.factories import UserFactory
+from ctrack.organisations.models import Organisation
+from ctrack.users.tests.factories import UserFactory, OrganisationFactory
 
 
 @pytest.fixture(autouse=True)
@@ -13,6 +14,11 @@ def media_storage(settings, tmpdir):
 @pytest.fixture
 def user() -> User:
     return UserFactory()
+
+
+@pytest.fixture
+def org() -> Organisation:
+    return OrganisationFactory()
 
 
 @pytest.fixture

@@ -284,3 +284,4 @@ ctrack/media/
 .pytest_cache/
 
 
+.idea/

@@ -1,7 +1,16 @@
 from typing import Any, Sequence
 
 from django.contrib.auth import get_user_model
+from ctrack.organisations.models import Organisation
 from factory import DjangoModelFactory, Faker, post_generation
+
+
+class OrganisationFactory(DjangoModelFactory):
+
+    name = Faker("name")
+
+    class Meta:
+        model = Organisation
 
 
 class UserFactory(DjangoModelFactory):
