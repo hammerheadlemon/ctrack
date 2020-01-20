@@ -1,9 +1,9 @@
 from django.urls import path
 
-from ctrack.organisations.views import organisations_detail_view
+from ctrack.organisations.views import OrganisationDetailView
 
 app_name = "organisations"
 
 urlpatterns = [
-    path("<str:name>/", view=organisations_detail_view, name="detail")
+    path("<str:name>/", view=OrganisationDetailView, name="detail")
 ]
