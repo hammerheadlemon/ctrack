@@ -18,6 +18,7 @@ class Address(models.Model):
 
 class Organisation(models.Model):
     name = models.CharField(max_length=255, blank=False)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True)
 
     def get_absolute_url(self):
         return reverse("organisations:detail", kwargs={"name": self.slugify_name()})

@@ -7,21 +7,21 @@ from factory import DjangoModelFactory, Faker, post_generation
 
 class OrganisationFactory(DjangoModelFactory):
 
-    name = Faker("name")
+    name = Faker("company", locale="en_GB")
 
     class Meta:
         model = Organisation
 
 
 class AddressFactory(DjangoModelFactory):
-    line1 = Faker("line1")
-    line2 = Faker("line2")
-    line3 = Faker("line3")
-    city = Faker("city")
-    county = Faker("county")
-    postcode = Faker("postcode")
+    line1 = Faker("secondary_address", locale="en_GB")
+    line2 = Faker("street_name", locale="en_GB")
+    line3 = Faker("secondary_address", locale="en_GB")
+    city = Faker("city", locale="en_GB")
+    county = Faker("lexify", locale="en_GB", text="??????", letters="aeioutzyj")
+    postcode = Faker("postcode", locale="en_GB")
     country = Faker("country")
-    other_details = Faker("other_details")
+    other_details = Faker("lexify", locale="en_GB", text="??????", letters="aeioutzyj")
 
     class Meta:
         model = Address
