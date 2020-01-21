@@ -5,13 +5,6 @@ from ctrack.organisations.models import Organisation, Address, AddressType
 from factory import DjangoModelFactory, Faker, post_generation, SubFactory
 
 
-class OrganisationFactory(DjangoModelFactory):
-    name = Faker("company", locale="en_GB")
-
-    class Meta:
-        model = Organisation
-
-
 class AddressTypeFactory(DjangoModelFactory):
 
     descriptor = "Primary Address"
@@ -33,6 +26,14 @@ class AddressFactory(DjangoModelFactory):
 
     class Meta:
         model = Address
+
+
+class OrganisationFactory(DjangoModelFactory):
+    name = Faker("company", locale="en_GB")
+    address = SubFactory(AddressFactory)
+
+    class Meta:
+        model = Organisation
 
 
 class UserFactory(DjangoModelFactory):
