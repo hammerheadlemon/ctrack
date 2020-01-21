@@ -9,7 +9,20 @@ class AddressType(models.Model):
     descriptor = models.CharField(max_length=50)
 
 
+class Organisation(models.Model):
+    name = models.CharField(max_length=255, blank=False)
+
+    def get_absolute_url(self):
+        return reverse("organisations:detail", kwargs={"name": self.slugify_name()})
+
+    def slugify_name(self):
+        return slugify(self.name)
+
+
 class Address(models.Model):
+    organisation = models.ForeignKey(
+        Organisation, related_name="addresses", on_delete=models.CASCADE, blank=False
+    )
     type = models.ForeignKey(AddressType, on_delete=models.CASCADE, default=1)
     line1 = models.CharField(max_length=255)
     line2 = models.CharField(max_length=255)
@@ -19,14 +32,3 @@ class Address(models.Model):
     postcode = models.CharField(max_length=10)
     country = models.CharField(max_length=100)
     other_details = models.CharField(max_length=255)
-
-
-class Organisation(models.Model):
-    name = models.CharField(max_length=255, blank=False)
-    address = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True)
-
-    def get_absolute_url(self):
-        return reverse("organisations:detail", kwargs={"name": self.slugify_name()})
-
-    def slugify_name(self):
-        return slugify(self.name)

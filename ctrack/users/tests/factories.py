@@ -6,15 +6,22 @@ from factory import DjangoModelFactory, Faker, post_generation, SubFactory
 
 
 class AddressTypeFactory(DjangoModelFactory):
-
     descriptor = "Primary Address"
 
     class Meta:
         model = AddressType
 
 
+class OrganisationFactory(DjangoModelFactory):
+    name = Faker("company", locale="en_GB")
+
+    class Meta:
+        model = Organisation
+
+
 class AddressFactory(DjangoModelFactory):
     type = SubFactory(AddressTypeFactory)
+    organisation = SubFactory(OrganisationFactory)
     line1 = Faker("secondary_address", locale="en_GB")
     line2 = Faker("street_name", locale="en_GB")
     line3 = Faker("secondary_address", locale="en_GB")
@@ -26,14 +33,6 @@ class AddressFactory(DjangoModelFactory):
 
     class Meta:
         model = Address
-
-
-class OrganisationFactory(DjangoModelFactory):
-    name = Faker("company", locale="en_GB")
-    address = SubFactory(AddressFactory)
-
-    class Meta:
-        model = Organisation
 
 
 class UserFactory(DjangoModelFactory):
