@@ -23,7 +23,7 @@ class Address(models.Model):
     organisation = models.ForeignKey(
         Organisation, related_name="addresses", on_delete=models.CASCADE, blank=False
     )
-    type = models.ForeignKey(AddressType, on_delete=models.CASCADE, default=1)
+    type = models.ForeignKey(AddressType, on_delete=models.CASCADE, blank=False)
     line1 = models.CharField(max_length=255)
     line2 = models.CharField(max_length=255)
     line3 = models.CharField(max_length=255)
