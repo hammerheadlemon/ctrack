@@ -23,7 +23,9 @@ class Address(models.Model):
     organisation = models.ForeignKey(
         Organisation, related_name="addresses", on_delete=models.CASCADE, blank=False
     )
-    type = models.ForeignKey(AddressType, on_delete=models.CASCADE, blank=False)
+    type = models.ForeignKey(
+        AddressType, verbose_name="Address Type", on_delete=models.CASCADE, blank=False
+    )
     line1 = models.CharField(max_length=255)
     line2 = models.CharField(max_length=255)
     line3 = models.CharField(max_length=255)
@@ -32,3 +34,6 @@ class Address(models.Model):
     postcode = models.CharField(max_length=10)
     country = models.CharField(max_length=100)
     other_details = models.CharField(max_length=255)
+
+    class Meta:
+        verbose_name_plural = "Addresses"

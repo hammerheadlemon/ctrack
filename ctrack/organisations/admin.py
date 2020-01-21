@@ -9,6 +9,8 @@ class AddressTypeAdmin(admin.ModelAdmin):
 
 class AddressInLine(admin.StackedInline):
     model = Address
+    max_num = 3
+    extra = 1
 
 
 class OrganisationAdmin(admin.ModelAdmin):
