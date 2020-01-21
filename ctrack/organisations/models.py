@@ -5,7 +5,12 @@ from django.urls import reverse
 from slugify import slugify
 
 
+class AddressType(models.Model):
+    descriptor = models.CharField(max_length=50)
+
+
 class Address(models.Model):
+    type = models.ForeignKey(AddressType, on_delete=models.CASCADE, default=1)
     line1 = models.CharField(max_length=255)
     line2 = models.CharField(max_length=255)
     line3 = models.CharField(max_length=255)

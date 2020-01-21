@@ -14,3 +14,4 @@ def test_organisation_get_absolute_url(org: Organisation):
 def test_create_organisation(addr: Address):
     Organisation(name="Big Bad OES Corporation", address=addr).save()
     assert Organisation.objects.get(name="Big Bad OES Corporation")
+    assert Organisation.objects.get(name="Big Bad OES Corporation").address.type.descriptor == "Primary Address"

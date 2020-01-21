@@ -1,19 +1,27 @@
 from typing import Any, Sequence
 
 from django.contrib.auth import get_user_model
-from ctrack.organisations.models import Organisation, Address
-from factory import DjangoModelFactory, Faker, post_generation
+from ctrack.organisations.models import Organisation, Address, AddressType
+from factory import DjangoModelFactory, Faker, post_generation, SubFactory
 
 
 class OrganisationFactory(DjangoModelFactory):
-
     name = Faker("company", locale="en_GB")
 
     class Meta:
         model = Organisation
 
 
+class AddressTypeFactory(DjangoModelFactory):
+
+    descriptor = "Primary Address"
+
+    class Meta:
+        model = AddressType
+
+
 class AddressFactory(DjangoModelFactory):
+    type = SubFactory(AddressTypeFactory)
     line1 = Faker("secondary_address", locale="en_GB")
     line2 = Faker("street_name", locale="en_GB")
     line3 = Faker("secondary_address", locale="en_GB")
@@ -28,7 +36,6 @@ class AddressFactory(DjangoModelFactory):
 
 
 class UserFactory(DjangoModelFactory):
-
     username = Faker("user_name")
     email = Faker("email")
     name = Faker("name")
