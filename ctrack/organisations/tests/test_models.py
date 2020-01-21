@@ -1,7 +1,7 @@
 import pytest
 from slugify import slugify
 
-from ..models import Organisation
+from ..models import Organisation, Address
 
 pytestmark = pytest.mark.django_db
 
@@ -30,3 +30,8 @@ def test_update_organisation(org: Organisation):
     org.name = "Tonkers Ltd"
     org.save()
     assert org.name == "Tonkers Ltd"
+
+
+def test_new_address(addr: Address):
+    # The address "has" an organisation
+    assert addr.organisation.name
