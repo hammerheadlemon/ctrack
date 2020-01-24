@@ -5,5 +5,5 @@ from ctrack.organisations.views import OrganisationDetailView
 app_name = "organisations"
 
 urlpatterns = [
-    path("<str:name>/", view=OrganisationDetailView, name="detail")
+    path("<slug:slug>/", view=OrganisationDetailView.as_view(), name="detail")
 ]

@@ -15,6 +15,7 @@ class AddressInLine(admin.StackedInline):
 
 class OrganisationAdmin(admin.ModelAdmin):
     inlines = [AddressInLine,]
+    list_display = ('slug', 'name')
 
 
 # Register your models here.

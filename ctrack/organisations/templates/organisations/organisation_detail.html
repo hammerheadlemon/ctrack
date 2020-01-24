@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Organisation detail</h2>
+  <div class="container">
+    <div class="row">
+      {% if n_addr > 1 %}
+        {% for a in addr %}
+          <div class="col-md-6">
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">{{ object.name }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ a.type }}</h6>
+                <p class="card-text">
+                  {{ a.line1 }}<br>
+                  {{ a.line2 }}<br>
+                  {{ a.line3 }}<br>
+                  {{ a.city }}<br>
+                  {{ a.county }}<br>
+                  {{ a.country}}<br>
+                </p>
+                <p><strong>{{ a.other_details }}</strong><br></p>
+                <a href="#" class="card-link">Edit Details</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="col-md-12">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">{{ object.name }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ addr.type }}</h6>
+            <p class="card-text">
+              {{ addr.line1 }}<br>
+              {{ addr.line2 }}<br>
+              {{ addr.line3 }}<br>
+              {{ addr.city }}<br>
+              {{ addr.county }}<br>
+              {{ addr.country}}<br>
+            </p>
+            <p><strong>{{ addr.other_details }}</strong><br></p>
+            <a href="#" class="card-link">Edit Details</a>
+          </div>
+        </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
