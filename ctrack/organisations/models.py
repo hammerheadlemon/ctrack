@@ -35,9 +35,25 @@ class Person(models.Model):
         return self.organisation.name
 
 
+class Mode(models.Model):
+    descriptor = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.descriptor
+
+
+class Submode(models.Model):
+    descriptor = models.CharField(max_length=100)
+    mode = models.ForeignKey(Mode, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.descriptor
+
+
 class Organisation(models.Model):
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from=['name'])
+    submode = models.ForeignKey(Submode, on_delete=models.CASCADE, blank=True, null=True)
 
     def get_absolute_url(self):
         return reverse("organisations:detail", kwargs={"slug": self.slug})
