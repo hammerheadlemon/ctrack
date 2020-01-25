@@ -1,6 +1,15 @@
 from django.contrib import admin
 
-from .models import Organisation, Address, AddressType
+from .models import Organisation, Address, AddressType, Person, Role
+
+
+# So we can get the organisation name - a reverse lookup
+def get_organisation_name(person):
+    return Organisation.objects.filter(person__name=person).first().name
+
+
+# We need this to ensure the column header in the admin does't read the func name
+get_organisation_name.short_description = 'Organisation'
 
 
 class AddressTypeAdmin(admin.ModelAdmin):
@@ -15,9 +24,20 @@ class AddressInLine(admin.StackedInline):
 
 class OrganisationAdmin(admin.ModelAdmin):
     inlines = [AddressInLine,]
-    list_display = ('slug', 'name')
+    list_display = ('name',)
+
+
+class PersonAdmin(admin.ModelAdmin):
+    model = Person
+    list_display = ['name', get_organisation_name, 'email', 'mobile']
+
+
+class RoleAdmin(admin.ModelAdmin):
+    model = Role
 
 
 # Register your models here.
 admin.site.register(Organisation, OrganisationAdmin)
 admin.site.register(AddressType, AddressTypeAdmin)
+admin.site.register(Role, RoleAdmin)
+admin.site.register(Person, PersonAdmin)

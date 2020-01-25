@@ -13,8 +13,30 @@ class AddressType(models.Model):
         return self.descriptor
 
 
+class Role(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Person(models.Model):
+    name = models.CharField(max_length=255)
+    organisation = models.ForeignKey("Organisation", on_delete=models.CASCADE)
+    role = models.ManyToManyField(Role)
+    email = models.EmailField()
+    mobile = models.CharField(max_length=20, blank=True)
+    landline = models.CharField(max_length=20, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_organisation_name(self):
+        return self.organisation.name
+
+
 class Organisation(models.Model):
-    name = models.CharField(max_length=255, blank=False)
+    name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from=['name'])
 
     def get_absolute_url(self):
