@@ -17,7 +17,12 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
     path("users/", include("ctrack.users.urls", namespace="users")),
-    path("organisations/", include("ctrack.organisations.urls", namespace="organisations")),
+    path(
+        "organisations/",
+        include("ctrack.organisations.urls", namespace="organisations"),
+    ),
+    path("register/", include("ctrack.organisations.urls", namespace="register")),
+    path("caf/", include("ctrack.caf.urls", namespace="caf")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
