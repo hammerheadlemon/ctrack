@@ -1,3 +1,5 @@
+#type: ignore
+
 from django.db import models
 
 from ctrack.organisations.models import Organisation
