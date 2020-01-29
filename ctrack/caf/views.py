@@ -11,7 +11,3 @@ class CreateCAF(CreateView):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form_class
         return context
-
-
-
-
