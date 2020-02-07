@@ -1,4 +1,4 @@
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 
 from ctrack.caf.forms import CAFForm
 
@@ -11,3 +11,8 @@ class CreateCAF(CreateView):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form_class
         return context
+
+
+class ListCAF(ListView):
+    pass
+

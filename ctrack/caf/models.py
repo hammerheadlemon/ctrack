@@ -49,7 +49,7 @@ class CAF(models.Model):
     owner = models.ForeignKey(Organisation, on_delete=models.CASCADE)
     essential_system = models.CharField(max_length=255, blank=True)
     triage_ranking = models.ForeignKey(Ranking, on_delete=models.CASCADE)
-    file = models.ForeignKey(DocumentFile, on_delete=models.CASCADE)
+    file = models.ForeignKey(DocumentFile, on_delete=models.CASCADE, blank=True)
 
     def __str__(self):
         if not self.essential_system:
