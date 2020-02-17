@@ -51,9 +51,16 @@ class Submode(models.Model):
 
 
 class Organisation(models.Model):
+
+    DESIGNATION_TYPE = [
+        (1, "Automatic"),
+        (2, "Reserve Power"),
+    ]
+
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from=['name'])
     submode = models.ForeignKey(Submode, on_delete=models.CASCADE, blank=True, null=True)
+    designation_type = models.IntegerField(choices=DESIGNATION_TYPE, default=1)
 
     def get_absolute_url(self):
         return reverse("organisations:detail", kwargs={"slug": self.slug})
