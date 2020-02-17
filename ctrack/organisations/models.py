@@ -23,12 +23,50 @@ class Role(models.Model):
 
 
 class Person(models.Model):
-    name = models.CharField(max_length=255)
+    TITLES = [
+        (1, "Mr"),
+        (2, "Mrs"),
+        (3, "Miss"),
+        (4, "Ms"),
+        (5, "Dr."),
+        (6, "Professor"),
+        (7, "The Rt Hon."),
+        (8, "Lord"),
+        (9, "Lady"),
+    ]
+
+    CLEARANCE_LEVEL = [
+        (1, "NA"),
+        (2, "BPSS"),
+        (3, "CTC"),
+        (4, "SC"),
+        (5, "DV"),
+        (6, "Other"),
+    ]
+    primary_nis_contact = models.BooleanField(default=False, verbose_name="Primary NIS contact")
+    voluntary_point_of_contact = models.BooleanField(default=False)
+    has_egress = models.BooleanField(default=False, verbose_name="Has Egress")
+    title = models.IntegerField(choices=TITLES, default=1)
+    job_title = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
     organisation = models.ForeignKey("Organisation", on_delete=models.CASCADE)
     role = models.ManyToManyField(Role)
     email = models.EmailField()
+    secondary_email = models.EmailField(blank=True)
     mobile = models.CharField(max_length=20, blank=True)
     landline = models.CharField(max_length=20, blank=True)
+    date_updated = models.DateField(auto_now=True)
+    updated_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    clearance = models.IntegerField(choices=CLEARANCE_LEVEL, default=1)
+    clearance_sponsor = models.CharField(max_length=100, blank=True)
+    clearance_start_date = models.DateField(blank=True)
+    clearance_last_checked = models.DateField(blank=True)
+    clearance_expiry = models.DateField(blank=True)
+    active = models.BooleanField(default=True)
+    date_ended = models.DateField(blank=True)
+    predecessor = models.ForeignKey('self', blank=True, on_delete=models.CASCADE, related_name="previous_person")
+    comments = models.TextField(max_length=1000)
 
     def __str__(self):
         return self.name
