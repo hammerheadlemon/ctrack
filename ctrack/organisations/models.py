@@ -34,6 +34,9 @@ class Person(models.Model):
     def get_organisation_name(self):
         return self.organisation.name
 
+    class Meta:
+        verbose_name_plural = "People"
+
 
 class Mode(models.Model):
     descriptor = models.CharField(max_length=100)
