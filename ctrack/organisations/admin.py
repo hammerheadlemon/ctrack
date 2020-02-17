@@ -24,7 +24,7 @@ class AddressInLine(admin.StackedInline):
 
 class OrganisationAdmin(admin.ModelAdmin):
     inlines = [AddressInLine]
-    list_display = ("name", "submode")
+    list_display = ("name", "submode", "date_updated", "updated_by")
 
 
 class PersonAdmin(admin.ModelAdmin):

@@ -1,7 +1,9 @@
 from django.db import models
 
-# Create your models here.
+from django.contrib.auth import get_user_model
+
 from django.urls import reverse
+from django.conf import settings
 from django_extensions.db.fields import AutoSlugField
 from slugify import slugify
 
@@ -68,6 +70,10 @@ class Organisation(models.Model):
     designation_type = models.IntegerField(choices=DESIGNATION_TYPE, default=1)
     registered_company_name = models.CharField(max_length=255, blank=True)
     registered_company_number = models.CharField(max_length=100, blank=True)
+    date_updated = models.DateField(auto_now=True)
+    updated_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    comments = models.TextField(max_length=500)
+    active = models.BooleanField(default=True)
 
     def get_absolute_url(self):
         return reverse("organisations:detail", kwargs={"slug": self.slug})
