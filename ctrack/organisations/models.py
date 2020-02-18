@@ -43,7 +43,9 @@ class Person(models.Model):
         (5, "DV"),
         (6, "Other"),
     ]
-    primary_nis_contact = models.BooleanField(default=False, verbose_name="Primary NIS contact")
+    primary_nis_contact = models.BooleanField(
+        default=False, verbose_name="Primary NIS contact"
+    )
     voluntary_point_of_contact = models.BooleanField(default=False)
     has_egress = models.BooleanField(default=False, verbose_name="Has Egress")
     title = models.IntegerField(choices=TITLES, default=1)
@@ -65,7 +67,9 @@ class Person(models.Model):
     clearance_expiry = models.DateField(blank=True)
     active = models.BooleanField(default=True)
     date_ended = models.DateField(blank=True)
-    predecessor = models.ForeignKey('self', blank=True, on_delete=models.CASCADE, related_name="previous_person")
+    predecessor = models.ForeignKey(
+        "self", blank=True, on_delete=models.CASCADE, related_name="previous_person"
+    )
     comments = models.TextField(max_length=1000)
 
     def __str__(self):
