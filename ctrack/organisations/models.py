@@ -62,18 +62,18 @@ class Person(models.Model):
     updated_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     clearance = models.IntegerField(choices=CLEARANCE_LEVEL, default=1)
     clearance_sponsor = models.CharField(max_length=100, blank=True)
-    clearance_start_date = models.DateField(blank=True)
-    clearance_last_checked = models.DateField(blank=True)
-    clearance_expiry = models.DateField(blank=True)
+    clearance_start_date = models.DateField(blank=True, null=True)
+    clearance_last_checked = models.DateField(blank=True, null=True)
+    clearance_expiry = models.DateField(blank=True, null=True)
     active = models.BooleanField(default=True)
-    date_ended = models.DateField(blank=True)
+    date_ended = models.DateField(blank=True, null=True)
     predecessor = models.ForeignKey(
-        "self", blank=True, on_delete=models.CASCADE, related_name="previous_person"
+        "self", blank=True, on_delete=models.CASCADE, related_name="previous_person", null=True
     )
-    comments = models.TextField(max_length=1000)
+    comments = models.TextField(max_length=1000, blank=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.first_name} {self.last_name}"
 
     def get_organisation_name(self):
         return self.organisation.name

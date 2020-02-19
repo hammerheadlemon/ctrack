@@ -5,7 +5,7 @@ from .models import Organisation, Address, AddressType, Person, Role, Mode, Subm
 
 # So we can get the organisation name - a reverse lookup
 def get_organisation_name(person):
-    return Organisation.objects.filter(person__name=person).first().name
+    return Organisation.objects.filter(person__id=person.id).first().name
 
 
 # We need this to ensure the column header in the admin does't read the func name
