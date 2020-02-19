@@ -74,7 +74,7 @@ class RoleFactory(DjangoModelFactory):
     class Meta:
         model = Role
 
-    name = Faker("name")
+    name = Faker("job")
 
 
 class PersonFactory(DjangoModelFactory):
@@ -110,5 +110,5 @@ class PersonFactory(DjangoModelFactory):
     clearance_expiry = factory.LazyFunction(datetime.now)
     active = True
     date_ended = Faker("date_this_year")
-#    predecessor = SubFactory("ctrack.organisations.tests.factories.PersonFactory")
+    predecessor = SubFactory("ctrack.organisations.tests.factories.PersonFactory")
     comments = "Yaa!"
