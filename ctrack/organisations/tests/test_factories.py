@@ -37,5 +37,5 @@ def test_role_factory():
 
 def test_person_factory():
     r = RoleFactory.build()
-    p = PersonFactory.build(role=r, predecessor=None)
+    p = PersonFactory.build(role=r, predecessor__predecessor=None)
     assert p.first_name
