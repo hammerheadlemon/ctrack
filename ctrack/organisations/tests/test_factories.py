@@ -22,7 +22,7 @@ def test_submode_factory():
 
 def test_user_factory():
     u = UserFactory.build()
-    assert u.name
+    assert u.username
 
 
 def test_organisation_factory():
