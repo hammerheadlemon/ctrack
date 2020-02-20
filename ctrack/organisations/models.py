@@ -43,6 +43,15 @@ class Person(models.Model):
         (5, "DV"),
         (6, "Other"),
     ]
+
+    def get_sentinel_user():
+        """
+        We need this so that we can ensure models.SET() is applied with a callable
+        to handle when Users are deleted from the system, preventing the Person objects
+        related to them being deleted also.
+        """
+        return get_user_model().objects.get_or_create(username='DELETED USER')[0]
+
     primary_nis_contact = models.BooleanField(
         default=False, verbose_name="Primary NIS contact"
     )
@@ -59,7 +68,7 @@ class Person(models.Model):
     mobile = models.CharField(max_length=20, blank=True)
     landline = models.CharField(max_length=20, blank=True)
     date_updated = models.DateField(auto_now=True)
-    updated_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    updated_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user))
     clearance = models.IntegerField(choices=CLEARANCE_LEVEL, default=1)
     clearance_sponsor = models.CharField(max_length=100, blank=True)
     clearance_start_date = models.DateField(blank=True, null=True)
@@ -98,11 +107,18 @@ class Submode(models.Model):
 
 
 class Organisation(models.Model):
-
     DESIGNATION_TYPE = [
         (1, "Automatic"),
         (2, "Reserve Power"),
     ]
+
+    def get_sentinel_user():
+        """
+        We need this so that we can ensure models.SET() is applied with a callable
+        to handle when Users are deleted from the system, preventing the Organisations
+        related to them being deleted also.
+        """
+        return get_user_model().objects.get_or_create(username='DELETED USER')[0]
 
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from=["name"])
@@ -113,7 +129,7 @@ class Organisation(models.Model):
     registered_company_name = models.CharField(max_length=255, blank=True)
     registered_company_number = models.CharField(max_length=100, blank=True)
     date_updated = models.DateField(auto_now=True)
-    updated_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    updated_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user))
     comments = models.TextField(max_length=500)
     active = models.BooleanField(default=True)
 
