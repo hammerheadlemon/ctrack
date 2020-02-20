@@ -40,28 +40,13 @@ class UserFactory(DjangoModelFactory):
     password = Faker("lexify", text="????????", letters="AdOIqkcvBnMP")
 
 
-class ModeFactory(DjangoModelFactory):
-    class Meta:
-        model = Mode
-
-    descriptor = factory.LazyFunction(_random_mode)
-
-
-class SubModeFactory(DjangoModelFactory):
-    class Meta:
-        model = Submode
-
-    descriptor = factory.LazyFunction(_random_submode)
-    mode = SubFactory(ModeFactory)
-
-
 class OrganisationFactory(DjangoModelFactory):
     class Meta:
         model = Organisation
 
     name = Faker("company")
     slug = Faker("lexify", text="????", letters="abcdsg")
-    submode = SubFactory(SubModeFactory)
+#   submode = SubFactory(SubModeFactory)
     designation_type = 1
     registered_company_name = Faker("company")
     registered_company_number = Faker("numerify", text="######")
@@ -81,6 +66,14 @@ class RoleFactory(DjangoModelFactory):
 class PersonFactory(DjangoModelFactory):
     class Meta:
         model = Person
+
+    # @post_generation
+    # def organisation(self, create, extracted, **kwargs):
+    #     if not create:
+    #         return
+    #     if extracted:
+    #         for org in extracted:
+    #             self.organisation.add(org)
 
     @post_generation
     def role(self, create, extracted, **kwargs):
