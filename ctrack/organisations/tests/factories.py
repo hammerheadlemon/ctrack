@@ -36,7 +36,8 @@ class UserFactory(DjangoModelFactory):
     class Meta:
         model = User
 
-    name = Faker("name", locale="en_GB")
+    username = Faker("lexify", text="???????", letters="abcdsgTGQA")
+    password = Faker("lexify", text="????????", letters="AdOIqkcvBnMP")
 
 
 class ModeFactory(DjangoModelFactory):
@@ -86,24 +87,23 @@ class PersonFactory(DjangoModelFactory):
         if not create:
             return
         if extracted:
-            for role in extracted:
-                self.role.add(role)
+            self.role.add(extracted)
 
     primary_nis_contact = True
     voluntary_point_of_contact = True
     has_egress = False
-    title = Faker("prefix")
+    title = factory.LazyFunction(lambda: random.randint(1, 8))
     job_title = Faker("job")
     first_name = Faker("first_name")
     last_name = Faker("last_name")
-    organisation = SubFactory(OrganisationFactory)
+    organisation = SubFactory("ctrack.organisations.tests.factories.OrganisationFactory")
     email = Faker("ascii_company_email")
     secondary_email = "ascii_company_email"
     mobile = Faker("msisdn", locale="en_GB")
     landline = Faker("phone_number", locale="en_GB")
     date_updated = factory.LazyFunction(datetime.now)
     updated_by = SubFactory(UserFactory)
-    clearance = factory.LazyFunction(datetime.now)
+    clearance = factory.LazyFunction(lambda: random.randint(1,6))
     clearance_sponsor = Faker("name", locale="en_GB")
     clearance_start_date = factory.LazyFunction(datetime.now)
     clearance_last_checked = factory.LazyFunction(datetime.now)
