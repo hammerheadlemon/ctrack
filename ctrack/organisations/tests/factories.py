@@ -98,7 +98,7 @@ class PersonFactory(DjangoModelFactory):
     last_name = Faker("last_name")
     organisation = SubFactory("ctrack.organisations.tests.factories.OrganisationFactory")
     email = Faker("ascii_company_email")
-    secondary_email = "ascii_company_email"
+    secondary_email = Faker("ascii_company_email")
     mobile = Faker("msisdn", locale="en_GB")
     landline = Faker("phone_number", locale="en_GB")
     date_updated = factory.LazyFunction(datetime.now)
@@ -111,7 +111,7 @@ class PersonFactory(DjangoModelFactory):
     active = True
     date_ended = Faker("date_this_year")
     predecessor = SubFactory("ctrack.organisations.tests.factories.PersonFactory")
-    comments = "Yaa!"
+    comments = Faker("text", max_nb_chars=500, ext_word_list=None)
 
 
 class AddressFactory(DjangoModelFactory):
