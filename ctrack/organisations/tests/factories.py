@@ -5,7 +5,7 @@ import factory
 from django.contrib.auth import get_user_model
 from factory import DjangoModelFactory, Faker, SubFactory, post_generation
 
-from ctrack.organisations.models import Mode, Organisation, Person, Role, Submode
+from ctrack.organisations.models import Mode, Organisation, Person, Role, Submode, Address, AddressType
 
 User = get_user_model()
 
@@ -112,3 +112,26 @@ class PersonFactory(DjangoModelFactory):
     date_ended = Faker("date_this_year")
     predecessor = SubFactory("ctrack.organisations.tests.factories.PersonFactory")
     comments = "Yaa!"
+
+
+class AddressFactory(DjangoModelFactory):
+    type = SubFactory("ctrack.organisations.tests.factories.AddressTypeFactory")
+    organisation = SubFactory(OrganisationFactory)
+    line1 = Faker("secondary_address", locale="en_GB")
+    line2 = Faker("street_name", locale="en_GB")
+    line3 = Faker("secondary_address", locale="en_GB")
+    city = Faker("city", locale="en_GB")
+    county = Faker("lexify", locale="en_GB", text="??????", letters="aeioutzyj")
+    postcode = Faker("postcode", locale="en_GB")
+    country = Faker("country")
+    other_details = Faker("lexify", locale="en_GB", text="??????", letters="aeioutzyj")
+
+    class Meta:
+        model = Address
+
+
+class AddressTypeFactory(DjangoModelFactory):
+    descriptor = "Primary Address"
+
+    class Meta:
+        model = AddressType

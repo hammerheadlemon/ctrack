@@ -5,9 +5,8 @@ from ctrack.users.models import User
 from ctrack.organisations.models import Organisation, Address
 from ctrack.users.tests.factories import (
     UserFactory,
-    OrganisationFactory,
-    AddressFactory,
 )
+from ctrack.organisations.tests.factories import OrganisationFactory, AddressFactory
 
 
 @pytest.fixture(autouse=True)
