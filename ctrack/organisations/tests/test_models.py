@@ -11,12 +11,6 @@ def test_organisation_get_absolute_url(org):
     assert org.get_absolute_url() == f"/organisations/{slug}/"
 
 
-def test_create_organisation():
-    Organisation(name="Big Bad OES Corporation").save()
-    # The organisation is saved in the db
-    assert Organisation.objects.get(name="Big Bad OES Corporation")
-
-
 def test_delete_organisation(org):
     orgs = Organisation.objects.all()
     assert org in orgs
