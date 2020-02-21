@@ -3,8 +3,10 @@ from random import randint
 from django.core.management import BaseCommand
 from django.core.management import CommandParser
 
+from ctrack.organisations.models import AddressType
 from ctrack.organisations.models import Mode
 from ctrack.organisations.models import Submode
+from ctrack.organisations.tests.factories import AddressFactory
 from ctrack.organisations.tests.factories import OrganisationFactory
 from ctrack.organisations.tests.factories import PersonFactory
 from ctrack.organisations.tests.factories import RoleFactory
@@ -42,13 +44,20 @@ class Command(BaseCommand):
         #       below.  Then we need to write a post_generation hook in PersonFactory which ensures that the person
         #       is only added to these Organisations and no further Organisation objects are created.
 
-        # we need a User object to completed the updated_by fields in Organisaton and Person
+        # we need a User object to completed the updated_by fields in Organisation and Person
         user = (
             UserFactory.create()
         )  # we need to have at least one user for the updated_by field
 
         # Create 40 Organisation objects
-        orgs = [OrganisationFactory.create(submode=submodes[randint(0, len(submodes)-1)]) for org in range(40)]
+        orgs = [
+            OrganisationFactory.create(submode=submodes[randint(0, len(submodes) - 1)])
+            for org in range(40)
+        ]
+        # Create 40 Address objects
+        addr_type = AddressType.objects.create(descriptor="Primary Address")
+        for org in orgs:
+            AddressFactory.create(type=addr_type, organisation=org)
 
         role = (
             RoleFactory.create()
@@ -58,7 +67,7 @@ class Command(BaseCommand):
                 role=role,
                 updated_by=user,
                 predecessor=None,
-                organisation__submode=submodes[randint(0, len(submodes)-1)],
+                organisation__submode=submodes[randint(0, len(submodes) - 1)],
                 organisation=org,
             )
         self.stdout.write(

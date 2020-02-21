@@ -110,21 +110,15 @@ class PersonFactory(DjangoModelFactory):
 class AddressFactory(DjangoModelFactory):
     type = SubFactory("ctrack.organisations.tests.factories.AddressTypeFactory")
     organisation = SubFactory(OrganisationFactory)
-    line1 = Faker("secondary_address", locale="en_GB")
+    line1 = Faker("building_number", locale="en_GB")
     line2 = Faker("street_name", locale="en_GB")
     line3 = Faker("secondary_address", locale="en_GB")
     city = Faker("city", locale="en_GB")
     county = Faker("lexify", locale="en_GB", text="??????", letters="aeioutzyj")
     postcode = Faker("postcode", locale="en_GB")
-    country = Faker("country")
-    other_details = Faker("lexify", locale="en_GB", text="??????", letters="aeioutzyj")
+    country = "UK"
+    other_details = Faker("text", max_nb_chars=200, ext_word_list=None)
 
     class Meta:
         model = Address
 
-
-class AddressTypeFactory(DjangoModelFactory):
-    descriptor = "Primary Address"
-
-    class Meta:
-        model = AddressType
