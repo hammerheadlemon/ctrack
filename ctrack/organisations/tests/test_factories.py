@@ -1,23 +1,7 @@
-import pytest
-
-from .factories import (
-    PersonFactory,
-    ModeFactory,
-    SubModeFactory,
-    UserFactory,
-    OrganisationFactory,
-    RoleFactory)
-
-
-def test_mode_factory():
-    m = ModeFactory.build()
-    assert m.descriptor
-
-
-def test_submode_factory():
-    sm = SubModeFactory.build()
-    assert sm.descriptor
-    assert sm.mode
+from ctrack.organisations.tests.factories import OrganisationFactory
+from ctrack.organisations.tests.factories import PersonFactory
+from ctrack.organisations.tests.factories import RoleFactory
+from ctrack.organisations.tests.factories import UserFactory
 
 
 def test_user_factory():

@@ -5,7 +5,7 @@ import factory
 from django.contrib.auth import get_user_model
 from factory import DjangoModelFactory, Faker, SubFactory, post_generation
 
-from ctrack.organisations.models import Mode, Organisation, Person, Role, Submode, Address, AddressType
+from ctrack.organisations.models import Organisation, Person, Role, Address
 
 User = get_user_model()
 
