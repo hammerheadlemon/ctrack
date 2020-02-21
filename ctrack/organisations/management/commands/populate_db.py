@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, choice
 
 from django.core.management import BaseCommand
 from django.core.management import CommandParser
@@ -12,6 +12,7 @@ from ctrack.organisations.tests.factories import PersonFactory
 from ctrack.organisations.tests.factories import RoleFactory
 from ctrack.organisations.tests.factories import UserFactory
 from ctrack.register.tests.factories import EngagementEventFactory
+from ctrack.register.tests.factories import EngagementTypeFactory
 
 
 class Command(BaseCommand):
@@ -56,15 +57,15 @@ class Command(BaseCommand):
         for org in orgs:
             AddressFactory.create(type=addr_type, organisation=org)
 
-        role = (
-            RoleFactory.create()
-        )  # because we have a many-to-many relationship with Role, we need to create one and pass it in
+        roles = [
+            RoleFactory.create() for x in range(10)
+        ]  # because we have a many-to-many relationship with Role, we need to create one and pass it in
         for org in orgs:
             PersonFactory.create(
-                role=role,
+                role=choice(roles),
                 updated_by=user,
                 predecessor=None,
-                organisation__submode=submodes[randint(0, len(submodes) - 1)],
+                organisation__submode=choice(submodes),
                 organisation=org,
             )
         self.stdout.write(
@@ -76,26 +77,29 @@ class Command(BaseCommand):
         # set up some EngagementEvents
 
         p1 = PersonFactory.create(
-            role=role,
+            role=choice(roles),
             updated_by=user,
             predecessor=None,
-            organisation__submode=submodes[randint(0, len(submodes) - 1)],
+            organisation__submode=choice(submodes),
             organisation=org,
         )
         p2 = PersonFactory.create(
-            role=role,
+            role=choice(roles),
             updated_by=user,
             predecessor=None,
-            organisation__submode=submodes[randint(0, len(submodes) - 1)],
+            organisation__submode=choice(submodes),
             organisation=org,
         )
         p3 = PersonFactory.create(
-            role=role,
+            role=choice(roles),
             updated_by=user,
             predecessor=None,
-            organisation__submode=submodes[randint(0, len(submodes) - 1)],
+            organisation__submode=choice(submodes),
             organisation=org,
         )
 
-        ee1 = EngagementEventFactory.create(user=user, participants=[p1, p2])
-        ee2 = EngagementEventFactory.create(user=user, participants=[p3])
+        etf1 = EngagementTypeFactory(descriptor="Information Notice")
+        etf2 = EngagementTypeFactory(descriptor="Designation Letter")
+
+        ee1 = EngagementEventFactory.create(type=etf1, user=user, participants=[p1, p2])
+        ee2 = EngagementEventFactory.create(type=etf2, user=user, participants=[p3])
