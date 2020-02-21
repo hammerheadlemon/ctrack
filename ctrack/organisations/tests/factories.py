@@ -92,7 +92,7 @@ class PersonFactory(DjangoModelFactory):
     organisation = SubFactory("ctrack.organisations.tests.factories.OrganisationFactory")
     email = factory.LazyAttribute(lambda o: '%s@%s.com' % (o.first_name.lower(), o.organisation.slug))
     secondary_email = Faker("ascii_company_email")
-    mobile = Faker("msisdn", locale="en_GB")
+    mobile = Faker("cellphone_number", locale="en_GB")
     landline = Faker("phone_number", locale="en_GB")
     date_updated = factory.LazyFunction(datetime.now)
     updated_by = SubFactory(UserFactory)
