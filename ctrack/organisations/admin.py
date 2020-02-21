@@ -29,7 +29,7 @@ class OrganisationAdmin(admin.ModelAdmin):
 
 class PersonAdmin(admin.ModelAdmin):
     model = Person
-    list_display = ["first_name", "last_name", get_organisation_name, "email", "mobile"]
+    list_display = ["first_name", "last_name", "job_title", get_organisation_name, "email", "mobile"]
 
 
 class RoleAdmin(admin.ModelAdmin):
