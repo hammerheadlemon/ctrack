@@ -24,7 +24,7 @@ class CAFForm(forms.ModelForm):
 
     class Meta:
         model = CAF
-        fields = ["owner", "essential_system", "file"]
+        fields = ["owner", "file"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -35,7 +35,7 @@ class CAFForm(forms.ModelForm):
         self.helper.form_class = "form-group"
         self.helper.form_method = "post"
         self.helper.layout = Layout(
-            Fieldset("Create/Edit CAF", "owner", "essential_system", "file"),
+            Fieldset("Create/Edit CAF", "owner", "file"),
             ButtonHolder(Submit("submit", "Submit"), Button("cancel", "Cancel")),
         )
 

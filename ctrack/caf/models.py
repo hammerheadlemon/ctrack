@@ -14,9 +14,19 @@ from ctrack.organisations.models import Organisation
 
 
 class Ranking(models.Model):
-    RANKING_TYPE = [(1, "Triage"), (2, "First Assessment")]
+    RANKING_TYPE = [(1, "Triage"), (2, "First Assessment"), (3, "Validation")]
     descriptor = models.CharField(max_length=100)
+    description = models.TextField(max_length=250)
     type = models.IntegerField(choices=RANKING_TYPE, default=1)
+
+    def __str__(self):
+        return self.descriptor
+
+
+class ConfidenceAssessment(models.Model):
+    RANKING_TYPE = [("GOOD", "Good"), ("BAD", "Bad"), ("OK", "OK")]
+    descriptor = models.CharField(max_length=10, choices=RANKING_TYPE, default=1)
+    description = models.TextField(max_length=250)
 
     def __str__(self):
         return self.descriptor
@@ -45,18 +55,37 @@ class DocumentFile(models.Model):
     file_store_location = models.ForeignKey(CAFFileStore, on_delete=models.CASCADE)
 
 
-class CAF(models.Model):
-    owner = models.ForeignKey(Organisation, on_delete=models.CASCADE)
-    # TODO: essential systems need to be tracked as entities
-    essential_system = models.CharField(max_length=255, blank=True)
-    triage_ranking = models.ForeignKey(Ranking, on_delete=models.CASCADE)
-    file = models.ForeignKey(DocumentFile, on_delete=models.CASCADE, blank=True)
+class EssentialService(models.Model):
+    def get_sentinel_org():
+        """
+        We need this so that we can ensure models.SET() is applied with a callable
+        to handle when Users are deleted from the system, preventing the Organisation
+        objects related to them being deleted also.
+        """
+        return Organisation.objects.get_or_create(name="DELETED ORGANISATION")[0]
+
+    name = models.CharField(max_length=256)
+    description = models.TextField(max_length=1000)
+    organisation = models.ForeignKey(
+        Organisation, on_delete=models.SET(get_sentinel_org)
+    )
+    caf = models.ForeignKey("CAF", on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Essential Service"
 
     def __str__(self):
-        if not self.essential_system:
-            return f"Comprehensive CAF for {self.owner}"
-        else:
-            return f"{self.essential_system} CAF for {self.owner}"
+        return self.name
+
+
+class CAF(models.Model):
+    owner = models.ForeignKey(Organisation, on_delete=models.CASCADE)
+    triage_ranking = models.ForeignKey(Ranking, on_delete=models.CASCADE, blank=True, null=True)
+    confidence_assessment = models.ForeignKey(ConfidenceAssessment, on_delete=models.CASCADE, blank=True, null=True)
+    file = models.ForeignKey(DocumentFile, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         verbose_name = "CAF"
+
+    def __str__(self):
+        return f"CAF | {self.owner}"
