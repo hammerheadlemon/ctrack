@@ -47,6 +47,7 @@ class DocumentFile(models.Model):
 
 class CAF(models.Model):
     owner = models.ForeignKey(Organisation, on_delete=models.CASCADE)
+    # TODO: essential systems need to be tracked as entities
     essential_system = models.CharField(max_length=255, blank=True)
     triage_ranking = models.ForeignKey(Ranking, on_delete=models.CASCADE)
     file = models.ForeignKey(DocumentFile, on_delete=models.CASCADE, blank=True)
