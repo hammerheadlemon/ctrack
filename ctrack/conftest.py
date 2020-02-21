@@ -1,6 +1,7 @@
 import pytest
 from django.test import RequestFactory
 
+from ctrack.organisations.models import AddressType
 from ctrack.users.models import User
 from ctrack.organisations.models import Organisation, Address
 from ctrack.users.tests.factories import (
@@ -26,7 +27,8 @@ def org() -> Organisation:
 
 @pytest.fixture
 def addr() -> Address:
-    return AddressFactory()
+    address_type = AddressType.objects.create(descriptor="Random Type")
+    return AddressFactory(type=address_type)
 
 
 @pytest.fixture

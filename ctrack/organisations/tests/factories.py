@@ -46,7 +46,6 @@ class OrganisationFactory(DjangoModelFactory):
 
     name = Faker("company")
     slug = Faker("lexify", text="????", letters="abcdsg")
-#   submode = SubFactory(SubModeFactory)
     designation_type = 1
     registered_company_name = Faker("company")
     registered_company_number = Faker("numerify", text="######")
@@ -96,7 +95,7 @@ class PersonFactory(DjangoModelFactory):
     landline = Faker("phone_number", locale="en_GB")
     date_updated = factory.LazyFunction(datetime.now)
     updated_by = SubFactory(UserFactory)
-    clearance = factory.LazyFunction(lambda: random.randint(1,6))
+    clearance = factory.LazyFunction(lambda: random.randint(1, 6))
     clearance_sponsor = Faker("name", locale="en_GB")
     clearance_start_date = factory.LazyFunction(datetime.now)
     clearance_last_checked = factory.LazyFunction(datetime.now)
@@ -108,7 +107,7 @@ class PersonFactory(DjangoModelFactory):
 
 
 class AddressFactory(DjangoModelFactory):
-    type = SubFactory("ctrack.organisations.tests.factories.AddressTypeFactory")
+    #   type = # manually entered
     organisation = SubFactory(OrganisationFactory)
     line1 = Faker("building_number", locale="en_GB")
     line2 = Faker("street_name", locale="en_GB")
@@ -121,4 +120,3 @@ class AddressFactory(DjangoModelFactory):
 
     class Meta:
         model = Address
-

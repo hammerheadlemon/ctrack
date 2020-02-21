@@ -40,10 +40,6 @@ class Command(BaseCommand):
 
         submodes = [sb1, sb2, sb3, sb4, sb5, sb6, sb7]
 
-        # TODO: Create 40 odd organisations here, get their ids and pass them into PersonFactory.create_batch()
-        #       below.  Then we need to write a post_generation hook in PersonFactory which ensures that the person
-        #       is only added to these Organisations and no further Organisation objects are created.
-
         # we need a User object to completed the updated_by fields in Organisation and Person
         user = (
             UserFactory.create()
