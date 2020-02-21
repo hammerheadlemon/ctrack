@@ -90,7 +90,7 @@ class PersonFactory(DjangoModelFactory):
     first_name = Faker("first_name")
     last_name = Faker("last_name")
     organisation = SubFactory("ctrack.organisations.tests.factories.OrganisationFactory")
-    email = Faker("ascii_company_email")
+    email = factory.LazyAttribute(lambda o: '%s@%s.com' % (o.first_name.lower(), o.organisation.slug))
     secondary_email = Faker("ascii_company_email")
     mobile = Faker("msisdn", locale="en_GB")
     landline = Faker("phone_number", locale="en_GB")
