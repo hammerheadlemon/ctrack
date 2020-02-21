@@ -11,6 +11,7 @@ from ctrack.organisations.tests.factories import OrganisationFactory
 from ctrack.organisations.tests.factories import PersonFactory
 from ctrack.organisations.tests.factories import RoleFactory
 from ctrack.organisations.tests.factories import UserFactory
+from ctrack.register.tests.factories import EngagementEventFactory
 
 
 class Command(BaseCommand):
@@ -71,3 +72,30 @@ class Command(BaseCommand):
                 f"Created {number} Person object[s]! Go forth and multiply."
             )
         )
+
+        # set up some EngagementEvents
+
+        p1 = PersonFactory.create(
+            role=role,
+            updated_by=user,
+            predecessor=None,
+            organisation__submode=submodes[randint(0, len(submodes) - 1)],
+            organisation=org,
+        )
+        p2 = PersonFactory.create(
+            role=role,
+            updated_by=user,
+            predecessor=None,
+            organisation__submode=submodes[randint(0, len(submodes) - 1)],
+            organisation=org,
+        )
+        p3 = PersonFactory.create(
+            role=role,
+            updated_by=user,
+            predecessor=None,
+            organisation__submode=submodes[randint(0, len(submodes) - 1)],
+            organisation=org,
+        )
+
+        ee1 = EngagementEventFactory.create(user=user, participants=[p1, p2])
+        ee2 = EngagementEventFactory.create(user=user, participants=[p3])
