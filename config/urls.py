@@ -21,7 +21,6 @@ urlpatterns = [
         "organisations/",
         include("ctrack.organisations.urls", namespace="organisations"),
     ),
-    path("register/", include("ctrack.organisations.urls", namespace="register")),
     path("caf/", include("ctrack.caf.urls", namespace="caf")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here

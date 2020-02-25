@@ -19,6 +19,7 @@ class Ranking(models.Model):
     description = models.TextField(max_length=250)
     type = models.IntegerField(choices=RANKING_TYPE, default=1)
 
+
     def __str__(self):
         return self.descriptor
 
@@ -75,7 +76,7 @@ class EssentialService(models.Model):
         verbose_name = "Essential Service"
 
     def __str__(self):
-        return self.name
+        return f"{self.organisation.name} | {self.name}"
 
 
 class CAF(models.Model):
