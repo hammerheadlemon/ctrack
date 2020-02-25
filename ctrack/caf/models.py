@@ -2,32 +2,12 @@ from django.db import models
 
 from ctrack.organisations.models import Organisation
 
-# TODO - thinking about whether TriageAssessment can be converted into an inherited class
-# e.g. we inherit from
-# class Assessment(models.Model):
-#     descriptor = models.CharField(max_length=100)
-#     date_entered = models.DateTimeField(auto_now_add=True)
-#     modified = models.DateTimeField(auto_now=True)
-#
-#     class Meta:
-#         abstract = True
 
-
-class Ranking(models.Model):
-    RANKING_TYPE = [(1, "Triage"), (2, "First Assessment"), (3, "Validation")]
-    descriptor = models.CharField(max_length=100)
+class Grading(models.Model):
+    GRADING_TYPE = [("CONFIDENCE", "Confidence"), ("QUALITY", "Quality"), ("MISC", "Misc")]
+    descriptor = models.CharField(max_length=2, help_text="Q1, C1, etc")
     description = models.TextField(max_length=250)
-    type = models.IntegerField(choices=RANKING_TYPE, default=1)
-
-
-    def __str__(self):
-        return self.descriptor
-
-
-class ConfidenceAssessment(models.Model):
-    RANKING_TYPE = [("GOOD", "Good"), ("BAD", "Bad"), ("OK", "OK")]
-    descriptor = models.CharField(max_length=10, choices=RANKING_TYPE, default=1)
-    description = models.TextField(max_length=250)
+    type = models.CharField(max_length=20, choices=GRADING_TYPE, help_text="Type of grading")
 
     def __str__(self):
         return self.descriptor
@@ -81,8 +61,10 @@ class EssentialService(models.Model):
 
 class CAF(models.Model):
     owner = models.ForeignKey(Organisation, on_delete=models.CASCADE)
-    triage_ranking = models.ForeignKey(Ranking, on_delete=models.CASCADE, blank=True, null=True)
-    confidence_assessment = models.ForeignKey(ConfidenceAssessment, on_delete=models.CASCADE, blank=True, null=True)
+    triage_grading = models.ForeignKey(Grading, on_delete=models.CASCADE, blank=True, null=True,
+                                       related_name="triage_grading")
+    confidence_grading = models.ForeignKey(Grading, on_delete=models.CASCADE, blank=True, null=True,
+                                           related_name="confidence_grading")
     file = models.ForeignKey(DocumentFile, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:

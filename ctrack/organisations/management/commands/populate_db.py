@@ -3,6 +3,7 @@ from random import randint, choice
 from django.core.management import BaseCommand
 from django.core.management import CommandParser
 
+from ctrack.caf.tests.factories import GradingFactory
 from ctrack.organisations.models import AddressType
 from ctrack.organisations.models import Mode
 from ctrack.organisations.models import Submode
@@ -103,3 +104,11 @@ class Command(BaseCommand):
 
         ee1 = EngagementEventFactory.create(type=etf1, user=user, participants=[p1, p2])
         ee2 = EngagementEventFactory.create(type=etf2, user=user, participants=[p3])
+
+        # Quality gradings
+        for g in ["Q1", "Q2", "Q3", "Q4", "Q5"]:
+            GradingFactory.create(descriptor=g, type="QUALITY")
+
+        # Confidence gradings
+        for g in ["C1", "C2", "C3", "C4", "C5"]:
+            GradingFactory.create(descriptor=g, type="CONFIDENCE")

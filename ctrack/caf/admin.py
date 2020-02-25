@@ -1,8 +1,6 @@
 from django.contrib import admin
 
-from .models import CAF, CAFFileStore, DocumentFile, Ranking
-from .models import ConfidenceAssessment
-from .models import EssentialService
+from .models import CAF, CAFFileStore, DocumentFile, Grading, EssentialService
 
 
 class EssentialServiceListAdmin(admin.ModelAdmin):
@@ -19,12 +17,11 @@ class EssentialServiceAdmin(admin.StackedInline):
 class CAFAdmin(admin.ModelAdmin):
     model = CAF
     inlines = [EssentialServiceAdmin]
-    list_display = ["owner", "triage_ranking", "confidence_assessment", "file"]
+    list_display = ["owner", "triage_grading", "confidence_grading", "file"]
 
 
 admin.site.register(CAF, CAFAdmin)
 admin.site.register(CAFFileStore)
 admin.site.register(DocumentFile)
-admin.site.register(Ranking)
-admin.site.register(ConfidenceAssessment)
+admin.site.register(Grading)
 admin.site.register(EssentialService, EssentialServiceListAdmin)
