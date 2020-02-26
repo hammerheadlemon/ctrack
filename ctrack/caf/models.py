@@ -25,8 +25,8 @@ class CAFFileStore(models.Model):
         Organisation, on_delete=models.CASCADE
     )
 
-    class Meta:
-        verbose_name = "CAF File Store"
+    def __str__(self):
+        return self.descriptor
 
 
 class DocumentFile(models.Model):

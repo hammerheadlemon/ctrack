@@ -3,7 +3,7 @@ from random import randint, choice
 from django.core.management import BaseCommand
 from django.core.management import CommandParser
 
-from ctrack.caf.tests.factories import GradingFactory
+from ctrack.caf.tests.factories import GradingFactory, CAFFileStoreFactory
 from ctrack.organisations.models import AddressType
 from ctrack.organisations.models import Mode
 from ctrack.organisations.models import Submode
@@ -112,3 +112,6 @@ class Command(BaseCommand):
         # Confidence gradings
         for g in ["C1", "C2", "C3", "C4", "C5"]:
             GradingFactory.create(descriptor=g, type="CONFIDENCE")
+
+        # File store
+        fs = CAFFileStoreFactory.create(physical_location_organistion=orgs[1])
