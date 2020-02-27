@@ -13,7 +13,7 @@ class Grading(models.Model):
         return self.descriptor
 
 
-class CAFFileStore(models.Model):
+class FileStore(models.Model):
     descriptor = models.CharField(max_length=100)
     virtual_location = models.CharField(
         max_length=100, help_text="USB, Rosa, email, etc"
@@ -33,7 +33,7 @@ class DocumentFile(models.Model):
     FILETYPE_CHOICES = [(1, "Excel"), (2, "Word"), (3, "PDF"), (4, "Hard Copy")]
     name = models.CharField(max_length=255)
     type = models.IntegerField(choices=FILETYPE_CHOICES, default=1)
-    file_store_location = models.ForeignKey(CAFFileStore, on_delete=models.CASCADE)
+    file_store_location = models.ForeignKey(FileStore, on_delete=models.CASCADE)
 
 
 class EssentialService(models.Model):

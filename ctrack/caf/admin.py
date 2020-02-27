@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import CAF, CAFFileStore, DocumentFile, Grading, EssentialService
+from .models import CAF, FileStore, DocumentFile, Grading, EssentialService
 
 
 class EssentialServiceListAdmin(admin.ModelAdmin):
@@ -23,7 +23,7 @@ class CAFAdmin(admin.ModelAdmin):
 
 
 admin.site.register(CAF, CAFAdmin)
-admin.site.register(CAFFileStore)
+admin.site.register(FileStore)
 admin.site.register(DocumentFile)
 admin.site.register(Grading)
 admin.site.register(EssentialService, EssentialServiceListAdmin)

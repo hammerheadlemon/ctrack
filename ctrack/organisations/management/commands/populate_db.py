@@ -3,7 +3,7 @@ from random import randint, choice
 from django.core.management import BaseCommand
 from django.core.management import CommandParser
 
-from ctrack.caf.tests.factories import GradingFactory, CAFFileStoreFactory
+from ctrack.caf.tests.factories import GradingFactory, FileStoreFactory
 from ctrack.organisations.models import AddressType
 from ctrack.organisations.models import Mode
 from ctrack.organisations.models import Submode
@@ -114,4 +114,4 @@ class Command(BaseCommand):
             GradingFactory.create(descriptor=g, type="CONFIDENCE")
 
         # File store
-        fs = CAFFileStoreFactory.create(physical_location_organistion=orgs[1])
+        fs = FileStoreFactory.create(physical_location_organistion=orgs[1])
