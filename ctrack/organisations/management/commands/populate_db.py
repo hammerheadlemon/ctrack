@@ -1,9 +1,10 @@
+import random
 from random import randint, choice
 
 from django.core.management import BaseCommand
 from django.core.management import CommandParser
 
-from ctrack.caf.tests.factories import GradingFactory, FileStoreFactory
+from ctrack.caf.tests.factories import GradingFactory, FileStoreFactory, CAFFactory
 from ctrack.organisations.models import AddressType
 from ctrack.organisations.models import Mode
 from ctrack.organisations.models import Submode
@@ -106,12 +107,22 @@ class Command(BaseCommand):
         ee2 = EngagementEventFactory.create(type=etf2, user=user, participants=[p3])
 
         # Quality gradings
-        for g in ["Q1", "Q2", "Q3", "Q4", "Q5"]:
+        q_descriptors = ["Q1", "Q2", "Q3", "Q4", "Q5"]
+        for g in q_descriptors:
             GradingFactory.create(descriptor=g, type="QUALITY")
 
         # Confidence gradings
-        for g in ["C1", "C2", "C3", "C4", "C5"]:
+        c_descriptors = ["C1", "C2", "C3", "C4", "C5"]
+        for g in c_descriptors:
             GradingFactory.create(descriptor=g, type="CONFIDENCE")
 
         # File store
-        fs = FileStoreFactory.create(physical_location_organistion=orgs[1])
+        fs = FileStoreFactory.create(physical_location_organisation=orgs[1])
+
+        # Some CAF objects
+        for c in range(35):
+            CAFFactory.create(
+                owner=random.choice(orgs),
+                quality_grading__descriptor=random.choice(q_descriptors),
+                confidence_grading__descriptor=random.choice(c_descriptors),
+            )
