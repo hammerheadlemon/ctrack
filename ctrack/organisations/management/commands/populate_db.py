@@ -4,7 +4,7 @@ from random import randint, choice
 from django.core.management import BaseCommand
 from django.core.management import CommandParser
 
-from ctrack.caf.tests.factories import GradingFactory, FileStoreFactory, CAFFactory
+from ctrack.caf.tests.factories import GradingFactory, FileStoreFactory, CAFFactory, EssentialServiceFactory
 from ctrack.organisations.models import AddressType
 from ctrack.organisations.models import Mode
 from ctrack.organisations.models import Submode
@@ -15,6 +15,21 @@ from ctrack.organisations.tests.factories import RoleFactory
 from ctrack.organisations.tests.factories import UserFactory
 from ctrack.register.tests.factories import EngagementEventFactory
 from ctrack.register.tests.factories import EngagementTypeFactory
+
+fnames = [
+    "Clock Pylon Systems",
+    "Ultramarine Hanglider Navigator",
+    "Membranous Floor Heaters",
+    "Alan's Wardrobe Hinge Circuits",
+    "Marine Sluicegate Extension Pulleys",
+    "Ironway Prob Modelling Area",
+    "Bufferage Clippers",
+    "Slow Gauze Thread Manipulator",
+    "Terratoast Piling",
+    "Accounting and Warehouse Conducer",
+    "Able Hopscotch Mirrors",
+    "Jolly Main Legacy Circuitry",
+]
 
 
 class Command(BaseCommand):
@@ -120,9 +135,19 @@ class Command(BaseCommand):
         fs = FileStoreFactory.create(physical_location_organisation=orgs[1])
 
         # Some CAF objects
-        for c in range(35):
+        cafs = [
             CAFFactory.create(
                 owner=random.choice(orgs),
                 quality_grading__descriptor=random.choice(q_descriptors),
                 confidence_grading__descriptor=random.choice(c_descriptors),
-            )
+            ) for _ in range(35)
+        ]
+
+        # TODO: Need to create a bunch of Essential Services to associate with these CAFs
+        es = [
+            EssentialServiceFactory.create(
+                name=random.choice(fnames),
+                organisation=random.choice(orgs),
+                caf=random.choice(cafs)
+            ) for _ in range(35)
+        ]

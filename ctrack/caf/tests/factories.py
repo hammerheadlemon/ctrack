@@ -20,30 +20,15 @@ class CAFFactory(factory.DjangoModelFactory):
 class EssentialServiceFactory(factory.DjangoModelFactory):
     """Factory for Essential Services."""
 
-    fnames = [
-        "Clock Pylon Systems",
-        "Ultramarine Hanglider Navigator",
-        "Membranous Floor Heaters",
-        "Alan's Wardrobe Hinge Circuits",
-        "Marine Sluicegate Extension Pulleys",
-        "Ironway Prob Modelling Area",
-        "Bufferage Clippers",
-        "Slow Gauze Thread Manipulator",
-        "Terratoast Piling",
-        "Accounting and Warehouse Conducer",
-        "Able Hopscotch Mirrors",
-        "Jolly Main Legacy Circuitry",
-    ]
-
-    class Meta:
-        model = EssentialService
-
-    name = random.choice(fnames)
+    name = Faker("text", max_nb_chars=100, ext_word_list=None)
     description = Faker(
         "paragraph", nb_sentences=4, variable_nb_sentences=True, ext_word_list=None
     )
     organisation = factory.SubFactory(OrganisationFactory)
     caf = factory.SubFactory("ctrack.caf.tests.factories.CAFFactory")
+
+    class Meta:
+        model = EssentialService
 
 
 class GradingFactory(factory.DjangoModelFactory):
