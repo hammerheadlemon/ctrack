@@ -37,6 +37,16 @@ class EngagementEvent(models.Model):
     short_description = models.CharField(
         max_length=50, help_text="Short description of the event"
     )
+    # TODO - Do we need an "inspector_engagement" field here?
+    #    We want an EngagementEvent to cover interactions between
+    #    Persons (industry people) and inspectors (Users). We don't want
+    #    to have to create Person() objects for each inspector, do we?
+    #    Actually, if we do, we could allow for the case where a ctrack user
+    #    is able to do delegated work for inspectors. So the task here is to
+    #    adapt the factories so half a dozen inspectors are created as Persons
+    #    and given the role of DfT Compliance Inspector, which have to be created
+    #    also. Then we can start building out the CAF factories to include stuff
+    #    list submission date, submission recipient, etc.
     participants = models.ManyToManyField(Person)
     user = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user))
     date = models.DateTimeField()
