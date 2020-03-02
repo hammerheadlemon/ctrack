@@ -139,6 +139,7 @@ class Command(BaseCommand):
 
         etf1 = EngagementTypeFactory(descriptor="Information Notice")
         etf2 = EngagementTypeFactory(descriptor="Designation Letter")
+        etf3 = EngagementTypeFactory(descriptor="CAF Submission")
 
         ee1 = EngagementEventFactory.create(type=etf1, user=user, participants=[p1, p2])
         ee2 = EngagementEventFactory.create(type=etf2, user=user, participants=[p3])
@@ -174,6 +175,11 @@ class Command(BaseCommand):
             )
             for _ in range(35)
         ]
+
+        # CAF submissions - they create EngagementEvents
+        ee3 = EngagementEventFactory.create(
+            type=etf3, user=user, participants=[inspectors[1], p2], related_caf=cafs[1]
+        )
 
         # TODO - adapt this so that it records more than just Persons created
         self.stdout.write(
