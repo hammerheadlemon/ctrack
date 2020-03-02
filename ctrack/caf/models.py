@@ -50,7 +50,7 @@ class EssentialService(models.Model):
     organisation = models.ForeignKey(
         Organisation, on_delete=models.SET(get_sentinel_org)
     )
-    caf = models.ForeignKey("CAF", on_delete=models.CASCADE, blank=True, null=True)
+    caf = models.ForeignKey("CAF", on_delete=models.CASCADE, blank=True, null=True, related_name="essential_services")
 
     class Meta:
         verbose_name = "Essential Service"
