@@ -107,6 +107,7 @@ class Organisation(models.Model):
     DESIGNATION_TYPE = [
         (1, "Automatic"),
         (2, "Reserve Power"),
+        (3, "NA"),
     ]
 
     def get_sentinel_user():

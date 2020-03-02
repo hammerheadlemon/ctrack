@@ -4,7 +4,12 @@ from random import randint, choice
 from django.core.management import BaseCommand
 from django.core.management import CommandParser
 
-from ctrack.caf.tests.factories import GradingFactory, FileStoreFactory, CAFFactory, EssentialServiceFactory
+from ctrack.caf.tests.factories import (
+    GradingFactory,
+    FileStoreFactory,
+    CAFFactory,
+    EssentialServiceFactory,
+)
 from ctrack.organisations.models import AddressType
 from ctrack.organisations.models import Mode
 from ctrack.organisations.models import Submode
@@ -85,11 +90,8 @@ class Command(BaseCommand):
                 organisation__submode=choice(submodes),
                 organisation=org,
             )
-        self.stdout.write(
-            self.style.SUCCESS(
-                f"Created {number} Person object[s]! Go forth and multiply."
-            )
-        )
+
+        inspector_role = RoleFactory.create(name="Compliance Inspector")
 
         # set up some EngagementEvents
 
@@ -114,6 +116,26 @@ class Command(BaseCommand):
             organisation__submode=choice(submodes),
             organisation=org,
         )
+
+        regulator_org = OrganisationFactory.create(
+            submode=None,
+            name="The Regulator",
+            designation_type=3,
+            registered_company_name="The Regulator - HMG",
+            comments="This is the real regulator.",
+        )
+
+        inspectors = [
+            PersonFactory.create(
+                role=inspector_role,
+                updated_by=user,
+                job_title="Compliance Inspector",
+                predecessor=None,
+                organisation__submode=None,
+                organisation=regulator_org,
+            )
+            for _ in range(5)
+        ]
 
         etf1 = EngagementTypeFactory(descriptor="Information Notice")
         etf2 = EngagementTypeFactory(descriptor="Designation Letter")
@@ -140,14 +162,22 @@ class Command(BaseCommand):
                 owner=random.choice(orgs),
                 quality_grading__descriptor=random.choice(q_descriptors),
                 confidence_grading__descriptor=random.choice(c_descriptors),
-            ) for _ in range(35)
+            )
+            for _ in range(35)
         ]
 
-        # TODO: Need to create a bunch of Essential Services to associate with these CAFs
         es = [
             EssentialServiceFactory.create(
                 name=random.choice(fnames),
                 organisation=random.choice(orgs),
-                caf=random.choice(cafs)
-            ) for _ in range(35)
+                caf=random.choice(cafs),
+            )
+            for _ in range(35)
         ]
+
+        # TODO - adapt this so that it records more than just Persons created
+        self.stdout.write(
+            self.style.SUCCESS(
+                f"Created {number} Person object[s]! Go forth and multiply."
+            )
+        )
