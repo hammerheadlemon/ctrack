@@ -47,6 +47,7 @@ class EngagementEvent(models.Model):
     related_caf = models.ForeignKey(
         CAF, blank=True, on_delete=models.CASCADE, null=True
     )
+    comments = models.TextField(max_length=1000, blank=True, null=True)
 
     def __str__(self):
         d = self.date.date()

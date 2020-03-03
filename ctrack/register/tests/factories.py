@@ -5,7 +5,7 @@ import random
 from django.utils import timezone
 
 from django.contrib.auth import get_user_model
-from factory import post_generation
+from factory import post_generation, Faker
 
 from ctrack.register.models import EngagementEvent
 from ctrack.register.models import EngagementType
@@ -67,3 +67,4 @@ class EngagementEventFactory(factory.DjangoModelFactory):
     response_date_requested = factory.LazyFunction(timezone.now)
     response_received = None
     related_caf = None
+    comments = Faker("paragraph", nb_sentences=5, variable_nb_sentences=True, ext_word_list=None)
