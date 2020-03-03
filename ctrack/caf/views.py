@@ -21,6 +21,10 @@ class ListCAF(ListView):
 class ListEssentialService(ListView):
     model = EssentialService
 
+    # TODO - add primary_nis_contact tick to the context
+    #    Context can be easily found with:
+    #    org.person_set.filter(primary_nis_contact=True) or similar
+
     def get_queryset(self):
         ess = EssentialService.objects.all().order_by("organisation__name")
         return ess
