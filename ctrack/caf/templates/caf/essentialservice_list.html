@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Essential Services{% endblock %}
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12">
+		<h1>Essential Services</h1>
+	
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th>Organisation</th>
+				<th>Essential Service</th>
+				<th>Review Inspector</th>
+			</tr>
+			</thead>
+			{% for es in object_list %}
+			<tr>
+				<td>{{ es.organisation.name }}</td>
+				<td>{{ es.name }}</td>
+				<td>{{ es.caf.triage_review_inspector.name }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+
+		</div>
+	</div>
+</div>
+
+{% endblock content %}
+
+
+

@@ -1,6 +1,7 @@
 from django.views.generic import CreateView, ListView
 
 from ctrack.caf.forms import CAFForm
+from ctrack.caf.models import EssentialService
 
 
 class CreateCAF(CreateView):
@@ -15,4 +16,17 @@ class CreateCAF(CreateView):
 
 class ListCAF(ListView):
     pass
+
+
+class ListEssentialService(ListView):
+    model = EssentialService
+
+    def get_queryset(self):
+        ess = EssentialService.objects.all().order_by("organisation__name")
+        return ess
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 
