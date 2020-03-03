@@ -4,7 +4,7 @@ import factory
 from factory import Faker
 
 from ctrack.caf.models import EssentialService, Grading, DocumentFile, FileStore, CAF
-from ctrack.organisations.tests.factories import OrganisationFactory
+from ctrack.organisations.tests.factories import OrganisationFactory, PersonFactory
 
 
 class CAFFactory(factory.DjangoModelFactory):
@@ -12,6 +12,11 @@ class CAFFactory(factory.DjangoModelFactory):
     quality_grading = factory.SubFactory("ctrack.caf.tests.factories.GradingFactory")
     confidence_grading = factory.SubFactory("ctrack.caf.tests.factories.GradingFactory")
     file = None
+    version = Faker("bothify", text="??##", letters="ABCD") 
+    triage_review_date = Faker("date_object")
+    triage_review_inspector = factory.SubFactory(PersonFactory)
+    comments = Faker("paragraph", nb_sentences=5, variable_nb_sentences=True, ext_word_list=None)
+
 
     class Meta:
         model = CAF

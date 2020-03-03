@@ -139,7 +139,7 @@ class Command(BaseCommand):
 
         etf1 = EngagementTypeFactory(descriptor="Information Notice")
         etf2 = EngagementTypeFactory(descriptor="Designation Letter")
-        etf3 = EngagementTypeFactory(descriptor="CAF Submission")
+        etf3 = EngagementTypeFactory(descriptor="CAF - Initial Submission")
 
         ee1 = EngagementEventFactory.create(type=etf1, user=user, participants=[p1, p2])
         ee2 = EngagementEventFactory.create(type=etf2, user=user, participants=[p3])
@@ -163,6 +163,8 @@ class Command(BaseCommand):
                 owner=random.choice(orgs),
                 quality_grading__descriptor=random.choice(q_descriptors),
                 confidence_grading__descriptor=random.choice(c_descriptors),
+                triage_review_date=None,
+                triage_review_inspector=None,
             )
             for _ in range(35)
         ]

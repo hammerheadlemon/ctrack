@@ -1,6 +1,6 @@
 from django.db import models
 
-from ctrack.organisations.models import Organisation
+from ctrack.organisations.models import Organisation, Person
 
 
 class Grading(models.Model):
@@ -66,6 +66,10 @@ class CAF(models.Model):
     confidence_grading = models.ForeignKey(Grading, on_delete=models.CASCADE, blank=True, null=True,
                                            related_name="confidence_grading")
     file = models.ForeignKey(DocumentFile, on_delete=models.CASCADE, blank=True, null=True)
+    version = models.CharField(max_length=10, blank=True, null=True) 
+    triage_review_date = models.DateField(blank=True, null=True)
+    triage_review_inspector = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True)
+    comments = models.TextField(max_length=1000)
 
     class Meta:
         verbose_name = "CAF"
