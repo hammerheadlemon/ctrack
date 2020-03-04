@@ -24,7 +24,7 @@ class CAFForm(forms.ModelForm):
 
     class Meta:
         model = CAF
-        fields = ["owner", "file"]
+        fields = ["file"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -19,7 +19,7 @@ class CAFAdmin(admin.ModelAdmin):
     #  but this is a many-to-many relationship, so we need to summarise it somehow
     model = CAF
     inlines = [ApplicableSystemAdmin]
-    list_display = ["owner", "quality_grading", "confidence_grading", "file"]
+    list_display = ["quality_grading", "confidence_grading", "file"]
 
 
 admin.site.register(CAF, CAFAdmin)

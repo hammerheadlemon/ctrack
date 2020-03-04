@@ -160,7 +160,6 @@ class Command(BaseCommand):
         # Some CAF objects
         cafs = [
             CAFFactory.create(
-                owner=random.choice(orgs),
                 quality_grading__descriptor=random.choice(q_descriptors),
                 confidence_grading__descriptor=random.choice(c_descriptors),
                 triage_review_date=None,

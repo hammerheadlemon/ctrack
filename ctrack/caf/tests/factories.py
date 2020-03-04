@@ -8,7 +8,6 @@ from ctrack.organisations.tests.factories import OrganisationFactory, PersonFact
 
 
 class CAFFactory(factory.DjangoModelFactory):
-    owner = factory.SubFactory(OrganisationFactory)
     quality_grading = factory.SubFactory("ctrack.caf.tests.factories.GradingFactory")
     confidence_grading = factory.SubFactory("ctrack.caf.tests.factories.GradingFactory")
     file = None

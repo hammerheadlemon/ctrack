@@ -60,7 +60,6 @@ class ApplicableSystem(models.Model):
 
 
 class CAF(models.Model):
-    owner = models.ForeignKey(Organisation, on_delete=models.CASCADE)
     quality_grading = models.ForeignKey(Grading, on_delete=models.CASCADE, blank=True, null=True,
                                         related_name="quality_grading")
     confidence_grading = models.ForeignKey(Grading, on_delete=models.CASCADE, blank=True, null=True,
