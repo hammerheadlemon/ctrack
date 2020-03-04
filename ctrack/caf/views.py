@@ -1,7 +1,7 @@
 from django.views.generic import CreateView, ListView
 
 from ctrack.caf.forms import CAFForm
-from ctrack.caf.models import EssentialService
+from ctrack.caf.models import ApplicableSystem
 
 
 class CreateCAF(CreateView):
@@ -18,15 +18,15 @@ class ListCAF(ListView):
     pass
 
 
-class ListEssentialService(ListView):
-    model = EssentialService
+class ListApplicableSystem(ListView):
+    model = ApplicableSystem
 
     # TODO - add primary_nis_contact tick to the context
     #    Context can be easily found with:
     #    org.person_set.filter(primary_nis_contact=True) or similar
 
     def get_queryset(self):
-        ess = EssentialService.objects.all().order_by("organisation__name")
+        ess = ApplicableSystem.objects.all().order_by("organisation__name")
         return ess
 
     def get_context_data(self, **kwargs):

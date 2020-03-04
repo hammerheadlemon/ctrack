@@ -2,32 +2,32 @@
 
 {% load static %}
 
-{% block title %}Essential Services{% endblock %}
+{% block title %}Applicable Systems{% endblock %}
 {% block content %}
 <div class="container">
 	<div class="row">
 		<div class="col-sm-12">
-		<h3>Essential Services</h3>
-	
+		<h3>Applicable Systems</h3>
+
 		<table class="table-sm table-striped table-bordered">
 			<thead>
 			<tr>
 				<th>Organisation</th>
-				<th>Essential Service</th>
+				<th>System</th>
 				<th>Sub Mode</th>
 				<th class="tabaligncenter">Confidence Grade</th>
 				<th>Triage Review Date</th>
 				<th>Review Inspector</th>
 			</tr>
 			</thead>
-			{% for es in object_list %}
+			{% for sys in object_list %}
 			<tr>
-				<td>{{ es.organisation.name }}</td>
-				<td>{{ es.name }}</td>
-				<td>{{ es.organisation.submode.descriptor }}</td>
-				<td class="tabaligncenter">{{ es.caf.confidence_grading.descriptor }}</td>
-				<td>{{ es.caf.triage_review_date }}</td>
-				<td>{{ es.caf.triage_review_inspector.name }}</td>
+				<td>{{ sys.organisation.name }}</td>
+				<td>{{ sys.name }}</td>
+				<td>{{ sys.organisation.submode.descriptor }}</td>
+				<td class="tabaligncenter">{{ sys.caf.confidence_grading.descriptor }}</td>
+				<td>{{ sys.caf.triage_review_date }}</td>
+				<td>{{ sys.caf.triage_review_inspector.name }}</td>
 			</tr>
 			{% endfor %}
 		</table>

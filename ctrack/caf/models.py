@@ -36,7 +36,7 @@ class DocumentFile(models.Model):
     file_store_location = models.ForeignKey(FileStore, on_delete=models.CASCADE)
 
 
-class EssentialService(models.Model):
+class ApplicableSystem(models.Model):
     def get_sentinel_org():
         """
         We need this so that we can ensure models.SET() is applied with a callable
@@ -50,10 +50,10 @@ class EssentialService(models.Model):
     organisation = models.ForeignKey(
         Organisation, on_delete=models.SET(get_sentinel_org)
     )
-    caf = models.ForeignKey("CAF", on_delete=models.CASCADE, blank=True, null=True, related_name="essential_services")
+    caf = models.ForeignKey("CAF", on_delete=models.CASCADE, blank=True, null=True, related_name="applicable_systems")
 
     class Meta:
-        verbose_name = "Essential Service"
+        verbose_name = "Applicable System"
 
     def __str__(self):
         return f"{self.organisation.name} | {self.name}"
@@ -66,7 +66,7 @@ class CAF(models.Model):
     confidence_grading = models.ForeignKey(Grading, on_delete=models.CASCADE, blank=True, null=True,
                                            related_name="confidence_grading")
     file = models.ForeignKey(DocumentFile, on_delete=models.CASCADE, blank=True, null=True)
-    version = models.CharField(max_length=10, blank=True, null=True) 
+    version = models.CharField(max_length=10, blank=True, null=True)
     triage_review_date = models.DateField(blank=True, null=True)
     triage_review_inspector = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True)
     comments = models.TextField(max_length=1000)
