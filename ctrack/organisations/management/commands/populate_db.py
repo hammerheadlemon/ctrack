@@ -160,23 +160,12 @@ class Command(BaseCommand):
 
         # Every org gets on CAF for now
         for org in orgs:
-            # create a CAF for it
-            caf = CAFFactory.create(
-                quality_grading__descriptor=random.choice(q_descriptors),
-                confidence_grading__descriptor=random.choice(c_descriptors),
-                triage_review_date=None,
-                triage_review_inspector=None,
-            )
-            # create an ApplicableSystem for it
-            app_s = ApplicableSystemFactory.create(
-                name=random.choice(fnames),
-                organisation=org,
-                caf=caf,
-            )
+            # create a CAF and ApplicableService for it
+            self._create_caf_app_service(c_descriptors, org, q_descriptors)
 
         # CAF submissions - they create EngagementEvents
         # Get a random CAF
-        _caf = CAF.objects.get(pk=1) # we should have one by now
+        _caf = CAF.objects.get(pk=1)  # we should have one by now
         ee3 = EngagementEventFactory.create(
             type=etf3, user=user, participants=[inspectors[1], p2], related_caf=_caf
         )
@@ -187,3 +176,18 @@ class Command(BaseCommand):
                 f"Created {number} Person object[s]! Go forth and multiply."
             )
         )
+
+    def _create_caf_app_service(self, c_descriptors, org, q_descriptors):
+        caf = CAFFactory.create(
+            quality_grading__descriptor=random.choice(q_descriptors),
+            confidence_grading__descriptor=random.choice(c_descriptors),
+            triage_review_date=None,
+            triage_review_inspector=None,
+        )
+        # Each CAF can have up to three systems associated with it
+        for s in range(random.randint(1,3)):
+            ApplicableSystemFactory.create(
+                name=random.choice(fnames),
+                organisation=org,
+                caf=caf,
+            )
