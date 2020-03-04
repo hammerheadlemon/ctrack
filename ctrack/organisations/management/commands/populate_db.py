@@ -159,14 +159,6 @@ class Command(BaseCommand):
         fs = FileStoreFactory.create(physical_location_organisation=orgs[1])
 
         # Every org gets on CAF for now
-        for _ in orgs:
-            CAFFactory.create(
-                quality_grading__descriptor=random.choice(q_descriptors),
-                confidence_grading__descriptor=random.choice(c_descriptors),
-                triage_review_date=None,
-                triage_review_inspector=None,
-            )
-
         for org in orgs:
             # create a CAF for it
             caf = CAFFactory.create(
