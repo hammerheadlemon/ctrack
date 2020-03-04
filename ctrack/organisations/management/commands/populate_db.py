@@ -4,13 +4,14 @@ from random import randint, choice
 from django.core.management import BaseCommand
 from django.core.management import CommandParser
 
+from ctrack.caf.models import CAF
 from ctrack.caf.tests.factories import (
     GradingFactory,
     FileStoreFactory,
     CAFFactory,
-    EssentialServiceFactory,
+    ApplicableSystemFactory,
 )
-from ctrack.organisations.models import AddressType
+from ctrack.organisations.models import AddressType, Organisation
 from ctrack.organisations.models import Mode
 from ctrack.organisations.models import Submode
 from ctrack.organisations.tests.factories import AddressFactory
@@ -157,29 +158,35 @@ class Command(BaseCommand):
         # File store
         fs = FileStoreFactory.create(physical_location_organisation=orgs[1])
 
-        # Some CAF objects
-        cafs = [
+        # Every org gets on CAF for now
+        for _ in orgs:
             CAFFactory.create(
                 quality_grading__descriptor=random.choice(q_descriptors),
                 confidence_grading__descriptor=random.choice(c_descriptors),
                 triage_review_date=None,
                 triage_review_inspector=None,
             )
-            for _ in range(35)
-        ]
 
-        es = [
-            EssentialServiceFactory.create(
-                name=random.choice(fnames),
-                organisation=random.choice(orgs),
-                caf=random.choice(cafs),
+        for org in orgs:
+            # create a CAF for it
+            caf = CAFFactory.create(
+                quality_grading__descriptor=random.choice(q_descriptors),
+                confidence_grading__descriptor=random.choice(c_descriptors),
+                triage_review_date=None,
+                triage_review_inspector=None,
             )
-            for _ in range(35)
-        ]
+            # create an ApplicableSystem for it
+            app_s = ApplicableSystemFactory.create(
+                name=random.choice(fnames),
+                organisation=org,
+                caf=caf,
+            )
 
         # CAF submissions - they create EngagementEvents
+        # Get a random CAF
+        _caf = CAF.objects.get(pk=1) # we should have one by now
         ee3 = EngagementEventFactory.create(
-            type=etf3, user=user, participants=[inspectors[1], p2], related_caf=cafs[1]
+            type=etf3, user=user, participants=[inspectors[1], p2], related_caf=_caf
         )
 
         # TODO - adapt this so that it records more than just Persons created

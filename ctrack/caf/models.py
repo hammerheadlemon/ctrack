@@ -74,4 +74,6 @@ class CAF(models.Model):
         verbose_name = "CAF"
 
     def __str__(self):
-        return f"CAF | {self.owner}"
+        # Get the organisation and applicable system
+        org = ApplicableSystem.objects.filter(caf=self).first()
+        return f"CAF | {org.name}"

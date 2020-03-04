@@ -21,7 +21,7 @@ class CAFFactory(factory.DjangoModelFactory):
         model = CAF
 
 
-class EssentialServiceFactory(factory.DjangoModelFactory):
+class ApplicableSystemFactory(factory.DjangoModelFactory):
     """Factory for Essential Services."""
 
     name = Faker("text", max_nb_chars=100, ext_word_list=None)
