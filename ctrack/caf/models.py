@@ -76,4 +76,4 @@ class CAF(models.Model):
     def __str__(self):
         # Get the organisation and applicable system
         ass = ApplicableSystem.objects.filter(caf=self).first()
-        return f"CAF | {ass.organisation.name}"
+        return f"CAF | {ass.organisation.name}_v{self.version}"
