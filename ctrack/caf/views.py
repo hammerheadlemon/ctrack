@@ -24,6 +24,7 @@ class ListApplicableSystem(ListView):
     # TODO - add primary_nis_contact tick to the context
     #    Context can be easily found with:
     #    org.person_set.filter(primary_nis_contact=True) or similar
+    #    probably need a custom manager for this - to add in the POC
 
     def get_queryset(self):
         ess = ApplicableSystem.objects.all().order_by("organisation__name")
