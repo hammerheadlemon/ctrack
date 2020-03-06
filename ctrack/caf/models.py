@@ -56,10 +56,13 @@ class ApplicableSystem(models.Model):
     class Meta:
         verbose_name = "Applicable System"
 
-    objects = ApplicableSystemManager()
+    def get_primary_contact(self):
+        return self.organisation.person_set.filter(primary_nis_contact=True)
 
     def __str__(self):
         return f"{self.organisation.name} | {self.name}"
+
+    objects = ApplicableSystemManager()
 
 
 class CAF(models.Model):

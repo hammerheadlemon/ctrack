@@ -31,7 +31,11 @@
 				<td class="tabaligncenter">{{ sys.caf.confidence_grading.descriptor }}</td>
 				<td>{{ sys.caf.triage_review_date }}</td>
 				<td>{{ sys.caf.triage_review_inspector.name }}</td>
-        <td>{{ sys.nis_contact }}</td>
+        {% if sys.get_primary_contact %}
+          <td>{{ sys.get_primary_contact.first }}</td>
+        {% else %}
+          <td>NA</td>
+        {% endif %}
 			</tr>
 			{% endfor %}
 		</table>

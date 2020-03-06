@@ -1,17 +1,20 @@
+from django.db import connection
 from django.db import models
-from django.db.models import QuerySet
 
-from ctrack.organisations.models import Organisation, Person, Submode
 import ctrack.caf.models  # to deal with circular import
+from ctrack.organisations.models import Organisation, Person
 
 
 class ApplicableSystemManager(models.Manager):
     def with_primary_contact(self):
         """
+        THIS IS NOT CURRENTLY USED BUT LEAVING IT IN FOR REF
+        BETTER WAS TO ADD A MODEL METHOD TO FIND THE POC FOR EACH
+        ORGANISATION AND ADAPT THE TEMPLATE TO USE THAT.
+
         Add in the name of the primary nis contact to the context.
         Using Custom Managers Django docs for an example.
         """
-        from django.db import connection
         with connection.cursor() as cursor:
             cursor.execute("""
                 SELECT a.id, a.name, o.id, c.id, sm.id, p.id, o.name

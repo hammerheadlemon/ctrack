@@ -25,8 +25,7 @@ class ListApplicableSystem(ListView):
     template_name = "caf/applicablesystem_list.html"
 
     def get_queryset(self):
-        # TODO sort this list using basic Python sorted()
-        ess = ApplicableSystem.objects.with_primary_contact()  # returns a list, not a QuerySet
+        ess = ApplicableSystem.objects.all().order_by("organisation__name")
         return ess
 
     def get_context_data(self, **kwargs):
