@@ -19,6 +19,7 @@
 				<th class="tabaligncenter">Confidence Grade</th>
 				<th>Triage Review Date</th>
 				<th>Review Inspector</th>
+        <th>POC</th>
 			</tr>
 			</thead>
 			{% for sys in object_list %}
@@ -30,6 +31,7 @@
 				<td class="tabaligncenter">{{ sys.caf.confidence_grading.descriptor }}</td>
 				<td>{{ sys.caf.triage_review_date }}</td>
 				<td>{{ sys.caf.triage_review_inspector.name }}</td>
+        <td>{{ sys.nis_contact }}</td>
 			</tr>
 			{% endfor %}
 		</table>

@@ -20,15 +20,13 @@ class ListCAF(ListView):
 
 class ListApplicableSystem(ListView):
     model = ApplicableSystem
-
-    # TODO - add primary_nis_contact tick to the context
-    #    Context can be easily found with:
-    #    org.person_set.filter(primary_nis_contact=True) or similar
-    #    probably need a custom manager for this - to add in the POC
+    # apparently you can pass a list of model objects to a template if you name it
+    # here - otherwise you need to provide a QuerySet
+    template_name = "caf/applicablesystem_list.html"
 
     def get_queryset(self):
-#       ess = ApplicableSystem.objects.all().order_by("organisation__name")
-        ess = ApplicableSystem.objects.with_primary_contact()
+        # TODO sort this list using basic Python sorted()
+        ess = ApplicableSystem.objects.with_primary_contact()  # returns a list, not a QuerySet
         return ess
 
     def get_context_data(self, **kwargs):

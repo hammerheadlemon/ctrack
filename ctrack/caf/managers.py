@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import QuerySet
 
 from ctrack.organisations.models import Organisation, Person, Submode
 import ctrack.caf.models  # to deal with circular import
@@ -15,7 +16,7 @@ class ApplicableSystemManager(models.Manager):
             cursor.execute("""
                 SELECT a.id, a.name, o.id, c.id, sm.id, p.id, o.name
                 FROM caf_applicablesystem a, organisations_organisation o, organisations_person p, caf_caf c, organisations_submode sm
-                WHERE a.organisation_id = o.id AND a.caf_id = c.id AND p.organisation_id = o.id AND o.submode_id = sm.id AND p.primary_nis_contact = False;
+                WHERE a.organisation_id = o.id AND a.caf_id = c.id AND p.organisation_id = o.id AND o.submode_id = sm.id AND p.primary_nis_contact = True;
             """)
             result_list = []
             for row in cursor.fetchall():
