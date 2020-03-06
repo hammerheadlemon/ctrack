@@ -27,7 +27,8 @@ class ListApplicableSystem(ListView):
     #    probably need a custom manager for this - to add in the POC
 
     def get_queryset(self):
-        ess = ApplicableSystem.objects.all().order_by("organisation__name")
+#       ess = ApplicableSystem.objects.all().order_by("organisation__name")
+        ess = ApplicableSystem.objects.with_primary_contact()
         return ess
 
     def get_context_data(self, **kwargs):
