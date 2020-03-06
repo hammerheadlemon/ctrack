@@ -15,11 +15,6 @@
   background-color: red;
   border-color: orange; }
 
-.container a {
-  color: darkslategrey;
-  background-color: yellowgreen;
-  font-size: large; }
-
 #chunky {
   border: 8px dashed yellowgreen;
   border-radius: 10px;
