@@ -1,5 +1,6 @@
 from django.db import models
 
+from ctrack.caf.managers import ApplicableSystemManager
 from ctrack.organisations.models import Organisation, Person
 
 
@@ -54,6 +55,8 @@ class ApplicableSystem(models.Model):
 
     class Meta:
         verbose_name = "Applicable System"
+
+    objects = ApplicableSystemManager()
 
     def __str__(self):
         return f"{self.organisation.name} | {self.name}"

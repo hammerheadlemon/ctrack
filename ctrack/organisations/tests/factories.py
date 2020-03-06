@@ -81,7 +81,7 @@ class PersonFactory(DjangoModelFactory):
         if extracted:
             self.role.add(extracted)
 
-    primary_nis_contact = True
+    primary_nis_contact = factory.LazyFunction(lambda : random.choice([True, False]))
     voluntary_point_of_contact = True
     has_egress = False
     title = factory.LazyFunction(lambda: random.randint(1, 8))
