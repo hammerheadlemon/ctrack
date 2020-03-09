@@ -1,4 +1,9 @@
 /* Project specific Javascript goes here. */
 $(document).ready(function() {
-    $('#datatable').DataTable();
+    $('#datatable').DataTable({
+        ordering: true,
+        searching: true,
+        dom: 'B<"clear">lfrtip',
+        buttons: true
+    });
 } );
