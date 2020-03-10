@@ -54,6 +54,16 @@ ROOT_URLCONF = "config.urls"
 # https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = "config.wsgi.application"
 
+# CACHE
+# We're going to use the database here
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'ctrack_cache_table',
+    }
+}
+
 # APPS
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
