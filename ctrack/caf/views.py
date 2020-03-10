@@ -1,7 +1,7 @@
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, DetailView
 
 from ctrack.caf.forms import CAFForm
-from ctrack.caf.models import ApplicableSystem
+from ctrack.caf.models import ApplicableSystem, CAF
 
 
 class CreateCAF(CreateView):
@@ -18,6 +18,10 @@ class ListCAF(ListView):
     pass
 
 
+class DetailCAF(DetailView):
+    model = CAF
+
+
 class ListApplicableSystem(ListView):
     model = ApplicableSystem
     # apparently you can pass a list of model objects to a template if you name it
@@ -31,5 +35,3 @@ class ListApplicableSystem(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-
-

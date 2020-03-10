@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}CAF Detail{% endblock %}
+{% block content %}
+  <div class="container">
+
+  <div class="row">
+    <h2>{{ object }}</h2>
+  </div>
+
+  <div class="row pt-3 text-info">
+    <h4>Quality Grading</h4>
+  </div>
+
+  <div class="row pl-3 pt-2 border rounded bg-light">
+    <p>{{ object.quality_grading }}</p>
+  </div>
+
+  <div class="row pt-3 text-info">
+    <h4>Confidence Grading</h4>
+  </div>
+
+  <div class="row pl-3 pt-2 border rounded bg-light">
+    <p>{{ object.confidence_grading }}</p>
+  </div>
+
+  <div class="row pt-3 text-info">
+    <h4>Current Version</h4>
+  </div>
+
+  <div class="row pl-3 pt-2 border rounded bg-light">
+    <p>{{ object.version }}</p>
+  </div>
+
+  <div class="row pt-3 text-info">
+    <h4>File (location?)</h4>
+  </div>
+
+  <div class="row pl-3 pt-2 border rounded bg-light">
+    <p>{{ object.file }}</p>
+  </div>
+
+  <div class="row pt-3 text-info">
+    <h4>Triage Review Date</h4>
+  </div>
+
+  <div class="row pl-3 pt-2 border rounded bg-light">
+    <p>{{ object.triage_review_date }}</p>
+  </div>
+
+  <div class="row pt-3 text-info">
+    <h4>Triage Review Inspector</h4>
+  </div>
+
+  <div class="row pl-3 pt-2 border rounded bg-light">
+    <p>{{ object.triage_review_inspector }}</p>
+  </div>
+
+  <div class="row pt-3 text-info">
+    <h4>Comments</h4>
+  </div>
+
+  <div class="row pl-3 pt-2 border rounded bg-light">
+    <p>{{ object.comments }}</p>
+  </div>
+{% endblock %}
+
+
+
