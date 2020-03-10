@@ -26,16 +26,20 @@
       <h4>People</h4>
     </div>
 
-    <div class="row pl-3 pt-2 border rounded bg-light">
-      <div class="col">
+    <div class="row">
+      <div class="col-sm-12">
         {% for p in people %}
-          <div class="row">
-            <ul class="list-unstyled">
-              <h4>{{ p.first_name }} {{ p.last_name }}</h4>
-              <table class="table-bordered">
+          <div class="card mb-3">
+            <div class="card-body">
+            <h5 class="card-title">{{ p.first_name }} {{ p.last_name }}</h5>
+              <table class="table table-bordered">
                 <tr>
                   <td>Primary NIS Contact:</td>
-                  <td>{{ p.primary_nis_contact }}</td>
+                  {% if p.primary_nis_contact %}
+                    <td>Yes</td>
+                  {% else %}
+                    <td>No</td>
+                  {% endif %}
                 </tr>
                 <tr>
                   <td>Job Title:</td>
@@ -49,11 +53,20 @@
                   <td>Mobile:</td>
                   <td>{{ p.mobile }}</td>
                 </tr>
+                <tr>
+                  <td>Landline:</td>
+                  <td>{{ p.landline }}</td>
+                </tr>
+                <tr>
+                  <td>Clearance:</td>
+                  <td>{{ p.clearance }}</td>
+                </tr>
+                <tr>
+                  <td>Clearance Expiry:</td>
+                  <td>{{ p.clearance_expiry }}</td>
+                </tr>
               </table>
-              <li>{{ p.landline }}</li>
-              <li>Clearance: {{ p.clearance }}</li>
-              <li>Clearance Expiry: {{ p.clearance_expiry }}</li>
-            </ul>
+            </div>
           </div>
         {% endfor %}
       </div>
