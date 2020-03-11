@@ -1,10 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, ListView, DetailView
 
 from ctrack.caf.forms import CAFForm
 from ctrack.caf.models import ApplicableSystem, CAF
 
 
-class CreateCAF(CreateView):
+class CreateCAF(LoginRequiredMixin, CreateView):
     form_class = CAFForm
     template_name = "caf/create.html"
 
@@ -14,15 +15,15 @@ class CreateCAF(CreateView):
         return context
 
 
-class ListCAF(ListView):
+class ListCAF(LoginRequiredMixin, ListView):
     pass
 
 
-class DetailCAF(DetailView):
+class DetailCAF(LoginRequiredMixin, DetailView):
     model = CAF
 
 
-class ListApplicableSystem(ListView):
+class ListApplicableSystem(LoginRequiredMixin, ListView):
     model = ApplicableSystem
     # apparently you can pass a list of model objects to a template if you name it
     # here - otherwise you need to provide a QuerySet
