@@ -24,4 +24,6 @@ class OrganisationDetailView(LoginRequiredMixin, DetailView):
             context['addr'] = addr
         people = org.person_set.all()
         context['people'] = people
+        applicable_systems = org.applicablesystem_set.all()
+        context['applicable_systems'] = applicable_systems
         return context

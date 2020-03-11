@@ -57,18 +57,20 @@
     <div class="col-sm-6 p-2">
       <div class="card bg-light">
         <div class="card-body">
-          <div class="card-title text-muted mb-1">CAF summary</div>
+          <div class="card-title text-muted mb-1">System/CAF summary</div>
           <div class="card-text">
             <div class="table-responsive">
               <table class="table">
+                {% for ass in applicable_systems %}
                 <tr>
-                  <td>Blah:</td>
-                  <td>BLACH</td>
+                  <td>{{ ass.name }}</td>
+                  <td>{{ ass.description }}
+                    <a href="#">
+                      <p class="small">{{ ass.caf }}</p>
+                    </a>
+                  </td>
                 </tr>
-                <tr>
-                  <td>Blah:</td>
-                  <td>BLACH</td>
-                </tr>
+                {% endfor %}
               </table>
             </div>
           </div>
