@@ -15,12 +15,88 @@
     <h4>Addresses</h4>
   </div>
 
-  <div class="row pl-3 pt-2 border rounded bg-light">
-    <p>Address 1<br>
-      Address 2<br>
-      Address 3<br>
-      Address 4<br></p>
+  <div class="row">
+    {% if no_addr > 1 %}
+      {% for a in addr %}
+        <div class="col-sm-6 p-2">
+          <div class="card bg-light">
+            <div class="card-body">
+              <div class="card-title text-muted mb-1">{{ a.type }}</div>
+              <div class="card-text">
+                <div class="table-responsive">
+                  <table class="table-condensed">
+                    <tr>
+                      <td>{{ a.line1 }} {{ a.line2 }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{ a.line3 }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{ a.city }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{ a.county }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{ a.postcode }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{ a.country }}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="text-muted mb-1 mt-2">Notes:</div>
+                        {{ a.other_details }}
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="col-sm-6 p-2">
+        <div class="card bg-light">
+          <div class="card-body">
+            <div class="card-title mb-1 text-muted">{{ addr.type }}</div>
+            <div class="card-text">
+              <div class="table-responsive">
+                <table class="table-condensed">
+                  <tr>
+                    <td>{{ addr.line1 }} {{ addr.line2 }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ addr.line3 }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ addr.city }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ addr.county }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ addr.postcode }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ addr.country }}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="text-muted mb-1 mt-2">Notes:</div>
+                      {{ addr.other_details }}
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
   </div>
+
 
   <div class="row pt-3 text-info">
     <h4>People</h4>
