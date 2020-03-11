@@ -19,32 +19,32 @@
     <div class="col-sm-6 p-2">
       <div class="card bg-light">
         <div class="card-body">
-          <div class="card-title text-muted mb-1">Key Information</div>
+          <div class="card-title">Key Information</div>
           <div class="card-text">
             <div class="table-responsive">
               <table class="table">
                 <tr>
-                  <td>Designation Type:</td>
+                  <td><strong>Designation Type:</strong></td>
                   <td>{{ object.designation_type }}</td>
                 </tr>
                 <tr>
-                  <td>Registered Company Name:</td>
+                  <td><strong>Registered Company Name:</strong></td>
                   <td>{{ object.registered_company_name }}</td>
                 </tr>
                 <tr>
-                  <td>Date Updated:</td>
+                  <td><strong>Date Updated:</strong></td>
                   <td>{{ object.date_updated }}</td>
                 </tr>
                 <tr>
-                  <td>Updated By:</td>
+                  <td><strong>Updated By:</strong></td>
                   <td>{{ object.updated_by }}</td>
                 </tr>
                 <tr>
-                  <td>Active:</td>
+                  <td><strong>Active:</strong></td>
                   <td>{{ object.active }}</td>
                 </tr>
                 <tr>
-                  <td>Comments:</td>
+                  <td><strong>Comments:</strong></td>
                   <td>{{ object.comments }}</td>
                 </tr>
               </table>
@@ -57,17 +57,17 @@
     <div class="col-sm-6 p-2">
       <div class="card bg-light">
         <div class="card-body">
-          <div class="card-title text-muted mb-1">System/CAF summary</div>
+          <div class="card-title">NIS Systems</div>
           <div class="card-text">
             <div class="table-responsive">
               <table class="table">
                 {% for ass in applicable_systems %}
                 <tr>
-                  <td>{{ ass.name }}</td>
-                  <td>{{ ass.description }}
-                    <a href="#">
-                      <p class="small">{{ ass.caf }}</p>
-                    </a>
+                  <td><strong>{{ ass.name }}</strong></td>
+                  <td>{{ ass.description }}<br>
+                    <a href="#" class="small">
+                      {{ ass.caf }}
+                    </a> <span class="text-muted">|</span> <a href="#" class="small">System Detail</a>
                   </td>
                 </tr>
                 {% endfor %}
