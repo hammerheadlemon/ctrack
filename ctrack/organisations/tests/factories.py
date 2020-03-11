@@ -47,6 +47,7 @@ class OrganisationFactory(DjangoModelFactory):
     name = Faker("company")
     slug = Faker("lexify", text="????", letters="abcdsg")
     designation_type = 1
+    oes = factory.LazyFunction(lambda : random.choice([True, False]))
     registered_company_name = Faker("company")
     registered_company_number = Faker("numerify", text="######")
     date_updated = Faker("date_this_year", before_today=True)

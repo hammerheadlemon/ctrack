@@ -28,6 +28,15 @@
                   <td>{{ object.designation_type }}</td>
                 </tr>
                 <tr>
+                  <td><strong>OES:</strong></td>
+                  {% if object.oes %}
+                    <td>Yes</td>
+                  {% else %}
+                    <td><span class="text-danger">No</span></td>
+                  {% endif %}
+
+                </tr>
+                <tr>
                   <td><strong>Registered Company Name:</strong></td>
                   <td>{{ object.registered_company_name }}</td>
                 </tr>
@@ -62,15 +71,15 @@
             <div class="table-responsive">
               <table class="table">
                 {% for ass in applicable_systems %}
-                <tr>
-                  <td><strong>{{ ass.name }}</strong></td>
-                  <td>{{ ass.description }}<br>
-                    <a href="#" class="small">
-                      {{ ass.caf }}
-                    </a> <span class="text-muted">|</span> <a href="#" class="small">System Detail</a>
-                    <span class="text-muted">|</span> <a href="#" class="small">Edit System</a>
-                  </td>
-                </tr>
+                  <tr>
+                    <td><strong>{{ ass.name }}</strong></td>
+                    <td>{{ ass.description }}<br>
+                      <a href="#" class="small">
+                        {{ ass.caf }}
+                      </a> <span class="text-muted">|</span> <a href="#" class="small">System Detail</a>
+                      <span class="text-muted">|</span> <a href="#" class="small">Edit System</a>
+                    </td>
+                  </tr>
                 {% endfor %}
               </table>
             </div>
