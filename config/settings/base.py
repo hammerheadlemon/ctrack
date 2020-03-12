@@ -89,6 +89,7 @@ LOCAL_APPS = [
     "ctrack.organisations.apps.OrganisationsConfig",
     "ctrack.caf.apps.CafConfig",
     "ctrack.register.apps.RegisterConfig",
+    "ctrack.assessments.apps.AssessmentsConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
