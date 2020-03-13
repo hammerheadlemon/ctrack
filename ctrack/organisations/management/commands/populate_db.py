@@ -4,6 +4,7 @@ from random import randint, choice
 from django.core.management import BaseCommand
 from django.core.management import CommandParser
 
+from ctrack.assessments.models import CAFSelfAssessment
 from ctrack.caf.models import CAF
 from ctrack.caf.tests.factories import (
     GradingFactory,
@@ -11,7 +12,7 @@ from ctrack.caf.tests.factories import (
     CAFFactory,
     ApplicableSystemFactory,
 )
-from ctrack.organisations.models import AddressType, Organisation
+from ctrack.organisations.models import AddressType, Person
 from ctrack.organisations.models import Mode
 from ctrack.organisations.models import Submode
 from ctrack.organisations.tests.factories import AddressFactory
@@ -140,10 +141,12 @@ class Command(BaseCommand):
 
         etf1 = EngagementTypeFactory(descriptor="Information Notice")
         etf2 = EngagementTypeFactory(descriptor="Designation Letter")
-        etf3 = EngagementTypeFactory(descriptor="CAF - Initial Submission", enforcement_instrument=False)
+        etf3 = EngagementTypeFactory(
+            descriptor="CAF - Initial Submission", enforcement_instrument=False
+        )
 
-        ee1 = EngagementEventFactory.create(type=etf1, user=user, participants=[p1, p2])
-        ee2 = EngagementEventFactory.create(type=etf2, user=user, participants=[p3])
+        EngagementEventFactory.create(type=etf1, user=user, participants=[p1, p2])
+        EngagementEventFactory.create(type=etf2, user=user, participants=[p3])
 
         # Quality gradings
         q_descriptors = ["Q1", "Q2", "Q3", "Q4", "Q5"]
@@ -156,7 +159,7 @@ class Command(BaseCommand):
             GradingFactory.create(descriptor=g, type="CONFIDENCE")
 
         # File store
-        fs = FileStoreFactory.create(physical_location_organisation=orgs[1])
+        FileStoreFactory.create(physical_location_organisation=orgs[1])
 
         # Every org gets on CAF for now
         for org in orgs:
@@ -166,7 +169,7 @@ class Command(BaseCommand):
         # CAF submissions - they create EngagementEvents
         # Get a random CAF
         _caf = CAF.objects.get(pk=1)  # we should have one by now
-        ee3 = EngagementEventFactory.create(
+        EngagementEventFactory.create(
             type=etf3, user=user, participants=[inspectors[1], p2], related_caf=_caf
         )
 
@@ -185,9 +188,15 @@ class Command(BaseCommand):
             triage_review_inspector=None,
         )
         # Each CAF can have up to three systems associated with it
-        for s in range(random.randint(1,3)):
+        for _ in range(random.randint(1, 3)):
             ApplicableSystemFactory.create(
-                name=random.choice(fnames),
-                organisation=org,
-                caf=caf,
+                name=random.choice(fnames), organisation=org, caf=caf,
             )
+
+    # We want to create a CAF with a bunch of scoring now...
+    _caf2 = CAF.objects.get(pk=2)
+    _completer = Person.objects.get(pk=1)
+    caf_assessment = CAFSelfAssessment(
+        caf=_caf2, completer=_completer, comments="Random Comments"
+    )
+    caf_assessment.save()

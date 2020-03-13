@@ -28,7 +28,6 @@ class CAFObjective(models.Model):
         verbose_name = "CAF Objective"
 
 
-
 class CAFPrinciple(models.Model):
     """
     One of 14 as set out in the framework.
