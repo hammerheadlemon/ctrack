@@ -15,6 +15,8 @@ class CAFSelfAssessment(models.Model):
     class Meta:
         verbose_name = "CAF Self Assessment"
 
+    def __str__(self):
+        return f"CAF Self Assessment for {self.caf.applicable_systems.first().organisation.name} - version {self.caf.version}"
 
 class CAFObjective(models.Model):
     """

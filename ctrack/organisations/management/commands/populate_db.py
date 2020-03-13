@@ -173,6 +173,13 @@ class Command(BaseCommand):
             type=etf3, user=user, participants=[inspectors[1], p2], related_caf=_caf
         )
 
+        # We want to create a CAF with a bunch of scoring now...
+        _caf2 = CAF.objects.get(pk=1)
+        _completer = Person.objects.get(pk=1)
+        caf_assessment = CAFSelfAssessment.objects.create(
+            caf_id=_caf2.id, completer_id=_completer.id, comments="Random Comments"
+        )
+
         # TODO - adapt this so that it records more than just Persons created
         self.stdout.write(
             self.style.SUCCESS(
@@ -193,10 +200,3 @@ class Command(BaseCommand):
                 name=random.choice(fnames), organisation=org, caf=caf,
             )
 
-    # We want to create a CAF with a bunch of scoring now...
-    _caf2 = CAF.objects.get(pk=2)
-    _completer = Person.objects.get(pk=1)
-    caf_assessment = CAFSelfAssessment(
-        caf=_caf2, completer=_completer, comments="Random Comments"
-    )
-    caf_assessment.save()
