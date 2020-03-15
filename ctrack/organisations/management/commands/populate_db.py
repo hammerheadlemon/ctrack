@@ -4,7 +4,7 @@ from random import randint, choice
 from django.core.management import BaseCommand
 from django.core.management import CommandParser
 
-from ctrack.assessments.models import CAFSelfAssessment, CAFObjective, CAFPrinciple
+from ctrack.assessments.models import CAFSelfAssessment, CAFObjective, CAFPrinciple, CAFContributingOutcome
 from ctrack.caf.models import CAF
 from ctrack.caf.tests.factories import (
     GradingFactory,
@@ -281,6 +281,64 @@ class Command(BaseCommand):
             order_id=2
         )
 
+        # Based on these principles, it's time to gen some CAFContributingOutcomes
+        p_a1_co_a = CAFContributingOutcome.objects.create(
+            designation="A1.a",
+            name="Board Direction",
+            description="You have forced your Board to listen to your whinging about cyber.",
+            principle_id=p_a1.id,
+            order_id=1
+        )
+
+        p_a1_co_b = CAFContributingOutcome.objects.create(
+            designation="A1.b",
+            name="Roles and Responsibilities",
+            description="Your elders and betters are impressed and they continue to make money after your project "
+                        "implementation.",
+            principle_id=p_a1.id,
+            order_id=2
+        )
+
+        p_a1_co_c = CAFContributingOutcome.objects.create(
+            designation="A1.c",
+            name="Decision-making",
+            description="If you are forced to participate in the Crystal Maze, you'll choose the coorect path across "
+                        "the Gordian runway.",
+            principle_id=p_a1.id,
+            order_id=3
+        )
+
+        p_a2_co_a = CAFContributingOutcome.objects.create(
+            designation="A2.a",
+            name="Risk Management Process",
+            description="You take mighty risks, but they are mitigated by more sensible people around you - good.",
+            principle_id=p_a2.id,
+            order_id=1
+        )
+
+        p_a2_co_b = CAFContributingOutcome.objects.create(
+            designation="A2.b",
+            name="Assurance",
+            description="We all make mistakes, but in doing this well you at least have told people what you're doing.",
+            principle_id=p_a2.id,
+            order_id=2
+        )
+
+        p_a3_co_a = CAFContributingOutcome.objects.create(
+            designation="A3.a",
+            name="Asset Management",
+            description="Taking care of these aspects of corporate life is commensurate with the money-making way.",
+            principle_id=p_a3.id,
+            order_id=1
+        )
+
+        p_a4_co_a = CAFContributingOutcome.objects.create(
+            designation="A4.a",
+            name="Supply Chain",
+            description="Task your customers to take on all the risk, the debt, the hassle - you're good to go.",
+            principle_id=p_a4.id,
+            order_id=1
+        )
         # TODO - adapt this so that it records more than just Persons created
 
         self.stdout.write(
