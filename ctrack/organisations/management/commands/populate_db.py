@@ -4,7 +4,7 @@ from random import randint, choice
 from django.core.management import BaseCommand
 from django.core.management import CommandParser
 
-from ctrack.assessments.models import CAFSelfAssessment, CAFObjective
+from ctrack.assessments.models import CAFSelfAssessment, CAFObjective, CAFPrinciple
 from ctrack.caf.models import CAF
 from ctrack.caf.tests.factories import (
     GradingFactory,
@@ -181,14 +181,105 @@ class Command(BaseCommand):
         )
 
         # We want to simulate 4 CAF Objectives
-        c_obj1 = CAFObjective.objects.create(name="Objective A: Major Issue A",
-                                             description="An important objective to fix the world.", order_id=1)
-        c_obj2 = CAFObjective.objects.create(name="Objective B: Major Issue B",
-                                             description="An important objective to fix the world.", order_id=2)
-        c_obj3 = CAFObjective.objects.create(name="Objective C: Major Issue C",
-                                             description="An important objective to fix the world.", order_id=3)
-        c_obj4 = CAFObjective.objects.create(name="Objective D: Major Issue D",
-                                             description="An important objective to fix the world.", order_id=4)
+        c_obj_a = CAFObjective.objects.create(name="Objective A: Major Issue A",
+                                              description="An important objective to fix the world.", order_id=1)
+        c_obj_b = CAFObjective.objects.create(name="Objective B: Major Issue B",
+                                              description="An important objective to fix the world.", order_id=2)
+        c_obj_c = CAFObjective.objects.create(name="Objective C: Major Issue C",
+                                              description="An important objective to fix the world.", order_id=3)
+        c_obj_d = CAFObjective.objects.create(name="Objective D: Major Issue D",
+                                              description="An important objective to fix the world.", order_id=4)
+
+        # For each Objective, let's create four Principles
+        p_a1 = CAFPrinciple.objects.create(
+            caf_objective_id=c_obj_a.id,
+            designation="A1",
+            title="Governance",
+            description="When you don't have Governance, you have nothing.",
+            order_id=1
+        )
+        p_a2 = CAFPrinciple.objects.create(
+            caf_objective_id=c_obj_a.id,
+            designation="A2",
+            title="Risk Management",
+            description="Don't take a risk, and don't get nowhere.",
+            order_id=2
+        )
+        p_a3 = CAFPrinciple.objects.create(
+            caf_objective_id=c_obj_a.id,
+            designation="A3",
+            title="Asset Management",
+            description="Without assets, you have no raw materials to work with.",
+            order_id=3
+        )
+        p_a4 = CAFPrinciple.objects.create(
+            caf_objective_id=c_obj_a.id,
+            designation="A4",
+            title="Supply Chain",
+            description="You need to get your stuff from somewhere.",
+            order_id=4
+        )
+
+        p_b1 = CAFPrinciple.objects.create(
+            caf_objective_id=c_obj_b.id,
+            designation="B1",
+            title="Service Protection & Policies",
+            description="Put in place the right protections for a future of security.",
+            order_id=1
+        )
+        p_b2 = CAFPrinciple.objects.create(
+            caf_objective_id=c_obj_b.id,
+            designation="B2",
+            title="Identity and Access Control",
+            description="Stop the wrong people getting at your critical assets, okay.",
+            order_id=2
+        )
+        p_b3 = CAFPrinciple.objects.create(
+            caf_objective_id=c_obj_b.id,
+            designation="B3",
+            title="Data Security",
+            description="Data is the new oil...",
+            order_id=3
+        )
+        p_b4 = CAFPrinciple.objects.create(
+            caf_objective_id=c_obj_b.id,
+            designation="B4",
+            title="System Security",
+            description="If you have complicated systems, they need some sort of security.",
+            order_id=4
+        )
+
+        # Only two of these
+        p_c1 = CAFPrinciple.objects.create(
+            caf_objective_id=c_obj_c.id,
+            designation="C1",
+            title="Security Monitoring",
+            description="Monitoring the bits and pieces is the most important aspect of your life.",
+            order_id=1
+        )
+        p_c2 = CAFPrinciple.objects.create(
+            caf_objective_id=c_obj_c.id,
+            designation="C2",
+            title="Proactive Security and Event Discovery",
+            description="If we're not proactive, we will get found out eventually.",
+            order_id=2
+        )
+
+        # Only two of these too
+        p_d1 = CAFPrinciple.objects.create(
+            caf_objective_id=c_obj_d.id,
+            designation="D1",
+            title="Response and Recovery Planning",
+            description="Responding to the security problems since 1999...",
+            order_id=1
+        )
+        p_d2 = CAFPrinciple.objects.create(
+            caf_objective_id=c_obj_d.id,
+            designation="D2",
+            title="Improvements",
+            description="Improving all the things.",
+            order_id=2
+        )
 
         # TODO - adapt this so that it records more than just Persons created
 

@@ -46,6 +46,9 @@ class CAFPrinciple(models.Model):
     class Meta:
         verbose_name = "CAF Principle"
 
+    def __str__(self):
+        return ".".join([self.designation, self.title])
+
 
 class CAFContributingOutcome(models.Model):
     """
