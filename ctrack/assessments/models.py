@@ -55,7 +55,7 @@ class CAFContributingOutcome(models.Model):
     One of the 39 as set out in the framework.
     """
     designation = models.CharField(max_length=5, help_text="e.g. A1.a, B3.c, etc")
-    name = models.CharField(max_length=50, help_text="e.g. Board Direction")
+    name = models.CharField(max_length=100, help_text="e.g. Board Direction")
     description = models.TextField(max_length=1000)
     principle = models.ForeignKey(CAFPrinciple, on_delete=models.CASCADE)
     order_id = models.IntegerField()

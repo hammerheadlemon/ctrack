@@ -181,13 +181,13 @@ class Command(BaseCommand):
         )
 
         # We want to simulate 4 CAF Objectives
-        c_obj_a = CAFObjective.objects.create(name="Objective A: Major Issue A",
+        c_obj_a = CAFObjective.objects.create(name="Objective A: Managing security risk",
                                               description="An important objective to fix the world.", order_id=1)
-        c_obj_b = CAFObjective.objects.create(name="Objective B: Major Issue B",
+        c_obj_b = CAFObjective.objects.create(name="Objective B: Protecting Against Cyber Attack",
                                               description="An important objective to fix the world.", order_id=2)
-        c_obj_c = CAFObjective.objects.create(name="Objective C: Major Issue C",
+        c_obj_c = CAFObjective.objects.create(name="Objective C: Detecting Cyber Security Events",
                                               description="An important objective to fix the world.", order_id=3)
-        c_obj_d = CAFObjective.objects.create(name="Objective D: Major Issue D",
+        c_obj_d = CAFObjective.objects.create(name="Objective D: Minimising the Impact of Cyber Security Incidents",
                                               description="An important objective to fix the world.", order_id=4)
 
         # For each Objective, let's create four Principles
@@ -247,6 +247,22 @@ class Command(BaseCommand):
             title="System Security",
             description="If you have complicated systems, they need some sort of security.",
             order_id=4
+        )
+
+        p_b5 = CAFPrinciple.objects.create(
+            caf_objective_id=c_obj_b.id,
+            designation="B5",
+            title="Resilience Networks and Systems",
+            description="When all else fails, there is always food to be cooked.",
+            order_id=5
+        )
+
+        p_b6 = CAFPrinciple.objects.create(
+            caf_objective_id=c_obj_b.id,
+            designation="B6",
+            title="Staff Awareness and Training",
+            description="You must ensure your people are trained and equipped for making a difference.",
+            order_id=6
         )
 
         # Only two of these
@@ -339,6 +355,259 @@ class Command(BaseCommand):
             principle_id=p_a4.id,
             order_id=1
         )
+
+        p_b1_co_a = CAFContributingOutcome.objects.create(
+            designation="B1.a",
+            name="Policy and Process Development",
+            description="You are getting your process and policy development spot on.",
+            principle_id=p_b1.id,
+            order_id=1
+        )
+
+        p_b1_co_b = CAFContributingOutcome.objects.create(
+            designation="B1.b",
+            name="Policy and Process Information",
+            description="Differs from the above in a few ways that will be discussed at a later date.",
+            principle_id=p_b1.id,
+            order_id=2
+        )
+
+        p_b2_co_a = CAFContributingOutcome.objects.create(
+            designation="B2.a",
+            name="ID Verification, Authentication and Authorisation",
+            description="It is very important for people to be able to confirm they they truly are. Underneath.",
+            principle_id=p_b2.id,
+            order_id=1
+        )
+
+        p_b2_co_b = CAFContributingOutcome.objects.create(
+            designation="B2.b",
+            name="Device Management",
+            description="Your devices, and their safe and sustainable use, is crucuial to the longevity of your company.",
+            principle_id=p_b2.id,
+            order_id=2
+        )
+
+        p_b2_co_c = CAFContributingOutcome.objects.create(
+            designation="B2.c",
+            name="Privileged User Mangement",
+            description="You ensure that even the most privileged members of your senior management are under the impression "
+                        "that they exude inequality, in all instances.",
+            principle_id=p_b2.id,
+            order_id=3
+        )
+
+        p_b3_co_a = CAFContributingOutcome.objects.create(
+            designation="B3.a",
+            name="Understanding Data",
+            description="You, more than anyone else in the organisation, know what your data means to you.",
+            principle_id=p_b3.id,
+            order_id=1
+        )
+
+        p_b3_co_b = CAFContributingOutcome.objects.create(
+            designation="B3.b",
+            name="Data in Transit",
+            description="You are protecting your data as it moves along the Information Superhighway.",
+            principle_id=p_b3.id,
+            order_id=2
+        )
+
+        p_b3_co_c = CAFContributingOutcome.objects.create(
+            designation="B3.c",
+            name="Stored Data",
+            description="You have stored your data in accordance with local environment laws.",
+            principle_id=p_b3.id,
+            order_id=3
+        )
+
+        p_b3_co_d = CAFContributingOutcome.objects.create(
+            designation="B3.d",
+            name="Mobile Data",
+            description="Mobile data is when data moves because it is stored in a moving thing.",
+            principle_id=p_b3.id,
+            order_id=4
+        )
+
+        p_b3_co_e = CAFContributingOutcome.objects.create(
+            designation="B3.e",
+            name="Media/Equipment Sanitisation",
+            description="You routinely wash and clean the legs and bottom brackets of your server racks.",
+            principle_id=p_b3.id,
+            order_id=5
+        )
+
+        p_b4_co_a = CAFContributingOutcome.objects.create(
+            designation="B4.a",
+            name="Secure by Design",
+            description="You have designed your systems to be secure and you're sure no one is going to hack into them.",
+            principle_id=p_b4.id,
+            order_id=1
+        )
+
+        p_b4_co_b = CAFContributingOutcome.objects.create(
+            designation="B4.b",
+            name="Secure Configuration",
+            description="When you are able to configure your systems and software well, you can say you have Secure "
+                        "Configuration. Only then, mind.",
+            principle_id=p_b4.id,
+            order_id=2
+        )
+
+        p_b4_co_c = CAFContributingOutcome.objects.create(
+            designation="B4.c",
+            name="Secure Management",
+            description="Somehow this one is different from all the others but I'm not sure how.",
+            principle_id=p_b4.id,
+            order_id=3
+        )
+
+        p_b4_co_d = CAFContributingOutcome.objects.create(
+            designation="B4.d",
+            name="Vulnerability Management",
+            description="Doing this well means that you are at the top of your vulnerability scale.",
+            principle_id=p_b4.id,
+            order_id=4
+        )
+
+        p_b5_co_a = CAFContributingOutcome.objects.create(
+            designation="B5.a",
+            name="Resilience Preparation",
+            description="Totally ready for the coming of the cyber apocalyse. You practice this stuff regular.",
+            principle_id=p_b5.id,
+            order_id=1
+        )
+
+        p_b5_co_b = CAFContributingOutcome.objects.create(
+            designation="B5.b",
+            name="Design for Resilience",
+            description="This stuff is built into your very working model.",
+            principle_id=p_b5.id,
+            order_id=2
+        )
+
+        p_b5_co_c = CAFContributingOutcome.objects.create(
+            designation="B5.c",
+            name="Backups",
+            description="There is nowhere for you to go as a professional if you don't make backups of your data.",
+            principle_id=p_b5.id,
+            order_id=3
+        )
+
+        p_b6_co_a = CAFContributingOutcome.objects.create(
+            designation="B6.a",
+            name="Cyber Security Culture",
+            description="You're making them understand that this isn't going to go away in a hurry.",
+            principle_id=p_b6.id,
+            order_id=1
+        )
+
+        p_b6_co_b = CAFContributingOutcome.objects.create(
+            designation="B6.b",
+            name="Cyber Security Training",
+            description="By the way, when youre staff are able to write C code, your company understands buffer "
+                        "overflows.",
+            principle_id=p_b6.id,
+            order_id=2
+        )
+
+        p_c1_co_a = CAFContributingOutcome.objects.create(
+            designation="C1.a",
+            name="Monitoring Coverage",
+            description="At all times, you are vigilent to the threats out there, and ready to tackle them.",
+            principle_id=p_c1.id,
+            order_id=1
+        )
+
+        p_c1_co_b = CAFContributingOutcome.objects.create(
+            designation="C1.b",
+            name="Securing Logs",
+            description="You might think the are a waste of time, but the Board thinks logging is important.",
+            principle_id=p_c1.id,
+            order_id=2
+        )
+
+        p_c1_co_c = CAFContributingOutcome.objects.create(
+            designation="C1.c",
+            name="Generating Alerts",
+            description="Boo! There, you coped with it because you're good at this.",
+            principle_id=p_c1.id,
+            order_id=3
+        )
+
+        p_c1_co_d = CAFContributingOutcome.objects.create(
+            designation="C1.d",
+            name="Identifying Security Incidents",
+            description="You are wary of all the possible things that could go wrong and you have a plan to deal. Well "
+                        "done.",
+            principle_id=p_c1.id,
+            order_id=4
+        )
+
+        p_c1_co_e = CAFContributingOutcome.objects.create(
+            designation="C1.e",
+            name="Monitoring Tools and Skills",
+            description="All these things matter in today's switched on cyber-aware environment.",
+            principle_id=p_c1.id,
+            order_id=5
+        )
+
+        p_c2_co_a = CAFContributingOutcome.objects.create(
+            designation="C2.a",
+            name="System Abnormalities for Attack Detection",
+            description="Make sure you know how to look for things that mighty wrong on your network.",
+            principle_id=p_c2.id,
+            order_id=1
+        )
+
+        p_c2_co_b = CAFContributingOutcome.objects.create(
+            designation="C2.b",
+            name="Proactive Attack Discovery",
+            description="When you go out looking for the bad stuff, you usefully find it - and you know this in spades.",
+            principle_id=p_c2.id,
+            order_id=2
+        )
+
+        p_d1_co_a = CAFContributingOutcome.objects.create(
+            designation="D1.a",
+            name="Response Plan",
+            description="Yeah, we know it's boring but you've got to have one.",
+            principle_id=p_d1.id,
+            order_id=1
+        )
+
+        p_d1_co_b = CAFContributingOutcome.objects.create(
+            designation="D1.b",
+            name="Response and Recovery Capability",
+            description="If you can't get back on your feet after you've been beat, where are you, really?",
+            principle_id=p_d1.id,
+            order_id=2
+        )
+
+        p_d1_co_c = CAFContributingOutcome.objects.create(
+            designation="D1.c",
+            name="Testing and Exercising",
+            description="One of the most important things you should not be forgetting is this.",
+            principle_id=p_d1.id,
+            order_id=3
+        )
+
+        p_d2_co_a = CAFContributingOutcome.objects.create(
+            designation="D2.a",
+            name="Incident Root Cause and Analysis",
+            description="I guess there are always lessons learned, no matter how we good we are.",
+            principle_id=p_d2.id,
+            order_id=1
+        )
+
+        p_d2_co_b = CAFContributingOutcome.objects.create(
+            designation="D2.b",
+            name="Using Incidents to Drive Improvements",
+            description="This is the kind of thing that bores us to tears but it simply has to be done.",
+            principle_id=p_d2.id,
+            order_id=2
+        )
+
         # TODO - adapt this so that it records more than just Persons created
 
         self.stdout.write(
