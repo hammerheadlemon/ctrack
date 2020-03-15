@@ -22,12 +22,15 @@ class CAFObjective(models.Model):
     """
     One of 4 as set out in the framework...
     """
-    name = models.CharField(max_length=20, help_text="e.g. Managing Risk")
+    name = models.CharField(max_length=100, help_text="e.g. Managing Risk")
     description = models.TextField(max_length=500)
     order_id = models.IntegerField()
 
     class Meta:
         verbose_name = "CAF Objective"
+
+    def __str__(self):
+        return self.name
 
 
 class CAFPrinciple(models.Model):

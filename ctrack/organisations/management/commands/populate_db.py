@@ -4,7 +4,7 @@ from random import randint, choice
 from django.core.management import BaseCommand
 from django.core.management import CommandParser
 
-from ctrack.assessments.models import CAFSelfAssessment
+from ctrack.assessments.models import CAFSelfAssessment, CAFObjective
 from ctrack.caf.models import CAF
 from ctrack.caf.tests.factories import (
     GradingFactory,
@@ -180,7 +180,18 @@ class Command(BaseCommand):
             caf_id=_caf2.id, completer_id=_completer.id, comments="Random Comments"
         )
 
+        # We want to simulate 4 CAF Objectives
+        c_obj1 = CAFObjective.objects.create(name="Objective A: Major Issue A",
+                                             description="An important objective to fix the world.", order_id=1)
+        c_obj2 = CAFObjective.objects.create(name="Objective B: Major Issue B",
+                                             description="An important objective to fix the world.", order_id=2)
+        c_obj3 = CAFObjective.objects.create(name="Objective C: Major Issue C",
+                                             description="An important objective to fix the world.", order_id=3)
+        c_obj4 = CAFObjective.objects.create(name="Objective D: Major Issue D",
+                                             description="An important objective to fix the world.", order_id=4)
+
         # TODO - adapt this so that it records more than just Persons created
+
         self.stdout.write(
             self.style.SUCCESS(
                 f"Created {number} Person object[s]! Go forth and multiply."
@@ -199,4 +210,3 @@ class Command(BaseCommand):
             ApplicableSystemFactory.create(
                 name=random.choice(fnames), organisation=org, caf=caf,
             )
-
