@@ -18,6 +18,7 @@ class CAFSelfAssessment(models.Model):
     def __str__(self):
         return f"CAF Self Assessment for {self.caf.applicable_systems.first().organisation.name} - version {self.caf.version}"
 
+
 class CAFObjective(models.Model):
     """
     One of 4 as set out in the framework...
@@ -72,8 +73,18 @@ class CAFSelfAssessmentOutcomeScore(models.Model):
     Details the assessment for an Outcome, and the baseline assessment.
     Completed by an OES initially, but can be completed by anyone.
     """
+    ASSESSMENT_SCORE = (
+        ("Achieved", "Achieved"),
+        ("Partially Achieved", "Partially Achieved"),
+        ("Not Achieved", "Not Achieved"),
+    )
     caf_self_assessment = models.ForeignKey(CAFSelfAssessment, on_delete=models.CASCADE)
     caf_contributing_outcome = models.ForeignKey(CAFContributingOutcome, on_delete=models.CASCADE)
+    self_assessment_score = models.CharField(max_length=20, choices=ASSESSMENT_SCORE, help_text="Choose an assessment score")
+    baseline_assessment_score = models.CharField(max_length=20, choices=ASSESSMENT_SCORE, help_text="Choose an assessment score")
 
     class Meta:
         verbose_name = "CAF Self Assessment Outcome Score"
+
+    def __str__(self):
+        return f"{self.caf_self_assessment} | {self.self_assessment_score}"
