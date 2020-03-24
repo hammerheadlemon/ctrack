@@ -78,13 +78,18 @@ class CAFSelfAssessmentOutcomeScore(models.Model):
         ("Partially Achieved", "Partially Achieved"),
         ("Not Achieved", "Not Achieved"),
     )
-    caf_self_assessment = models.ForeignKey(CAFSelfAssessment, on_delete=models.CASCADE)
-    caf_contributing_outcome = models.ForeignKey(CAFContributingOutcome, on_delete=models.CASCADE)
-    self_assessment_score = models.CharField(max_length=20, choices=ASSESSMENT_SCORE, help_text="Choose an assessment score")
-    baseline_assessment_score = models.CharField(max_length=20, choices=ASSESSMENT_SCORE, help_text="Choose an assessment score")
+    caf_self_assessment = models.ForeignKey(CAFSelfAssessment, on_delete=models.CASCADE,
+                                            verbose_name="CAF Self Assessment")
+    caf_contributing_outcome = models.ForeignKey(CAFContributingOutcome, on_delete=models.CASCADE,
+                                                 verbose_name="CAF Contributing Outcome")
+    self_assessment_score = models.CharField(max_length=20, choices=ASSESSMENT_SCORE,
+                                             help_text="Choose an assessment score",
+                                             verbose_name="Self Assessment Score")
+    baseline_assessment_score = models.CharField(max_length=20, choices=ASSESSMENT_SCORE,
+                                                 help_text="Choose an assessment score", verbose_name="Baseline Score")
 
     class Meta:
         verbose_name = "CAF Self Assessment Outcome Score"
 
     def __str__(self):
-        return f"{self.caf_self_assessment} | {self.self_assessment_score}"
+        return f"{self.caf_contributing_outcome} | {self.caf_self_assessment} | {self.self_assessment_score}"
