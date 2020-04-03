@@ -4,7 +4,7 @@ from ctrack.caf.models import CAF
 from ctrack.organisations.models import Person
 
 
-class CAFSelfAssessment(models.Model):
+class CAFAssessment(models.Model):
     """
     These are carried out by an OES as result in, or are associated with a CAF.
     """
@@ -13,10 +13,10 @@ class CAFSelfAssessment(models.Model):
     comments = models.TextField(max_length=500)
 
     class Meta:
-        verbose_name = "CAF Self Assessment"
+        verbose_name = "CAF Assessment"
 
     def __str__(self):
-        return f"CAF Self Assessment for {self.caf.applicable_systems.first().organisation.name} - version {self.caf.version}"
+        return f"CAF Assessment for {self.caf.applicable_systems.first().organisation.name} - version {self.caf.version}"
 
 
 class CAFObjective(models.Model):
@@ -68,7 +68,7 @@ class CAFContributingOutcome(models.Model):
         return " ".join([self.designation, self.name])
 
 
-class CAFSelfAssessmentOutcomeScore(models.Model):
+class CAFAssessmentOutcomeScore(models.Model):
     """
     Details the assessment for an Outcome, and the baseline assessment.
     Completed by an OES initially, but can be completed by anyone.
@@ -78,18 +78,18 @@ class CAFSelfAssessmentOutcomeScore(models.Model):
         ("Partially Achieved", "Partially Achieved"),
         ("Not Achieved", "Not Achieved"),
     )
-    caf_self_assessment = models.ForeignKey(CAFSelfAssessment, on_delete=models.CASCADE,
-                                            verbose_name="CAF Self Assessment")
+    caf_assessment = models.ForeignKey(CAFAssessment, on_delete=models.CASCADE,
+                                       verbose_name="CAF Assessment")
     caf_contributing_outcome = models.ForeignKey(CAFContributingOutcome, on_delete=models.CASCADE,
                                                  verbose_name="CAF Contributing Outcome")
-    self_assessment_score = models.CharField(max_length=20, choices=ASSESSMENT_SCORE,
-                                             help_text="Choose an assessment score",
-                                             verbose_name="Self Assessment Score")
+    assessment_score = models.CharField(max_length=20, choices=ASSESSMENT_SCORE,
+                                        help_text="Choose an assessment score",
+                                        verbose_name="Assessment Score")
     baseline_assessment_score = models.CharField(max_length=20, choices=ASSESSMENT_SCORE,
                                                  help_text="Choose an assessment score", verbose_name="Baseline Score")
 
     class Meta:
-        verbose_name = "CAF Self Assessment Outcome Score"
+        verbose_name = "CAF Assessment Outcome Score"
 
     def __str__(self):
-        return f"{self.caf_contributing_outcome} | {self.caf_self_assessment} | {self.self_assessment_score}"
+        return f"{self.caf_contributing_outcome} | {self.caf_assessment} | {self.assessment_score}"

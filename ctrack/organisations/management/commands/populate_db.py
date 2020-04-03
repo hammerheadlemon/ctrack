@@ -4,8 +4,8 @@ from random import randint, choice
 from django.core.management import BaseCommand
 from django.core.management import CommandParser
 
-from ctrack.assessments.models import CAFSelfAssessment, CAFObjective, CAFPrinciple, CAFContributingOutcome, \
-    CAFSelfAssessmentOutcomeScore
+from ctrack.assessments.models import CAFAssessment, CAFObjective, CAFPrinciple, CAFContributingOutcome, \
+    CAFAssessmentOutcomeScore
 from ctrack.caf.models import CAF
 from ctrack.caf.tests.factories import (
     GradingFactory,
@@ -571,17 +571,17 @@ class Command(BaseCommand):
         _caf2 = CAF.objects.get(pk=1)
 
         _completer = Person.objects.get(pk=1)
-        caf_self_assessment = CAFSelfAssessment.objects.create(
+        caf_assessment = CAFAssessment.objects.create(
             caf_id=_caf2.id, completer_id=_completer.id, comments="Random Comments"
         )
 
         # TODO Need to create as many of these as there are ContributingOutcomes
         # Create a single CAFSelfAssessmentOutcomeScore
         for c in cos:
-            CAFSelfAssessmentOutcomeScore.objects.create(
-                caf_self_assessment_id=caf_self_assessment.id,
+            CAFAssessmentOutcomeScore.objects.create(
+                caf_assessment_id=caf_assessment.id,
                 caf_contributing_outcome_id=c.id,
-                self_assessment_score=random.choice(["Achieved", "Partially Achieved", "Not Achieved"]),
+                assessment_score=random.choice(["Achieved", "Partially Achieved", "Not Achieved"]),
                 baseline_assessment_score=random.choice(["Achieved", "Partially Achieved", "Not Achieved"])
             )
 
