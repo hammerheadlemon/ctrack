@@ -59,6 +59,38 @@
     </div>
   </div>
 
+  <div class="row">
+    <div class="col-sm-12 p-2">
+      <div class="card bg-light">
+        <div class="card-body">
+          <div class="card-title text-muted">Assessments</div>
+          <div class="card-text">
+            <div class="table-responsive">
+              <table class="table">
+                {% for ass in assessments_and_scores %}
+                  <tr>
+                    <th>Assessment</th>
+                    <th></th>
+                    <th>{{ ass.0 }}</th>
+                    <th></th>
+                  </tr>
+                  {% for score in ass.1 %}
+                    <tr>
+                      <td>{{ score.caf_contributing_outcome.designation }}</td>
+                      <td>{{ score.caf_contributing_outcome.name }}</td>
+                      <td>{{ score.caf_contributing_outcome.description }}</td>
+                      <td>{{ score.assessment_score }}</td>
+                    </tr>
+                  {% endfor %}
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
 
 

@@ -15,6 +15,9 @@ class CAFAssessment(models.Model):
     class Meta:
         verbose_name = "CAF Assessment"
 
+    def get_title(self):
+        return f"CAF Assessment for {self.caf.applicable_systems.first().organisation.name} - version {self.caf.version}"
+
     def __str__(self):
         return f"CAF Assessment for {self.caf.applicable_systems.first().organisation.name} - version {self.caf.version}"
 

@@ -1,6 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
 from django.views.generic import CreateView, ListView, DetailView
 
+from ctrack.assessments.models import CAFAssessment, CAFObjective, CAFPrinciple, CAFAssessmentOutcomeScore
 from ctrack.caf.forms import CAFForm
 from ctrack.caf.models import ApplicableSystem, CAF
 
@@ -19,8 +21,26 @@ class ListCAF(LoginRequiredMixin, ListView):
     pass
 
 
-class DetailCAF(LoginRequiredMixin, DetailView):
-    model = CAF
+# class DetailCAF(LoginRequiredMixin, DetailView):
+#     model = CAF
+
+# Let's write a traditional function view!
+def caf_detail_view(request, pk):
+    caf = CAF.objects.get(pk=pk)
+    # get any assessments that have been done on this caf
+    assessments = caf.cafassessment_set.all()
+    caf_principles = CAFPrinciple.objects.all()
+    _scrs = []
+    for ass in assessments:
+        lst_scores = []
+        lst_scores.append(ass.get_title())
+        lst_scores.append(CAFAssessmentOutcomeScore.objects.filter(caf_assessment=ass))
+        _scrs.append(lst_scores)
+    context = {
+        'object': caf,
+        'assessments_and_scores': _scrs
+    }
+    return render(request, 'caf/caf_detail.html', context)
 
 
 class ListApplicableSystem(LoginRequiredMixin, ListView):
