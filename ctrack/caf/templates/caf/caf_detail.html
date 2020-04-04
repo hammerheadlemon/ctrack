@@ -68,20 +68,30 @@
             <div class="table-responsive">
               <table class="table">
                 {% for ass in assessments_and_scores %}
-                  <tr>
-                    <th>Assessment</th>
-                    <th></th>
-                    <th>{{ ass.0 }}</th>
-                    <th></th>
-                  </tr>
-                  {% for score in ass.1 %}
+                  <table class="table-responsive p-2">
                     <tr>
-                      <td>{{ score.caf_contributing_outcome.designation }}</td>
-                      <td>{{ score.caf_contributing_outcome.name }}</td>
-                      <td>{{ score.caf_contributing_outcome.description }}</td>
-                      <td>{{ score.assessment_score }}</td>
+                      <td><strong>Assessment:</strong></td>
+                      <td>{{ ass.0 }}</td>
                     </tr>
-                  {% endfor %}
+                    <tr>
+                      <td><strong>Assessor:</strong></td>
+                      <td>{{ ass.0.completer }}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Comments:</strong></td>
+                      <td>{{ ass.0.comments }}</td>
+                    </tr>
+                  </table>
+                  <table class="table">
+                    {% for score in ass.1 %}
+                      <tr>
+                        <td>{{ score.caf_contributing_outcome.designation }}</td>
+                        <td>{{ score.caf_contributing_outcome.name }}</td>
+                        <td>{{ score.caf_contributing_outcome.description }}</td>
+                        <td>{{ score.assessment_score }}</td>
+                      </tr>
+                    {% endfor %}
+                  </table>
                 {% endfor %}
               </table>
             </div>

@@ -33,7 +33,7 @@ def caf_detail_view(request, pk):
     _scrs = []
     for ass in assessments:
         lst_scores = []
-        lst_scores.append(ass.get_title())
+        lst_scores.append(ass)
         lst_scores.append(CAFAssessmentOutcomeScore.objects.filter(caf_assessment=ass))
         _scrs.append(lst_scores)
     context = {
