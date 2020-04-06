@@ -29,7 +29,7 @@ def caf_detail_view(request, pk):
     caf = CAF.objects.get(pk=pk)
     # get any assessments that have been done on this caf
     assessments = caf.cafassessment_set.all()
-    caf_principles = CAFPrinciple.objects.all()
+    # caf_principles = CAFPrinciple.objects.all()
     _scrs = []
     for ass in assessments:
         lst_scores = []
