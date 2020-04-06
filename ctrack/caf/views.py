@@ -38,7 +38,8 @@ def caf_detail_view(request, pk):
         _scrs.append(lst_scores)
     context = {
         'object': caf,
-        'assessments_and_scores': _scrs
+        'assessments_and_scores': _scrs,
+        'organisation': ApplicableSystem.objects.filter(caf=caf).first().organisation
     }
     return render(request, 'caf/caf_detail.html', context)
 

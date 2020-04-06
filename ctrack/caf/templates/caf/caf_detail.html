@@ -24,6 +24,10 @@
             <div class="table-responsive">
               <table class="table">
                 <tr>
+                  <td><strong>Organisation</strong></td>
+                  <td><a href="{% url 'organisations:detail' object.pk %}">{{ organisation }}</a></td>
+                </tr>
+                <tr>
                   <td><strong>Quality Grading:</strong></td>
                   <td>{{ object.quality_grading }}</td>
                 </tr>
