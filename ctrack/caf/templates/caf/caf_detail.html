@@ -4,7 +4,7 @@
 
 {% block title %}CAF Detail{% endblock %}
 {% block content %}
-  <div class="container">
+<div class="container">
 
   <div class="row">
     <h2>{{ object }}</h2>
@@ -76,52 +76,52 @@
             <div class="table-responsive">
               <table class="table">
                 {% for ass in assessments_and_scores %}
-                  <table class="table-responsive p-2">
-                    <tr>
-                      <td><strong>Assessment:</strong></td>
-                      <td>{{ ass.0 }}</td>
-                    </tr>
-                    <tr>
-                      <td><strong>Assessor:</strong></td>
-                      <td>{{ ass.0.completer }}</td>
-                    </tr>
-                    <tr>
-                      <td><strong>Comments:</strong></td>
-                      <td>{{ ass.0.comments }}</td>
-                    </tr>
-                  </table>
-                  <table class="table">
-                    <tr>
-                      <th>Designation</th>
-                      <th>Title</th>
-                      <th>Outcome description</th>
-                      <th>Assessment</th>
-                      <th>Baseline</th>
-                    </tr>
-                    {% for score in ass.1 %}
-                      <tr>
-                        <td>{{ score.caf_contributing_outcome.designation }}</td>
-                        <td>{{ score.caf_contributing_outcome.name }}</td>
-                        <td>{{ score.caf_contributing_outcome.description }}</td>
+                <table class="table-responsive p-2">
+                  <tr>
+                    <td><strong>Assessment:</strong></td>
+                    <td>{{ ass.0 }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Assessor:</strong></td>
+                    <td>{{ ass.0.completer }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Comments:</strong></td>
+                    <td>{{ ass.0.comments }}</td>
+                  </tr>
+                </table>
+                <table class="table">
+                  <tr>
+                    <th>Designation</th>
+                    <th>Title</th>
+                    <th>Outcome description</th>
+                    <th>Assessment</th>
+                    <th>Baseline</th>
+                  </tr>
+                  {% for score in ass.1 %}
+                  <tr>
+                    <td>{{ score.caf_contributing_outcome.designation }}</td>
+                    <td>{{ score.caf_contributing_outcome.name }}</td>
+                    <td>{{ score.caf_contributing_outcome.description }}</td>
 
-                        {% if score.assessment_score == "Achieved" %}
-                          <td class="text-success">{{ score.assessment_score }}</td>
-                        {% elif score.assessment_score == "Partially Achieved" %}
-                          <td class="text-warning">{{ score.assessment_score }}</td>
-                        {% else %}
-                          <td class="text-danger">{{ score.assessment_score }}</td>
-                        {% endif %}
+                    {% if score.assessment_score == "Achieved" %}
+                    <td class="text-success">{{ score.assessment_score }}</td>
+                    {% elif score.assessment_score == "Partially Achieved" %}
+                    <td class="text-warning">{{ score.assessment_score }}</td>
+                    {% else %}
+                    <td class="text-danger">{{ score.assessment_score }}</td>
+                    {% endif %}
 
-                        {% if score.baseline_assessment_score == "Achieved" %}
-                          <td class="text-success">{{ score.baseline_assessment_score }}</td>
-                        {% elif score.baseline_assessment_score == "Partially Achieved" %}
-                          <td class="text-warning">{{ score.baseline_assessment_score }}</td>
-                        {% else %}
-                          <td class="text-danger">{{ score.baseline_assessment_score }}</td>
-                        {% endif %}
-                      </tr>
-                    {% endfor %}
-                  </table>
+                    {% if score.baseline_assessment_score == "Achieved" %}
+                    <td class="text-success">{{ score.baseline_assessment_score }}</td>
+                    {% elif score.baseline_assessment_score == "Partially Achieved" %}
+                    <td class="text-warning">{{ score.baseline_assessment_score }}</td>
+                    {% else %}
+                    <td class="text-danger">{{ score.baseline_assessment_score }}</td>
+                    {% endif %}
+                  </tr>
+                  {% endfor %}
+                </table>
                 {% endfor %}
               </table>
             </div>
@@ -131,7 +131,4 @@
     </div>
   </div>
 
-{% endblock %}
-
-
-
+  {% endblock %}
