@@ -11,18 +11,18 @@
   </div>
 
 
-  <div class="row pt-3 text-info">
-    <h4>CAF Basic Information</h4>
-  </div>
+  {% comment %} <div class="row pt-3 text-info">
+    <h5>CAF Basic Information</h5>
+  </div> {% endcomment %}
 
   <div class="row">
     <div class="col-sm-12 p-2">
       <div class="card bg-light">
         <div class="card-body">
-          <div class="card-title text-muted">Summary</div>
+          <div class="card-title text-muted">CAF Basic Information</div>
           <div class="card-text">
-            <div class="table-responsive">
-              <table class="table">
+            <div>
+              <table class="table-sm table-responsive">
                 <tr>
                   <td><strong>Organisation</strong></td>
                   <td><a href="{% url 'organisations:detail' organisation.slug %}">{{ organisation }}</a></td>
@@ -63,18 +63,18 @@
     </div>
   </div>
 
-  <div class="row pt-3 text-info">
+  {% comment %} <div class="row pt-3 text-info">
     <h4>Applicable Systems</h4>
-  </div>
+  </div> {% endcomment %}
 
   <div class="row">
     <div class="col-sm-12 p-2">
       <div class="card bg-light">
         <div class="card-body">
-          <div class="card-title text-muted"></div>
+          <div class="card-title text-muted">Applicable Systems</div>
           <div class="card-text">
             <div>
-              <table class="table table-responsive">
+              <table class="table-sm table-responsive">
                 {% for system in systems %}
                   <tr>
                     <td><strong>{{ system.name }}</strong></td>
@@ -89,20 +89,20 @@
     </div>
   </div>
 
-  <div class="row pt-3 text-info">
-    <h4>Assessments</h4>
-  </div>
+  {% comment %} <div class="row pt-3 text-info">
+    <h5>Assessments</h5>
+  </div> {% endcomment %}
 
   <div class="row">
     <div class="col-sm-12 p-2">
       <div class="card bg-light">
         <div class="card-body">
-          <div class="card-title text-muted"></div>
+          <div class="card-title text-muted">Assessments</div>
           <div class="card-text">
-            <div class="table-responsive">
+            <div>
               <table class="table">
                 {% for ass in assessments_and_scores %}
-                <table class="table-responsive p-2">
+                <table class="table-sm table-responsive">
                   <tr>
                     <td><strong>Assessment:</strong></td>
                     <td>{{ ass.0 }}</td>
@@ -116,7 +116,8 @@
                     <td>{{ ass.0.comments }}</td>
                   </tr>
                 </table>
-                <table class="table">
+                <br>
+                <table class="table-sm table-bordered">
                   <tr>
                     <th>Designation</th>
                     <th>Title</th>
@@ -158,3 +159,5 @@
   </div>
 
   {% endblock %}
+
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/project.css' %}"> {% endcomment %}
