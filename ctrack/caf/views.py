@@ -39,7 +39,8 @@ def caf_detail_view(request, pk):
     context = {
         'object': caf,
         'assessments_and_scores': _scrs,
-        'organisation': ApplicableSystem.objects.filter(caf=caf).first().organisation
+        'organisation': ApplicableSystem.objects.filter(caf=caf).first().organisation,
+        'systems': caf.applicable_systems.all()
     }
     return render(request, 'caf/caf_detail.html', context)
 

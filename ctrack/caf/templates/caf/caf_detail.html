@@ -64,6 +64,32 @@
   </div>
 
   <div class="row pt-3 text-info">
+    <h4>Applicable Systems</h4>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 p-2">
+      <div class="card bg-light">
+        <div class="card-body">
+          <div class="card-title text-muted"></div>
+          <div class="card-text">
+            <div>
+              <table class="table table-responsive">
+                {% for system in systems %}
+                  <tr>
+                    <td><strong>{{ system.name }}</strong></td>
+                    <td>{{ system.description }}</td>
+                  </tr>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row pt-3 text-info">
     <h4>Assessments</h4>
   </div>
 
