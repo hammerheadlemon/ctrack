@@ -28,6 +28,18 @@
   line-height: 15px;
   min-height: 10px; }
 
+#partially-achieved-cell {
+  background-color: #f79400;
+  color: white; }
+
+#achieved-cell {
+  background-color: green;
+  color: white; }
+
+#not-achieved-cell {
+  background-color: red;
+  color: white; }
+
 .textinput {
   background-color: lightgoldenrodyellow;
   box-shadow: 2px 10px 15px lightgray;

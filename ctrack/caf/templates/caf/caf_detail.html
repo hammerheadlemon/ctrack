@@ -117,7 +117,7 @@
                   </tr>
                 </table>
                 <br>
-                <table class="table-sm table-bordered">
+                <table class="table-sm table-bordered" id="assessment-table">
                   <tr>
                     <th>Designation</th>
                     <th>Title</th>
@@ -132,19 +132,19 @@
                     <td>{{ score.caf_contributing_outcome.description }}</td>
 
                     {% if score.assessment_score == "Achieved" %}
-                    <td class="text-success">{{ score.assessment_score }}</td>
+                    <td id="achieved-cell">{{ score.assessment_score }}</td>
                     {% elif score.assessment_score == "Partially Achieved" %}
-                    <td class="text-warning">{{ score.assessment_score }}</td>
+                    <td id="partially-achieved-cell">{{ score.assessment_score }}</td>
                     {% else %}
-                    <td class="text-danger">{{ score.assessment_score }}</td>
+                    <td id="not-achieved-cell">{{ score.assessment_score }}</td>
                     {% endif %}
 
                     {% if score.baseline_assessment_score == "Achieved" %}
-                    <td class="text-success">{{ score.baseline_assessment_score }}</td>
+                    <td id="achieved-cell">{{ score.baseline_assessment_score }}</td>
                     {% elif score.baseline_assessment_score == "Partially Achieved" %}
-                    <td class="text-warning">{{ score.baseline_assessment_score }}</td>
+                    <td id="partially-achieved-cell">{{ score.baseline_assessment_score }}</td>
                     {% else %}
-                    <td class="text-danger">{{ score.baseline_assessment_score }}</td>
+                    <td id="not-achieved-cell">{{ score.baseline_assessment_score }}</td>
                     {% endif %}
                   </tr>
                   {% endfor %}

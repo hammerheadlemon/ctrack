@@ -68,6 +68,22 @@ $input-height: 49px;
   min-height: 10px;
 }
 
+
+#partially-achieved-cell {
+  background-color: rgb(247, 148, 0);
+  color: white;
+}
+
+#achieved-cell {
+  background-color: green;
+  color: white;
+}
+
+#not-achieved-cell {
+  background-color: red;
+  color: white;
+}
+
 .textinput {
   background-color: lightgoldenrodyellow;
   box-shadow: 2px 10px 15px lightgray;
