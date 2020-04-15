@@ -3,13 +3,13 @@ from django.shortcuts import render
 from django.views.generic import CreateView, ListView, DetailView
 
 from ctrack.assessments.models import CAFAssessment, CAFObjective, CAFPrinciple, CAFAssessmentOutcomeScore
-from ctrack.caf.forms import CAFForm
+from ctrack.caf.forms import CAFCreateForm
 from ctrack.caf.models import ApplicableSystem, CAF
 
 
 class CreateCAF(LoginRequiredMixin, CreateView):
-    form_class = CAFForm
-    template_name = "caf/create.html"
+    form_class = CAFCreateForm
+    template_name = "caf/caf_create.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
