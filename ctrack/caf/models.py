@@ -2,6 +2,7 @@ from django.db import models
 
 from ctrack.caf.managers import ApplicableSystemManager
 from ctrack.organisations.models import Organisation, Person
+from django.urls.base import reverse
 
 
 class Grading(models.Model):
@@ -78,6 +79,10 @@ class CAF(models.Model):
 
     class Meta:
         verbose_name = "CAF"
+    
+    def get_absolute_url(self):
+        return reverse("caf:detail", kwargs={"pk": self.pk})
+    
 
     def __str__(self):
         # Get the organisation and applicable system
