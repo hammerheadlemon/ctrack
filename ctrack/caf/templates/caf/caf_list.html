@@ -2,27 +2,42 @@
 
 {% load static %}
 
-{% block title %} CAFs {% endblock %}
+{% block title %} CAF - All CAF Summary {% endblock %}
 {% block content %}
 
   <div class="container">
     <div class="row">
-      <h2>CAFs in system</h2>
+      <h2>CAF Summary</h2>
     </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <table id="datatable" class="display compact cell-border" style="width:100%">
+          <thead>
+            <tr>
+              <th>Organisation</th>
+              <th>Version</th>
+              <th>Sub Mode</th>
+              <th>Applicable Systems</th>
+            </tr>
+          </thead>
+          {% for caf in object_list %}
+            <tr>
+              <td><a href="{% url "organisations:detail" slug=caf.organisation.slug %}">{{ caf.organisation }}</a></td>
+              <td>{{ caf.version }}</td>
+              <td>{{ caf.sub_mode }}</td>
+              <td>
+                <ul>
+                  {% for applicable_system in caf.applicable_systems.all %}
+                    <li>{{ applicable_system.name }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+            </tr>
+          {% endfor %}
 
-    {% for caf in object_list %}
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">{{ caf.organisation.name }}_{{ caf.version }} | {{ caf.sub_mode }}</h5>
-              <p class="card-text">Bobbins text here</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-        </div>
+        </table>
       </div>
-    {% endfor %}
+    </div>
   </div>
 
 {% endblock %}
