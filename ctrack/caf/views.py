@@ -3,26 +3,15 @@ from django.shortcuts import render
 from django.views.generic import CreateView, ListView, DetailView
 
 from ctrack.assessments.models import CAFAssessment, CAFObjective, CAFPrinciple, CAFAssessmentOutcomeScore
-from ctrack.caf.forms import CAFCreateForm
 from ctrack.caf.models import ApplicableSystem, CAF
 
 
-class CreateCAF(LoginRequiredMixin, CreateView):
-    form_class = CAFCreateForm
-    template_name = "caf/caf_create.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = self.form_class
-        return context
-
-
-class ListCAF(LoginRequiredMixin, ListView):
-    pass
-
-
-# class DetailCAF(LoginRequiredMixin, DetailView):
+# class ListCAF(LoginRequiredMixin, ListView):
 #     model = CAF
+#     paginate_by = 20
+
+#     def get_context_data(self, **kwargs):
+#         return super().get_context_data(**kwargs)
 
 # Let's write a traditional function view!
 def caf_detail_view(request, pk):
