@@ -92,7 +92,10 @@ class CAF(models.Model):
     def organisation(self):
         first_ass = ApplicableSystem.objects.filter(caf=self).first()
         return first_ass.organisation
-    
+
+    def sub_mode(self):
+        return self.organisation().submode
+
     def __str__(self):
         # Get the organisation and applicable system
         ass = ApplicableSystem.objects.filter(caf=self).first()

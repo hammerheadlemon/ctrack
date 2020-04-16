@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} CAFs {% endblock %}
+{% block content %}
+
+  <div class="container">
+    <div class="row">
+      <h2>CAFs in system</h2>
+    </div>
+
+    {% for caf in object_list %}
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ caf.organisation.name }}_{{ caf.version }} | {{ caf.sub_mode }}</h5>
+              <p class="card-text">Bobbins text here</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}
