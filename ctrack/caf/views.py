@@ -6,12 +6,12 @@ from ctrack.assessments.models import CAFAssessment, CAFObjective, CAFPrinciple,
 from ctrack.caf.models import ApplicableSystem, CAF
 
 
-# class ListCAF(LoginRequiredMixin, ListView):
-#     model = CAF
-#     paginate_by = 20
+class ListCAF(LoginRequiredMixin, ListView):
+    model = CAF
 
-#     def get_context_data(self, **kwargs):
-#         return super().get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs)
+
 
 # Let's write a traditional function view!
 def caf_detail_view(request, pk):

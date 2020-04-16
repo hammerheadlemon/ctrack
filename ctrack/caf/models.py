@@ -79,11 +79,20 @@ class CAF(models.Model):
 
     class Meta:
         verbose_name = "CAF"
-    
+
     def get_absolute_url(self):
         return reverse("caf:detail", kwargs={"pk": self.pk})
-    
 
+    def applicable_systems(self):
+        """
+        Returns a Queryset of objects we can use in our templates.
+        """
+        return ApplicableSystem.objects.filter(caf=self)
+
+    def organisation(self):
+        first_ass = ApplicableSystem.objects.filter(caf=self).first()
+        return first_ass.organisation
+    
     def __str__(self):
         # Get the organisation and applicable system
         ass = ApplicableSystem.objects.filter(caf=self).first()
