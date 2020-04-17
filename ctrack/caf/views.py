@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
 from ctrack.assessments.models import CAFAssessmentOutcomeScore
@@ -56,3 +57,5 @@ class ApplicableSystemCreate(LoginRequiredMixin, CreateView):
     form_class = ApplicableSystemCreateForm
     model = ApplicableSystem
     template_name = "caf/applicablesystem_create.html"
+    success_url = reverse_lazy("caf:es_list")
+

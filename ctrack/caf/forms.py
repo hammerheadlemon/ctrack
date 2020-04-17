@@ -1,5 +1,5 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Button
+from crispy_forms.layout import Button, Field
 from crispy_forms.layout import ButtonHolder
 from crispy_forms.layout import Fieldset
 from crispy_forms.layout import Layout
@@ -28,13 +28,14 @@ class ApplicableSystemCreateForm(forms.ModelForm):
         self.helper.layout = Layout(
             Fieldset(
                 "Create a new System",
-                "name",
-                "description",
-                "organisation",
-                "caf",
+                Field("name", css_class="form-control form-control-sm"),
+                Field("description", css_class="form-control form-control-sm"),
+                Field("organisation", css_class="form-control form-control-sm"),
+                Field("caf", css_class="form-control form-control-sm")
             ),
             ButtonHolder(
-                Submit("submit", "Submit", css_class="btn-primary")
+                Submit("submit", "Submit", css_class="btn-primary"),
+                Button("cancel", "Cancel", css_class="btn-danger")
             )
         )
 

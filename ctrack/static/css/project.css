@@ -11,10 +11,6 @@
 .bg-light {
   background-color: green; }
 
-.btn:hover {
-  background-color: red;
-  border-color: orange; }
-
 #chunky {
   border: 8px dashed yellowgreen;
   border-radius: 10px;
