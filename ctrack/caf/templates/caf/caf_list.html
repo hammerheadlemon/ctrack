@@ -7,7 +7,7 @@
 
   <div class="container">
     <div class="row">
-      <h2>CAF Summary</h2>
+      <h2>CAF List</h2>
     </div>
     <div class="row">
       <div class="col-sm-12">
@@ -15,7 +15,7 @@
           <thead>
             <tr>
               <th>Organisation</th>
-              <th>Version</th>
+              <th>Link</th>
               <th>Sub Mode</th>
               <th>Applicable Systems</th>
             </tr>
@@ -23,7 +23,7 @@
           {% for caf in object_list %}
             <tr>
               <td><a href="{% url "organisations:detail" slug=caf.organisation.slug %}">{{ caf.organisation }}</a></td>
-              <td>{{ caf.version }}</td>
+              <td><a href="{% url 'caf:detail' pk=caf.pk %}">{{ caf.version }}</a></td>
               <td>{{ caf.sub_mode }}</td>
               <td>
                 <ul>
