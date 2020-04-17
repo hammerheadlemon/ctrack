@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}{{ object.name }}{% endblock %}
+{% block content %}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h3>{{ object.name }}</h3>
+        <h5>Description</h5>
+        <p>{{ object.description }}</p>
+        <p>Contained within CAF: to <a href="{% url "caf:detail" object.caf.pk %}">{{ object.caf }}</a></p>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

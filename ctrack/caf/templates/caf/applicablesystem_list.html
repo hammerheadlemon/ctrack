@@ -27,7 +27,7 @@
 			{% for sys in object_list %}
 			<tr>
         <td><a href="{% url "organisations:detail" slug=sys.organisation.slug %}">{{ sys.organisation.name }}</a></td>
-				<td>{{ sys.name }}</td>
+				<td><a href="{% url "caf:ass_detail" sys.pk %}">{{ sys.name }}</a></td>
         <td><a href="{% url "caf:detail" pk=sys.caf.id %}">{{ sys.caf }}</a></td>
 				<td>{{ sys.organisation.submode.descriptor }}</td>
 				<td class="tabaligncenter">{{ sys.caf.confidence_grading.descriptor }}</td>

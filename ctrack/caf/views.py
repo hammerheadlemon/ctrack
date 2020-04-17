@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from ctrack.assessments.models import CAFAssessmentOutcomeScore
 from ctrack.caf.models import ApplicableSystem, CAF
@@ -44,3 +44,8 @@ class ListApplicableSystem(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+class ApplicableSystemDetail(LoginRequiredMixin, DetailView):
+    model = ApplicableSystem
+    template_name = "caf/applicablesystem_detail.html"
