@@ -8,6 +8,6 @@ app_name = "caf"
 urlpatterns = [
     path("", view=ListCAF.as_view(), name="caf_list"),
     path("applicablesystems", cache_page(60 * 60)(ListApplicableSystem.as_view()), name="es_list"),
-    path("applicablesystem/<int:pk>", ApplicableSystemDetail.as_view(), name="ass_detail"),
+    path("applicablesystems/<int:pk>", ApplicableSystemDetail.as_view(), name="ass_detail"),
     path("<int:pk>",  caf_detail_view, name="detail")
 ]
