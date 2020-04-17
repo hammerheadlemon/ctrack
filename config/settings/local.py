@@ -23,6 +23,8 @@ CACHES = {
     }
 }
 
+CRISPY_FAIL_SILENTLY = not DEBUG
+
 # EMAIL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend

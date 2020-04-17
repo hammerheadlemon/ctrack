@@ -18,3 +18,26 @@ from django.forms.models import ModelMultipleChoiceField
 
 CAFCreateInlineFormset = inlineformset_factory(
     CAF, ApplicableSystem, fields=("name", "organisation"), extra=2)
+
+
+class ApplicableSystemCreateForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Fieldset(
+                "Create a new System",
+                "name",
+                "description",
+                "organisation",
+                "caf",
+            ),
+            ButtonHolder(
+                Submit("submit", "Submit", css_class="btn-primary")
+            )
+        )
+
+    class Meta:
+        model = ApplicableSystem
+        fields = ["name", "description", "organisation", "caf"]

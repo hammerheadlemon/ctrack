@@ -1,8 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 
 from ctrack.assessments.models import CAFAssessmentOutcomeScore
+from ctrack.caf.forms import ApplicableSystemCreateForm
 from ctrack.caf.models import ApplicableSystem, CAF
 
 
@@ -49,3 +50,9 @@ class ListApplicableSystem(LoginRequiredMixin, ListView):
 class ApplicableSystemDetail(LoginRequiredMixin, DetailView):
     model = ApplicableSystem
     template_name = "caf/applicablesystem_detail.html"
+
+
+class ApplicableSystemCreate(LoginRequiredMixin, CreateView):
+    form_class = ApplicableSystemCreateForm
+    model = ApplicableSystem
+    template_name = "caf/applicablesystem_create.html"
