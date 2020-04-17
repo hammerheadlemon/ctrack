@@ -1,16 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from django.views.generic import CreateView, ListView, DetailView
+from django.views.generic import ListView
 
-from ctrack.assessments.models import CAFAssessment, CAFObjective, CAFPrinciple, CAFAssessmentOutcomeScore
+from ctrack.assessments.models import CAFAssessmentOutcomeScore
 from ctrack.caf.models import ApplicableSystem, CAF
 
 
 class ListCAF(LoginRequiredMixin, ListView):
     model = CAF
-
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs)
 
 
 # Let's write a traditional function view!
