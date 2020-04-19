@@ -71,12 +71,3 @@ class ApplicableSystemCreateFromOrg(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse_lazy("organisations:detail", args=[self.kwargs['slug']])
-
-
-class ApplicableSystemCreate(LoginRequiredMixin, CreateView):
-    form_class = ApplicableSystemCreateForm
-    model = ApplicableSystem
-    template_name = "caf/applicablesystem_create.html"
-
-    def get_success_url(self) -> str:
-        return str(reverse_lazy("caf:ass_detail", args=[self.object.id]))
