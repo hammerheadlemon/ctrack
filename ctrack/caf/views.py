@@ -59,3 +59,6 @@ class ApplicableSystemCreate(LoginRequiredMixin, CreateView):
     template_name = "caf/applicablesystem_create.html"
     success_url = reverse_lazy("caf:es_list")
 
+    def get_success_url(self) -> str:
+        return str(reverse_lazy("caf:ass_detail", args=[self.object.id]))
+
