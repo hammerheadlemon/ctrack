@@ -6,6 +6,7 @@ from crispy_forms.layout import Layout
 from crispy_forms.layout import Submit
 from django import forms
 from django.forms import inlineformset_factory
+from django.urls import reverse
 
 from ctrack.caf.models import ApplicableSystem
 from ctrack.caf.models import CAF
@@ -16,12 +17,17 @@ CAFCreateInlineFormset = inlineformset_factory(
 
 class ApplicableSystemCreateFromOrgForm(forms.ModelForm):
 
-    def __init__(self, org_id, *args, **kwargs):
+    class Meta:
+        model = ApplicableSystem
+        fields = ["name", "description", "caf", "organisation"]
+
+    def __init__(self, org_id, slug, org_name, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        cancel_redirect = reverse("organisations:detail", args=[slug])
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
-                "Create a new System",
+                f"Create a new system for {org_name}",
                 Field("name", css_class="form-control form-control-sm"),
                 Field("description", css_class="form-control form-control-sm"),
                 Hidden("organisation", org_id),
@@ -29,34 +35,7 @@ class ApplicableSystemCreateFromOrgForm(forms.ModelForm):
             ),
             ButtonHolder(
                 Submit("submit", "Submit", css_class="btn-primary"),
-                Button("cancel", "Cancel", css_class="btn-danger")
+                Button("cancel", "Cancel", onclick=f"location.href='{cancel_redirect}';", css_class="btn-danger")
             )
         )
 
-    class Meta:
-        model = ApplicableSystem
-        fields = ["name", "description", "caf", "organisation"]
-
-
-class ApplicableSystemCreateForm(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.layout = Layout(
-            Fieldset(
-                "Create a new System",
-                Field("name", css_class="form-control form-control-sm"),
-                Field("description", css_class="form-control form-control-sm"),
-                Field("organisation", css_class="form-control form-control-sm"),
-                Field("caf", css_class="form-control form-control-sm")
-            ),
-            ButtonHolder(
-                Submit("submit", "Submit", css_class="btn-primary"),
-                Button("cancel", "Cancel", css_class="btn-danger")
-            )
-        )
-
-    class Meta:
-        model = ApplicableSystem
-        fields = ["name", "description", "organisation", "caf"]

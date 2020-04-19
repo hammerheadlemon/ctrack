@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
 from ctrack.assessments.models import CAFAssessmentOutcomeScore
-from ctrack.caf.forms import ApplicableSystemCreateForm, ApplicableSystemCreateFromOrgForm
+from ctrack.caf.forms import ApplicableSystemCreateFromOrgForm
 from ctrack.caf.models import ApplicableSystem, CAF
 from ctrack.organisations.models import Organisation
 
@@ -66,7 +66,10 @@ class ApplicableSystemCreateFromOrg(LoginRequiredMixin, CreateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['org_id'] = Organisation.objects.get(slug=self.kwargs["slug"]).id
+        org = Organisation.objects.get(slug=self.kwargs["slug"])
+        kwargs['org_id'] = org.id
+        kwargs['slug'] = org.slug
+        kwargs['org_name'] = org.name
         return kwargs
 
     def get_success_url(self):
