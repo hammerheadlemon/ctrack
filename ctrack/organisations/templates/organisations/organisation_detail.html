@@ -16,7 +16,7 @@
   </div>
 
   <div class="row">
-    <div class="col-sm-6 p-2">
+    <div class="col-sm-8 p-2">
       <div class="card bg-light">
         <div class="card-body">
           <div class="card-title">Key Information</div>
@@ -63,7 +63,10 @@
       </div>
 
     </div>
-    <div class="col-sm-6 p-2">
+  </div>
+
+  <div class="row">
+    <div class="col-sm-8 p-2">
       <div class="card bg-light">
         <div class="card-body">
           <div class="card-title">NIS Systems</div>
@@ -76,7 +79,8 @@
                     <td>{{ ass.description }}<br>
                       <a href="{% url "caf:detail" ass.caf.pk %}" class="small">
                         {{ ass.caf }}
-                      </a> <span class="text-muted">|</span> <a href="{% url "caf:ass_detail" ass.pk %}" class="small">System Detail</a>
+                      </a> <span class="text-muted">|</span> <a href="{% url "caf:ass_detail" ass.pk %}" class="small">System
+                        Detail</a>
                       <span class="text-muted">|</span> <a href="#" class="small">Edit System</a>
                     </td>
                   </tr>
@@ -97,7 +101,7 @@
   <div class="row">
     {% if no_addr > 1 %}
       {% for a in addr %}
-        <div class="col-sm-6 p-2">
+        <div class="col-sm-8 p-2">
           <div class="card bg-light">
             <div class="card-body">
               <div class="card-title text-muted mb-1">{{ a.type }}</div>
@@ -136,7 +140,7 @@
         </div>
       {% endfor %}
     {% else %}
-      <div class="col-sm-6 p-2">
+      <div class="col-sm-8 p-2">
         <div class="card bg-light">
           <div class="card-body">
             <div class="card-title mb-1 text-muted">{{ addr.type }}</div>
@@ -183,7 +187,7 @@
 
   <div class="row">
     {% for p in people %}
-      <div class="col-sm-6 p-2">
+      <div class="col-sm-8 p-2">
         <div class="card bg-light">
           <div class="card-body">
             <h5 class="card-title">{{ p.first_name }} {{ p.last_name }}</h5>
