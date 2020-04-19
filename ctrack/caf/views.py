@@ -60,10 +60,17 @@ class ApplicableSystemCreateFromOrg(LoginRequiredMixin, CreateView):
     template_name = "caf/applicable_system_create_from_org.html"
 
     def get_context_data(self, **kwargs):
-        org = Organisation.objects.get(slug=self.kwargs["slug"])
-        # TODO - now we have the organisation - we need to pass it to the form or store it in this class.
-        #   We probably need to do  return super().get_context_data(**kwargs) here to complete the func.
-        pass
+        context = super().get_context_data(**kwargs)
+        context["organisation"] = Organisation.objects.get(slug=self.kwargs["slug"])
+        return context
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['org_id'] = Organisation.objects.get(slug=self.kwargs["slug"]).id
+        return kwargs
+
+    def get_success_url(self):
+        return reverse_lazy("organisations:detail", args=[self.kwargs['slug']])
 
 
 class ApplicableSystemCreate(LoginRequiredMixin, CreateView):

@@ -28,7 +28,7 @@
               <td>
                 <ul>
                   {% for applicable_system in caf.applicable_systems.all %}
-                    <li>{{ applicable_system.name }}</li>
+                    <li><a href="{% url "caf:ass_detail" applicable_system.pk %}">{{ applicable_system.name }}</a></li>
                   {% endfor %}
                 </ul>
               </td>
