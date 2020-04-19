@@ -20,6 +20,12 @@ CAFCreateInlineFormset = inlineformset_factory(
     CAF, ApplicableSystem, fields=("name", "organisation"), extra=2)
 
 
+class ApplicableSystemCreateFromOrgForm(forms.ModelForm):
+    class Meta:
+        model = ApplicableSystem
+        fields = ["name", "description", "caf"]
+
+
 class ApplicableSystemCreateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):

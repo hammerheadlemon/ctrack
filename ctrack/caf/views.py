@@ -4,8 +4,9 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
 from ctrack.assessments.models import CAFAssessmentOutcomeScore
-from ctrack.caf.forms import ApplicableSystemCreateForm
+from ctrack.caf.forms import ApplicableSystemCreateForm, ApplicableSystemCreateFromOrgForm
 from ctrack.caf.models import ApplicableSystem, CAF
+from ctrack.organisations.models import Organisation
 
 
 class ListCAF(LoginRequiredMixin, ListView):
@@ -53,12 +54,22 @@ class ApplicableSystemDetail(LoginRequiredMixin, DetailView):
     template_name = "caf/applicablesystem_detail.html"
 
 
+class ApplicableSystemCreateFromOrg(LoginRequiredMixin, CreateView):
+    model = ApplicableSystem
+    form_class = ApplicableSystemCreateFromOrgForm
+    template_name = "caf/applicable_system_create_from_org.html"
+
+    def get_context_data(self, **kwargs):
+        org = Organisation.objects.get(slug=self.kwargs["slug"])
+        # TODO - now we have the organisation - we need to pass it to the form or store it in this class.
+        #   We probably need to do  return super().get_context_data(**kwargs) here to complete the func.
+        pass
+
+
 class ApplicableSystemCreate(LoginRequiredMixin, CreateView):
     form_class = ApplicableSystemCreateForm
     model = ApplicableSystem
     template_name = "caf/applicablesystem_create.html"
-    success_url = reverse_lazy("caf:es_list")
 
     def get_success_url(self) -> str:
         return str(reverse_lazy("caf:ass_detail", args=[self.object.id]))
-
