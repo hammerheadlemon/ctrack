@@ -15,16 +15,21 @@ CAFCreateInlineFormset = inlineformset_factory(
     CAF, ApplicableSystem, fields=("name", "organisation"), extra=2)
 
 
-class ApplicableSystemCreateFromOrgForm(forms.ModelForm):
+class ApplicableSystemCreateFromOrgForm(forms.Form):
+    choices = ()
+    name = forms.CharField(max_length=255)
+    description = forms.CharField(widget=forms.Textarea)
+    organisation = forms.ModelChoiceField(queryset=None)
+    caf = forms.ChoiceField(choices=(
+        choices
+    ))
 
-    class Meta:
-        model = ApplicableSystem
-        fields = ["name", "description", "caf", "organisation"]
-
-    def __init__(self, org_id, slug, org_name, *args, **kwargs):
+    def __init__(self, org_id, slug, org_name, org_cafs, *args, **kwargs):
         super().__init__(*args, **kwargs)
         cancel_redirect = reverse("organisations:detail", args=[slug])
+        ApplicableSystemCreateFromOrgForm.choices = org_cafs
         self.helper = FormHelper(self)
+        self.helper.form_method = "post"
         self.helper.layout = Layout(
             Fieldset(
                 f"Create a new system for {org_name}",
@@ -38,4 +43,3 @@ class ApplicableSystemCreateFromOrgForm(forms.ModelForm):
                 Button("cancel", "Cancel", onclick=f"location.href='{cancel_redirect}';", css_class="btn-danger")
             )
         )
-

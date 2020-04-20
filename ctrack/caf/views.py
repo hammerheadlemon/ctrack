@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, FormView
 
 from ctrack.assessments.models import CAFAssessmentOutcomeScore
 from ctrack.caf.forms import ApplicableSystemCreateFromOrgForm
@@ -54,8 +54,7 @@ class ApplicableSystemDetail(LoginRequiredMixin, DetailView):
     template_name = "caf/applicablesystem_detail.html"
 
 
-class ApplicableSystemCreateFromOrg(LoginRequiredMixin, CreateView):
-    model = ApplicableSystem
+class ApplicableSystemCreateFromOrg(LoginRequiredMixin, FormView):
     form_class = ApplicableSystemCreateFromOrgForm
     template_name = "caf/applicable_system_create_from_org.html"
 
@@ -67,9 +66,12 @@ class ApplicableSystemCreateFromOrg(LoginRequiredMixin, CreateView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         org = Organisation.objects.get(slug=self.kwargs["slug"])
+        asses = org.applicablesystem_set.all()
+        org_cafs = {ass.caf for ass in asses}
         kwargs['org_id'] = org.id
         kwargs['slug'] = org.slug
         kwargs['org_name'] = org.name
+        kwargs['org_cafs'] = list(org_cafs)
         return kwargs
 
     def get_success_url(self):
