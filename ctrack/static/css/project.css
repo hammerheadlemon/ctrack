@@ -11,6 +11,9 @@
 .bg-light {
   background-color: green; }
 
+.lemon-bar {
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); }
+
 #chunky {
   border: 8px dashed yellowgreen;
   border-radius: 10px;
