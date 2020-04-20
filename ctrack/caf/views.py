@@ -63,6 +63,16 @@ class ApplicableSystemCreateFromOrg(LoginRequiredMixin, FormView):
         context["organisation"] = Organisation.objects.get(slug=self.kwargs["slug"])
         return context
 
+    def form_valid(self, form):
+        ass = ApplicableSystem.objects.create(
+            name=form.cleaned_data["name"],
+            description=form.cleaned_data["description"],
+            organisation=form.cleaned_data["organisation"],
+            caf=form.cleaned_data["caf"]
+        )
+        return super().form_valid(form)
+
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         org = Organisation.objects.get(slug=self.kwargs["slug"])

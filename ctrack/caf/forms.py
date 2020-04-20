@@ -10,26 +10,24 @@ from django.urls import reverse
 
 from ctrack.caf.models import ApplicableSystem
 from ctrack.caf.models import CAF
+from ctrack.organisations.models import Organisation
 
 CAFCreateInlineFormset = inlineformset_factory(
     CAF, ApplicableSystem, fields=("name", "organisation"), extra=2)
 
 
 class ApplicableSystemCreateFromOrgForm(forms.Form):
-    choices = ()
     name = forms.CharField(max_length=255)
     description = forms.CharField(widget=forms.Textarea)
-    organisation = forms.ModelChoiceField(queryset=None)
-    caf = forms.ChoiceField(choices=(
-        choices
-    ))
+    organisation = forms.ModelChoiceField(queryset=Organisation.objects.all())
+    caf = forms.ModelChoiceField(queryset=CAF.objects.all())
 
     def __init__(self, org_id, slug, org_name, org_cafs, *args, **kwargs):
         super().__init__(*args, **kwargs)
         cancel_redirect = reverse("organisations:detail", args=[slug])
-        ApplicableSystemCreateFromOrgForm.choices = org_cafs
+        # we need to create the choices we can use for the CAF dropdown in the form
+        self.fields['caf'].queryset = CAF.objects.filter(pk__in=[caf.pk for caf in org_cafs])
         self.helper = FormHelper(self)
-        self.helper.form_method = "post"
         self.helper.layout = Layout(
             Fieldset(
                 f"Create a new system for {org_name}",
