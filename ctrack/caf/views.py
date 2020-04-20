@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, FormView
+from django.views.generic import ListView, DetailView, FormView
 
 from ctrack.assessments.models import CAFAssessmentOutcomeScore
 from ctrack.caf.forms import ApplicableSystemCreateFromOrgForm
@@ -71,7 +71,6 @@ class ApplicableSystemCreateFromOrg(LoginRequiredMixin, FormView):
             caf=form.cleaned_data["caf"]
         )
         return super().form_valid(form)
-
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
