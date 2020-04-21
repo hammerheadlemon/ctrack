@@ -1,10 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, FormView
 
 from ctrack.assessments.models import CAFAssessmentOutcomeScore
-from ctrack.caf.forms import ApplicableSystemCreateFromOrgForm
+from ctrack.caf.forms import ApplicableSystemCreateFromOrgForm, ApplicableSystemCreateFromCafForm
 from ctrack.caf.models import ApplicableSystem, CAF
 from ctrack.organisations.models import Organisation
 
@@ -52,6 +53,24 @@ class ListApplicableSystem(LoginRequiredMixin, ListView):
 class ApplicableSystemDetail(LoginRequiredMixin, DetailView):
     model = ApplicableSystem
     template_name = "caf/applicablesystem_detail.html"
+
+
+def applicable_system_create_from_caf(request, caf_id):
+    org_id = CAF.objects.get(pk=caf_id).organisation().id
+    if request.method=="POST":
+        form = ApplicableSystemCreateFromCafForm(request.POST, caf_id=caf_id, org_id=org_id)
+        if form.is_valid():
+            ApplicableSystem.objects.create(
+                name=form.cleaned_data["name"],
+                description=form.cleaned_data["description"],
+                caf=form.cleaned_data["caf"],
+                organisation=form.cleaned_data["organisation"]
+            )
+            return HttpResponseRedirect(reverse("caf:detail", args=[caf_id]))
+    else:
+        form = ApplicableSystemCreateFromCafForm(caf_id=caf_id, org_id=org_id)
+
+    return render(request, "caf/applicable_system_create_from_caf.html", {"form": form})
 
 
 class ApplicableSystemCreateFromOrg(LoginRequiredMixin, FormView):

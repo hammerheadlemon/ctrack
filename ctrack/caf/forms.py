@@ -16,6 +16,37 @@ CAFCreateInlineFormset = inlineformset_factory(
     CAF, ApplicableSystem, fields=("name", "organisation"), extra=2)
 
 
+class ApplicableSystemCreateFromCafForm(forms.Form):
+    name = forms.CharField(max_length=255)
+    description = forms.CharField(widget=forms.Textarea)
+    organisation = forms.ModelChoiceField(queryset=Organisation.objects.all())
+    caf = forms.ModelChoiceField(queryset=CAF.objects.all())
+
+    def __init__(self, *args, **kwargs):
+        # We must pop the kwargs before we pass to super()
+        # https://stackoverflow.com/a/8973101
+        caf_id = kwargs.pop("caf_id")
+        org_id = kwargs.pop("org_id")
+        super().__init__(*args, **kwargs)
+        caf = CAF.objects.get(pk=caf_id)
+        cancel_redirect = reverse("caf:detail", args=[caf_id])
+        self.fields['caf'].queryset = CAF.objects.filter(pk=caf_id)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Fieldset(
+                f"Create a new system for {caf}",
+                Field("name", css_class="for-control form-control-sm"),
+                Field("description", cass_class="form-control form-control-sm"),
+                Hidden("caf", caf_id),
+                Hidden("organisation", org_id),
+            ),
+            ButtonHolder(
+                Submit("submit", "Submit", css_class="btn-primary"),
+                Button("cancel", "Cancel", onclick=f"location.href='{cancel_redirect}';", css_class="btn-danger")
+            )
+        )
+
+
 class ApplicableSystemCreateFromOrgForm(forms.Form):
     name = forms.CharField(max_length=255)
     description = forms.CharField(widget=forms.Textarea)
