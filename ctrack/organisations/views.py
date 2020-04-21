@@ -1,10 +1,19 @@
 from typing import Any
-
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import DetailView
 from typing import Dict
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import DetailView, ListView
+
 from .models import Organisation
+
+
+class OrganisationListView(LoginRequiredMixin, ListView):
+    model = Organisation
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["organisation_list"] = Organisation.objects.all().order_by("name")
+        return context
 
 
 class OrganisationDetailView(LoginRequiredMixin, DetailView):
