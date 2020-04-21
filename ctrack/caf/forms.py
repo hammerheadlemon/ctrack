@@ -35,7 +35,7 @@ class ApplicableSystemCreateFromCafForm(forms.Form):
         self.helper.layout = Layout(
             Fieldset(
                 f"Create a new system for {caf}",
-                Field("name", css_class="for-control form-control-sm"),
+                Field("name", css_class="form-control form-control-sm"),
                 Field("description", cass_class="form-control form-control-sm"),
                 Hidden("caf", caf_id),
                 Hidden("organisation", org_id),
