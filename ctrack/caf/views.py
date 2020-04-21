@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -15,6 +16,7 @@ class ListCAF(LoginRequiredMixin, ListView):
 
 
 # Let's write a traditional function view!
+@login_required()
 def caf_detail_view(request, pk):
     caf = CAF.objects.get(pk=pk)
     # get any assessments that have been done on this caf
@@ -55,6 +57,7 @@ class ApplicableSystemDetail(LoginRequiredMixin, DetailView):
     template_name = "caf/applicablesystem_detail.html"
 
 
+@login_required
 def applicable_system_create_from_caf(request, caf_id):
     org_id = CAF.objects.get(pk=caf_id).organisation().id
     if request.method=="POST":
