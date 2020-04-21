@@ -2,9 +2,16 @@ from typing import Any
 from typing import Dict
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, CreateView
 
+from .forms import OrganisationCreateForm
 from .models import Organisation
+
+
+class OrganisationCreate(LoginRequiredMixin, CreateView):
+    form_class = OrganisationCreateForm
+    model = Organisation
+    template_name = "organisations/organisation_create.html"
 
 
 class OrganisationListView(LoginRequiredMixin, ListView):

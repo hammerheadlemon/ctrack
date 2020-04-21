@@ -65,26 +65,35 @@
     </div>
   </div>
 
+  <div class="row pt-3 text-info">
+    <h4>NIS Systems</h4>
+  </div>
+
   <div class="row">
     <div class="col-sm-8 p-2">
       <div class="card bg-light">
         <div class="card-body">
-          <div class="card-title">NIS Systems | <small><a href="{% url "caf:create_from_org" object.slug %}">Add new...</a></small></div>
+          <div class="card-title"></div>
           <div class="card-text">
             <div class="table-responsive">
               <table class="table">
-                {% for ass in applicable_systems %}
-                  <tr>
-                    <td><strong>{{ ass.name }}</strong></td>
-                    <td>{{ ass.description }}<br>
-                      <a href="{% url "caf:detail" ass.caf.pk %}" class="small">
-                        {{ ass.caf }}
-                      </a> <span class="text-muted">|</span> <a href="{% url "caf:ass_detail" ass.pk %}" class="small">System
-                        Detail</a>
-                      <span class="text-muted">|</span> <a href="#" class="small">Edit System</a>
-                    </td>
-                  </tr>
-                {% endfor %}
+                {% if applicable_systems|length > 1 %}
+                  {% for ass in applicable_systems %}
+                    <tr>
+                      <td><strong>{{ ass.name }}</strong></td>
+                      <td>{{ ass.description }}<br>
+                        <a href="{% url "caf:detail" ass.caf.pk %}" class="small">
+                          {{ ass.caf }}
+                        </a> <span class="text-muted">|</span> <a href="{% url "caf:ass_detail" ass.pk %}"
+                                                                  class="small">System
+                          Detail</a>
+                        <span class="text-muted">|</span> <a href="#" class="small">Edit System</a>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                {% else %}
+                  <p><small><a href="{% url "caf:create_from_org" object.slug %}">Add new...</a></small></p>
+                {% endif %}
               </table>
             </div>
           </div>
