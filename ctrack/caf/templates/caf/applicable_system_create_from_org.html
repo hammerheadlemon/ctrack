@@ -1,12 +1,30 @@
 {% extends "base.html" %}
 
+{% block title %}
+  Add a new system for {{ organisation }}
+{% endblock title %}
+
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <div class="container">
+  <div class="container mt-3">
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-md-12 pl-0 my-2">
+        <h4>Add a new system for {{ organisation }}</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-7 pt-2 border bg-light">
         {% crispy form %}
+      </div>
+      <div class="col-sm-5">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Help on Adding a new System</h5>
+            <p class="card-text">Here you can add some supplementary text if you like.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>

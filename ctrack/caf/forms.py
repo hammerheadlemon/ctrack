@@ -34,9 +34,9 @@ class ApplicableSystemCreateFromCafForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
-                f"Create a new system for {caf}",
-                Field("name", css_class="form-control form-control-sm"),
-                Field("description", cass_class="form-control form-control-sm"),
+                "",
+                Field("name", css_class="form-control-lg"),
+                "description",
                 Hidden("caf", caf_id),
                 Hidden("organisation", org_id),
             ),
@@ -61,11 +61,11 @@ class ApplicableSystemCreateFromOrgForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
-                f"Create a new system for {org_name}",
-                Field("name", css_class="form-control form-control-sm"),
-                Field("description", css_class="form-control form-control-sm"),
+                "",
+                Field("name", css_class="form-control-lg"),
+                "description",
                 Hidden("organisation", org_id),
-                Field("caf", css_class="form-control form-control-sm")
+                "caf",
             ),
             ButtonHolder(
                 Submit("submit", "Submit", css_class="btn-primary"),

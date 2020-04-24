@@ -60,6 +60,7 @@ class ApplicableSystemDetail(LoginRequiredMixin, DetailView):
 @login_required
 def applicable_system_create_from_caf(request, caf_id):
     org_id = CAF.objects.get(pk=caf_id).organisation().id
+    caf = CAF.objects.get(id=caf_id)
     if request.method=="POST":
         form = ApplicableSystemCreateFromCafForm(request.POST, caf_id=caf_id, org_id=org_id)
         if form.is_valid():
@@ -73,7 +74,7 @@ def applicable_system_create_from_caf(request, caf_id):
     else:
         form = ApplicableSystemCreateFromCafForm(caf_id=caf_id, org_id=org_id)
 
-    return render(request, "caf/applicable_system_create_from_caf.html", {"form": form})
+    return render(request, "caf/applicable_system_create_from_caf.html", {"form": form, "caf": caf})
 
 
 class ApplicableSystemCreateFromOrg(LoginRequiredMixin, FormView):
