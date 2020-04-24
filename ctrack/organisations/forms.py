@@ -1,5 +1,5 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Button, Hidden
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Button
 from django import forms
 from django.urls import reverse
 
@@ -35,3 +35,6 @@ class OrganisationCreateForm(forms.ModelForm):
         fields = ["name", "submode", "oes", "designation_type",
                   "registered_company_name", "registered_company_number",
                   "updated_by", "comments", "active"]
+        labels = {
+            "oes": "OES"
+        }

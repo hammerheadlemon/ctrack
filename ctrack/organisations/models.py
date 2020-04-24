@@ -129,7 +129,7 @@ class Organisation(models.Model):
     registered_company_number = models.CharField(max_length=100, blank=True)
     date_updated = models.DateField(auto_now=True)
     updated_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user))
-    comments = models.TextField(max_length=500)
+    comments = models.TextField(max_length=500, blank=True, null=True)
     active = models.BooleanField(default=True)
 
     def get_absolute_url(self):
