@@ -7,10 +7,25 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <div class="container">
+  <div class="container mt-3">
     <div class="row">
-      <div class="col-sm-12">
-      {% crispy form %}
+      <div class="col-md-12 pl-0 my-2">
+        <h4>Create a new Organisation</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-7 pt-2 border bg-light">
+        {% crispy form %}
+      </div>
+      <div class="col-sm-5">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Help on Organisations</h5>
+            <p class="card-text">An organisation is the parent/operating company. There is probably advice and
+              proper definitions for this somewhere. Maybe if you click the link below, it will take you there?</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>

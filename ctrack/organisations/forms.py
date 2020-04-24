@@ -1,5 +1,5 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Button
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Button, Field
 from django import forms
 from django.urls import reverse
 
@@ -13,8 +13,8 @@ class OrganisationCreateForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
-                f"Create a new Organisation",
-                "name",
+                "",
+                Field("name", css_class="form-control-lg"),
                 "submode",
                 "oes",
                 "designation_type",
@@ -37,4 +37,10 @@ class OrganisationCreateForm(forms.ModelForm):
                   "updated_by", "comments", "active"]
         labels = {
             "oes": "OES"
+        }
+        help_texts = {
+            "submode": "e.g. Rail Maintenance, TOC, etc...",
+            "updated_by": "Name of staff member/inspector creating this record",
+            "active": "Is this company an active participant in the NIS compliance regime?",
+            "designation_type": "This is probably defined in the Reguation",
         }
