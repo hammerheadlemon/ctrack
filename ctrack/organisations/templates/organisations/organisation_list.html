@@ -1,42 +1,43 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="container">
-
-  <div class="row">
-    <h2>Organisations</h2>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-12">
-      <table class="table table-sm">
-        <thead>
-        <tr>
-          <th>Organisation</th>
-          <th>Sub-mode</th>
-          <th>Lead Inspector</th>
-          <th>Point of Contact</th>
-        </tr>
-        </thead>
-        {% for org in organisation_list %}
-          <tr>
-            <td><a href="{% url "organisations:detail" org.slug %}">{{ org.name }}</a></td>
-            <td>{{ org.submode }}</td>
-            <td>LEAD INSPECTOR</td>
-            <td>
-              {% if org.primary_contacts %}
-                <ul style="list-style-type:none; float:left; padding: 0">
-                  {% for p in org.primary_contacts %}
-                    <li>{{ p }} | {{ p.mobile }}</li>
-                  {% endfor %}
-                </ul>
-              {% else %}
-                No contact listed
-              {% endif %}
-            </td>
-          </tr>
-        {% endfor %}
-      </table>
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col-md-12 pl-0 my-2">
+        <h4>Organisations | <small><a href="{% url "organisations:create" %}">Create new...</a></small></h4>
+        <div class="row">
+          <div class="col-md-12 border bg-light my-2">
+            <table class="table table-sm">
+              <thead>
+              <tr>
+                <th>Organisation</th>
+                <th>Sub-mode</th>
+                <th>Lead Inspector</th>
+                <th>Point of Contact</th>
+              </tr>
+              </thead>
+              {% for org in organisation_list %}
+                <tr>
+                  <td><a href="{% url "organisations:detail" org.slug %}">{{ org.name }}</a></td>
+                  <td>{{ org.submode }}</td>
+                  <td>LEAD INSPECTOR</td>
+                  <td>
+                    {% if org.primary_contacts %}
+                      <ul style="list-style-type:none; float:left; padding: 0">
+                        {% for p in org.primary_contacts %}
+                          <li>{{ p }} | {{ p.mobile }}</li>
+                        {% endfor %}
+                      </ul>
+                    {% else %}
+                      No contact listed
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
