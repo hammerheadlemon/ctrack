@@ -7,4 +7,4 @@ django-crispy-forms  # https://github.com/django-crispy-forms/django-crispy-form
 
 # These were required for the basic run
 python-slugify
-argo2-cffi
+argon2-cffi
