@@ -4,105 +4,91 @@
 
 {% block title %}CAF Detail{% endblock %}
 {% block content %}
-<div class="container">
+  <div class="container mt-3">
 
   <div class="row">
-    <h3>{{ object }}</h3>
+    <div class="col-12">
+      <h4>{{ object }}</h4>
+    </div>
   </div>
 
-
-  {% comment %} <div class="row pt-3 text-info">
-    <h5>CAF Basic Information</h5>
-  </div> {% endcomment %}
-
   <div class="row">
-    <div class="col-sm-12 p-2">
+    <div class="col-md-12 my-2">
       <div class="card bg-light">
         <div class="card-body">
           <div class="card-title text-muted">CAF Basic Information</div>
-          <div class="card-text">
-            <div>
-              <table class="table-sm table-responsive">
-                <tr>
-                  <td><strong>Organisation</strong></td>
-                  <td><a href="{% url 'organisations:detail' organisation.slug %}">{{ organisation }}</a></td>
-                </tr>
-                <tr>
-                  <td><strong>Quality Grading:</strong></td>
-                  <td>{{ object.quality_grading }}</td>
-                </tr>
-                <tr>
-                  <td><strong>Confidence Grading:</strong></td>
-                  <td>{{ object.confidence_grading }}</td>
-                </tr>
-                <tr>
-                  <td><strong>File:</strong></td>
-                  <td>{{ object.file }}</td>
-                </tr>
-                <tr>
-                  <td><strong>Version:</strong></td>
-                  <td>{{ object.version }}</td>
-                </tr>
-                <tr>
-                  <td><strong>Triage Review Date:</strong></td>
-                  <td>{{ object.triage_review_date }}</td>
-                </tr>
-                <tr>
-                  <td><strong>Triage Review Inspector:</strong></td>
-                  <td>{{ object.triage_review_inspector }}</td>
-                </tr>
-                <tr>
-                  <td><strong>Comments:</strong></td>
-                  <td>{{ object.comments }}</td>
-                </tr>
-              </table>
-            </div>
+          <div>
+            <table class="table table-responsive">
+              <tr>
+                <td><strong>Organisation</strong></td>
+                <td><a href="{% url 'organisations:detail' organisation.slug %}">{{ organisation }}</a></td>
+              </tr>
+              <tr>
+                <td><strong>Quality Grading:</strong></td>
+                <td>{{ object.quality_grading }}</td>
+              </tr>
+              <tr>
+                <td><strong>Confidence Grading:</strong></td>
+                <td>{{ object.confidence_grading }}</td>
+              </tr>
+              <tr>
+                <td><strong>File:</strong></td>
+                <td>{{ object.file }}</td>
+              </tr>
+              <tr>
+                <td><strong>Version:</strong></td>
+                <td>{{ object.version }}</td>
+              </tr>
+              <tr>
+                <td><strong>Triage Review Date:</strong></td>
+                <td>{{ object.triage_review_date }}</td>
+              </tr>
+              <tr>
+                <td><strong>Triage Review Inspector:</strong></td>
+                <td>{{ object.triage_review_inspector }}</td>
+              </tr>
+              <tr>
+                <td><strong>Comments:</strong></td>
+                <td>{{ object.comments }}</td>
+              </tr>
+            </table>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  {% comment %} <div class="row pt-3 text-info">
-    <h4>Applicable Systems</h4>
-  </div> {% endcomment %}
-
   <div class="row">
-    <div class="col-sm-12 p-2">
+    <div class="col-md-12 my-2">
       <div class="card bg-light">
         <div class="card-body">
-          <div class="card-title text-muted">Applicable Systems | <small><a href="{% url "caf:as_create_from_caf" object.pk %}">Add new...</a></small></div>
-          <div class="card-text">
-            <div>
-              <table class="table-sm table-responsive">
-                {% for system in systems %}
-                  <tr>
-                    <td><strong>{{ system.name }}</strong></td>
-                    <td>{{ system.description }}</td>
-                  </tr>
-                {% endfor %}
-              </table>
-            </div>
+          <div class="card-title text-muted">Applicable Systems <a
+                  href="{% url "caf:as_create_from_caf" object.pk %}" class="btn btn-primary btn-sm float-right">Add
+            new...</a></small></div>
+          <div>
+            <table class="table table-responsive">
+              {% for system in systems %}
+                <tr>
+                  <td><strong>{{ system.name }}</strong></td>
+                  <td>{{ system.description }}</td>
+                </tr>
+              {% endfor %}
+            </table>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  {% comment %} <div class="row pt-3 text-info">
-    <h5>Assessments</h5>
-  </div> {% endcomment %}
-
   <div class="row">
-    <div class="col-sm-12 p-2">
+    <div class="col-md-12 my-2">
       <div class="card bg-light">
         <div class="card-body">
           <div class="card-title text-muted">Assessments</div>
-          <div class="card-text">
-            <div>
-              <table class="table">
-                {% for ass in assessments_and_scores %}
-                <table class="table-sm table-responsive">
+          <div>
+            <table class="table">
+              {% for ass in assessments_and_scores %}
+                <table class="table table-responsive">
                   <tr>
                     <td><strong>Assessment:</strong></td>
                     <td>{{ ass.0 }}</td>
@@ -126,38 +112,37 @@
                     <th>Baseline</th>
                   </tr>
                   {% for score in ass.1 %}
-                  <tr>
-                    <td>{{ score.caf_contributing_outcome.designation }}</td>
-                    <td>{{ score.caf_contributing_outcome.name }}</td>
-                    <td>{{ score.caf_contributing_outcome.description }}</td>
+                    <tr>
+                      <td>{{ score.caf_contributing_outcome.designation }}</td>
+                      <td>{{ score.caf_contributing_outcome.name }}</td>
+                      <td>{{ score.caf_contributing_outcome.description }}</td>
 
-                    {% if score.assessment_score == "Achieved" %}
-                    <td id="achieved-cell">{{ score.assessment_score }}</td>
-                    {% elif score.assessment_score == "Partially Achieved" %}
-                    <td id="partially-achieved-cell">{{ score.assessment_score }}</td>
-                    {% else %}
-                    <td id="not-achieved-cell">{{ score.assessment_score }}</td>
-                    {% endif %}
+                      {% if score.assessment_score == "Achieved" %}
+                        <td id="achieved-cell">{{ score.assessment_score }}</td>
+                      {% elif score.assessment_score == "Partially Achieved" %}
+                        <td id="partially-achieved-cell">{{ score.assessment_score }}</td>
+                      {% else %}
+                        <td id="not-achieved-cell">{{ score.assessment_score }}</td>
+                      {% endif %}
 
-                    {% if score.baseline_assessment_score == "Achieved" %}
-                    <td id="achieved-cell">{{ score.baseline_assessment_score }}</td>
-                    {% elif score.baseline_assessment_score == "Partially Achieved" %}
-                    <td id="partially-achieved-cell">{{ score.baseline_assessment_score }}</td>
-                    {% else %}
-                    <td id="not-achieved-cell">{{ score.baseline_assessment_score }}</td>
-                    {% endif %}
-                  </tr>
+                      {% if score.baseline_assessment_score == "Achieved" %}
+                        <td id="achieved-cell">{{ score.baseline_assessment_score }}</td>
+                      {% elif score.baseline_assessment_score == "Partially Achieved" %}
+                        <td id="partially-achieved-cell">{{ score.baseline_assessment_score }}</td>
+                      {% else %}
+                        <td id="not-achieved-cell">{{ score.baseline_assessment_score }}</td>
+                      {% endif %}
+                    </tr>
                   {% endfor %}
                 </table>
-                {% endfor %}
-              </table>
-            </div>
+              {% endfor %}
+            </table>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  {% endblock %}
+{% endblock %}
 
 {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/project.css' %}"> {% endcomment %}
