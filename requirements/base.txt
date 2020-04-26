@@ -4,3 +4,7 @@ django==3.0  # pyup: < 3.0  # https://www.djangoproject.com/
 django-environ  # https://github.com/joke2k/django-environ
 django-allauth  # https://github.com/pennersr/django-allauth
 django-crispy-forms  # https://github.com/django-crispy-forms/django-crispy-forms
+
+# These were required for the basic run
+python-slugify
+argo2-cffi
