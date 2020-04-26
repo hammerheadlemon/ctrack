@@ -19,7 +19,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-8 my-2">
+          <div class="col-md-7 my-2">
             <div class="card bg-light">
               <div class="card-body">
                 <div class="card-title">Company Information</div>
@@ -64,14 +64,14 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4 my-2">
+          <div class="col-md-5 my-2">
             <div class="card bg-light">
               <div class="card-body">
                 <div class="card-title">NIS Systems</div>
                 <div class="card-text">
                   <div class="table-responsive">
                     <table class="table">
-                      {% if applicable_systems|length > 1 %}
+                      {% if applicable_systems|length > 0 %}
                         {% for ass in applicable_systems %}
                           <tr>
                             <td><strong>{{ ass.name }}</strong></td>
