@@ -19,13 +19,13 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-12 my-2">
+          <div class="col-md-8 my-2">
             <div class="card bg-light">
               <div class="card-body">
                 <div class="card-title">Company Information</div>
                 <div class="card-text">
                   <div>
-                    <table class="table table-sm">
+                    <table class="table">
                       <tr>
                         <td><strong>Designation Type:</strong></td>
                         <td>{{ object.designation_type }}</td>
@@ -64,9 +64,7 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 my-2">
+          <div class="col-md-4 my-2">
             <div class="card bg-light">
               <div class="card-body">
                 <div class="card-title">NIS Systems</div>
@@ -88,7 +86,7 @@
                           </tr>
                         {% endfor %}
                       {% else %}
-                        <p><small><a href="{% url "caf:create_from_org" object.slug %}">Add new...</a></small></p>
+                        <a class="btn btn-primary" href="{% url "caf:create_from_org" object.slug %}" role="button">Add new...</a>
                       {% endif %}
                     </table>
                   </div>
