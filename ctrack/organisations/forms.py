@@ -3,7 +3,7 @@ from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Button, 
 from django import forms
 from django.urls import reverse
 
-from ctrack.organisations.models import Organisation
+from ctrack.organisations.models import Organisation, Address
 
 
 class OrganisationCreateForm(forms.ModelForm):
@@ -44,3 +44,20 @@ class OrganisationCreateForm(forms.ModelForm):
             "active": "Is this company an active participant in the NIS compliance regime?",
             "designation_type": "This is probably defined in the Reguation",
         }
+
+
+class AddressCreateForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = ('type', 'line1', 'line2', 'line3', 'city', 'county', 'postcode',
+                  'country', 'other_details')
+
+    def __init__(self, *args, **kwargs):
+        self.org = kwargs.pop("org")
+        super().__init__(*args, **kwargs)
+
+    def save(self):
+        address = super().save(commit=False)
+        address.organisation = self.org
+        address.organisation.save()
+        return address
