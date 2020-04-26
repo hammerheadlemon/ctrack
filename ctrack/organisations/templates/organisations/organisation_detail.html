@@ -19,7 +19,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-7 my-2">
+          <div class="col-md-12 my-2">
             <div class="card bg-light">
               <div class="card-body">
                 <div class="card-title">Company Information</div>
@@ -64,7 +64,9 @@
               </div>
             </div>
           </div>
-          <div class="col-md-5 my-2">
+        </div>
+      <div class="row">
+        <div class="col-md-12 my-2">
             <div class="card bg-light">
               <div class="card-body">
                 <div class="card-title">NIS Systems</div>
@@ -95,9 +97,9 @@
               </div>
             </div>
           </div>
-        </div>
+      </div>
         <div class="row">
-          <div class="col-12">
+          <div class="col-12 mt-3">
             <h4>Addresses</h4>
           </div>
         </div>
@@ -178,59 +180,56 @@
             </div>
           {% endif %}
         </div>
-      </div>
-    </div>
-
-
-    <div class="row pt-3 text-info">
-      <h4>People</h4>
-    </div>
-
-    <div class="row">
-      {% for p in people %}
-        <div class="col-sm-8 p-2">
-          <div class="card bg-light">
-            <div class="card-body">
-              <h5 class="card-title">{{ p.first_name }} {{ p.last_name }}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">{{ p.job_title }}</h6>
-              <div class="card-text">
-                <div class="table-responsive">
-                  <table class="table">
-                    <tr>
-                      <td>Primary NIS Contact:</td>
-                      {% if p.primary_nis_contact %}
-                        <td class="text-success">Yes</td>
-                      {% else %}
-                        <td>No</td>
-                      {% endif %}
-                    </tr>
-                    <tr>
-                      <td>Email:</td>
-                      <td><a href="mailto:{{ p.email }}">{{ p.email }}</a></td>
-                    </tr>
-                    <tr>
-                      <td>Mobile:</td>
-                      <td>{{ p.mobile }}</td>
-                    </tr>
-                    <tr>
-                      <td>Landline:</td>
-                      <td>{{ p.landline }}</td>
-                    </tr>
-                    <tr>
-                      <td>Clearance:</td>
-                      <td>{{ p.clearance }}</td>
-                    </tr>
-                    <tr>
-                      <td>Clearance Expiry:</td>
-                      <td>{{ p.clearance_expiry }}</td>
-                    </tr>
-                  </table>
+        <div class="row">
+          <div class="col-12 mt-3">
+            <h4>People</h4>
+          </div>
+        </div>
+        <div class="row">
+          {% for p in people %}
+            <div class="col-md-7 my-2">
+              <div class="card bg-light">
+                <div class="card-body">
+                  <h5 class="card-title">{{ p.first_name }} {{ p.last_name }}</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">{{ p.job_title }}</h6>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <tr>
+                        <td>Primary NIS Contact:</td>
+                        {% if p.primary_nis_contact %}
+                          <td class="text-success">Yes</td>
+                        {% else %}
+                          <td>No</td>
+                        {% endif %}
+                      </tr>
+                      <tr>
+                        <td>Email:</td>
+                        <td><a href="mailto:{{ p.email }}">{{ p.email }}</a></td>
+                      </tr>
+                      <tr>
+                        <td>Mobile:</td>
+                        <td>{{ p.mobile }}</td>
+                      </tr>
+                      <tr>
+                        <td>Landline:</td>
+                        <td>{{ p.landline }}</td>
+                      </tr>
+                      <tr>
+                        <td>Clearance:</td>
+                        <td>{{ p.clearance }}</td>
+                      </tr>
+                      <tr>
+                        <td>Clearance Expiry:</td>
+                        <td>{{ p.clearance_expiry }}</td>
+                      </tr>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          {% endfor %}
         </div>
-      {% endfor %}
+      </div>
     </div>
   </div>
 {% endblock content %}
