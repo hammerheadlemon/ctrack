@@ -14,7 +14,7 @@ class OrganisationCreateForm(forms.ModelForm):
         self.helper.layout = Layout(
             Fieldset(
                 "",
-                Field("name", css_class="form-control-lg"),
+                Field("name", css_class="form-control"),
                 "submode",
                 "oes",
                 "designation_type",
@@ -53,7 +53,7 @@ class AddressCreateForm(forms.ModelForm):
                   'country', 'other_details')
 
     def __init__(self, *args, **kwargs):
-        self.org = kwargs.pop("org")
+        # self.org = kwargs.pop("org")
         super().__init__(*args, **kwargs)
 
     def save(self):
