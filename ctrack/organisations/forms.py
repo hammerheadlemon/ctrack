@@ -1,6 +1,7 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Button, Field
 from django import forms
+from django.forms import inlineformset_factory
 from django.urls import reverse
 
 from ctrack.organisations.models import Organisation, Address
@@ -49,9 +50,11 @@ class OrganisationCreateForm(forms.ModelForm):
 class AddressCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        cancel_redirect = reverse("organisations:list")
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
+                "Add an address",
                 "type",
                 "line1",
                 "line2",
@@ -78,3 +81,7 @@ class AddressCreateForm(forms.ModelForm):
     #     address.organisation = self.org
     #     address.organisation.save()
     #     return address
+
+
+AddressInlineForm = inlineformset_factory(Organisation, Address, exclude=(), can_delete=False,
+                                          form=AddressCreateForm, extra=1)
