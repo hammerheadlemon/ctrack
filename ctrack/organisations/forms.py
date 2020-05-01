@@ -21,7 +21,6 @@ class OrganisationCreateForm(forms.ModelForm):
                 "designation_type",
                 "registered_company_name",
                 "registered_company_number",
-                "updated_by",
                 "comments",
                 "active"
             ),
@@ -35,13 +34,12 @@ class OrganisationCreateForm(forms.ModelForm):
         model = Organisation
         fields = ["name", "submode", "oes", "designation_type",
                   "registered_company_name", "registered_company_number",
-                  "updated_by", "comments", "active"]
+                  "comments", "active"]
         labels = {
             "oes": "OES"
         }
         help_texts = {
             "submode": "e.g. Rail Maintenance, TOC, etc...",
-            "updated_by": "Name of staff member/inspector creating this record",
             "active": "Is this company an active participant in the NIS compliance regime?",
             "designation_type": "This is probably defined in the Reguation",
         }
