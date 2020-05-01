@@ -12,14 +12,17 @@ class OrganisationCreateForm(forms.ModelForm):
         self.fields["name"].widget.attrs["class"] = "form-control"
         self.fields["submode"].widget.attrs["class"] = "form-control"
         self.fields["oes"].widget.attrs["class"] = "form-check-input"
+        self.fields["active"].widget.attrs["class"] = "form-check-input"
         self.fields["designation_type"].widget.attrs["class"] = "form-control"
         self.fields["registered_company_name"].widget.attrs["class"] = "form-control"
+        self.fields["registered_company_number"].widget.attrs["class"] = "form-control"
 
     class Meta:
         model = Organisation
         fields = ["name", "submode", "oes", "designation_type",
                   "registered_company_name", "registered_company_number",
                   "updated_by", "comments", "active"]
+        # This doesn't have any effect when using the form wizard
         labels = {
             "oes": "OES"
         }
