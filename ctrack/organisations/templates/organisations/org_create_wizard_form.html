@@ -11,9 +11,14 @@
 {% block content %}
 
   <div class="container mt-3">
+  <div class="row">
+    <div class="col-md-12 pl-0 my-2">
+      <h4>Create a new Organisation</h4>
+    </div>
+  </div>
     <div class="row">
       <div class="col-md-12 pl-0 my-2">
-        <h4>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</h4>
+        <p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
       </div>
     </div>
     <div class="row">
@@ -27,7 +32,35 @@
               {{ form }}
             {% endfor %}
           {% else %}
-            {{ wizard.form }}
+            <div class="form-group required">
+              <label for="name">Name:</label>
+              {{ wizard.form.name }}
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="submode">Sub mode:</label>
+                  {{ wizard.form.submode }}
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="designation_type">Designation Type:</label>
+                  {{ wizard.form.designation_type }}
+                  <small class="form-text text-muted">{{ wizard.form.designation_type.help_text }}</small>
+                </div>
+              </div>
+            </div>
+            <div class="form-check">
+              {{ wizard.form.oes }}
+              <label class="form-check-label" for="oes">OES</label>
+            </div>
+            <div class="form-group">
+              <label for="registered_company_name">Registered Company Name:</label>
+              {{ wizard.form.registered_company_name }}
+              <small class="form-text text-muted">{{ wizard.form.registered_company_name.help_text }}</small>
+            </div>
+{#            {{ wizard.form }}#}
           {% endif %}
           {% if wizard.steps.prev %}
             <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">First Step</button>
