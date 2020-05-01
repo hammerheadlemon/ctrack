@@ -9,20 +9,32 @@ from ctrack.organisations.models import Organisation, Address
 class OrganisationCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["name"].widget.attrs["class"] = "form-control"
-        self.fields["submode"].widget.attrs["class"] = "form-control"
-        self.fields["oes"].widget.attrs["class"] = "form-check-input"
-        self.fields["active"].widget.attrs["class"] = "form-check-input"
-        self.fields["designation_type"].widget.attrs["class"] = "form-control"
-        self.fields["registered_company_name"].widget.attrs["class"] = "form-control"
-        self.fields["registered_company_number"].widget.attrs["class"] = "form-control"
+        cancel_redirect = reverse("organisations:list")
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Fieldset(
+                "",
+                Field("name", css_class="form-control-lg"),
+                "submode",
+                "oes",
+                "designation_type",
+                "registered_company_name",
+                "registered_company_number",
+                "updated_by",
+                "comments",
+                "active"
+            ),
+            ButtonHolder(
+                Submit("submit", "Submit", css_class="btn-primary"),
+                Button("cancel", "Cancel", onclick=f"location.href='{cancel_redirect}';", css_class="btn-danger")
+            )
+        )
 
     class Meta:
         model = Organisation
         fields = ["name", "submode", "oes", "designation_type",
                   "registered_company_name", "registered_company_number",
                   "updated_by", "comments", "active"]
-        # This doesn't have any effect when using the form wizard
         labels = {
             "oes": "OES"
         }
@@ -31,7 +43,6 @@ class OrganisationCreateForm(forms.ModelForm):
             "updated_by": "Name of staff member/inspector creating this record",
             "active": "Is this company an active participant in the NIS compliance regime?",
             "designation_type": "This is probably defined in the Reguation",
-            "registered_company_name": "Probably different from the Organisation name"
         }
 
 
@@ -42,7 +53,7 @@ class AddressCreateForm(forms.ModelForm):
                   'country', 'other_details')
 
     def __init__(self, *args, **kwargs):
-        # self.org = kwargs.pop("org")
+        self.org = kwargs.pop("org")
         super().__init__(*args, **kwargs)
 
     def save(self):

@@ -2,28 +2,10 @@ from typing import Any
 from typing import Dict
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 from django.views.generic import DetailView, ListView, CreateView
-from formtools.wizard.views import SessionWizardView
 
 from .forms import OrganisationCreateForm
 from .models import Organisation
-
-
-def save_organisation_to_database(form_list):
-    """
-    When we have a multi-part wizard form data back, we save it to the database here!
-    """
-    pass
-
-
-class OrganisationCreateWizard(LoginRequiredMixin, SessionWizardView):
-    template_name = "organisations/org_create_wizard_form.html"
-
-    def done(self, form_list, **kwargs):
-        save_organisation_to_database(form_list)
-        return HttpResponseRedirect(reverse("organisations:list"))
 
 
 class OrganisationCreate(LoginRequiredMixin, CreateView):
