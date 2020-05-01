@@ -47,17 +47,34 @@ class OrganisationCreateForm(forms.ModelForm):
 
 
 class AddressCreateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Fieldset(
+                "type",
+                "line1",
+                "line2",
+                "line3",
+                "city",
+                "county",
+                "postcode",
+                "country",
+                "other_details"
+            )
+        )
+
     class Meta:
         model = Address
         fields = ('type', 'line1', 'line2', 'line3', 'city', 'county', 'postcode',
                   'country', 'other_details')
 
-    def __init__(self, *args, **kwargs):
-        self.org = kwargs.pop("org")
-        super().__init__(*args, **kwargs)
-
-    def save(self):
-        address = super().save(commit=False)
-        address.organisation = self.org
-        address.organisation.save()
-        return address
+    # def __init__(self, *args, **kwargs):
+    #     self.org = kwargs.pop("org")
+    #     super().__init__(*args, **kwargs)
+    #
+    # def save(self):
+    #     address = super().save(commit=False)
+    #     address.organisation = self.org
+    #     address.organisation.save()
+    #     return address

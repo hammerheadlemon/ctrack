@@ -2,10 +2,25 @@ from typing import Any
 from typing import Dict
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms import inlineformset_factory
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.views.generic import DetailView, ListView, CreateView
 
-from .forms import OrganisationCreateForm
-from .models import Organisation
+from .forms import OrganisationCreateForm, AddressCreateForm
+from .models import Organisation, Address
+
+
+def create_org_with_address(request):
+    OrgCreateInlineFormSet = inlineformset_factory(Organisation, Address, exclude=(), can_delete=False, form=AddressCreateForm, extra=3)
+    if request.method == "POST":
+        formset = OrgCreateInlineFormSet(request.POST)
+        if formset.is_valid():
+            formset.save()
+            return HttpResponseRedirect("/")
+    else:
+        formset = OrgCreateInlineFormSet()
+    return render(request, "organisations/org_create_formset.html", {"formset": formset})
 
 
 class OrganisationCreate(LoginRequiredMixin, CreateView):
