@@ -44,12 +44,6 @@ class OrganisationCreateForm(forms.ModelForm):
             "designation_type": "This is probably defined in the Reguation",
         }
 
-    def save(self, **kwargs):
-        org = super().save(commit=False)
-        org.updated_by = kwargs["user"]
-        org.save()
-        return org
-
 
 class AddressCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -76,16 +70,8 @@ class AddressCreateForm(forms.ModelForm):
         fields = ('type', 'line1', 'line2', 'line3', 'city', 'county', 'postcode',
                   'country', 'other_details')
 
-    # def __init__(self, *args, **kwargs):
-    #     self.org = kwargs.pop("org")
-    #     super().__init__(*args, **kwargs)
-    #
-    # def save(self):
-    #     address = super().save(commit=False)
-    #     address.organisation = self.org
-    #     address.organisation.save()
-    #     return address
 
-
-AddressInlineForm = inlineformset_factory(Organisation, Address, exclude=(), can_delete=False,
-                                          form=AddressCreateForm, extra=1)
+AddressInlineFormSet = inlineformset_factory(Organisation, Address,
+                                             fields=("type", "line1", "line2", "line3", "city",
+                                                     "county", "postcode", "country", "other_details"),
+                                             form=AddressCreateForm)

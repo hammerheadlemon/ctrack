@@ -13,16 +13,12 @@
       <div class="col-md-12">
         <form method="post" action="">
           {% csrf_token %}
-          {{ form.as_p }}
+          {{ form }}
           <table>
             {{ addresses.management_form }}
-
-            {% for addressform in addresses.forms %}
-              {{ addressform.as_p }}
-            {% endfor %}
+            {{ addresses }}
           </table>
           <input type="submit" value="SUBMIT">
-{#          <input class="btn btn-primary" type="button" value="Save">#}
         </form>
       </div>
     </div>

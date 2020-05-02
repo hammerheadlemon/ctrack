@@ -3,43 +3,39 @@ from typing import Dict
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
-from django.utils import timezone
+from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, CreateView
 
-from .forms import OrganisationCreateForm, AddressInlineForm
+from .forms import OrganisationCreateForm, AddressInlineFormSet
 from .models import Organisation
 
 
-class OrganisationCreateWithAddress(CreateView):
+class OrganisationCreate(CreateView):
     model = Organisation
     template_name = "organisations/org_create_formset.html"
     form_class = OrganisationCreateForm
 
     def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         if self.request.POST:
-            data["addresses"] = AddressInlineForm(self.request.POST)
+            context["addresses"] = AddressInlineFormSet(self.request.POST)
         else:
-            data["addresses"] = AddressInlineForm()
-        return data
+            context["addresses"] = AddressInlineFormSet()
+        return context
 
     def form_valid(self, form):
         context = self.get_context_data()
         addresses = context["addresses"]
-        user = self.request.user
         with transaction.atomic():
-            self.object = form.save(user=user)
-
+            form.instance.updated_by = self.request.user
+            self.object = form.save()
             if addresses.is_valid():
                 addresses.instance = self.object
                 addresses.save()
-        return super(OrganisationCreateWithAddress, self).form_valid(form)
+        return super().form_valid(form)
 
-
-class OrganisationCreate(LoginRequiredMixin, CreateView):
-    form_class = OrganisationCreateForm
-    model = Organisation
-    template_name = "organisations/organisation_create.html"
+    def get_success_url(self) -> str:
+        return reverse_lazy("organisations:detail", kwargs={"slug": self.object.slug})
 
 
 class OrganisationListView(LoginRequiredMixin, ListView):
