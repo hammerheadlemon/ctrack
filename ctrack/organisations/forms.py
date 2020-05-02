@@ -44,6 +44,12 @@ class OrganisationCreateForm(forms.ModelForm):
             "designation_type": "This is probably defined in the Reguation",
         }
 
+    def save(self, **kwargs):
+        org = super().save(commit=False)
+        org.updated_by = kwargs["user"]
+        org.save()
+        return org
+
 
 class AddressCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

@@ -3,6 +3,7 @@ from typing import Dict
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
+from django.utils import timezone
 from django.views.generic import DetailView, ListView, CreateView
 
 from .forms import OrganisationCreateForm, AddressInlineForm
@@ -12,16 +13,7 @@ from .models import Organisation
 class OrganisationCreateWithAddress(CreateView):
     model = Organisation
     template_name = "organisations/org_create_formset.html"
-    fields = [
-        "name",
-        "submode",
-        "oes",
-        "designation_type",
-        "registered_company_name",
-        "registered_company_number",
-        "comments",
-        "active"
-    ]
+    form_class = OrganisationCreateForm
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -34,8 +26,9 @@ class OrganisationCreateWithAddress(CreateView):
     def form_valid(self, form):
         context = self.get_context_data()
         addresses = context["addresses"]
+        user = self.request.user
         with transaction.atomic():
-            self.object = form.save()
+            self.object = form.save(user=user)
 
             if addresses.is_valid():
                 addresses.instance = self.object
