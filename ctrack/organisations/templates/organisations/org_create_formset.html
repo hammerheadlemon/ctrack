@@ -14,11 +14,7 @@
         <form method="post" action="">
           {% csrf_token %}
           {{ form }}
-          <table>
-            {{ addresses.management_form }}
-            {{ addresses }}
-          </table>
-          <input type="submit" value="SUBMIT">
+          {% crispy addresses helper %}
         </form>
       </div>
     </div>
