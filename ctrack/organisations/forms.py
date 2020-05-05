@@ -35,6 +35,18 @@ class OrganisationCreateForm(forms.ModelForm):
 
 
 class AddressCreateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["type"].widget.attrs["class"] = "form-control"
+        self.fields["line1"].widget.attrs["class"] = "form-control"
+        self.fields["line2"].widget.attrs["class"] = "form-control"
+        self.fields["line3"].widget.attrs["class"] = "form-control"
+        self.fields["city"].widget.attrs["class"] = "form-control"
+        self.fields["county"].widget.attrs["class"] = "form-control"
+        self.fields["postcode"].widget.attrs["class"] = "form-control"
+        self.fields["country"].widget.attrs["class"] = "form-control"
+        self.fields["other_details"].widget.attrs["class"] = "form-control"
+
     class Meta:
         model = Address
         fields = ('type', 'line1', 'line2', 'line3', 'city', 'county', 'postcode',

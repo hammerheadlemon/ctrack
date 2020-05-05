@@ -13,6 +13,7 @@
     <div class="row">
       <div class="col-md-8">
         <form method="post" action="">
+          {% csrf_token %}
           {#   this is the parent form - in this case the organisation form  #}
           <div class="form-group">
             {{ form.non_field_errors }}
@@ -65,10 +66,79 @@
           </div>
       </div>
     </div>
-    <h5>Add address:</h5>
+
+    <h5>Address:</h5>
+
     <div class="row">
       <div class="col-md-8">
-        {{ addresses }}
+
+        {{ addresses.management_form }}
+        <table>
+          {% for form in addresses %}
+
+            {% if forloop.counter > 1  %}
+              <h5>Optional (add an alternative address):</h5>
+            {% endif %}
+
+            <div class="form-group">
+              {{ form.non_field_errors }}
+              <label for="{{ form.type.id_for_label }}">Address Type:</label>
+              {{ form.type }}
+              <small class="form-text text-muted">{{ form.type.help_text }}</small>
+            </div>
+
+            <div class="form-group">
+              {{ form.non_field_errors }}
+              <label for="{{ form.line1.id_for_label }}">Line 1:</label>
+              {{ form.line1 }}
+              <small class="form-text text-muted">{{ form.line1.help_text }}</small>
+            </div>
+
+            <div class="form-group">
+              {{ form.non_field_errors }}
+              <label for="{{ form.line2.id_for_label }}">Line 2:</label>
+              {{ form.line2 }}
+              <small class="form-text text-muted">{{ form.line2.help_text }}</small>
+            </div>
+
+            <div class="form-group">
+              {{ form.non_field_errors }}
+              <label for="{{ form.line3.id_for_label }}">Line 3:</label>
+              {{ form.line3 }}
+              <small class="form-text text-muted">{{ form.line3.help_text }}</small>
+            </div>
+
+            <div class="form-group">
+              {{ form.non_field_errors }}
+              <label for="{{ form.city.id_for_label }}">City:</label>
+              {{ form.city }}
+              <small class="form-text text-muted">{{ form.city.help_text }}</small>
+            </div>
+
+            <div class="form-group">
+              {{ form.non_field_errors }}
+              <label for="{{ form.county.id_for_label }}">County:</label>
+              {{ form.county }}
+              <small class="form-text text-muted">{{ form.county.help_text }}</small>
+            </div>
+
+            <div class="form-group">
+              {{ form.non_field_errors }}
+              <label for="{{ form.postcode.id_for_label }}">Postcode:</label>
+              {{ form.postcode }}
+              <small class="form-text text-muted">{{ form.postcode.help_text }}</small>
+            </div>
+
+            <div class="form-group">
+              {{ form.non_field_errors }}
+              <label for="{{ form.country.id_for_label }}">Country:</label>
+              {{ form.country }}
+              <small class="form-text text-muted">{{ form.country.help_text }}</small>
+            </div>
+
+          {% endfor %}
+        </table>
+
       </div>
     </div>
     {# This is the address inlineformset#}

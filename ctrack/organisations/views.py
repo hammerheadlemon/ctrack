@@ -10,7 +10,7 @@ from .forms import OrganisationCreateForm, AddressInlineFormSet
 from .models import Organisation
 
 
-class OrganisationCreate(CreateView):
+class OrganisationCreate(LoginRequiredMixin, CreateView):
     model = Organisation
     template_name = "organisations/org_create_formset.html"
     form_class = OrganisationCreateForm
