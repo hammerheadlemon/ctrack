@@ -6,7 +6,7 @@ from django.db import transaction
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, CreateView
 
-from .forms import OrganisationCreateForm, AddressInlineFormSet, OrganisationInlineFormSetHelper
+from .forms import OrganisationCreateForm, AddressInlineFormSet
 from .models import Organisation
 
 
@@ -21,7 +21,6 @@ class OrganisationCreate(CreateView):
             context["addresses"] = AddressInlineFormSet(self.request.POST)
         else:
             context["addresses"] = AddressInlineFormSet()
-            context["helper"] = OrganisationInlineFormSetHelper()
         return context
 
     def form_valid(self, form):

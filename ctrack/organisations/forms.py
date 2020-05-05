@@ -46,16 +46,6 @@ class AddressCreateForm(forms.ModelForm):
 AddressInlineFormSet = inlineformset_factory(Organisation, Address,
                                              fields=("type", "line1", "line2", "line3", "city",
                                                      "county", "postcode", "country", "other_details"),
-                                             form=AddressCreateForm)
+                                             form=AddressCreateForm,
+                                             extra=2)
 
-
-class OrganisationInlineFormSetHelper(FormHelper):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.form_method = "post"
-        self.layout = Layout(
-            "line1",
-            "line2"
-        )
-        self.render_required_fields = True
-        self.add_input(Submit("submit", "Save"))
