@@ -123,7 +123,7 @@ class Organisation(models.Model):
     submode = models.ForeignKey(
         Submode, on_delete=models.CASCADE, blank=True, null=True
     )
-    oes = models.BooleanField()
+    oes = models.BooleanField(default=True)
     designation_type = models.IntegerField(choices=DESIGNATION_TYPE, default=1)
     registered_company_name = models.CharField(max_length=255, blank=True)
     registered_company_number = models.CharField(max_length=100, blank=True)
