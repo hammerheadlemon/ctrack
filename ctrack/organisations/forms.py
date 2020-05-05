@@ -1,8 +1,7 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Field, ButtonHolder, Submit
+from crispy_forms.layout import Layout, Submit
 from django import forms
 from django.forms import inlineformset_factory
-from django.urls import reverse
 
 from ctrack.organisations.models import Organisation, Address
 
@@ -10,21 +9,14 @@ from ctrack.organisations.models import Organisation, Address
 class OrganisationCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        cancel_redirect = reverse("organisations:list")
-        self.helper = FormHelper(self)
-        self.helper.layout = Layout(
-            Fieldset(
-                "",
-                Field("name", css_class="form-control-lg"),
-                "submode",
-                "oes",
-                "designation_type",
-                "registered_company_name",
-                "registered_company_number",
-                "comments",
-                "active"
-            ),
-        )
+        self.fields["name"].widget.attrs["class"] = "form-control form-control-lg"
+        self.fields["submode"].widget.attrs["class"] = "form-control"
+        self.fields["oes"].widget.attrs["class"] = "form-check-input"
+        self.fields["oes"].widget.attrs["type"] = "checkbox"
+        self.fields["designation_type"].widget.attrs["class"] = "form-control"
+        self.fields["registered_company_name"].widget.attrs["class"] = "form-control"
+        self.fields["registered_company_number"].widget.attrs["class"] = "form-control"
+        self.fields["comments"].widget.attrs["class"] = "form-control"
 
     class Meta:
         model = Organisation
@@ -35,9 +27,10 @@ class OrganisationCreateForm(forms.ModelForm):
             "oes": "OES"
         }
         help_texts = {
+            "name": "Name of the organisation",
             "submode": "e.g. Rail Maintenance, TOC, etc...",
             "active": "Is this company an active participant in the NIS compliance regime?",
-            "designation_type": "This is probably defined in the Reguation",
+            "designation_type": "This is probably defined in the Regulation",
         }
 
 

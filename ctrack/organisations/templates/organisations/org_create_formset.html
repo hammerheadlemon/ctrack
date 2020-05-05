@@ -9,15 +9,71 @@
 {% block content %}
 
   <div class="container">
+    <h4>Create a new organisation</h4>
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-8">
         <form method="post" action="">
-          {% csrf_token %}
-          {{ form }}
-          {% crispy addresses helper %}
-        </form>
+          {#   this is the parent form - in this case the organisation form  #}
+          <div class="form-group">
+            {{ form.non_field_errors }}
+            <label for="{{ form.name.id_for_label }}">Name:</label>
+            {{ form.name }}
+            <small class="form-text text-muted">{{ form.name.help_text }}</small>
+          </div>
+
+          <div class="form-check">
+            {{ form.non_field_errors }}
+            {{ form.oes }}
+            <label class="form-check-label" for="{{ form.oes.id_for_label }}">OES</label>
+            <small class="form-text text-muted">{{ form.oes.help_text }}</small>
+          </div>
+
+
+          <div class="form-group">
+            {{ form.non_field_errors }}
+            <label for="{{ form.submode.id_for_label }}">Sub mode:</label>
+            {{ form.submode }}
+            <small class="form-text text-muted">{{ form.submode.help_text }}</small>
+          </div>
+
+          <div class="form-group">
+            {{ form.non_field_errors }}
+            <label for="{{ form.designation_type.id_for_label }}">Designation Type:</label>
+            {{ form.designation_type }}
+            <small class="form-text text-muted">{{ form.designation_type.help_text }}</small>
+          </div>
+
+          <div class="form-group">
+            {{ form.non_field_errors }}
+            <label for="{{ form.registered_company_name.id_for_label }}">Registered Company Name:</label>
+            {{ form.registered_company_name }}
+            <small class="form-text text-muted">{{ form.registered_company_name.help_text }}</small>
+          </div>
+
+          <div class="form-group">
+            {{ form.non_field_errors }}
+            <label for="{{ form.registered_company_number.id_for_label }}">Registered Company Number:</label>
+            {{ form.registered_company_number }}
+            <small class="form-text text-muted">{{ form.registered_company_number.help_text }}</small>
+          </div>
+
+          <div class="form-group">
+            {{ form.non_field_errors }}
+            <label for="{{ form.comments.id_for_label }}">Comments:</label>
+            {{ form.comments }}
+            <small class="form-text text-muted">{{ form.comments.help_text }}</small>
+          </div>
+
       </div>
     </div>
+    <h5>Add address:</h5>
+    <div class="row">
+      <div class="col-md-8">
+        {% crispy addresses helper %}
+      </div>
+    </div>
+    {# This is the address inlineformset#}
+    </form>
   </div>
 
 {% endblock %}
