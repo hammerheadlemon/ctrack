@@ -588,7 +588,7 @@ class Command(BaseCommand):
 
         for al in achievement_levels:
             for co in cos:
-                for igp in range(2):
+                for igp in range(1, random.randint(2,5)):
                     dtext_fake = Faker()
                     fake_txt = f"IGP {igp}/{al.descriptor}/{co.designation}: {dtext_fake.paragraph()}"
                     IGP.objects.create(
