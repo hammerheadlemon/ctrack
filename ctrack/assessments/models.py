@@ -5,9 +5,6 @@ from ctrack.organisations.models import Person
 
 
 class CAFAssessment(models.Model):
-    """
-    These are carried out by an OES as result in, or are associated with a CAF.
-    """
     caf = models.ForeignKey(CAF, on_delete=models.CASCADE)
     completer = models.ForeignKey(Person, on_delete=models.CASCADE)
     comments = models.TextField(max_length=500)
@@ -96,3 +93,21 @@ class CAFAssessmentOutcomeScore(models.Model):
 
     def __str__(self):
         return f"{self.caf_contributing_outcome} | {self.caf_assessment} | {self.assessment_score}"
+
+
+class AchievementLevel(models.Model):
+    descriptor = models.CharField(max_length=50)
+    colour_description = models.CharField(max_length=100)
+    colour_hex = models.CharField(max_length=8)  # CSS hex code or simple word descriptor
+
+    def __str__(self):
+        return f"{self.descriptor}"
+
+
+class IGP(models.Model):
+    achievement_level = models.ForeignKey(AchievementLevel, on_delete=models.CASCADE)
+    contributing_outcome = models.ForeignKey(CAFContributingOutcome, on_delete=models.CASCADE)
+    descriptive_text = models.CharField(max_length=2000)
+
+    class Meta:
+        verbose_name = "IGP"

@@ -3,9 +3,10 @@ from random import randint, choice
 
 from django.core.management import BaseCommand
 from django.core.management import CommandParser
+from faker import Faker
 
 from ctrack.assessments.models import CAFAssessment, CAFObjective, CAFPrinciple, CAFContributingOutcome, \
-    CAFAssessmentOutcomeScore
+    CAFAssessmentOutcomeScore, AchievementLevel, IGP
 from ctrack.caf.models import CAF
 from ctrack.caf.tests.factories import (
     GradingFactory,
@@ -566,6 +567,35 @@ class Command(BaseCommand):
                 order_id=2
             )
         ]
+
+        achievement_levels = [
+            AchievementLevel.objects.create(
+                descriptor="Not Achieved",
+                colour_description="Red",
+                colour_hex="#000001"
+            ),
+            AchievementLevel.objects.create(
+                descriptor="Partially Achieved",
+                colour_description="Amber",
+                colour_hex="#000002"
+            ),
+            AchievementLevel.objects.create(
+                descriptor="Achieved",
+                colour_description="Green",
+                colour_hex="#000003"
+            )
+        ]
+
+        for al in achievement_levels:
+            for co in cos:
+                for igp in range(2):
+                    dtext_fake = Faker()
+                    fake_txt = f"IGP {igp}/{al.descriptor}/{co.designation}: {dtext_fake.paragraph()}"
+                    IGP.objects.create(
+                        achievement_level=al,
+                        contributing_outcome=co,
+                        descriptive_text=fake_txt
+                    )
 
         # We want to create a CAF with a bunch of scoring now...
         _caf2 = CAF.objects.get(pk=1)
