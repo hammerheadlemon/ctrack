@@ -51,7 +51,12 @@ def _create_caf_app_service(c_descriptors, org, q_descriptors):
         )
 
 
-def populate_db():
+def populate_db(**kwargs):
+    # We want the fixtures to be created quicker under unit test conditions,
+    # so we can pass in these kwargs to reduce entities created - and omit them
+    # from management command populate script.
+    _org_number = kwargs.get("orgs")
+    _igp_number = kwargs.get("igps")
 
     # Set up some reasonable Modes and SubModes
     m1 = Mode.objects.create(descriptor="Rail")
@@ -73,17 +78,24 @@ def populate_db():
     )  # we need to have at least one user for the updated_by field
 
     # Create 40 Organisation objects
-    orgs = [
-        OrganisationFactory.create(submode=submodes[randint(0, len(submodes) - 1)])
-        for org in range(40)
-    ]
-    # Create 40 Address objects
+    if _org_number:
+        orgs = [
+            OrganisationFactory.create(submode=submodes[randint(0, len(submodes) - 1)])
+            for org in range(_org_number)
+        ]
+    else:
+        orgs = [
+            OrganisationFactory.create(submode=submodes[randint(0, len(submodes) - 1)])
+            for org in range(40)
+        ]
+
+    # Create Address objects
     addr_type = AddressType.objects.create(descriptor="Primary Address")
     for org in orgs:
         AddressFactory.create(type=addr_type, organisation=org)
 
     roles = [
-        RoleFactory.create() for x in range(10)
+        RoleFactory.create() for _ in range(10)
     ]  # because we have a many-to-many relationship with Role, we need to create one and pass it in
     for org in orgs:
         PersonFactory.create(
@@ -98,6 +110,7 @@ def populate_db():
 
     # set up some EngagementEvents
 
+    # noinspection PyUnboundLocalVariable
     p1 = PersonFactory.create(
         role=choice(roles),
         updated_by=user,
@@ -368,15 +381,16 @@ def populate_db():
         CAFContributingOutcome.objects.create(
             designation="B2.b",
             name="Device Management",
-            description="Your devices, and their safe and sustainable use, is crucuial to the longevity of your company.",
+            description="Your devices, and their safe and sustainable use, is crucuial to the longevity of your "
+                        "company.",
             principle_id=p_b2.id,
             order_id=2
         ),
         CAFContributingOutcome.objects.create(
             designation="B2.c",
             name="Privileged User Mangement",
-            description="You ensure that even the most privileged members of your senior management are under the impression "
-                        "that they exude inequality, in all instances.",
+            description="You ensure that even the most privileged members of your senior management are under the "
+                        "impression that they exude inequality, in all instances.",
             principle_id=p_b2.id,
             order_id=3
         ),
@@ -418,7 +432,8 @@ def populate_db():
         CAFContributingOutcome.objects.create(
             designation="B4.a",
             name="Secure by Design",
-            description="You have designed your systems to be secure and you're sure no one is going to hack into them.",
+            description="You have designed your systems to be secure and you're sure no one is going to hack "
+                        "into them.",
             principle_id=p_b4.id,
             order_id=1
         ),
@@ -526,7 +541,8 @@ def populate_db():
         CAFContributingOutcome.objects.create(
             designation="C2.b",
             name="Proactive Attack Discovery",
-            description="When you go out looking for the bad stuff, you usefully find it - and you know this in spades.",
+            description="When you go out looking for the bad stuff, you usefully find it - "
+                        "and you know this in spades.",
             principle_id=p_c2.id,
             order_id=2
         ),
@@ -586,15 +602,26 @@ def populate_db():
     ]
 
     for al in achievement_levels:
-        for co in cos:
-            for igp in range(1, random.randint(2, 5)):
-                dtext_fake = Faker()
-                fake_txt = f"IGP {igp}/{al.descriptor}/{co.designation}: {dtext_fake.paragraph()}"
-                IGP.objects.create(
-                    achievement_level=al,
-                    contributing_outcome=co,
-                    descriptive_text=fake_txt
-                )
+        if _igp_number:
+            for co in cos:
+                for igp in range(1, _igp_number):
+                    dtext_fake = Faker()
+                    fake_txt = f"IGP {igp}/{al.descriptor}/{co.designation}: {dtext_fake.paragraph()}"
+                    IGP.objects.create(
+                        achievement_level=al,
+                        contributing_outcome=co,
+                        descriptive_text=fake_txt
+                    )
+        else:
+            for co in cos:
+                for igp in range(1, random.randint(2, 5)):
+                    dtext_fake = Faker()
+                    fake_txt = f"IGP {igp}/{al.descriptor}/{co.designation}: {dtext_fake.paragraph()}"
+                    IGP.objects.create(
+                        achievement_level=al,
+                        contributing_outcome=co,
+                        descriptive_text=fake_txt
+                    )
 
     # We want to create a CAF with a bunch of scoring now...
     _caf2 = CAF.objects.get(pk=1)
