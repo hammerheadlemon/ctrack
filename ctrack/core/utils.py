@@ -51,8 +51,7 @@ def _create_caf_app_service(c_descriptors, org, q_descriptors):
         )
 
 
-def populate_db(persons):
-    number = persons
+def populate_db():
 
     # Set up some reasonable Modes and SubModes
     m1 = Mode.objects.create(descriptor="Rail")
