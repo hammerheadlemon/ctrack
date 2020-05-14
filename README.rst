@@ -11,14 +11,14 @@ The CAF tool itself currently comprises a multi-sheet Excel document, used to ca
 Automating data collection and analysis
 ---------------------------------------
 
-The problem faced by agencies collecting and analsysing this data, who is typically required to handle dozens of these files, is how to store the data and what tooling be developed to support ongoing capture and analysis that makes up a long term compliance regime.
+The problem faced by competent authorities or other agencies who are typically required to handle dozens (or hundreds) of these files, is how to collect and analyse the data in a meaningful and efficient way and whether tooling can be developed to support the ongoing donkey work of collecting and reporting on data, that makes up a typical long term compliance regime.
 
 Excel is often the go-to tool in corporate environments thanks to its ubiquitousness and flexibility. It is easy to create "forms" in Excel for collecting data that can be sent back an forth by email (or more secure means) - however it is not a good tool for long term data storage and/or analysis. A proper database is more appropriate.
 
 What is ctrack?
 ---------------
 
-Recognising this need, **ctrack** is a proof-of-concept web application developed in-house by the Cyber Compliance Team at the UK Department for Transport that aims to demonstrate the improvements in workflow possible by storing data associated with OES and its associated CAF data in a relational database. It focuses on the absolute basics of managing any business data: *Create*, *Read*, *Update*, *Delete* functionality (CRUD) and demonstrates how collection and analysis of ongoing assessment data - using the CAF as the foundation (the framework, not the spreadsheet) - can be exponentially improved using the simplest of form-based web application.
+Recognising this need, **ctrack** is a proof-of-concept web application developed in-house by the Cyber Compliance Team at the UK Department for Transport that aims to demonstrate the improvements in workflow possible by storing data associated with OES and its associated CAF data in a relational database. It focuses on the absolute basics of managing any business data: *Create*, *Read*, *Update*, *Delete* (CRUD) functionality and demonstrates how collection and analysis of ongoing assessment data - using the CAF as the foundation (the framework, not the spreadsheet) - can be exponentially improved using the simplest of form-based web application.
 
 Sensitivity of data
 --------------------
