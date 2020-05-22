@@ -40,12 +40,12 @@
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <a id="_title" class="navbar-brand" href="{% url 'home' %}">ctrack</a>
+        <a id="_title" class="navbar-brand" href="{% url 'core:home' %}">ctrack</a>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{% url 'core:home' %}">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
               <a href="{% url 'caf:es_list' %}" class="nav-link">Applicable Systems</a>

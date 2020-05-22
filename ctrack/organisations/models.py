@@ -41,7 +41,7 @@ class Person(models.Model):
         (6, "Other"),
     ]
 
-    def get_sentinel_user():
+    def get_sentinel_user():  # type: ignore
         """
         We need this so that we can ensure models.SET() is applied with a callable
         to handle when Users are deleted from the system, preventing the Person objects
@@ -110,7 +110,7 @@ class Organisation(models.Model):
         (3, "NA"),
     ]
 
-    def get_sentinel_user():
+    def get_sentinel_user():  # type: ignore
         """
         We need this so that we can ensure models.SET() is applied with a callable
         to handle when Users are deleted from the system, preventing the Organisations
