@@ -19,4 +19,4 @@ def test_user_get_absolute_url(user: User):
 def test_user_is_person_object(user: User):
     """User comes from ctrack.conftest.
     """
-    assert user.is_person is False
+    assert user.oes_user is False
