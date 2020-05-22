@@ -6,10 +6,16 @@ from django.urls.base import reverse
 
 
 class Grading(models.Model):
-    GRADING_TYPE = [("CONFIDENCE", "Confidence"), ("QUALITY", "Quality"), ("MISC", "Misc")]
+    GRADING_TYPE = [
+        ("CONFIDENCE", "Confidence"),
+        ("QUALITY", "Quality"),
+        ("MISC", "Misc"),
+    ]
     descriptor = models.CharField(max_length=2, help_text="Q1, C1, etc")
     description = models.TextField(max_length=250)
-    type = models.CharField(max_length=20, choices=GRADING_TYPE, help_text="Type of grading")
+    type = models.CharField(
+        max_length=20, choices=GRADING_TYPE, help_text="Type of grading"
+    )
 
     def __str__(self):
         return self.descriptor
@@ -52,7 +58,13 @@ class ApplicableSystem(models.Model):
     organisation = models.ForeignKey(
         Organisation, on_delete=models.SET(get_sentinel_org)
     )
-    caf = models.ForeignKey("CAF", on_delete=models.CASCADE, blank=True, null=True, related_name="applicable_systems")
+    caf = models.ForeignKey(
+        "CAF",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name="applicable_systems",
+    )
 
     class Meta:
         verbose_name = "Applicable System"
@@ -67,14 +79,28 @@ class ApplicableSystem(models.Model):
 
 
 class CAF(models.Model):
-    quality_grading = models.ForeignKey(Grading, on_delete=models.CASCADE, blank=True, null=True,
-                                        related_name="quality_grading")
-    confidence_grading = models.ForeignKey(Grading, on_delete=models.CASCADE, blank=True, null=True,
-                                           related_name="confidence_grading")
-    file = models.ForeignKey(DocumentFile, on_delete=models.CASCADE, blank=True, null=True)
+    quality_grading = models.ForeignKey(
+        Grading,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name="quality_grading",
+    )
+    confidence_grading = models.ForeignKey(
+        Grading,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name="confidence_grading",
+    )
+    file = models.ForeignKey(
+        DocumentFile, on_delete=models.CASCADE, blank=True, null=True
+    )
     version = models.CharField(max_length=10, blank=True, null=True)
     triage_review_date = models.DateField(blank=True, null=True)
-    triage_review_inspector = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True)
+    triage_review_inspector = models.ForeignKey(
+        Person, on_delete=models.CASCADE, blank=True, null=True
+    )
     comments = models.TextField(max_length=1000)
 
     class Meta:
