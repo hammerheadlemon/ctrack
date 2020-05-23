@@ -5,7 +5,7 @@ import factory
 from django.contrib.auth import get_user_model
 from factory import DjangoModelFactory, Faker, SubFactory, post_generation
 
-from ctrack.organisations.models import Organisation, Person, Role, Address
+from ctrack.organisations.models import Address, Organisation, Person, Role
 
 User = get_user_model()
 
@@ -47,7 +47,7 @@ class OrganisationFactory(DjangoModelFactory):
     name = Faker("company")
     slug = Faker("lexify", text="????", letters="abcdsg")
     designation_type = 1
-    oes = factory.LazyFunction(lambda : random.choice([True, False]))
+    oes = factory.LazyFunction(lambda: random.choice([True, False]))
     registered_company_name = Faker("company")
     registered_company_number = Faker("numerify", text="######")
     date_updated = Faker("date_this_year", before_today=True)
@@ -82,15 +82,19 @@ class PersonFactory(DjangoModelFactory):
         if extracted:
             self.role.add(extracted)
 
-    primary_nis_contact = factory.LazyFunction(lambda : random.choice([True, False]))
+    primary_nis_contact = factory.LazyFunction(lambda: random.choice([True, False]))
     voluntary_point_of_contact = True
     has_egress = False
     title = factory.LazyFunction(lambda: random.randint(1, 8))
     job_title = Faker("job")
     first_name = Faker("first_name")
     last_name = Faker("last_name")
-    organisation = SubFactory("ctrack.organisations.tests.factories.OrganisationFactory")
-    email = factory.LazyAttribute(lambda o: '%s@%s.com' % (o.first_name.lower(), o.organisation.slug))
+    organisation = SubFactory(
+        "ctrack.organisations.tests.factories.OrganisationFactory"
+    )
+    email = factory.LazyAttribute(
+        lambda o: "%s@%s.com" % (o.first_name.lower(), o.organisation.slug)
+    )
     secondary_email = Faker("ascii_company_email")
     mobile = Faker("cellphone_number", locale="en_GB")
     landline = Faker("phone_number", locale="en_GB")
