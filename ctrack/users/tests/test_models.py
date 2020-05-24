@@ -13,4 +13,4 @@ def test_user_is_person_object(user: User):
 
     """User comes from ctrack.conftest.
     """
-    assert user.oes_user is False
+    assert user
