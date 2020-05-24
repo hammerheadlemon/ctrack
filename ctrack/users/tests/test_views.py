@@ -2,7 +2,7 @@ import pytest
 from django.test import RequestFactory
 
 from ctrack.users.models import User
-from ctrack.users.views import UserRedirectView, UserUpdateView
+from ctrack.users.views import UserDetailView, UserRedirectView, UserUpdateView
 
 pytestmark = pytest.mark.django_db
 
@@ -44,3 +44,17 @@ class TestUserRedirectView:
         view.request = request
 
         assert view.get_redirect_url() == f"/users/{user.username}/"
+
+
+def test_profile_view_contains_organisation_information(user: User):
+    """url: users/username
+    This is where users are redirected to when they log in and where I want to capture 
+    information about the user - particularly if they are an OES user.
+     """
+    factory = RequestFactory()
+    request = factory.get(f"/users/{user.username}")
+    # we have to do the following to simulate logged-in user
+    # Django Advanced Testing Topics
+    request.user = user
+    response = UserDetailView.as_view()(request)
+    assert response.status_code == 300
