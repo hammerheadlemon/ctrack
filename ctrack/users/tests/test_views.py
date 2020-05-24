@@ -2,7 +2,6 @@ import pytest
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory
 
-from ctrack.organisations.tests.factories import OrganisationFactory
 from ctrack.users.models import User
 from ctrack.users.views import UserDetailView, UserRedirectView, UserUpdateView
 
@@ -64,4 +63,4 @@ def test_profile_view_contains_organisation_information():
     response = UserDetailView.as_view()(request, username=user.username)
     assert response.status_code == 200
     # TODO - work out how we can attach an organisation to the User model
-    assert response.context_data["object"]
+    assert False, "This does nothing yet"
