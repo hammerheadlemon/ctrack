@@ -16,10 +16,11 @@ def test_user_is_person_object(user):
     assert user
 
 
-def test_stakeholder_model(person):
+def test_stakeholder_model(person, user):
     """
     A stakeholder is someone who is part of the regime but also has user access to the
     the system.
     """
     stakeholder = Stakeholder(person=person)
-    assert stakeholder
+    user.stakeholder = stakeholder
+    assert user.stakeholder.person.first_name == "Chinaplate"

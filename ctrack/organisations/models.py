@@ -178,3 +178,6 @@ class Address(models.Model):
 
 class Stakeholder(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.person.first_name} {self.person.last_name}"

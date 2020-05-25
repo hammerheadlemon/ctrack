@@ -1,6 +1,15 @@
 from django.contrib import admin
 
-from .models import Address, AddressType, Mode, Organisation, Person, Role, Submode
+from .models import (
+    Address,
+    AddressType,
+    Mode,
+    Organisation,
+    Person,
+    Role,
+    Stakeholder,
+    Submode,
+)
 
 
 # So we can get the organisation name - a reverse lookup
@@ -14,6 +23,10 @@ get_organisation_name.short_description = "Organisation"
 
 class AddressTypeAdmin(admin.ModelAdmin):
     pass
+
+
+class StakeholderAdmin(admin.ModelAdmin):
+    model = Stakeholder
 
 
 class AddressInLine(admin.StackedInline):
@@ -58,3 +71,4 @@ admin.site.register(Role, RoleAdmin)
 admin.site.register(Person, PersonAdmin)
 admin.site.register(Mode, ModeAdmin)
 admin.site.register(Submode, SubmodeAdmin)
+admin.site.register(Stakeholder, StakeholderAdmin)
