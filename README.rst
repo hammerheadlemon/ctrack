@@ -20,7 +20,9 @@ What is ctrack?
 
 Recognising this need, **ctrack** is a proof-of-concept web application developed in-house by the Cyber Compliance Team at the UK Department for Transport that aims to demonstrate the improvements in workflow possible by storing data associated with OES and its associated CAF data in a relational database. It focuses on the absolute basics of managing any business data: *Create*, *Read*, *Update*, *Delete* (CRUD) functionality and demonstrates how collection and analysis of ongoing assessment data - using the CAF as the foundation (the framework, not the spreadsheet) - can be exponentially improved using the simplest of form-based web application.
 
-Sensitivity of data
---------------------
+Technical Notes
+---------------
 
-This application is only a proof-of-concept and does not address the issue of deployment to a secure platform which will be required in future when handling real data.
+-  A User can also be associated with a "stakeholder" object, which represents
+  a Person in the system who is also a User. This means there is an option for designated
+  third-parties can also have rights to log into the system

@@ -56,7 +56,7 @@ def test_profile_view_contains_organisation_information(person):
     user = get_user_model().objects.create_user(
         username="testy", email="testy@test.com", password="test1020"
     )
-    org = person.organisation.name
+    org_name = person.organisation.name
     stakeholder = Stakeholder.objects.create(person=person)
     user.stakeholder = stakeholder
     user.save()
@@ -70,6 +70,11 @@ def test_profile_view_contains_organisation_information(person):
     assert response.context_data["user"].username == "testy"
     assert response.context_data["user"].is_stakeholder() is True
     assert response.context_data["user"].stakeholder.person.first_name == "Chinaplate"
+    assert (
+        response.context_data["user"].stakeholder.person.get_organisation_name()
+        == org_name
+    )
+    assert response.context_data["user"].get_organisation_name() == org_name
 
 
 #   assert response.context_data["user"].stakeholder.person.first_name == "Chinaplate"
