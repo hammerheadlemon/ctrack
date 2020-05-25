@@ -11,7 +11,11 @@ User = get_user_model()
 class UserDetailView(LoginRequiredMixin, DetailView):
 
     model = User
+
+    # This names the field in the model that contains the slug. Want it to be thise so that is a good
+    # citizen to be used in a URL
     slug_field = "username"
+
     slug_url_kwarg = "username"
 
 

@@ -62,14 +62,18 @@ def test_profile_view_contains_organisation_information(person):
     user.save()
     factory = RequestFactory()
     request = factory.get(f"/users/{user.username}")
+
     # we have to do the following to simulate logged-in user
     # Django Advanced Testing Topics
     request.user = user
+
     response = UserDetailView.as_view()(request, username=user.username)
     assert response.status_code == 200
     assert response.context_data["user"].username == "testy"
     assert response.context_data["user"].is_stakeholder() is True
     assert response.context_data["user"].stakeholder.person.first_name == "Chinaplate"
+
+    # Two ways of getting the organisaton name
     assert (
         response.context_data["user"].stakeholder.person.get_organisation_name()
         == org_name
