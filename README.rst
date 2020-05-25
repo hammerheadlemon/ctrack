@@ -23,6 +23,15 @@ Recognising this need, **ctrack** is a proof-of-concept web application develope
 Technical Notes
 ---------------
 
--  A User can also be associated with a "stakeholder" object, which represents
-  a Person in the system who is also a User. This means there is an option for designated
-  third-parties can also have rights to log into the system
+Stakeholders
+############
+
+A User can also be associated with a "stakeholder" object, which represents
+a Person in the system who is also a User. This means there is an option for
+designated third-parties can also have rights to log into the system
+
+Workflow is currently to add Person, User and Stakeholder objects in the Admin.
+We would also want to restricted Stakeholder users from being able to do
+anything in the system other than X.
+
+
