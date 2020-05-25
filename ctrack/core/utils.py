@@ -25,12 +25,12 @@ from ctrack.organisations.tests.factories import (
     OrganisationFactory,
     PersonFactory,
     RoleFactory,
-    UserFactory,
 )
 from ctrack.register.tests.factories import (
     EngagementEventFactory,
     EngagementTypeFactory,
 )
+from ctrack.users.tests.factories import UserFactory
 
 fnames = [
     "Clock Pylon Systems",

@@ -81,6 +81,4 @@ def test_profile_view_contains_organisation_information(person):
         == org_name
     )
     assert response.context_data["user"].get_organisation_name() == org_name
-
-
-#   assert response.context_data["user"].stakeholder.person.first_name == "Chinaplate"
+    assert response.context_data["user"].stakeholder.person.first_name == "Chinaplate"

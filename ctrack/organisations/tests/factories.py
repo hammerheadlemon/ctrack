@@ -33,6 +33,8 @@ def _random_submode():
 
 
 class UserFactory(DjangoModelFactory):
+    # Better to create this using example in ctrack.users.tests.factories.
+    # Handles password generation correctly.
     class Meta:
         model = User
 
