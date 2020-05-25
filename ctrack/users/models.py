@@ -15,3 +15,13 @@ class User(AbstractUser):
 
     def get_absolute_url(self):
         return reverse("users:detail", kwargs={"username": self.username})
+
+    def is_stakeholder(self):
+        if self.stakeholder is not None:
+            return True
+        else:
+            return False
+
+    def get_organisation_name(self):
+        if self.is_stakeholder():
+            return self.stakeholder.person.organisation.name
