@@ -16,6 +16,8 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     # citizen to be used in a URL
     slug_field = "username"
 
+    # the name of the URLConf keyword argument that contains the slug. By default, slug_url_kwarg is 'slug'.
+    # we have to pass 'username' as the argument when testing UserDetailView because of this.
     slug_url_kwarg = "username"
 
 

@@ -67,7 +67,9 @@ def test_profile_view_contains_organisation_information(person):
     # Django Advanced Testing Topics
     request.user = user
 
+    # We pass 'username' rather than 'slug' here because we are setting 'slug_url_kwarg' in our CBV.
     response = UserDetailView.as_view()(request, username=user.username)
+
     assert response.status_code == 200
     assert response.context_data["user"].username == "testy"
     assert response.context_data["user"].is_stakeholder() is True
