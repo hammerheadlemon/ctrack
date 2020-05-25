@@ -47,7 +47,7 @@ class Person(models.Model):
         to handle when Users are deleted from the system, preventing the Person objects
         related to them being deleted also.
         """
-        return get_user_model().objects.get_or_create(username='DELETED USER')[0]
+        return get_user_model().objects.get_or_create(username="DELETED USER")[0]
 
     primary_nis_contact = models.BooleanField(
         default=False, verbose_name="Primary NIS contact"
@@ -65,7 +65,9 @@ class Person(models.Model):
     mobile = models.CharField(max_length=20, blank=True)
     landline = models.CharField(max_length=20, blank=True)
     date_updated = models.DateField(auto_now=True)
-    updated_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user))
+    #    updated_by = models.ForeignKey(
+    #        get_user_model(), on_delete=models.SET(get_sentinel_user)
+    #    )
     clearance = models.IntegerField(choices=CLEARANCE_LEVEL, default=1)
     clearance_sponsor = models.CharField(max_length=100, blank=True)
     clearance_start_date = models.DateField(blank=True, null=True)
@@ -74,7 +76,11 @@ class Person(models.Model):
     active = models.BooleanField(default=True)
     date_ended = models.DateField(blank=True, null=True)
     predecessor = models.ForeignKey(
-        "self", blank=True, on_delete=models.CASCADE, related_name="previous_person", null=True
+        "self",
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="previous_person",
+        null=True,
     )
     comments = models.TextField(max_length=1000, blank=True)
 
@@ -116,7 +122,7 @@ class Organisation(models.Model):
         to handle when Users are deleted from the system, preventing the Organisations
         related to them being deleted also.
         """
-        return get_user_model().objects.get_or_create(username='DELETED USER')[0]
+        return get_user_model().objects.get_or_create(username="DELETED USER")[0]
 
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from=["name"])
@@ -128,7 +134,9 @@ class Organisation(models.Model):
     registered_company_name = models.CharField(max_length=255, blank=True)
     registered_company_number = models.CharField(max_length=100, blank=True)
     date_updated = models.DateField(auto_now=True)
-    updated_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user))
+    #    updated_by = models.ForeignKey(
+    #        get_user_model(), on_delete=models.SET(get_sentinel_user)
+    #    )
     comments = models.TextField(max_length=500, blank=True, null=True)
     active = models.BooleanField(default=True)
 
@@ -166,3 +174,7 @@ class Address(models.Model):
 
     class Meta:
         verbose_name_plural = "Addresses"
+
+
+class Stakeholder(models.Model):
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)

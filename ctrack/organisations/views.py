@@ -1,12 +1,11 @@
-from typing import Any
-from typing import Dict
+from typing import Any, Dict
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, ListView, CreateView
+from django.views.generic import CreateView, DetailView, ListView
 
-from .forms import OrganisationCreateForm, AddressInlineFormSet
+from .forms import AddressInlineFormSet, OrganisationCreateForm
 from .models import Organisation
 
 
@@ -27,7 +26,7 @@ class OrganisationCreate(LoginRequiredMixin, CreateView):
         context = self.get_context_data()
         addresses = context["addresses"]
         with transaction.atomic():
-            form.instance.updated_by = self.request.user
+            #            form.instance.updated_by = self.request.user REMOVED updated_by
             self.object = form.save()
             if addresses.is_valid():
                 addresses.instance = self.object
@@ -52,18 +51,18 @@ class OrganisationDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data()
-        org = kwargs['object']
+        org = kwargs["object"]
         no_addr = org.addresses.count()
         if no_addr > 1:
-            context['no_addr'] = no_addr
+            context["no_addr"] = no_addr
             addr = org.addresses.all()
-            context['addr'] = addr
+            context["addr"] = addr
         else:
-            context['no_addr'] = 1
+            context["no_addr"] = 1
             addr = org.addresses.first()
-            context['addr'] = addr
+            context["addr"] = addr
         people = org.person_set.all()
-        context['people'] = people
+        context["people"] = people
         applicable_systems = org.applicablesystem_set.all()
-        context['applicable_systems'] = applicable_systems
+        context["applicable_systems"] = applicable_systems
         return context

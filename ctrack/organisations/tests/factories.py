@@ -51,7 +51,6 @@ class OrganisationFactory(DjangoModelFactory):
     registered_company_name = Faker("company")
     registered_company_number = Faker("numerify", text="######")
     date_updated = Faker("date_this_year", before_today=True)
-    updated_by = SubFactory(UserFactory)
     comments = Faker("paragraph", nb_sentences=3)
     active = True
 
@@ -99,7 +98,6 @@ class PersonFactory(DjangoModelFactory):
     mobile = Faker("cellphone_number", locale="en_GB")
     landline = Faker("phone_number", locale="en_GB")
     date_updated = factory.LazyFunction(datetime.now)
-    updated_by = SubFactory(UserFactory)
     clearance = factory.LazyFunction(lambda: random.randint(1, 6))
     clearance_sponsor = Faker("name", locale="en_GB")
     clearance_start_date = factory.LazyFunction(datetime.now)

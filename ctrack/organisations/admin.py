@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Organisation, Address, AddressType, Person, Role, Mode, Submode
+from .models import Address, AddressType, Mode, Organisation, Person, Role, Submode
 
 
 # So we can get the organisation name - a reverse lookup
@@ -24,7 +24,7 @@ class AddressInLine(admin.StackedInline):
 
 class OrganisationAdmin(admin.ModelAdmin):
     inlines = [AddressInLine]
-    list_display = ("name", "submode", "date_updated", "updated_by")
+    list_display = ("name", "submode", "date_updated")
 
 
 class PersonAdmin(admin.ModelAdmin):

@@ -1,6 +1,6 @@
 import pytest
 
-from ctrack.users.stakeholder import Stakeholder
+from ctrack.organisations.models import Stakeholder
 
 pytestmark = pytest.mark.django_db
 
