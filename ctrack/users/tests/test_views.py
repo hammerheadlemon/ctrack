@@ -2,6 +2,7 @@ import pytest
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory
 
+from ctrack.organisations.models import Stakeholder
 from ctrack.users.models import User
 from ctrack.users.views import UserDetailView, UserRedirectView, UserUpdateView
 
@@ -47,7 +48,7 @@ class TestUserRedirectView:
         assert view.get_redirect_url() == f"/users/{user.username}/"
 
 
-def test_profile_view_contains_organisation_information():
+def test_profile_view_contains_organisation_information(person):
     """url: users/username
     This is where users are redirected to when they log in and where I want to capture
     information about the user - particularly if they are an OES user.
@@ -55,6 +56,10 @@ def test_profile_view_contains_organisation_information():
     user = get_user_model().objects.create_user(
         username="testy", email="testy@test.com", password="test1020"
     )
+    org = person.organisation.name
+    stakeholder = Stakeholder.objects.create(person=person)
+    user.stakeholder = stakeholder
+    user.save()
     factory = RequestFactory()
     request = factory.get(f"/users/{user.username}")
     # we have to do the following to simulate logged-in user
@@ -62,5 +67,9 @@ def test_profile_view_contains_organisation_information():
     request.user = user
     response = UserDetailView.as_view()(request, username=user.username)
     assert response.status_code == 200
-    # TODO - work out how we can attach an organisation to the User model
-    assert False, "This does nothing yet"
+    assert response.context_data["user"].username == "testy"
+    assert response.context_data["user"].is_stakeholder() is True
+    assert response.context_data["user"].stakeholder.person.first_name == "Chinaplate"
+
+
+#   assert response.context_data["user"].stakeholder.person.first_name == "Chinaplate"
