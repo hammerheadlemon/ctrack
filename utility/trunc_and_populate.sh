@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo "Truncating the database."
-psql -U postgres -a -f /home/lemon/code/python/ctrack/utility/truncate_script.sql ctrack
+sudo -u postgres psql -f utility/truncate_script.sql ctrack
 
 sleep 1
 

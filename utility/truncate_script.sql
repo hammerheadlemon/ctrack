@@ -24,5 +24,4 @@ TRUNCATE TABLE assessments_cafselfassessment RESTART IDENTITY CASCADE;
 TRUNCATE TABLE assessments_cafselfassessmentoutcomescore RESTART IDENTITY CASCADE;
 TRUNCATE TABLE assessments_achievementlevel RESTART IDENTITY CASCADE;
 TRUNCATE TABLE assessments_igp RESTART IDENTITY CASCADE;
-TRUNCATE TABLE users_user RESTART IDENTITY CASCADE;
 DELETE FROM users_user WHERE username != 'mrlemon';
