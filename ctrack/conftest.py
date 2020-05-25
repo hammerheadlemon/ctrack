@@ -1,5 +1,9 @@
+import os
+
 import pytest
 from django.test import RequestFactory
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 
 from ctrack.organisations.models import (
     Address,
@@ -58,3 +62,14 @@ def addr() -> Address:
 @pytest.fixture
 def request_factory() -> RequestFactory:
     return RequestFactory()
+
+
+@pytest.fixture(scope="module")
+def browser(request):
+    "Provide selenium webdriver instance."
+    os.environ["PATH"] += os.pathsep + os.getcwd()
+    options = Options()
+    options.headless = True
+    browser_ = webdriver.Firefox(firefox_options=options)
+    yield browser_
+    browser_.quit()

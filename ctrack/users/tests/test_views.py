@@ -48,14 +48,11 @@ class TestUserRedirectView:
         assert view.get_redirect_url() == f"/users/{user.username}/"
 
 
-def test_profile_view_contains_organisation_information(person):
+def test_profile_view_contains_organisation_information(person, user):
     """url: users/username
     This is where users are redirected to when they log in and where I want to capture
     information about the user - particularly if they are an OES user.
     """
-    user = get_user_model().objects.create_user(
-        username="testy", email="testy@test.com", password="test1020"
-    )
     org_name = person.organisation.name
     stakeholder = Stakeholder.objects.create(person=person)
     user.stakeholder = stakeholder
@@ -71,7 +68,7 @@ def test_profile_view_contains_organisation_information(person):
     response = UserDetailView.as_view()(request, username=user.username)
 
     assert response.status_code == 200
-    assert response.context_data["user"].username == "testy"
+    assert response.context_data["user"].username == user.username
     assert response.context_data["user"].is_stakeholder() is True
     assert response.context_data["user"].stakeholder.person.first_name == "Chinaplate"
 
