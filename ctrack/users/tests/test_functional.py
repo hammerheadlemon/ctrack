@@ -34,3 +34,6 @@ def test_user_can_log_in(browser, person, live_server):
 
     # On the other side, he sees some basic details about himself.
     assert "User: toss" in browser.title
+
+    # Such as his own name in an H1 tag!
+    assert browser.find_element_by_tag_name("H1") == "Toss McBride"

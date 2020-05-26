@@ -49,9 +49,9 @@ class TestUserRedirectView:
 
 
 def test_profile_view_contains_organisation_information(person, user):
-    """url: users/username
-    This is where users are redirected to when they log in and where I want to capture
-    information about the user - particularly if they are an OES user.
+    """
+    This tests the context_data - not the rendered page... We'll do that in the
+    next test.
     """
     org_name = person.organisation.name
     stakeholder = Stakeholder.objects.create(person=person)
@@ -70,7 +70,7 @@ def test_profile_view_contains_organisation_information(person, user):
     assert response.status_code == 200
     assert response.context_data["user"].username == user.username
     assert response.context_data["user"].is_stakeholder() is True
-    assert response.context_data["user"].stakeholder.person.first_name == "Chinaplate"
+    assert response.context_data["user"].stakeholder.person.first_name == "Toss"
 
     # Two ways of getting the organisaton name
     assert (
@@ -78,4 +78,4 @@ def test_profile_view_contains_organisation_information(person, user):
         == org_name
     )
     assert response.context_data["user"].get_organisation_name() == org_name
-    assert response.context_data["user"].stakeholder.person.first_name == "Chinaplate"
+    assert response.context_data["user"].stakeholder.person.first_name == "Toss"

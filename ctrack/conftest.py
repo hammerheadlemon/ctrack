@@ -39,7 +39,8 @@ def person(user):
     submode = Submode.objects.create(descriptor="Light Rail", mode=mode)
     org = OrganisationFactory.create(submode=submode)
     person = PersonFactory.create(
-        first_name="Chinaplate",
+        first_name="Toss",
+        last_name="McBride",
         role=role,
         predecessor=None,
         organisation__submode=submode,
