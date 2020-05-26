@@ -30,10 +30,11 @@ def test_user_can_log_in(browser, person, live_server):
     browser.find_element_by_id("sign_in_button").submit()
     time.sleep(1)
     current_url = browser.current_url
-    assert current_url == live_server + "/users/toss/"
+    assert current_url == live_server + "/"
 
     # On the other side, he sees some basic details about himself.
-    assert "User: toss" in browser.title
+    assert "ctrack - Department for Transport" in browser.title
 
     # Such as his own name in an H1 tag!
-    assert browser.find_element_by_tag_name("H1") == "Toss McBride"
+    h1 = browser.find_element_by_tag_name("h1")
+    assert h1.text == "Welcome to ctrack - Department for Transport"

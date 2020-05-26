@@ -1,8 +1,10 @@
 import pytest
 from django.contrib.auth import get_user_model
+from django.http import HttpRequest
 from django.test import RequestFactory
 from django.urls import resolve
 
+from ctrack.core.views import home_page
 from ctrack.organisations.models import Stakeholder
 from ctrack.users.models import User
 from ctrack.users.views import UserDetailView, UserRedirectView, UserUpdateView
@@ -82,7 +84,15 @@ def test_profile_view_contains_organisation_information(person, user):
     assert response.context_data["user"].stakeholder.person.first_name == "Toss"
 
 
-def test_user_page_has_h1_with_their_name_in_it(person, user):
-    """Test"""
-    # TODO - write this test; it will make part of func test pass.
-    found = resolve("/")
+def test_home_page_h1_tag_with_client(person, client, django_user_model):
+    """
+    Basic test of HTML from the home page.
+    """
+    django_user_model.objects.create_user(username="toss", password="knob")
+    client.login(username="toss", password="knob")
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.content[:15] == b"<!DOCTYPE html>"
+    assert b"<title>ctrack - Department for Transport</title>" in response.content
+    assert b"<h1>Welcome to ctrack - Department for Transport</h1>" in response.content
+    assert b"</html>" in response.content
