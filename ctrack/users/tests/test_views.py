@@ -84,7 +84,7 @@ def test_profile_view_contains_organisation_information(person, user):
     assert response.context_data["user"].stakeholder.person.first_name == "Toss"
 
 
-def test_home_page_h1_tag_with_client(person, client, django_user_model):
+def test_home_page_h1_tag_with_client(client, django_user_model):
     """
     Basic test of HTML from the home page.
     """
@@ -96,3 +96,17 @@ def test_home_page_h1_tag_with_client(person, client, django_user_model):
     assert b"<title>ctrack - Department for Transport</title>" in response.content
     assert b"<h1>Welcome to ctrack - Department for Transport</h1>" in response.content
     assert b"</html>" in response.content
+
+
+def test_regular_user_gets_regular_user_template(django_user_model):
+    """
+    When a user logs in without a stakeholder mapping, they get sent to the regular user
+    template.
+    """
+    user = django_user_model.objects.create_user(username="toss", password="knob")
+    factory = RequestFactory()
+    request = factory.get("/")
+    request.user = user
+    response = home_page(request)
+    assert response.status_code == 200
+    assert b"<p>THIS IS A TEMPLATE FOR A REGULAR USER</p>" in response.content

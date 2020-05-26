@@ -38,3 +38,7 @@ def test_user_can_log_in(browser, person, live_server):
     # Such as his own name in an H1 tag!
     h1 = browser.find_element_by_tag_name("h1")
     assert h1.text == "Welcome to ctrack - Department for Transport"
+    type_user_message = browser.find_elements_by_tag_name("p")
+    assert "THIS IS A TEMPLATE FOR A REGULAR USER" in [
+        m.text for m in type_user_message
+    ]
