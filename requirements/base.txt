@@ -1,6 +1,6 @@
 # Django
 # ------------------------------------------------------------------------------
-django==3.0.5  # pyup: < 3.0  # https://www.djangoproject.com/
+django==2.2.12  # pyup: < 3.0  # https://www.djangoproject.com/
 django-environ  # https://github.com/joke2k/django-environ
 django-allauth>=0.41.0
 django-crispy-forms>=1.9.0
