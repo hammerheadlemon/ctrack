@@ -1,6 +1,7 @@
 import pytest
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory
+from django.urls import resolve
 
 from ctrack.organisations.models import Stakeholder
 from ctrack.users.models import User
@@ -79,3 +80,9 @@ def test_profile_view_contains_organisation_information(person, user):
     )
     assert response.context_data["user"].get_organisation_name() == org_name
     assert response.context_data["user"].stakeholder.person.first_name == "Toss"
+
+
+def test_user_page_has_h1_with_their_name_in_it(person, user):
+    """Test"""
+    # TODO - write this test; it will make part of func test pass.
+    found = resolve("/")
