@@ -16,8 +16,14 @@ from ctrack.users.models import User
 pytestmark = pytest.mark.django_db
 
 
-def test_user_can_log_in(browser, live_server):
-    User.objects.create_user(username="toss", password="knob")
+def test_user_can_log_in(browser, person, live_server):
+
+    # Toss McBride is an OES user. He logs into the system...
+    stakeholder = Stakeholder.objects.create(person=person)
+
+    user = User.objects.create_user(username="toss", password="knob")
+    user.stakeholder = stakeholder
+    user.save()
     browser.get(live_server + "/accounts/login")
     browser.find_element_by_id("id_login").send_keys("toss")
     browser.find_element_by_id("id_password").send_keys("knob")
@@ -26,9 +32,5 @@ def test_user_can_log_in(browser, live_server):
     current_url = browser.current_url
     assert current_url == live_server + "/users/toss/"
 
-
-def test_profile_page_html(person, user, browser, live_server):
-    stakeholder = Stakeholder.objects.create(person=person)
-    user.stakeholder = stakeholder
-    user.save()
-    browser.get(live_server + f"/users/{user.username}/")
+    # On the other side, he sees some basic details about himself.
+    assert "User: toss" in browser.title
