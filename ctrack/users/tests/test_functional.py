@@ -77,6 +77,6 @@ def test_stakeholder_can_log_in_but_receieved_permisson_denied_when_off_piste(
     time.sleep(1)
     # Try to browser to Organisations list
     browser.get(live_server + "/organisations")
-    assert "Sorry. You are not authorised to view that page." in [
+    assert "Sorry. You do not have permission to view this page." in [
         x.text for x in browser.find_elements_by_tag_name("p")
     ]
