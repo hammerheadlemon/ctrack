@@ -68,7 +68,7 @@ def test_profile_view_contains_organisation_information(
 
     assert response.status_code == 200
     assert response.context_data["user"].username == user.username
-    assert response.context_data["user"].is_stakeholder() is True
+    assert response.context_data["user"].is_stakeholder is True
     assert response.context_data["user"].stakeholder.person.first_name == "Toss"
 
     # Two ways of getting the organisaton name
@@ -110,7 +110,7 @@ def test_regular_user_redirected_to_their_template_on_login(
 
 
 def test_stakeholder_redirected_to_their_template_on_login(
-    django_user_model, person, request_factory: RequestFactory, stakeholder
+    django_user_model, request_factory: RequestFactory, stakeholder
 ):
     """
     When a user logs in WITH a stakeholder mapping, they get sent to the stakehoder user
@@ -124,3 +124,36 @@ def test_stakeholder_redirected_to_their_template_on_login(
     response = home_page(request)
     assert response.status_code == 200
     assert b"THIS IS A TEMPLATE FOR A STAKEHOLDER USER" in response.content
+
+
+def test_stakeholder_returns_is_stakeholder(
+    django_user_model, request_factory, stakeholder
+):
+    user = django_user_model.objects.create_user(username="toss", password="knob")
+    user.stakeholder = stakeholder
+    user.save()
+    request = request_factory.get("/")
+    request.user = user
+    assert request.user.is_stakeholder is True
+
+
+def test_stakeholder_user_is_not_staff(django_user_model, stakeholder):
+    user = django_user_model.objects.create_user(username="toss", password="knob")
+    user.stakeholder = stakeholder
+    user.save()
+    assert user.is_staff is False
+
+
+def test_user_received_persmission_denied_when_accessing_disallowed_page(
+    django_user_model, request_factory, stakeholder
+):
+    user = django_user_model.objects.create_user(username="toss", password="knob")
+    user.stakeholder = stakeholder
+    user.save()
+    assert user.has_perm("ctrack.organisations.view_organisation") is True
+    user.user_permissions.clear()
+    assert user.has_perm("ctrack.organisations.view_organisation") is False
+    request = request_factory.get("/organisations")
+    request.user = user
+    response = home_page(request)
+    assert response.status_code == 403

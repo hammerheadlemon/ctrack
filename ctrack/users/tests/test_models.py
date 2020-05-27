@@ -24,6 +24,6 @@ def test_stakeholder_model(person, user):
     stakeholder = Stakeholder(person=person)
     org = person.organisation.name
     user.stakeholder = stakeholder
-    assert user.stakeholder.person.first_name == "Chinaplate"
-    assert user.is_stakeholder() is True
+    assert user.stakeholder.person.first_name == "Toss"
+    assert user.is_stakeholder is True
     assert user.get_organisation_name() == org

@@ -16,6 +16,7 @@ class User(AbstractUser):
     def get_absolute_url(self):
         return reverse("users:detail", kwargs={"username": self.username})
 
+    @property
     def is_stakeholder(self):
         if self.stakeholder is not None:
             return True
@@ -23,5 +24,5 @@ class User(AbstractUser):
             return False
 
     def get_organisation_name(self):
-        if self.is_stakeholder():
+        if self.is_stakeholder:
             return self.stakeholder.person.organisation.name
