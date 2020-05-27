@@ -1,4 +1,5 @@
 import pytest
+from django.contrib.auth.models import Permission
 from django.test import RequestFactory
 
 from ctrack.core.views import home_page
@@ -155,4 +156,13 @@ def test_user_received_persmission_denied_when_accessing_disallowed_page(
     request.user = user
     assert request.user.is_staff is False
     response = OrganisationListView.as_view()(request)
+    assert response.status_code == 403
+
+
+def test_user_gets_403(django_user_model, client, stakeholder):
+    user = django_user_model.objects.create_user(username="toss", password="knob")
+    user.stakeholder = stakeholder
+    user.save()
+    client.login(username="toss", password="knob")
+    response = client.get(path="https://localhost:8000/organisations")
     assert response.status_code == 403

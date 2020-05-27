@@ -41,11 +41,9 @@ class OrganisationCreate(LoginRequiredMixin, CreateView):
         return reverse_lazy("organisations:detail", kwargs={"slug": self.object.slug})
 
 
-class OrganisationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class OrganisationListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Organisation
-
-    def test_func(self):
-        return self.request.user.is_staff
+    permission_required = "organisations.view_organisation"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
