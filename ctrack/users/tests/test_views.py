@@ -1,8 +1,5 @@
 import pytest
-from django.contrib.auth import get_user_model
-from django.http import HttpRequest
 from django.test import RequestFactory
-from django.urls import resolve
 
 from ctrack.core.views import home_page
 from ctrack.organisations.models import Stakeholder
@@ -98,7 +95,7 @@ def test_home_page_h1_tag_with_client(client, django_user_model):
     assert b"</html>" in response.content
 
 
-def test_regular_user_gets_regular_user_template(django_user_model):
+def test_regular_user_redirected_to_their_template_on_login(django_user_model):
     """
     When a user logs in without a stakeholder mapping, they get sent to the regular user
     template.
@@ -110,3 +107,20 @@ def test_regular_user_gets_regular_user_template(django_user_model):
     response = home_page(request)
     assert response.status_code == 200
     assert b"<p>THIS IS A TEMPLATE FOR A REGULAR USER</p>" in response.content
+
+
+def test_stakeholder_redirected_to_their_template_on_login(django_user_model, person):
+    """
+    When a user logs in WITH a stakeholder mapping, they get sent to the stakehoder user
+    template.
+    """
+    user = django_user_model.objects.create_user(username="toss", password="knob")
+    stakeholder = Stakeholder.objects.create(person=person)
+    user.stakeholder = stakeholder
+    user.save()
+    factory = RequestFactory()
+    request = factory.get("/")
+    request.user = user
+    response = home_page(request)
+    assert response.status_code == 200
+    assert b"THIS IS A TEMPLATE FOR A STAKEHOLDER USER" in response.content
