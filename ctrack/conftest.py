@@ -10,6 +10,7 @@ from ctrack.organisations.models import (
     AddressType,
     Mode,
     Organisation,
+    Stakeholder,
     Submode,
 )
 from ctrack.organisations.tests.factories import (
@@ -58,6 +59,12 @@ def org() -> Organisation:
 def addr() -> Address:
     address_type = AddressType.objects.create(descriptor="Random Type")
     return AddressFactory(type=address_type)
+
+
+@pytest.fixture
+def stakeholder(person):
+    s = Stakeholder.objects.create(person=person)
+    return s
 
 
 @pytest.fixture

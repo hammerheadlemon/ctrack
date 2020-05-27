@@ -2,7 +2,6 @@ import pytest
 from django.test import RequestFactory
 
 from ctrack.core.views import home_page
-from ctrack.organisations.models import Stakeholder
 from ctrack.users.models import User
 from ctrack.users.views import UserDetailView, UserRedirectView, UserUpdateView
 
@@ -48,13 +47,14 @@ class TestUserRedirectView:
         assert view.get_redirect_url() == "/"
 
 
-def test_profile_view_contains_organisation_information(person, user, request_factory):
+def test_profile_view_contains_organisation_information(
+    person, user, request_factory, stakeholder
+):
     """
     This tests the context_data - not the rendered page... We'll do that in the
     next test.
     """
     org_name = person.organisation.name
-    stakeholder = Stakeholder.objects.create(person=person)
     user.stakeholder = stakeholder
     user.save()
     request = request_factory.get(f"/users/{user.username}")
@@ -110,14 +110,13 @@ def test_regular_user_redirected_to_their_template_on_login(
 
 
 def test_stakeholder_redirected_to_their_template_on_login(
-    django_user_model, person, request_factory: RequestFactory
+    django_user_model, person, request_factory: RequestFactory, stakeholder
 ):
     """
     When a user logs in WITH a stakeholder mapping, they get sent to the stakehoder user
     template.
     """
     user = django_user_model.objects.create_user(username="toss", password="knob")
-    stakeholder = Stakeholder.objects.create(person=person)
     user.stakeholder = stakeholder
     user.save()
     request = request_factory.get("/")

@@ -10,7 +10,6 @@ import time
 
 import pytest
 
-from ctrack.organisations.models import Stakeholder
 from ctrack.users.models import User
 
 pytestmark = pytest.mark.django_db
@@ -39,9 +38,10 @@ def test_regular_user_can_log_in(browser, person, live_server):
     ]
 
 
-def test_stakeholder_can_log_in_and_see_their_home(browser, person, live_server):
+def test_stakeholder_can_log_in_and_see_their_home(
+    browser, person, live_server, stakeholder
+):
     # Toss McBride is an OES user. He logs into the system...
-    stakeholder = Stakeholder.objects.create(person=person)
 
     user = User.objects.create_user(username="toss", password="knob")
     user.stakeholder = stakeholder
