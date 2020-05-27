@@ -45,10 +45,10 @@ class TestUserRedirectView:
 
         view.request = request
 
-        assert view.get_redirect_url() == f"/users/{user.username}/"
+        assert view.get_redirect_url() == "/"
 
 
-def test_profile_view_contains_organisation_information(person, user):
+def test_profile_view_contains_organisation_information(person, user, request_factory):
     """
     This tests the context_data - not the rendered page... We'll do that in the
     next test.
@@ -57,8 +57,7 @@ def test_profile_view_contains_organisation_information(person, user):
     stakeholder = Stakeholder.objects.create(person=person)
     user.stakeholder = stakeholder
     user.save()
-    factory = RequestFactory()
-    request = factory.get(f"/users/{user.username}")
+    request = request_factory.get(f"/users/{user.username}")
 
     # we have to do the following to simulate logged-in user
     # Django Advanced Testing Topics
@@ -95,21 +94,24 @@ def test_home_page_h1_tag_with_client(client, django_user_model):
     assert b"</html>" in response.content
 
 
-def test_regular_user_redirected_to_their_template_on_login(django_user_model):
+def test_regular_user_redirected_to_their_template_on_login(
+    django_user_model, request_factory: RequestFactory
+):
     """
     When a user logs in without a stakeholder mapping, they get sent to the regular user
     template.
     """
     user = django_user_model.objects.create_user(username="toss", password="knob")
-    factory = RequestFactory()
-    request = factory.get("/")
+    request = request_factory.get("/")
     request.user = user
     response = home_page(request)
     assert response.status_code == 200
     assert b"<p>THIS IS A TEMPLATE FOR A REGULAR USER</p>" in response.content
 
 
-def test_stakeholder_redirected_to_their_template_on_login(django_user_model, person):
+def test_stakeholder_redirected_to_their_template_on_login(
+    django_user_model, person, request_factory: RequestFactory
+):
     """
     When a user logs in WITH a stakeholder mapping, they get sent to the stakehoder user
     template.
@@ -118,8 +120,7 @@ def test_stakeholder_redirected_to_their_template_on_login(django_user_model, pe
     stakeholder = Stakeholder.objects.create(person=person)
     user.stakeholder = stakeholder
     user.save()
-    factory = RequestFactory()
-    request = factory.get("/")
+    request = request_factory.get("/")
     request.user = user
     response = home_page(request)
     assert response.status_code == 200
