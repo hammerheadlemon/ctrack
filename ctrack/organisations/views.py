@@ -1,6 +1,10 @@
 from typing import Any, Dict
 
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    UserPassesTestMixin,
+)
 from django.db import transaction
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
@@ -37,10 +41,11 @@ class OrganisationCreate(LoginRequiredMixin, CreateView):
         return reverse_lazy("organisations:detail", kwargs={"slug": self.object.slug})
 
 
-class OrganisationListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
+class OrganisationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Organisation
-    raise_exeption = True
-    permission_denied_message = "Sorry. You are not authorised to view that page."
+
+    def test_func(self):
+        return self.request.user.is_staff
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

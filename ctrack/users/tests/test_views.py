@@ -2,6 +2,7 @@ import pytest
 from django.test import RequestFactory
 
 from ctrack.core.views import home_page
+from ctrack.organisations.views import OrganisationListView
 from ctrack.users.models import User
 from ctrack.users.views import UserDetailView, UserRedirectView, UserUpdateView
 
@@ -145,15 +146,13 @@ def test_stakeholder_user_is_not_staff(django_user_model, stakeholder):
 
 
 def test_user_received_persmission_denied_when_accessing_disallowed_page(
-    django_user_model, request_factory, stakeholder
+    django_user_model, request_factory, stakeholder,
 ):
     user = django_user_model.objects.create_user(username="toss", password="knob")
     user.stakeholder = stakeholder
     user.save()
-    assert user.has_perm("ctrack.organisations.view_organisation") is True
-    user.user_permissions.clear()
-    assert user.has_perm("ctrack.organisations.view_organisation") is False
     request = request_factory.get("/organisations")
     request.user = user
-    response = home_page(request)
+    assert request.user.is_staff is False
+    response = OrganisationListView.as_view()(request)
     assert response.status_code == 403
