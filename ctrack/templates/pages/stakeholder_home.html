@@ -24,6 +24,10 @@
                             <p>Other important messages will appear here when we deem it necessary.
                             Please ensure you remain in touch with what appears in this box because it 
                             <strong>WILL</strong> be updated periodically.</p>
+                            <span class="text-muted"><a href="#">Help</a> | 
+                                <a href="#">NIS Regulations</a> | 
+                                <a href="#">Improvement Plan Information</a> |
+                            <a href="#">Report a problem</a></span>
                         </div>
                     </div>
                 </div>
@@ -49,7 +53,7 @@
                                     There was very little we could do until someone switched the circuit breakers off, 
                                     then we had to switch off the server that supplies the TLS link to the estate management 
                                     system. We failed on this one, big time.</td>
-                                <td><strong><span class="badge badge-primary">RESOLVED</span></strong></td>
+                                <td><strong><span class="badge badge-warning">UNRESOLVED</span></strong></td>
                             </tr>
                             <tr>
                                 <td>Corruption of main database</td>
@@ -57,18 +61,50 @@
                                 <td>Weather got to the night-watchperson, who typed in the command to seal 
                                     the compound incorrectly. This led to a deluge of sand into the minky processor 
                                     which eventually wiped all data tables.</td>
-                                <td><strong><span class="badge badge-warning">UNRESOLVED</span></strong></td>
+                                <td><strong><span class="badge badge-success">RESOLVED</span></strong></td>
                             </tr>
                         </table>
-                        <button class="btn btn-primary">Report an incident</button>
+                        <button class="btn btn-primary">Report a NIS incident</button>
                     </div>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col md-12">
                         <h2>Audits and Inspections</h2>
-                        <p>No recent audits or inspections<br>
-                        No audits or inspections currently scheduled</p>
+                        <table class="table">
+                            <thead>
+                                <th scope="col">Date</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Location</th>
+                                <th scope="col">Notes</th>
+                                <th scope="col">CAF scope</th>
+                                <th scope="col">Status</th>
+                            </thead> 
+                            <tr>
+                                <td>23/10/2020</td>
+                                <td>Inspection</td>
+                                <td>Hammersmith Warehouse</td>
+                                <td>Follow up to <a href="#">July telephone call</a></td>
+                                <td>
+                                    <span class="badge badge-warning">A2.c</span>
+                                    <span class="badge badge-danger">B2.a</span>
+                                </td>
+                                <td><span class="badge badge-warning">SCHEDULED</span></td>
+                            </tr>
+                            <tr>
+                                <td>5/6/2020</td>
+                                <td>Inspection</td>
+                                <td>Hammersmith Warehouse</td>
+                                <td>NA</td>
+                                <td>
+                                    <span class="badge badge-secondary">A3.a</span>
+                                    <span class="badge badge-secondary">B5.c</span>
+                                    <span class="badge badge-secondary">B6</span>
+                                    <span class="badge badge-secondary">B7</span>
+                                </td>
+                                <td><span class="badge badge-success">RESOLVED</span></td>
+                            <etr>
+                        </table>
                     </div>
                 </div>
 
