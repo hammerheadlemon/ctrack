@@ -162,4 +162,4 @@ def test_regular_user_gets_301_when_trying_to_access_view_with_perm_set(
     response = client.get(path="https://localhost:8000/organisations")
     assert (
         response.status_code == 301
-    )  # at this point, I don't know why it's a 301 not a 403
+    )  # This page redirects to 403.html, hence why its a 301 (I think)
