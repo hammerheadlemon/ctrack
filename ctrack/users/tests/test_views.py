@@ -146,7 +146,7 @@ def test_stakeholder_user_is_not_staff(django_user_model, stakeholder):
     assert user.is_staff is False
 
 
-def test_regular_user_gets_301_when_trying_to_access_view_with_perm_set(
+def test_stakeholder_user_gets_301_when_trying_to_access_view_with_perm_set(
     django_user_model, client, stakeholder
 ):
     """
@@ -163,3 +163,20 @@ def test_regular_user_gets_301_when_trying_to_access_view_with_perm_set(
     assert (
         response.status_code == 301
     )  # This page redirects to 403.html, hence why its a 301 (I think)
+
+
+@pytest.mark.skip("Explore why this does not pass - it passess in functional style")
+def test_staff_user_gets_200_when_trying_to_access_view_with_perm_set(
+    django_user_model, client, stakeholder
+):
+    user = django_user_model.objects.create_user(username="toss", password="knob")
+    user.stakeholder = stakeholder
+    org_list_permission = Permission.objects.get(name="Can view organisation")
+    assert user.user_permissions.count() == 0
+    user.user_permissions.add(org_list_permission)
+    assert user.has_perm("organisations.view_organisation")
+    user.save()
+    logged_in = client.login(username="toss", password="knob")
+    assert logged_in is True
+    response = client.get("/organisations")
+    assert response.status_code == 200

@@ -9,6 +9,7 @@ a regular user or a stakeholder user.
 import time
 
 import pytest
+from django.contrib.auth.models import Permission
 
 from ctrack.users.models import User
 
@@ -80,3 +81,26 @@ def test_stakeholder_can_log_in_but_receieved_permisson_denied_when_off_piste(
     assert "Sorry. You do not have permission to view this page." in [
         x.text for x in browser.find_elements_by_tag_name("p")
     ]
+
+
+def test_stakeholder_user_with_permissions_can_view_page(
+    browser, live_server, stakeholder
+):
+    user = User.objects.create_user(username="toss", password="knob")
+    user.stakeholder = stakeholder
+    org_list_permission = Permission.objects.get(name="Can view organisation")
+
+    # Add the permission to view an Organisation, which is set on OrganisationListView
+    assert user.user_permissions.count() == 0
+    user.user_permissions.add(org_list_permission)
+    assert user.user_permissions.count() == 1
+    user.save()
+
+    browser.get(live_server + "/accounts/login")
+    browser.find_element_by_id("id_login").send_keys("toss")
+    browser.find_element_by_id("id_password").send_keys("knob")
+    browser.find_element_by_id("sign_in_button").submit()
+    time.sleep(1)
+    # Try to browser to Organisations list
+    browser.get(live_server + "/organisations")
+    assert "Organisations" in browser.title
