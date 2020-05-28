@@ -11,7 +11,13 @@ User = get_user_model()
 class UserDetailView(LoginRequiredMixin, DetailView):
 
     model = User
+
+    # This names the field in the model that contains the slug. Want it to be thise so that is a good
+    # citizen to be used in a URL
     slug_field = "username"
+
+    # the name of the URLConf keyword argument that contains the slug. By default, slug_url_kwarg is 'slug'.
+    # we have to pass 'username' as the argument when testing UserDetailView because of this.
     slug_url_kwarg = "username"
 
 
@@ -44,7 +50,11 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
     permanent = False
 
     def get_redirect_url(self):
-        return reverse("users:detail", kwargs={"username": self.request.user.username})
+        return reverse("core:home")
+
+
+#    def get_redirect_url(self):
+#        return reverse("users:detail", kwargs={"username": self.request.user.username})
 
 
 user_redirect_view = UserRedirectView.as_view()

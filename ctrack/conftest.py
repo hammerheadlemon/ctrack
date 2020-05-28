@@ -1,11 +1,16 @@
+import os
+
 import pytest
 from django.test import RequestFactory
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 
 from ctrack.organisations.models import (
     Address,
     AddressType,
     Mode,
     Organisation,
+    Stakeholder,
     Submode,
 )
 from ctrack.organisations.tests.factories import (
@@ -35,8 +40,9 @@ def person(user):
     submode = Submode.objects.create(descriptor="Light Rail", mode=mode)
     org = OrganisationFactory.create(submode=submode)
     person = PersonFactory.create(
+        first_name="Toss",
+        last_name="McBride",
         role=role,
-        updated_by=user,
         predecessor=None,
         organisation__submode=submode,
         organisation=org,
@@ -56,5 +62,22 @@ def addr() -> Address:
 
 
 @pytest.fixture
+def stakeholder(person):
+    s = Stakeholder.objects.create(person=person)
+    return s
+
+
+@pytest.fixture
 def request_factory() -> RequestFactory:
     return RequestFactory()
+
+
+@pytest.fixture(scope="module")
+def browser(request):
+    "Provide selenium webdriver instance."
+    os.environ["PATH"] += os.pathsep + os.getcwd()
+    options = Options()
+    options.headless = True
+    browser_ = webdriver.Firefox(firefox_options=options)
+    yield browser_
+    browser_.quit()

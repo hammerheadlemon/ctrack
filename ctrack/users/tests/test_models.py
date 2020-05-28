@@ -1,6 +1,6 @@
 import pytest
 
-from ctrack.users.stakeholder import Stakeholder
+from ctrack.organisations.models import Stakeholder
 
 pytestmark = pytest.mark.django_db
 
@@ -16,10 +16,14 @@ def test_user_is_person_object(user):
     assert user
 
 
-def test_stakeholder_model(person):
+def test_stakeholder_model(person, user):
     """
     A stakeholder is someone who is part of the regime but also has user access to the
     the system.
     """
     stakeholder = Stakeholder(person=person)
-    assert stakeholder
+    org = person.organisation.name
+    user.stakeholder = stakeholder
+    assert user.stakeholder.person.first_name == "Toss"
+    assert user.is_stakeholder is True
+    assert user.get_organisation_name() == org
