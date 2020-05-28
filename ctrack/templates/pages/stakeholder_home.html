@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_stakeholder.html" %}
 
 {% load static %}
 
@@ -17,10 +17,10 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="border border-success p-2 rounded bg-light">
-                            <h5>INFORMATION NOTICE:</h5>
+                            <h5>KEY INFORMATION:</h5>
                             <p>Please note that important notices go in here. This is the NIS Directive 
                             portal for DfT. Etc.</p>
-                            <p>Your lead inspector is <strong><a href="#">Bob McKinnon</a></strong>.</p>
+                            <p>Your lead inspector is <a href="#">Bob McKinnon</a>.</p>
                             <p>Other important messages will appear here when we deem it necessary.
                             Please ensure you remain in touch with what appears in this box because it 
                             <strong>WILL</strong> be updated periodically.</p>
@@ -70,7 +70,7 @@
                 <hr>
                 <div class="row">
                     <div class="col md-12">
-                        <h2>Audits and Inspections</h2>
+                        <h2>Compliance Events</h2>
                         <table class="table">
                             <thead>
                                 <th scope="col">Date</th>
@@ -79,31 +79,45 @@
                                 <th scope="col">Notes</th>
                                 <th scope="col">CAF scope</th>
                                 <th scope="col">Status</th>
+                                <th scope="col">Report</th>
                             </thead> 
                             <tr>
-                                <td>23/10/2020</td>
+                                <td>23 October 2020</td>
                                 <td>Inspection</td>
-                                <td>Hammersmith Warehouse</td>
-                                <td>Follow up to <a href="#">July telephone call</a></td>
+                                <td>Hammersmith</td>
+                                <td>Follow up to <a href="#">July call</a></td>
                                 <td>
                                     <span class="badge badge-warning">A2.c</span>
                                     <span class="badge badge-danger">B2.a</span>
                                 </td>
                                 <td><span class="badge badge-warning">SCHEDULED</span></td>
+                                <td></td>
                             </tr>
                             <tr>
-                                <td>5/6/2020</td>
-                                <td>Inspection</td>
-                                <td>Hammersmith Warehouse</td>
+                                <td>5 June 2020</td>
+                                <td>Audit</td>
+                                <td>Hammersmith</td>
                                 <td>NA</td>
                                 <td>
-                                    <span class="badge badge-secondary">A3.a</span>
+                                    <span class="badge badge-danger">A2.c</span>
                                     <span class="badge badge-secondary">B5.c</span>
                                     <span class="badge badge-secondary">B6</span>
                                     <span class="badge badge-secondary">B7</span>
                                 </td>
                                 <td><span class="badge badge-success">RESOLVED</span></td>
-                            <etr>
+                                <td><a href="#">DfT-NIS-2302A</a></td>
+                            <tr>
+                            <tr>
+                                <td>19 January 2020</td>
+                                <td>Meeting</td>
+                                <td>Video</td>
+                                <td>NA</td>
+                                <td>
+                                    <span class="badge badge-secondary">Obj C</span>
+                                </td>
+                                <td><span class="badge badge-success">RESOLVED</span></td>
+                                <td></td>
+                            <tr>
                         </table>
                     </div>
                 </div>
@@ -125,7 +139,7 @@
                                 <tr>
                                     <td>{{ system.name }}</td>
                                     <td>{{ system.description }}</td>
-                                    <td>{{ system.caf }}</td>
+                                    <td>{{ system.caf }} | <small><a href="#">Update WebCAF</a></small></td>
                                 </tr>
                             {% endfor %}
                         </table>
