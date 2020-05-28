@@ -28,11 +28,6 @@ def test_regular_user_can_log_in(browser, live_server):
     current_url = browser.current_url
     assert current_url == live_server + "/"
 
-    # On the other side, he sees some basic details about himself.
-    assert "ctrack - Department for Transport" in browser.title
-
-    h1 = browser.find_element_by_tag_name("h1")
-    assert h1.text == "Welcome to ctrack - Department for Transport"
     type_user_message = browser.find_elements_by_tag_name("p")
     assert "THIS IS A TEMPLATE FOR A REGULAR USER" in [
         m.text for m in type_user_message
@@ -44,6 +39,7 @@ def test_stakeholder_can_log_in_and_see_their_home(browser, live_server, stakeho
 
     user = User.objects.create_user(username="toss", password="knob")
     user.stakeholder = stakeholder
+    org = user.stakeholder.person.get_organisation_name()
     user.save()
     browser.get(live_server + "/accounts/login")
     browser.find_element_by_id("id_login").send_keys("toss")
@@ -53,16 +49,14 @@ def test_stakeholder_can_log_in_and_see_their_home(browser, live_server, stakeho
     current_url = browser.current_url
     assert current_url == live_server + "/"
 
-    # On the other side, he sees some basic details about himself.
-    assert "ctrack - Department for Transport" in browser.title
-
-    # Such as his own name in an H1 tag!
-    h1 = browser.find_element_by_tag_name("h1")
-    assert h1.text == "Welcome to ctrack - Department for Transport"
-    type_user_message = browser.find_elements_by_tag_name("p")
-    assert "THIS IS A TEMPLATE FOR A STAKEHOLDER USER" in [
-        m.text for m in type_user_message
-    ]
+    p_tags = browser.find_elements_by_tag_name("p")
+    h2_tags = browser.find_elements_by_tag_name("h2")
+    assert "THIS IS A TEMPLATE FOR A STAKEHOLDER USER" in [m.text for m in p_tags]
+    assert org in [m.text for m in h2_tags]
+    assert (
+        f"{user.stakeholder.person.first_name} {user.stakeholder.person.last_name}"
+        in [m.text for m in p_tags]
+    )
 
 
 def test_stakeholder_can_log_in_but_receieved_permisson_denied_when_off_piste(

@@ -7,53 +7,103 @@
     <div class="container mt-3">
         <div class="row">
             <div class="col-md-12 pl-0 my-2">
-                <h1>Welcome to ctrack - Department for Transport</h1>
+
+                <h2>{{ org }} <span class="badge badge-light">{{ org.submode }}</span></h2>
+
+                <p><span class="text-muted">{{ org.person_set.first }}</span></p>
 
                 <p>THIS IS A TEMPLATE FOR A STAKEHOLDER USER</p>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="border border-success p-2 rounded bg-light">
+                            <h5>INFORMATION NOTICE:</h5>
+                            <p>Please note that important notices go in here. This is the NIS Directive 
+                            portal for DfT. Etc.</p>
+                            <p>Your lead inspector is <strong><a href="#">Bob McKinnon</a></strong>.</p>
+                            <p>Other important messages will appear here when we deem it necessary.
+                            Please ensure you remain in touch with what appears in this box because it 
+                            <strong>WILL</strong> be updated periodically.</p>
+                        </div>
+                    </div>
+                </div>
+
                 <hr>
-                <div class="col md-12">
-                    <h2>Incident Reporting</h2>
-                    <table class="table table-sm">
-                        <thead>
+
+                <div class="row">
+                    <div class="col md-12">
+                        <h2>Incident Reporting</h2>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Incident</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Details</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead> 
                             <tr>
-                                <th>Incident</th>
-                                <th>Date</th>
-                                <th>Details</th>
-                                <th>Status</th>
+                                <td>Power failure at Random Site</td>
+                                <td>12 May 2020</td>
+                                <td>There was a problem with some wires inside the black box at the site. 
+                                    There was very little we could do until someone switched the circuit breakers off, 
+                                    then we had to switch off the server that supplies the TLS link to the estate management 
+                                    system. We failed on this one, big time.</td>
+                                <td><strong><span class="badge badge-primary">RESOLVED</span></strong></td>
                             </tr>
-                        </thead> 
-                        <tr>
-                            <td>Power failure at Random Site</td>
-                            <td>12 May 2020</td>
-                            <td>There was a problem with some wires inside the black box at the site. 
-                                There was very little we could do until someone switched the circuit breakers off, 
-                                then we had to switch off the server that supplies the TLS link to the estate management 
-                                system. We failed on this one, big time.</td>
-                            <td><strong><span class="text-primary">RESOLVED</span></strong></td>
-                        </tr>
-                        <tr>
-                            <td>Corruption of main database</td>
-                            <td>8 December 2019</td>
-                            <td>Weather got to the night-watchperson, who typed in the command to seal 
-                                the compound incorrectly. This led to a deluge of sand into the minky processor 
-                                which eventually wiped all data tables.</td>
-                            <td><strong><span class="text-warning">UNRESOLVED</span></strong></td>
-                        </tr>
-                    </table>
-                    <button class="btn btn-primary">Report an incident</button>
+                            <tr>
+                                <td>Corruption of main database</td>
+                                <td>8 December 2019</td>
+                                <td>Weather got to the night-watchperson, who typed in the command to seal 
+                                    the compound incorrectly. This led to a deluge of sand into the minky processor 
+                                    which eventually wiped all data tables.</td>
+                                <td><strong><span class="badge badge-warning">UNRESOLVED</span></strong></td>
+                            </tr>
+                        </table>
+                        <button class="btn btn-primary">Report an incident</button>
+                    </div>
                 </div>
                 <hr>
-                <div class="col md-12">
-                    <h2>Audits and Inspections</h2>
-                    <p>No recent audits or inspections<br>
-                    No audits or inspections currently scheduled</p>
+                <div class="row">
+                    <div class="col md-12">
+                        <h2>Audits and Inspections</h2>
+                        <p>No recent audits or inspections<br>
+                        No audits or inspections currently scheduled</p>
+                    </div>
                 </div>
 
-                <h2>NIS systems</h2>
-                <p>Table of NIS systems here...</p>
+                <hr>
 
-                <h2>DfT Engagement</h2>
-                <p>No engagement with DfT currently scheduled</p>
+                <div class="row">
+                    <div class="col md-12">
+                        <h2>NIS systems</h2>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">System Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">CAF</th>
+                                </tr>
+                            </thead>
+                            {% for system in systems %}
+                                <tr>
+                                    <td>{{ system.name }}</td>
+                                    <td>{{ system.description }}</td>
+                                    <td>{{ system.caf }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <div class="col md-12">
+                        <h2>DfT Engagement</h2>
+                        <p>No engagement with DfT currently scheduled</p>
+                    </div>
+                </div>
 
             </div>
         </div>
