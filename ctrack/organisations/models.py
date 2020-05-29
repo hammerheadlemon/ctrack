@@ -184,4 +184,64 @@ class Stakeholder(models.Model):
 
 
 class IncidentReport(models.Model):
-    pass
+    INCIDENT_TYPES = (
+        ("cyber", "Cyber"),
+        ("non-cyber", "Non-Cyber"),
+        ("both", "Both"),
+        ("power", "Power Outage"),
+    )
+    INCIDENT_STATUS = (
+        ("detected", "Detected"),
+        ("suspected", "Suspected"),
+        ("resolved", "Resolved"),
+    )
+    INCIDENT_STAGE = (
+        ("ongoing", "Ongoing"),
+        ("ended", "Ended"),
+        ("managed", "Ongoing but managed"),
+    )
+    organisation = models.ForeignKey(
+        Organisation, blank=False, on_delete=models.CASCADE
+    )
+    reporting_person = models.ForeignKey(
+        Person,
+        blank=False,
+        on_delete=models.CASCADE,
+        verbose_name="Person " "reporting the incident",
+    )
+    role = models.CharField(
+        max_length=100, blank=False, help_text="Please identify your role"
+    )
+    phone_number = models.CharField(max_length=30, blank=False)
+    email = models.EmailField(blank=False)
+    internal_incident_number = models.CharField(max_length=30, blank=True)
+    date_time_incident_detected = models.DateTimeField(
+        verbose_name="Date/Time incident detected",
+        auto_now=False,
+        help_text="This can be approximate",
+    )
+    date_time_incident_reported = models.DateTimeField(
+        verbose_name="Date/Time incident reported"
+    )
+    incident_type = models.CharField(
+        choices=INCIDENT_TYPES, help_text="This can be appoximate", max_length=10
+    )
+    incident_status = models.CharField(choices=INCIDENT_STATUS, max_length=10)
+    incident_stage = models.CharField(choices=INCIDENT_STAGE, max_length=10)
+    summary = models.TextField(
+        help_text="Please provide a summary of your understanding of the incident, including"
+        " any impact to services and/or users."
+    )
+    mitigations = models.TextField(
+        verbose_name="Investigations or mitigations",
+        help_text="What investigations and/or mitigations have you or a third"
+        " party performed or plan to perform?",
+    )
+    others_informed = models.TextField(
+        verbose_name="Others parties informed",
+        help_text="Who else has been informed about this incident?"
+        "(CSIRT, NCSC, NCA, etc)",
+    )
+    next_steps = models.TextField(
+        verbose_name="Planned next steps", help_text="What are your planned next steps?"
+    )

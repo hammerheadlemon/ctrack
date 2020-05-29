@@ -36,5 +36,5 @@ def test_incident_report_create_view():
     factory = RequestFactory()
     request = factory.get(f"{org.name}/create-incident-report")
     request.user = user
-    response = IncidentReportCreateView.as_view()(request)
+    response = IncidentReportCreateView.as_view()(request, org.slug)
     assert response.status_code == 200

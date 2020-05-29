@@ -3,6 +3,7 @@ from django.contrib import admin
 from .models import (
     Address,
     AddressType,
+    IncidentReport,
     Mode,
     Organisation,
     Person,
@@ -19,6 +20,10 @@ def get_organisation_name(person):
 
 # We need this to ensure the column header in the admin does't read the func name
 get_organisation_name.short_description = "Organisation"
+
+
+class IncidentReportAdmin(admin.ModelAdmin):
+    model = IncidentReport
 
 
 class AddressTypeAdmin(admin.ModelAdmin):
@@ -72,3 +77,4 @@ admin.site.register(Person, PersonAdmin)
 admin.site.register(Mode, ModeAdmin)
 admin.site.register(Submode, SubmodeAdmin)
 admin.site.register(Stakeholder, StakeholderAdmin)
+admin.site.register(IncidentReport, IncidentReportAdmin)

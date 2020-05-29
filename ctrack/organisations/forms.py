@@ -3,7 +3,7 @@ from crispy_forms.layout import Layout, Submit
 from django import forms
 from django.forms import inlineformset_factory
 
-from ctrack.organisations.models import Organisation, Address
+from ctrack.organisations.models import Address, IncidentReport, Organisation
 
 
 class OrganisationCreateForm(forms.ModelForm):
@@ -20,12 +20,17 @@ class OrganisationCreateForm(forms.ModelForm):
 
     class Meta:
         model = Organisation
-        fields = ["name", "submode", "oes", "designation_type",
-                  "registered_company_name", "registered_company_number",
-                  "comments", "active"]
-        labels = {
-            "oes": "OES"
-        }
+        fields = [
+            "name",
+            "submode",
+            "oes",
+            "designation_type",
+            "registered_company_name",
+            "registered_company_number",
+            "comments",
+            "active",
+        ]
+        labels = {"oes": "OES"}
         help_texts = {
             "name": "Name of the organisation",
             "submode": "e.g. Rail Maintenance, TOC, etc...",
@@ -49,15 +54,40 @@ class AddressCreateForm(forms.ModelForm):
 
     class Meta:
         model = Address
-        fields = ('type', 'line1', 'line2', 'line3', 'city', 'county', 'postcode',
-                  'country', 'other_details')
+        fields = (
+            "type",
+            "line1",
+            "line2",
+            "line3",
+            "city",
+            "county",
+            "postcode",
+            "country",
+            "other_details",
+        )
 
 
 # https://dev.to/zxenia/django-inline-formsets-with-class-based-views-and-crispy-forms-14o6
 # good advice on setting up the inlineformset - with crispy forms too
-AddressInlineFormSet = inlineformset_factory(Organisation, Address,
-                                             fields=("type", "line1", "line2", "line3", "city",
-                                                     "county", "postcode", "country", "other_details"),
-                                             form=AddressCreateForm,
-                                             extra=2)
+AddressInlineFormSet = inlineformset_factory(
+    Organisation,
+    Address,
+    fields=(
+        "type",
+        "line1",
+        "line2",
+        "line3",
+        "city",
+        "county",
+        "postcode",
+        "country",
+        "other_details",
+    ),
+    form=AddressCreateForm,
+    extra=2,
+)
 
+
+class IncidentReportForm(forms.Form):
+    class Meta:
+        model = IncidentReport

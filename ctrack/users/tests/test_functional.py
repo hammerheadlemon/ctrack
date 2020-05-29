@@ -127,9 +127,20 @@ def test_stakeholder_logs_into_system_and_submits_incident_form(
     time.sleep(1)
     current_url = browser.current_url
     assert current_url == live_server + "/"
+    time.sleep(1)
+
+    browser.get(current_url)
 
     # Clicks the Report a NIS incident button
-    browser.find_element_by_id("id_submit_incident_button").submit()
+    #   browser.find_element_by_id("id_submit_incident_button").submit()
+    button = browser.find_element_by_xpath('//*[@id="id_submit_incident_button"]')
+
+    button.click()
+    time.sleep(1)
+
+    current_url = browser.current_url
+
+    browser.get(current_url)
 
     # Gets to the correct page
     assert "Submit a new NIS Incident Report to DfT" in browser.title

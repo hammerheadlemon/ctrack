@@ -1,7 +1,7 @@
 import pytest
 from slugify import slugify
 
-from ctrack.organisations.models import Organisation
+from ctrack.organisations.models import IncidentReport, Organisation
 
 pytestmark = pytest.mark.django_db
 
@@ -29,8 +29,3 @@ def test_update_organisation(org_with_people):
 def test_new_address(addr):
     # The address "has" an organisation
     assert addr.organisation.name
-
-
-def test_incident_report(org_with_people):
-    breakpoint()
-    pass

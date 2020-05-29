@@ -9,7 +9,7 @@ from django.db import transaction
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
 
-from .forms import AddressInlineFormSet, OrganisationCreateForm
+from .forms import AddressInlineFormSet, IncidentReportForm, OrganisationCreateForm
 from .models import IncidentReport, Organisation
 
 
@@ -76,3 +76,4 @@ class OrganisationDetailView(LoginRequiredMixin, DetailView):
 class IncidentReportCreateView(LoginRequiredMixin, CreateView):
     model = IncidentReport
     fields = "__all__"
+    form = IncidentReportForm
