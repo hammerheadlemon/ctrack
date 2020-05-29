@@ -184,6 +184,12 @@ class Stakeholder(models.Model):
 
 
 class IncidentReport(models.Model):
+    DFT_HANDLE_STATUS = (
+        ("queued", "QUEUED"),
+        ("reviewing", "REVIEWING"),
+        ("waiting", "WAITING"),
+        ("completed", "COMPLETE"),
+    )
     INCIDENT_TYPES = (
         ("cyber", "Cyber"),
         ("non-cyber", "Non-Cyber"),
@@ -245,3 +251,9 @@ class IncidentReport(models.Model):
     next_steps = models.TextField(
         verbose_name="Planned next steps", help_text="What are your planned next steps?"
     )
+    dft_handle_status = models.CharField(
+        choices=DFT_HANDLE_STATUS, max_length=20, default="queued"
+    )
+
+    def __str__(self):
+        return f"{self.reporting_person} - {self.date_time_incident_reported}"
