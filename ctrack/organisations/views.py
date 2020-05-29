@@ -6,8 +6,9 @@ from django.contrib.auth.mixins import (
     UserPassesTestMixin,
 )
 from django.db import transaction
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, ListView
+from django.http import HttpResponseRedirect
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, DetailView, FormView, ListView
 
 from .forms import AddressInlineFormSet, IncidentReportForm, OrganisationCreateForm
 from .models import IncidentReport, Organisation
@@ -73,7 +74,18 @@ class OrganisationDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class IncidentReportCreateView(LoginRequiredMixin, CreateView):
+class IncidentReportCreateView(LoginRequiredMixin, FormView):
     model = IncidentReport
-    fields = "__all__"
-    form = IncidentReportForm
+    form_class = IncidentReportForm
+    template_name = "organisations/incidentreport_form.html"
+    success_url = reverse_lazy("core:home")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["org"] = self.request.user.stakeholder.person.organisation
+        kwargs["reporting_person"] = self.request.user.stakeholder.person
+        return kwargs
+
+    def form_valid(self, form):
+        form.save()
+        return HttpResponseRedirect(reverse("core:home"))

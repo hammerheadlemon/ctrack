@@ -1,7 +1,8 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit
+from crispy_forms.layout import Button, ButtonHolder, Layout, Submit
 from django import forms
 from django.forms import inlineformset_factory
+from django.urls import reverse
 
 from ctrack.organisations.models import Address, IncidentReport, Organisation
 
@@ -88,6 +89,63 @@ AddressInlineFormSet = inlineformset_factory(
 )
 
 
-class IncidentReportForm(forms.Form):
+class IncidentReportForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.org = kwargs["org"]
+        self.reporting_person = kwargs["reporting_person"]
+        kwargs.pop("org")
+        kwargs.pop("reporting_person")
+        cancel_redirect = reverse("core:home")
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            "role",
+            "phone_number",
+            "email",
+            "internal_incident_number",
+            "date_time_incident_detected",
+            "incident_type",
+            "incident_status",
+            "incident_stage",
+            "summary",
+            "mitigations",
+            "others_informed",
+            "next_steps",
+            ButtonHolder(
+                Submit("submit", "Submit", css_class="btn-primary"),
+                Button(
+                    "cancel",
+                    "Cancel",
+                    onclick=f"location.href='{cancel_redirect}';",
+                    css_class="btn-danger",
+                ),
+            ),
+        )
+
+    def save(self, commit=True):
+        ir = super().save(commit=False)
+        ir.organisation = self.org
+        ir.reporting_person = self.reporting_person
+        if commit:
+            ir.save()
+        return ir
+
     class Meta:
         model = IncidentReport
+        fields = [
+            "role",
+            "phone_number",
+            "email",
+            "internal_incident_number",
+            "date_time_incident_detected",
+            "incident_type",
+            "incident_status",
+            "incident_stage",
+            "summary",
+            "mitigations",
+            "others_informed",
+            "next_steps",
+        ]
+        widgets = {
+            "date_time_incident_detected": forms.DateTimeInput(attrs={"type": "date"})
+        }

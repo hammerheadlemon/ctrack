@@ -221,7 +221,7 @@ class IncidentReport(models.Model):
         help_text="This can be approximate",
     )
     date_time_incident_reported = models.DateTimeField(
-        verbose_name="Date/Time incident reported"
+        verbose_name="Date/Time incident reported", auto_now=True
     )
     incident_type = models.CharField(
         choices=INCIDENT_TYPES, help_text="This can be appoximate", max_length=10

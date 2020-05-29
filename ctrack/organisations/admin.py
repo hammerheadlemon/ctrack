@@ -24,6 +24,7 @@ get_organisation_name.short_description = "Organisation"
 
 class IncidentReportAdmin(admin.ModelAdmin):
     model = IncidentReport
+    readonly_fields = ["date_time_incident_reported"]
 
 
 class AddressTypeAdmin(admin.ModelAdmin):
