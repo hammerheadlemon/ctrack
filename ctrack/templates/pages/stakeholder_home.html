@@ -37,6 +37,8 @@
                 <div class="row">
                     <div class="col md-12">
                         <h2>Incident Reporting</h2>
+
+                        {% if irs.count > 0 %}
                         <table class="table">
                             <thead>
                                 <tr>
@@ -46,24 +48,26 @@
                                     <th scope="col">Status</th>
                                 </tr>
                             </thead> 
-                            <tr>
-                                <td>Power failure at Random Site</td>
-                                <td>12 May 2020</td>
-                                <td>There was a problem with some wires inside the black box at the site. 
-                                    There was very little we could do until someone switched the circuit breakers off, 
-                                    then we had to switch off the server that supplies the TLS link to the estate management 
-                                    system. We failed on this one, big time.</td>
-                                <td><strong><span class="badge badge-warning">UNRESOLVED</span></strong></td>
-                            </tr>
-                            <tr>
-                                <td>Corruption of main database</td>
-                                <td>8 December 2019</td>
-                                <td>Weather got to the night-watchperson, who typed in the command to seal 
-                                    the compound incorrectly. This led to a deluge of sand into the minky processor 
-                                    which eventually wiped all data tables.</td>
-                                <td><strong><span class="badge badge-success">RESOLVED</span></strong></td>
-                            </tr>
+                                {% for ir in irs  %}
+                                    <tr>
+                                        <td>{{ ir.incident_type}}</td>
+                                        <td>{{ ir.date_time_incident_detected }}</td>
+                                        <td>{{ ir.summary }}</td>
+                                        {% if ir.dft_handle_status == "QUEUED" %}
+                                            <td><span class="badge badge-primary">{{ ir.dft_handle_status }}</span></td>
+                                        {% elif ir.dft_handle_status == "REVIEWING"%}
+                                            <td><span class="badge badge-info">{{ ir.dft_handle_status }}</span></td>
+                                        {% elif ir.dft_handle_status == "WAITING"%}
+                                            <td><span class="badge badge-secondary">{{ ir.dft_handle_status }}</span></td>
+                                        {% else %}
+                                            <td><span class="badge badge-success">{{ ir.dft_handle_status }}</span></td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
                         </table>
+                        {% else %}
+                            <p>No incidents reported</p>
+                        {% endif %}
                         <a class="btn btn-primary" id="id_submit_incident_button" href="{% url "organisations:create_incident_report" org.slug %}">Report a NIS incident</a>
                     </div>
                 </div>

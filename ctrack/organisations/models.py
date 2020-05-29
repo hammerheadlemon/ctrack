@@ -185,26 +185,26 @@ class Stakeholder(models.Model):
 
 class IncidentReport(models.Model):
     DFT_HANDLE_STATUS = (
-        ("queued", "QUEUED"),
-        ("reviewing", "REVIEWING"),
-        ("waiting", "WAITING"),
-        ("completed", "COMPLETE"),
+        ("QUEUED", "QUEUED"),
+        ("REVIEWING", "REVIEWING"),
+        ("WAITING", "WAITING"),
+        ("COMPLETED", "COMPLETED"),
     )
     INCIDENT_TYPES = (
-        ("cyber", "Cyber"),
-        ("non-cyber", "Non-Cyber"),
-        ("both", "Both"),
-        ("power", "Power Outage"),
+        ("Cyber", "Cyber"),
+        ("Non-Cyber", "Non-Cyber"),
+        ("Both", "Both"),
+        ("Power Outage", "Power Outage"),
     )
     INCIDENT_STATUS = (
-        ("detected", "Detected"),
-        ("suspected", "Suspected"),
-        ("resolved", "Resolved"),
+        ("Detected", "Detected"),
+        ("Suspected", "Suspected"),
+        ("Resolved", "Resolved"),
     )
     INCIDENT_STAGE = (
-        ("ongoing", "Ongoing"),
-        ("ended", "Ended"),
-        ("managed", "Ongoing but managed"),
+        ("Ongoing", "Ongoing"),
+        ("Ended", "Ended"),
+        ("Ongoing but managed", "Ongoing but managed"),
     )
     organisation = models.ForeignKey(
         Organisation, blank=False, on_delete=models.CASCADE
@@ -222,18 +222,16 @@ class IncidentReport(models.Model):
     email = models.EmailField(blank=False)
     internal_incident_number = models.CharField(max_length=30, blank=True)
     date_time_incident_detected = models.DateTimeField(
-        verbose_name="Date/Time incident detected",
-        auto_now=False,
-        help_text="This can be approximate",
+        verbose_name="Date/Time incident detected", auto_now=False,
     )
     date_time_incident_reported = models.DateTimeField(
         verbose_name="Date/Time incident reported", auto_now=True
     )
     incident_type = models.CharField(
-        choices=INCIDENT_TYPES, help_text="This can be appoximate", max_length=10
+        choices=INCIDENT_TYPES, help_text="This can be appoximate", max_length=20
     )
-    incident_status = models.CharField(choices=INCIDENT_STATUS, max_length=10)
-    incident_stage = models.CharField(choices=INCIDENT_STAGE, max_length=10)
+    incident_status = models.CharField(choices=INCIDENT_STATUS, max_length=20)
+    incident_stage = models.CharField(choices=INCIDENT_STAGE, max_length=20)
     summary = models.TextField(
         help_text="Please provide a summary of your understanding of the incident, including"
         " any impact to services and/or users."
@@ -252,7 +250,7 @@ class IncidentReport(models.Model):
         verbose_name="Planned next steps", help_text="What are your planned next steps?"
     )
     dft_handle_status = models.CharField(
-        choices=DFT_HANDLE_STATUS, max_length=20, default="queued"
+        choices=DFT_HANDLE_STATUS, max_length=20, default="QUEUED"
     )
 
     def __str__(self):
