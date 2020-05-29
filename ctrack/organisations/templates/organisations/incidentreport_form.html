@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_stakeholder.html" %}
 
 {% block title %}
   Submit a new NIS Incident Report to DfT
@@ -10,14 +10,23 @@
   <div class="container mt-3">
     <div class="row">
       <div class="col-md-12 pl-0 my-2">
-        <h4>Submit an Incident Report</h4>
+        <h4>NIS Incident Report - for DfT</h4>
+        <div class="row">
+            <div class="col-8 my-2">
+                <div class="border border-danger rounded p-2">
+                <h5>IMPORTANT:</h5>
+                <p>Please ensure full details are provided. Incident reports MUST be submitted 
+                within 72 of an incident being detected. Your lead inspector will follow-up with 
+                you in due course. Thank you.</p></div>
+            </div>
+        </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-7 pt-2 border bg-light">
+      <div class="col-md-8 pt-2 border bg-light">
         {% crispy form %}
       </div>
-      <div class="col-sm-5">
+      <div class="col-sm-4">
         <div class="card" style="width: 18rem;">
           <div class="card-body">
             <h5 class="card-title">Help submitting an incident form</h5>

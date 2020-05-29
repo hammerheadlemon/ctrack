@@ -144,25 +144,3 @@ def test_stakeholder_logs_into_system_and_submits_incident_form(
 
     # Gets to the correct page
     assert "Submit a new NIS Incident Report to DfT" in browser.title
-
-    # The name of her organisation is already there in the first field
-    assert (
-        browser.find_element_by_id("id_org_field").text
-        == user.stakeholder.person.get_organisation_name()
-    )
-
-    # Her name is already in the "Name of person reporting field"
-    assert (
-        browser.find_element_by_id("id_person_reporting_field").text
-        == user.stakeholder.person
-    )
-
-    # Her role is already in the "Role" field
-    assert browser.find_element_by_id("id_role_field").text == user.stakeholder.role
-
-    # Her phone number is already in the "Phone Number" field
-    assert (
-        browser.find_element_by_id("id_phone_number_field").text
-        == user.stakeholder.mobile
-    )
-    assert pytest.fail("WE GO NO FURTHER")
