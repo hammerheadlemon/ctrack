@@ -215,8 +215,15 @@ class IncidentReport(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Person " "reporting the incident",
     )
+    person_involved = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name="Name of person reporting/detecting incident",
+    )
     role = models.CharField(
-        max_length=100, blank=False, help_text="Please identify your role"
+        max_length=100,
+        blank=True,
+        help_text="Role of person reporting/detecting incident",
     )
     phone_number = models.CharField(max_length=30, blank=False)
     email = models.EmailField(blank=False)

@@ -99,6 +99,7 @@ class IncidentReportForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
+            "person_involved",
             "role",
             "phone_number",
             "email",
@@ -133,6 +134,7 @@ class IncidentReportForm(forms.ModelForm):
     class Meta:
         model = IncidentReport
         fields = [
+            "person_involved",
             "role",
             "phone_number",
             "email",
