@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
 
 from .forms import AddressInlineFormSet, OrganisationCreateForm
-from .models import Organisation
+from .models import IncidentReport, Organisation
 
 
 class OrganisationCreate(LoginRequiredMixin, CreateView):
@@ -71,3 +71,8 @@ class OrganisationDetailView(LoginRequiredMixin, DetailView):
         applicable_systems = org.applicablesystem_set.all()
         context["applicable_systems"] = applicable_systems
         return context
+
+
+class IncidentReportCreateView(LoginRequiredMixin, CreateView):
+    model = IncidentReport
+    fields = "__all__"

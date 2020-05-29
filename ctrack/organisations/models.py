@@ -181,3 +181,7 @@ class Stakeholder(models.Model):
 
     def __str__(self):
         return f"{self.person.first_name} {self.person.last_name}"
+
+
+class IncidentReport(models.Model):
+    pass

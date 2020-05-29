@@ -62,9 +62,12 @@ def addr() -> Address:
 
 
 @pytest.fixture
-def stakeholder(person):
-    s = Stakeholder.objects.create(person=person)
-    return s
+def stakeholder_user(person):
+    user = User.objects.create_user(username="toss", password="knob")
+    stakeholder = Stakeholder.objects.create(person=person)
+    user.stakeholder = stakeholder
+    user.save()
+    return user
 
 
 @pytest.fixture
@@ -72,7 +75,7 @@ def request_factory() -> RequestFactory:
     return RequestFactory()
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture
 def browser(request):
     "Provide selenium webdriver instance."
     os.environ["PATH"] += os.pathsep + os.getcwd()

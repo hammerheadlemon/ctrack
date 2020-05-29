@@ -64,7 +64,7 @@
                                 <td><strong><span class="badge badge-success">RESOLVED</span></strong></td>
                             </tr>
                         </table>
-                        <a class="btn btn-primary" id="id_submit_incident_button">Report a NIS incident</a>
+                        <a class="btn btn-primary" id="id_submit_incident_button" href="{% url "organisations:create_incident_report" org.slug %}">Report a NIS incident</a>
                     </div>
                 </div>
                 <hr>
