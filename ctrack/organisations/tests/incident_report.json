@@ -1,0 +1,25 @@
+[
+{
+    "model": "organisations.incidentreport",
+    "pk": 1,
+    "fields": {
+        "organisation": 15,
+        "reporting_person": 15,
+        "person_involved": "Robin Cousins",
+        "role": "Team Ice Skater",
+        "phone_number": "08929 390 30943",
+        "email": "a@example.com",
+        "internal_incident_number": "092T",
+        "date_time_incident_detected": "2020-05-28T00:00:00Z",
+        "date_time_incident_reported": "2020-05-30T15:21:52.171Z",
+        "incident_type": "Cyber",
+        "incident_status": "Detected",
+        "incident_stage": "Ongoing",
+        "summary": "We were woken to 10am by the crying of children. A school bus had tipped over on the dual carriageway outside the HQ and several of the occupants had spilled out on to the verge and we somewhat distraight. It appeared that the automatic road stinger had activated outside our main gatehouse (we use this to stop people leaving who have not paid for the photocopying that day).",
+        "mitigations": "We have been able to remove the wires that attach the ejector module to the power unit, but we don't know how to do anything else. The maintenance engineer is in Tenerife and not answering his phone.",
+        "others_informed": "The local convent school St Mirium Collete of the Roasted Saint. They sent their societial liaison officer to take pictures of the scene for their Tinder account.",
+        "next_steps": "Once we get hold of someone how knows how to fix the system, we intend to make sure there is an adequate response, but at the moment, this simply isn't possible. Sorry!",
+        "dft_handle_status": "QUEUED"
+    }
+}
+]
