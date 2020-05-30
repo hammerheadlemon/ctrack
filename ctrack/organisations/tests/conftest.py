@@ -11,11 +11,6 @@ from ctrack.organisations.tests.factories import (
 
 
 @pytest.fixture
-def full_db_fixture():
-    populate_db(orgs=2, igps=2)
-
-
-@pytest.fixture
 def role():
     return RoleFactory.create(name="Test Role")
 
