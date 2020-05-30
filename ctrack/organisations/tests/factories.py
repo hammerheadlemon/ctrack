@@ -32,16 +32,6 @@ def _random_submode():
     return sms[random.randint(0, len(sms) - 1)]
 
 
-class UserFactory(DjangoModelFactory):
-    # Better to create this using example in ctrack.users.tests.factories.
-    # Handles password generation correctly.
-    class Meta:
-        model = User
-
-    username = Faker("lexify", text="???????", letters="abcdsgTGQA")
-    password = Faker("lexify", text="????????", letters="AdOIqkcvBnMP")
-
-
 class OrganisationFactory(DjangoModelFactory):
     class Meta:
         model = Organisation
