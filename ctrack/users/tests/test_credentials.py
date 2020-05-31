@@ -32,6 +32,11 @@ def test_there_is_a_cct_user_group(db):  # adding fixture here
     assert group in user.groups.all()
 
 
+def test_user_fixture_has_access_to_all_ctrack_models(db, cct_user_group):
+    view_org_perm = Permission.objects.get(codename="view_organisation")
+    assert view_org_perm in cct_user_group.permissions.all()
+
+
 # def test_should_create_user(user_A: get_user_model()) -> None:
 #     assert user_A.username == "A"
 
