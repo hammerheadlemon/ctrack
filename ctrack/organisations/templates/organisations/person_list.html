@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+  People
+{% endblock %}
+
+{% block content %}
+
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col-md-12 pl-0 my-2">
+      <div class="row">
+        <div class="col-12">
+          <h4>People <span class="float-right align-bottom"><a href="{% url "organisations:create" %}"><button type="button" class="btn btn-primary">Create new...</button></a></span></h4>
+        </div>
+      </div>
+        <div class="row">
+          <div class="col-md-12 border bg-light my-2">
+            <table class="table compact cell-border">
+              <thead>
+              <tr>
+                <th>Person</th>
+                <th>Organisation</th>
+              </tr>
+              </thead>
+              {% for p in object_list %}
+                <tr>
+                    <td><a href="#">{{ p.first_name }} {{ p.last_name }}</a></td>
+                  <td>{{ p.organisation.name }}</td>
+                </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

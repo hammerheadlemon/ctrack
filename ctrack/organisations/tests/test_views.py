@@ -2,9 +2,12 @@ import pytest
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, Permission
 from django.test import RequestFactory
+from django.urls import reverse
 
-from ctrack.organisations.tests.factories import OrganisationFactory
-from ctrack.organisations.views import IncidentReportCreateView
+from ctrack.caf.tests.factories import PersonFactory
+from ctrack.organisations.models import Mode, Submode
+from ctrack.organisations.tests.factories import OrganisationFactory, RoleFactory
+from ctrack.organisations.views import IncidentReportCreateView, OrganisationDetailView
 
 from ..views import OrganisationListView
 
@@ -60,4 +63,39 @@ def test_incident_report_create_view(stakeholder_user):
     request = factory.get(f"{org.name}/create-incident-report")
     request.user = stakeholder_user
     response = IncidentReportCreateView.as_view()(request, org.slug)
+    assert response.status_code == 200
+
+
+def test_only_member_of_cct_user_group_can_view_a_single_person(
+    stakeholder_user, org_with_people, client
+):
+    role = RoleFactory.create()
+    submode = Submode.objects.create(
+        descriptor="Light Rail", mode=Mode.objects.create(descriptor="Rail")
+    )
+    PersonFactory.create(
+        role=role,
+        predecessor=None,
+        organisation__submode=submode,
+        organisation=org_with_people,
+    )
+    PersonFactory.create(
+        role=role,
+        predecessor=None,
+        organisation__submode=submode,
+        organisation=org_with_people,
+    )
+    group = Group.objects.create(name="cct_user")
+
+    stakeholder_user.groups.add(group)
+
+    person_list_permission = Permission.objects.get(name="Can view person")
+    group.permissions.add(person_list_permission)
+
+    client.force_login(stakeholder_user)
+
+    response = client.get(reverse("organisations:people"))
+
+    # They get this permisson via the cct_user group
+    assert stakeholder_user.has_perm("organisations.view_person")
     assert response.status_code == 200

@@ -1,17 +1,19 @@
 from typing import Any, Dict
 
-from django.contrib.auth.mixins import (
-    LoginRequiredMixin,
-    PermissionRequiredMixin,
-    UserPassesTestMixin,
-)
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, FormView, ListView
 
 from .forms import AddressInlineFormSet, IncidentReportForm, OrganisationCreateForm
-from .models import IncidentReport, Organisation
+from .models import IncidentReport, Organisation, Person
+
+
+class PersonListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    model = Person
+    template_name = "organisations/person_list.html"
+    permission_required = "organisations.view_person"
 
 
 class OrganisationCreate(LoginRequiredMixin, CreateView):
