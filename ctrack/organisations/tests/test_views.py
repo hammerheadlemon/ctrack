@@ -3,7 +3,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, Permission
 from django.test import RequestFactory
 
-from ctrack.organisations.tests.factories import OrganisationFactory
+from ctrack.caf.tests.factories import PersonFactory
+from ctrack.organisations.models import Mode, Submode
+from ctrack.organisations.tests.factories import OrganisationFactory, RoleFactory
 from ctrack.organisations.views import IncidentReportCreateView
 
 from ..views import OrganisationListView
@@ -61,3 +63,35 @@ def test_incident_report_create_view(stakeholder_user):
     request.user = stakeholder_user
     response = IncidentReportCreateView.as_view()(request, org.slug)
     assert response.status_code == 200
+
+
+def test_only_member_of_cct_user_group_can_view_person_list(
+    stakeholder_user, org_with_people
+):
+    role = RoleFactory.create()
+    submode = Submode.objects.create(
+        descriptor="Light Rail", mode=Mode.objects.create(descriptor="Rail")
+    )
+    PersonFactory.create(
+        role=role,
+        predecessor=None,
+        organisation__submode=submode,
+        organisation=org_with_people,
+    )
+    PersonFactory.create(
+        role=role,
+        predecessor=None,
+        organisation__submode=submode,
+        organisation=org_with_people,
+    )
+    group = Group.objects.create(name="cct_user")
+
+    stakeholder_user.groups.add(group)
+    person_list_permission = Permission.objects.get(name="Can view person")
+    group.permissions.add(person_list_permission)
+
+    factory = RequestFactory()
+    request = factory.get(f"people/")
+
+    # They get this permisson via the cct_user group
+    assert stakeholder_user.has_perm("organisations.view_person")
