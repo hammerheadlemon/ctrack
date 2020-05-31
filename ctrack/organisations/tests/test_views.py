@@ -1,6 +1,6 @@
 import pytest
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Group, Permission
 from django.test import RequestFactory
 
 from ctrack.organisations.tests.factories import OrganisationFactory
@@ -33,6 +33,25 @@ def test_organisation_list_view():
     response = OrganisationListView.as_view()(request)
     assert response.status_code == 200
     assert len(response.context_data["organisation_list"]) == 3
+
+
+def test_only_member_of_cct_user_group_can_view_org_list():
+
+    OrganisationFactory.create()
+    OrganisationFactory.create()
+    OrganisationFactory.create()
+
+    group = Group.objects.create(name="cct_user")
+
+    factory = RequestFactory()
+    user = get_user_model().objects.create_user(
+        username="testy", email="testy@test.com", password="test1020"
+    )
+    user.groups.add(group)
+    org_list_permission = Permission.objects.get(name="Can view organisation")
+    group.permissions.add(org_list_permission)
+    # They get this permisson via the cct_user group
+    assert user.has_perm("organisations.view_organisation")
 
 
 def test_incident_report_create_view(stakeholder_user):

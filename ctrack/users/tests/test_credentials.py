@@ -1,6 +1,6 @@
 """
-THIS TEST IS FROM REALPYTHON ARTICLE
-https://realpython.com/django-pytest-fixtures/
+THE INITIATIVE FOR THIS TEST IS FROM REALPYTHON ARTICLE
+https://realpython.com/Django-pytest-fixtures/
 
 The permissions here are not optimal for this project yet.
 TODO - make them so!
@@ -22,10 +22,12 @@ def user_A(db) -> Group:
     return user
 
 
-def test_there_is_a_cct_user_group(db):
+def test_there_is_a_cct_user_group(db):  # adding fixture here
     group = Group.objects.create(name="cct_user")
     assert Group.objects.get(name="cct_user")
-    user = get_user_model().objects.create_user("INSPECTOR")
+    user = get_user_model().objects.create_user(
+        username="INSPECTOR", name="Mrs Inspector"
+    )
     user.groups.add(group)
     assert group in user.groups.all()
 
