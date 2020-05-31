@@ -22,9 +22,17 @@ def user_A(db) -> Group:
     return user
 
 
-def test_should_create_user(user_A: get_user_model()) -> None:
-    assert user_A.username == "A"
+def test_there_is_a_cct_user_group(db):
+    group = Group.objects.create(name="cct_user")
+    assert Group.objects.get(name="cct_user")
+    user = get_user_model().objects.create_user("INSPECTOR")
+    user.groups.add(group)
+    assert group in user.groups.all()
 
 
-def test_user_is_in_app_user_group(user_A: get_user_model()) -> None:
-    assert user_A.groups.filter(name="cct_user").exists()
+# def test_should_create_user(user_A: get_user_model()) -> None:
+#     assert user_A.username == "A"
+
+
+# def test_user_is_in_app_user_group(user_A: get_user_model()) -> None:
+#     assert user_A.groups.filter(name="cct_user").exists()

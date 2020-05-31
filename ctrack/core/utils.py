@@ -1,6 +1,8 @@
 import random
 from random import choice, randint
 
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from faker import Faker
 
 from ctrack.assessments.models import (
@@ -68,6 +70,9 @@ def populate_db(**kwargs):
     # from management command populate script.
     _org_number = kwargs.get("orgs")
     _igp_number = kwargs.get("igps")
+
+    # Groups
+    cct_staff_group = Group.objects.create(name="cct_users")
 
     # Set up some reasonable Modes and SubModes
     m1 = Mode.objects.create(descriptor="Rail")
@@ -155,6 +160,10 @@ def populate_db(**kwargs):
         )
         for _ in range(5)
     ]
+    inspector_user = get_user_model().objects.create(
+        username="inspector1", name="inspector1"
+    )
+    inspector_user.groups.add(cct_staff_group)
 
     etf1 = EngagementTypeFactory(descriptor="Information Notice")
     etf2 = EngagementTypeFactory(descriptor="Designation Letter")
