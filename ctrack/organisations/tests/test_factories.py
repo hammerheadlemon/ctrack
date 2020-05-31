@@ -1,12 +1,8 @@
-from ctrack.organisations.tests.factories import OrganisationFactory
-from ctrack.organisations.tests.factories import PersonFactory
-from ctrack.organisations.tests.factories import RoleFactory
-from ctrack.organisations.tests.factories import UserFactory
-
-
-def test_user_factory():
-    u = UserFactory.build()
-    assert u.username
+from ctrack.organisations.tests.factories import (
+    OrganisationFactory,
+    PersonFactory,
+    RoleFactory,
+)
 
 
 def test_organisation_factory():
