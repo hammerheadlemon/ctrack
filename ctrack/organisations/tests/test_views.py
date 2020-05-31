@@ -7,7 +7,7 @@ from django.urls import reverse
 from ctrack.caf.tests.factories import PersonFactory
 from ctrack.organisations.models import Mode, Submode
 from ctrack.organisations.tests.factories import OrganisationFactory, RoleFactory
-from ctrack.organisations.views import IncidentReportCreateView, OrganisationDetailView
+from ctrack.organisations.views import IncidentReportCreateView
 
 from ..views import OrganisationListView
 
@@ -66,8 +66,13 @@ def test_incident_report_create_view(stakeholder_user):
     assert response.status_code == 200
 
 
+<<<<<<< HEAD
 def test_only_member_of_cct_user_group_can_view_a_single_person(
     stakeholder_user, org_with_people, client
+=======
+def test_only_member_of_cct_user_group_can_view_person_list(
+    stakeholder_user, org_with_people
+>>>>>>> b5fedc5817cde8732f47d608c6e8ccd274bb434e
 ):
     role = RoleFactory.create()
     submode = Submode.objects.create(
@@ -88,6 +93,7 @@ def test_only_member_of_cct_user_group_can_view_a_single_person(
     group = Group.objects.create(name="cct_user")
 
     stakeholder_user.groups.add(group)
+<<<<<<< HEAD
 
     person_list_permission = Permission.objects.get(name="Can view person")
     group.permissions.add(person_list_permission)
@@ -99,3 +105,13 @@ def test_only_member_of_cct_user_group_can_view_a_single_person(
     # They get this permisson via the cct_user group
     assert stakeholder_user.has_perm("organisations.view_person")
     assert response.status_code == 200
+=======
+    person_list_permission = Permission.objects.get(name="Can view person")
+    group.permissions.add(person_list_permission)
+
+    factory = RequestFactory()
+    request = factory.get(f"people/")
+
+    # They get this permisson via the cct_user group
+    assert stakeholder_user.has_perm("organisations.view_person")
+>>>>>>> b5fedc5817cde8732f47d608c6e8ccd274bb434e
