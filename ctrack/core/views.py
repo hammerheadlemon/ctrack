@@ -10,7 +10,7 @@ def home_page(request):
         org = Organisation.objects.get(
             name=request.user.stakeholder.person.get_organisation_name()
         )
-        irs = IncidentReport.objects.filter(organisation=org)
+        irs = IncidentReport.objects.filter(organisation__name=org)
         systems = org.applicablesystem_set.all()
         return render(
             request,

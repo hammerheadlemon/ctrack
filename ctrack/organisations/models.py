@@ -184,6 +184,14 @@ class Stakeholder(models.Model):
 
 
 class IncidentReport(models.Model):
+    def get_sentinel_user():  # type: ignore
+        """
+        We need this so that we can ensure models.SET() is applied with a callable
+        to handle when Users are deleted from the system, preventing the Person objects
+        related to them being deleted also.
+        """
+        return get_user_model().objects.get_or_create(username="DELETED USER")[0]
+
     DFT_HANDLE_STATUS = (
         ("QUEUED", "QUEUED"),
         ("REVIEWING", "REVIEWING"),
@@ -212,7 +220,7 @@ class IncidentReport(models.Model):
     reporting_person = models.ForeignKey(
         Person,
         blank=False,
-        on_delete=models.CASCADE,
+        on_delete=models.SET(get_user_model),
         verbose_name="Person " "reporting the incident",
     )
     person_involved = models.CharField(
