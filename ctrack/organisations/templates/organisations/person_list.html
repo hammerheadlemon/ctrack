@@ -11,7 +11,7 @@
       <div class="col-md-12 pl-0 my-2">
       <div class="row">
         <div class="col-12">
-          <h4>People <span class="float-right align-bottom"><a href="{% url "organisations:create" %}"><button type="button" class="btn btn-primary">Create new...</button></a></span></h4>
+          <h4>People <span class="float-right align-bottom"><a href="#"><button type="button" class="btn btn-primary">Create new...</button></a></span></h4>
         </div>
       </div>
         <div class="row">
@@ -21,12 +21,18 @@
               <tr>
                 <th>Person</th>
                 <th>Organisation</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Contact History</th>
               </tr>
               </thead>
               {% for p in object_list %}
                 <tr>
                     <td><a href="#">{{ p.first_name }} {{ p.last_name }}</a></td>
-                  <td>{{ p.organisation.name }}</td>
+                    <td><a href="{% url "organisations:detail" p.organisation.slug %}">{{ p.organisation.name }}</a></td>
+                    <td>{{ p.mobile }}</td>
+                    <td><a href="mailto:{{ p.email }}">{{ p.email }}</a></td>
+                    <td><a href="#">Contact History</td>
                 </tr>
               {% endfor %}
             </table>
