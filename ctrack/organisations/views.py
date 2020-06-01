@@ -16,10 +16,11 @@ class PersonListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = "organisations.view_person"
 
 
-class OrganisationCreate(LoginRequiredMixin, CreateView):
+class OrganisationCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Organisation
     template_name = "organisations/org_create_formset.html"
     form_class = OrganisationCreateForm
+    permission_required = "organisations.add_organisation"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -54,8 +55,9 @@ class OrganisationListView(LoginRequiredMixin, PermissionRequiredMixin, ListView
         return context
 
 
-class OrganisationDetailView(LoginRequiredMixin, DetailView):
+class OrganisationDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Organisation
+    permission_required = "organisations.view_organisation"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data()
