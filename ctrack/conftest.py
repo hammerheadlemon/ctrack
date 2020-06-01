@@ -26,6 +26,18 @@ from ctrack.users.tests.factories import UserFactory
 
 
 @pytest.fixture
+def submode():
+    return Submode.objects.create(
+        descriptor="Light Rail", mode=Mode.objects.create(descriptor="Rail")
+    )
+
+
+@pytest.fixture
+def mode():
+    return Mode.objects.create(descriptor="Rail")
+
+
+@pytest.fixture
 def role():
     return RoleFactory.create(name="Test Role")
 
@@ -95,11 +107,9 @@ def user() -> User:
 
 
 @pytest.fixture
-def person(user):
+def person(user, submode, org_with_people):
+    org = org_with_people
     role = RoleFactory.create(name="Compliance Inspector")
-    mode = Mode.objects.create(descriptor="Rail")
-    submode = Submode.objects.create(descriptor="Light Rail", mode=mode)
-    org = OrganisationFactory.create(submode=submode)
     person = PersonFactory.create(
         first_name="Toss",
         last_name="McBride",

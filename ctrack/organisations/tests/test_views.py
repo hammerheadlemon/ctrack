@@ -67,12 +67,8 @@ def test_incident_report_create_view(stakeholder_user):
 
 
 def test_only_member_of_cct_user_group_can_view_a_single_person(
-    stakeholder_user, org_with_people, client
+    stakeholder_user, org_with_people, client, role, submode
 ):
-    role = RoleFactory.create()
-    submode = Submode.objects.create(
-        descriptor="Light Rail", mode=Mode.objects.create(descriptor="Rail")
-    )
     PersonFactory.create(
         role=role,
         predecessor=None,
