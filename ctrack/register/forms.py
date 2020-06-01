@@ -38,6 +38,7 @@ class EngagementEventCreateForm(forms.ModelForm):
         ee = super().save(commit=False)
         if commit:
             ee.save()
+            self.save_m2m()  # so that we also save the peoples!
         return ee
 
     class Meta:

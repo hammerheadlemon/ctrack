@@ -197,6 +197,11 @@ def populate_db(**kwargs):
     etf3 = EngagementTypeFactory(
         descriptor="CAF - Initial Submission", enforcement_instrument=False
     )
+    etf4 = EngagementTypeFactory(descriptor="Phone Call", enforcement_instrument=False)
+    etf5 = EngagementTypeFactory(
+        descriptor="Video Conference", enforcement_instrument=False
+    )
+    etf6 = EngagementTypeFactory(descriptor="Email", enforcement_instrument=False)
 
     EngagementEventFactory.create(type=etf1, user=user, participants=[p1, p2])
     EngagementEventFactory.create(type=etf2, user=user, participants=[p3])

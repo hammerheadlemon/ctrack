@@ -1,3 +1,4 @@
+DELETE FROM auth_group WHERE name='cct_users';
 TRUNCATE TABLE organisations_organisation RESTART IDENTITY CASCADE;
 TRUNCATE TABLE organisations_person RESTART IDENTITY CASCADE;
 TRUNCATE TABLE organisations_person_role RESTART IDENTITY CASCADE;
@@ -27,4 +28,3 @@ TRUNCATE TABLE assessments_achievementlevel RESTART IDENTITY CASCADE;
 TRUNCATE TABLE assessments_igp RESTART IDENTITY CASCADE;
 DELETE FROM users_user WHERE username != 'mlemon';
 DELETE FROM users_user WHERE username = 'inspector1';
-DELETE FROM auth_group WHERE name='cct_users';

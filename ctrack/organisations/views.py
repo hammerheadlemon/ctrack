@@ -6,6 +6,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, FormView, ListView
 
+from ctrack.register.models import EngagementEvent
+
 from .forms import AddressInlineFormSet, IncidentReportForm, OrganisationCreateForm
 from .models import IncidentReport, Organisation, Person
 
@@ -59,9 +61,11 @@ class OrganisationDetailView(LoginRequiredMixin, PermissionRequiredMixin, Detail
     model = Organisation
     permission_required = "organisations.view_organisation"
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+    def get_context_data(self, **kwargs: Any):
         context = super().get_context_data()
         org = kwargs["object"]
+        peoples = org.person_set.all()
+        engagement_events = EngagementEvent.objects.filter(participants__in=peoples)
         no_addr = org.addresses.count()
         if no_addr > 1:
             context["no_addr"] = no_addr
@@ -75,6 +79,7 @@ class OrganisationDetailView(LoginRequiredMixin, PermissionRequiredMixin, Detail
         context["people"] = people
         applicable_systems = org.applicablesystem_set.all()
         context["applicable_systems"] = applicable_systems
+        context["engagement_events"] = engagement_events
         return context
 
 
