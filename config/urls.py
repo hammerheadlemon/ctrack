@@ -1,9 +1,9 @@
 from django.conf import settings
-from django.urls import include, path
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.views.generic import TemplateView
+from django.urls import include, path
 from django.views import defaults as default_views
+from django.views.generic import TemplateView
 
 # change title
 admin.site.site_header = "ctrack admin"
@@ -22,6 +22,7 @@ urlpatterns = [
         include("ctrack.organisations.urls", namespace="organisations"),
     ),
     path("caf/", include("ctrack.caf.urls", namespace="caf")),
+    path("register/", include("ctrack.register.urls", namespace="register")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
