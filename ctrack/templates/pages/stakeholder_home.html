@@ -157,13 +157,13 @@
                         <h2>DfT Engagement</h2>
                             {% if engagement_events|length > 0 %}
                             <table class="table table-md">
-                                {% for event in engagement_events %}
                                     <thead>
                                         <th>Date</td>
                                         <th>Event</td>
                                         <th>Description</td>
                                         <th>DfT Comments</td>
                                     </thead>
+                                {% for event in engagement_events %}
                                 <tr>
                                     <td>{{event.date }}</td>
                                     <td>{{ event.type}}</td>
