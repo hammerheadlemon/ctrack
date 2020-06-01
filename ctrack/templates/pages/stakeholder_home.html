@@ -155,8 +155,8 @@
                 <div class="row">
                     <div class="col md-12">
                         <h2>DfT Engagement</h2>
-                            <table class="table table-md">
                             {% if engagement_events|length > 0 %}
+                            <table class="table table-md">
                                 {% for event in engagement_events %}
                                     <thead>
                                         <th>Date</td>
@@ -166,7 +166,7 @@
                                     </thead>
                                 <tr>
                                     <td>{{event.date }}</td>
-                                    <td><a href="#">{{ event.type}}</a></td>
+                                    <td>{{ event.type}}</td>
                                     <td>{{ event.short_description }}</td>
                                     <td>{{ event.comments }}</td>
                                 </tr>
