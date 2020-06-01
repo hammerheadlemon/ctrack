@@ -25,6 +25,30 @@ from ctrack.users.models import User
 from ctrack.users.tests.factories import UserFactory
 
 
+@pytest.fixture
+def role():
+    return RoleFactory.create(name="Test Role")
+
+
+@pytest.fixture
+def org_with_people(role):
+    org = OrganisationFactory.create(
+        submode=None,
+        name="TEST ORGANISATION",
+        designation_type=3,
+        registered_company_name="Test PLC",
+        comments="NA",
+    )
+    PersonFactory.create(
+        role=role,
+        job_title="Test Job Title",
+        predecessor=None,
+        organisation__submode=None,
+        organisation=org,
+    )
+    return org
+
+
 @pytest.fixture(autouse=True)
 def media_storage(settings, tmpdir):
     settings.MEDIA_ROOT = tmpdir.strpath
