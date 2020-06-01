@@ -155,7 +155,26 @@
                 <div class="row">
                     <div class="col md-12">
                         <h2>DfT Engagement</h2>
-                        <p>No engagement with DfT currently scheduled</p>
+                            <table class="table table-md">
+                            {% if engagement_events|length > 0 %}
+                                {% for event in engagement_events %}
+                                    <thead>
+                                        <th>Date</td>
+                                        <th>Event</td>
+                                        <th>Description</td>
+                                        <th>DfT Comments</td>
+                                    </thead>
+                                <tr>
+                                    <td>{{event.date }}</td>
+                                    <td><a href="#">{{ event.type}}</a></td>
+                                    <td>{{ event.short_description }}</td>
+                                    <td>{{ event.comments }}</td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <p>No engagement with DfT currently scheduled</p>
+                            {% endif %}
+                            </table>
                     </div>
                 </div>
 
