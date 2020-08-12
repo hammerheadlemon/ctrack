@@ -34,4 +34,18 @@ Workflow is currently to add Person, User and Stakeholder objects in the Admin.
 We would also want to restricted Stakeholder users from being able to do
 anything in the system other than X.
 
+Bootstrap
+#########
+
+..code-block:: bash|python|text
+    :linenos:
+    
+    sudo -u postgres psql postgres
+    DROP DATABASE ctrack;
+    CREATE DATABASE ctrack;
+    \q
+    ./utility/trunc_and_populate.sh
+    python manage.py migrate
+    python manage.py createsuperuser
+    python manager.py runserver
 
