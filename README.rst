@@ -37,8 +37,7 @@ anything in the system other than X.
 Bootstrap
 #########
 
-..code-block:: bash|python|text
-    :linenos:
+.. code-block:: bash
     
     sudo -u postgres psql postgres
     DROP DATABASE ctrack;
