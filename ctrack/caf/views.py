@@ -76,7 +76,7 @@ def applicable_system_create_from_caf(request, caf_id):
         if form.is_valid():
             ApplicableSystem.objects.create(
                 name=form.cleaned_data["name"],
-                description=form.cleaned_data["description"],
+                function=form.cleaned_data["function"],
                 caf=form.cleaned_data["caf"],
                 organisation=form.cleaned_data["organisation"],
             )
@@ -106,7 +106,7 @@ class ApplicableSystemCreateFromOrg(
     def form_valid(self, form):
         ass = ApplicableSystem.objects.create(
             name=form.cleaned_data["name"],
-            description=form.cleaned_data["description"],
+            function=form.cleaned_data["function"],
             organisation=form.cleaned_data["organisation"],
             caf=form.cleaned_data["caf"],
         )

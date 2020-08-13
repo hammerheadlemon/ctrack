@@ -78,7 +78,7 @@
                         {% for ass in applicable_systems %}
                           <tr>
                             <td><a href="{% url "caf:ass_detail" ass.id %}">{{ ass.name }}</a></td>
-                            <td>{{ ass.description }}<br>
+                            <td>{{ ass.function }}<br>
                               <a href="{% url "caf:detail" ass.caf.pk %}" class="small">
                                 {{ ass.caf }}
                               </a> <span class="text-muted"> | <a href="#" class="small">Edit System</a></span>

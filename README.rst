@@ -48,3 +48,8 @@ Bootstrap
     python manage.py createsuperuser
     python manager.py runserver
 
+Beartraps
+#########
+
+* Following a migration after a change to the db scheme, ensure that --reuse-db
+  is switched off in Pytest config, otherwise tests will not pass.

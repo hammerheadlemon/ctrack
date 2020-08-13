@@ -13,12 +13,13 @@ from ctrack.caf.models import CAF
 from ctrack.organisations.models import Organisation
 
 CAFCreateInlineFormset = inlineformset_factory(
-    CAF, ApplicableSystem, fields=("name", "organisation"), extra=2)
+    CAF, ApplicableSystem, fields=("name", "organisation"), extra=2
+)
 
 
 class ApplicableSystemCreateFromCafForm(forms.Form):
-    name = forms.CharField(max_length=255)
-    description = forms.CharField(widget=forms.Textarea)
+    name = forms.CharField(max_length=255, help_text="System name assigned by OES")
+    function = forms.CharField(widget=forms.Textarea)
     organisation = forms.ModelChoiceField(queryset=Organisation.objects.all())
     caf = forms.ModelChoiceField(queryset=CAF.objects.all())
 
@@ -30,26 +31,31 @@ class ApplicableSystemCreateFromCafForm(forms.Form):
         super().__init__(*args, **kwargs)
         caf = CAF.objects.get(pk=caf_id)
         cancel_redirect = reverse("caf:detail", args=[caf_id])
-        self.fields['caf'].queryset = CAF.objects.filter(pk=caf_id)
+        self.fields["caf"].queryset = CAF.objects.filter(pk=caf_id)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
                 "",
                 Field("name", css_class="form-control-lg"),
-                "description",
+                "function",
                 Hidden("caf", caf_id),
                 Hidden("organisation", org_id),
             ),
             ButtonHolder(
                 Submit("submit", "Submit", css_class="btn-primary"),
-                Button("cancel", "Cancel", onclick=f"location.href='{cancel_redirect}';", css_class="btn-danger")
-            )
+                Button(
+                    "cancel",
+                    "Cancel",
+                    onclick=f"location.href='{cancel_redirect}';",
+                    css_class="btn-danger",
+                ),
+            ),
         )
 
 
 class ApplicableSystemCreateFromOrgForm(forms.Form):
     name = forms.CharField(max_length=255)
-    description = forms.CharField(widget=forms.Textarea)
+    function = forms.CharField(widget=forms.Textarea)
     organisation = forms.ModelChoiceField(queryset=Organisation.objects.all())
     caf = forms.ModelChoiceField(queryset=CAF.objects.all())
 
@@ -57,18 +63,25 @@ class ApplicableSystemCreateFromOrgForm(forms.Form):
         super().__init__(*args, **kwargs)
         cancel_redirect = reverse("organisations:detail", args=[slug])
         # we need to create the choices we can use for the CAF dropdown in the form
-        self.fields['caf'].queryset = CAF.objects.filter(pk__in=[caf.pk for caf in org_cafs])
+        self.fields["caf"].queryset = CAF.objects.filter(
+            pk__in=[caf.pk for caf in org_cafs]
+        )
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
                 "",
                 Field("name", css_class="form-control-lg"),
-                "description",
+                "function",
                 Hidden("organisation", org_id),
                 "caf",
             ),
             ButtonHolder(
                 Submit("submit", "Submit", css_class="btn-primary"),
-                Button("cancel", "Cancel", onclick=f"location.href='{cancel_redirect}';", css_class="btn-danger")
-            )
+                Button(
+                    "cancel",
+                    "Cancel",
+                    onclick=f"location.href='{cancel_redirect}';",
+                    css_class="btn-danger",
+                ),
+            ),
         )

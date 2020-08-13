@@ -54,7 +54,13 @@ class ApplicableSystem(models.Model):
         return Organisation.objects.get_or_create(name="DELETED ORGANISATION")[0]
 
     name = models.CharField(max_length=256, help_text="System name assigned by OES")
-    description = models.TextField(max_length=1000, blank=True, null=True)
+    function = models.TextField(
+        max_length=1000,
+        blank=True,
+        null=True,
+        help_text="How the system is relevant to delivering or supporting the "
+        "essential service",
+    )
     organisation = models.ForeignKey(
         Organisation, on_delete=models.SET(get_sentinel_org)
     )
@@ -67,7 +73,7 @@ class ApplicableSystem(models.Model):
     )
 
     class Meta:
-        verbose_name = "Applicable System"
+        verbose_name = "NIS System"
 
     def get_primary_contact(self):
         return self.organisation.person_set.filter(primary_nis_contact=True)

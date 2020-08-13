@@ -14,8 +14,9 @@ class CAFFactory(factory.DjangoModelFactory):
     version = Faker("bothify", text="??##", letters="ABCD")
     triage_review_date = Faker("date_object")
     triage_review_inspector = factory.SubFactory(PersonFactory)
-    comments = Faker("paragraph", nb_sentences=5, variable_nb_sentences=True, ext_word_list=None)
-
+    comments = Faker(
+        "paragraph", nb_sentences=5, variable_nb_sentences=True, ext_word_list=None
+    )
 
     class Meta:
         model = CAF
@@ -25,7 +26,7 @@ class ApplicableSystemFactory(factory.DjangoModelFactory):
     """Factory for Essential Services."""
 
     name = Faker("text", max_nb_chars=100, ext_word_list=None)
-    description = Faker(
+    function = Faker(
         "paragraph", nb_sentences=4, variable_nb_sentences=True, ext_word_list=None
     )
     organisation = factory.SubFactory(OrganisationFactory)
