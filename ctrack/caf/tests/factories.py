@@ -31,6 +31,7 @@ class ApplicableSystemFactory(factory.DjangoModelFactory):
     )
     organisation = factory.SubFactory(OrganisationFactory)
     caf = factory.SubFactory("ctrack.caf.tests.factories.CAFFactory")
+    dft_categorisation = "CR"
 
     class Meta:
         model = ApplicableSystem

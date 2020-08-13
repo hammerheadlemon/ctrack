@@ -22,6 +22,10 @@ class ApplicableSystemCreateFromCafForm(forms.Form):
     function = forms.CharField(widget=forms.Textarea)
     organisation = forms.ModelChoiceField(queryset=Organisation.objects.all())
     caf = forms.ModelChoiceField(queryset=CAF.objects.all())
+    dft_categorisation = forms.ChoiceField(
+        choices=ApplicableSystem.SYSTEM_CATEGORISATION,
+        help_text="Refer to documentation for description of these criteria",
+    )
 
     def __init__(self, *args, **kwargs):
         # We must pop the kwargs before we pass to super()
@@ -38,6 +42,7 @@ class ApplicableSystemCreateFromCafForm(forms.Form):
                 "",
                 Field("name", css_class="form-control-lg"),
                 "function",
+                Field("dft_categorisation", css_class="form-control-lg",),
                 Hidden("caf", caf_id),
                 Hidden("organisation", org_id),
             ),
@@ -51,6 +56,12 @@ class ApplicableSystemCreateFromCafForm(forms.Form):
                 ),
             ),
         )
+
+        class Meta:
+            model = ApplicableSystem
+            labels = {
+                "dft_categorisation": "DFT CATEGORISATION",
+            }
 
 
 class ApplicableSystemCreateFromOrgForm(forms.Form):

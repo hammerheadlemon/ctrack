@@ -45,6 +45,13 @@ class DocumentFile(models.Model):
 
 
 class ApplicableSystem(models.Model):
+    CRITICAL = "CR"
+    IMPORTANT = "IM"
+    SYSTEM_CATEGORISATION = (
+        (CRITICAL, "Critical"),
+        (IMPORTANT, "Important"),
+    )
+
     def get_sentinel_org():
         """
         We need this so that we can ensure models.SET() is applied with a callable
@@ -70,6 +77,13 @@ class ApplicableSystem(models.Model):
         blank=True,
         null=True,
         related_name="applicable_systems",
+    )
+    dft_categorisation = models.CharField(
+        max_length=2,
+        choices=SYSTEM_CATEGORISATION,
+        default=CRITICAL,
+        verbose_name="DfT Categorisation",
+        help_text="Refer to documentation for description of these criteria",
     )
 
     class Meta:
