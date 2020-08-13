@@ -53,7 +53,7 @@ class ApplicableSystem(models.Model):
         """
         return Organisation.objects.get_or_create(name="DELETED ORGANISATION")[0]
 
-    name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256, help_text="System name assigned by OES")
     description = models.TextField(max_length=1000, blank=True, null=True)
     organisation = models.ForeignKey(
         Organisation, on_delete=models.SET(get_sentinel_org)
