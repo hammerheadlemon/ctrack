@@ -1,15 +1,18 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Button, Field, Hidden
-from crispy_forms.layout import ButtonHolder
-from crispy_forms.layout import Fieldset
-from crispy_forms.layout import Layout
-from crispy_forms.layout import Submit
+from crispy_forms.layout import (
+    Button,
+    ButtonHolder,
+    Field,
+    Fieldset,
+    Hidden,
+    Layout,
+    Submit,
+)
 from django import forms
 from django.forms import inlineformset_factory
 from django.urls import reverse
 
-from ctrack.caf.models import ApplicableSystem
-from ctrack.caf.models import CAF
+from ctrack.caf.models import CAF, ApplicableSystem
 from ctrack.organisations.models import Organisation
 
 CAFCreateInlineFormset = inlineformset_factory(
@@ -42,7 +45,7 @@ class ApplicableSystemCreateFromCafForm(forms.Form):
                 "",
                 Field("name", css_class="form-control-lg"),
                 "function",
-                Field("dft_categorisation", css_class="form-control-lg",),
+                "dft_categorisation",
                 Hidden("caf", caf_id),
                 Hidden("organisation", org_id),
             ),
