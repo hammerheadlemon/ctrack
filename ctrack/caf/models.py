@@ -85,6 +85,12 @@ class ApplicableSystem(models.Model):
         verbose_name="DfT Categorisation",
         help_text="Refer to documentation for description of these criteria",
     )
+    oes_categorisation = models.CharField(
+        max_length=255,
+        default="NA",
+        verbose_name="OES Categorisation",
+        help_text="Categorisation based on OES' own internal prioritisation process.",
+    )
 
     class Meta:
         verbose_name = "NIS System"

@@ -29,6 +29,10 @@ class ApplicableSystemCreateFromCafForm(forms.Form):
         choices=ApplicableSystem.SYSTEM_CATEGORISATION,
         help_text="Refer to documentation for description of these criteria",
     )
+    oes_categorisation = forms.CharField(
+        max_length=255,
+        help_text="Categorisation based on OES' own internal prioritisation process.",
+    )
 
     def __init__(self, *args, **kwargs):
         # We must pop the kwargs before we pass to super()
@@ -39,6 +43,8 @@ class ApplicableSystemCreateFromCafForm(forms.Form):
         caf = CAF.objects.get(pk=caf_id)
         cancel_redirect = reverse("caf:detail", args=[caf_id])
         self.fields["caf"].queryset = CAF.objects.filter(pk=caf_id)
+        self.fields["dft_categorisation"].label = "DfT Categorisation"
+        self.fields["oes_categorisation"].label = "OES Categorisation"
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
@@ -46,6 +52,7 @@ class ApplicableSystemCreateFromCafForm(forms.Form):
                 Field("name", css_class="form-control-lg"),
                 "function",
                 "dft_categorisation",
+                "oes_categorisation",
                 Hidden("caf", caf_id),
                 Hidden("organisation", org_id),
             ),
@@ -60,18 +67,20 @@ class ApplicableSystemCreateFromCafForm(forms.Form):
             ),
         )
 
-        class Meta:
-            model = ApplicableSystem
-            labels = {
-                "dft_categorisation": "DFT CATEGORISATION",
-            }
-
 
 class ApplicableSystemCreateFromOrgForm(forms.Form):
     name = forms.CharField(max_length=255)
     function = forms.CharField(widget=forms.Textarea)
     organisation = forms.ModelChoiceField(queryset=Organisation.objects.all())
     caf = forms.ModelChoiceField(queryset=CAF.objects.all())
+    dft_categorisation = forms.ChoiceField(
+        choices=ApplicableSystem.SYSTEM_CATEGORISATION,
+        help_text="Refer to documentation for description of these criteria",
+    )
+    oes_categorisation = forms.CharField(
+        max_length=255,
+        help_text="Categorisation based on OES' own internal prioritisation process.",
+    )
 
     def __init__(self, org_id, slug, org_name, org_cafs, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -80,12 +89,16 @@ class ApplicableSystemCreateFromOrgForm(forms.Form):
         self.fields["caf"].queryset = CAF.objects.filter(
             pk__in=[caf.pk for caf in org_cafs]
         )
+        self.fields["dft_categorisation"].label = "DfT Categorisation"
+        self.fields["oes_categorisation"].label = "OES Categorisation"
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
                 "",
                 Field("name", css_class="form-control-lg"),
                 "function",
+                "dft_categorisation",
+                "oes_categorisation",
                 Hidden("organisation", org_id),
                 "caf",
             ),
