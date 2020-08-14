@@ -49,7 +49,7 @@ class ApplicableSystem(models.Model):
     IMPORTANT = "IM"
     SYSTEM_CATEGORISATION = (
         (CRITICAL, "Critical"),
-        (IMPORTANT, "Important"),
+        (IMPORTANT, "Important (Legacy use only)"),
     )
 
     def get_sentinel_org():
