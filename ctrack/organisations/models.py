@@ -153,8 +153,7 @@ class Organisation(models.Model):
         return self.person_set.filter(primary_nis_contact=True)
 
     def applicable_systems(self):
-        # TODO - we need to do this
-        pass
+        return self.applicablesystem_set.all()
 
 
 class Address(models.Model):
