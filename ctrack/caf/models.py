@@ -78,6 +78,12 @@ class ApplicableSystem(models.Model):
         null=True,
         related_name="applicable_systems",
     )
+    essential_service = models.CharField(
+        max_length=255,
+        default="NA",
+        verbose_name="Essential Service",
+        help_text="Description of the essential service which the system suppports.",
+    )
     dft_categorisation = models.CharField(
         max_length=2,
         choices=SYSTEM_CATEGORISATION,

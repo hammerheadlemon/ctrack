@@ -25,6 +25,11 @@ class ApplicableSystemCreateFromCafForm(forms.Form):
     function = forms.CharField(widget=forms.Textarea)
     organisation = forms.ModelChoiceField(queryset=Organisation.objects.all())
     caf = forms.ModelChoiceField(queryset=CAF.objects.all())
+    essential_service = forms.CharField(
+        widget=forms.Textarea,
+        max_length=255,
+        help_text="Description of the essential service which the system suppports.",
+    )
     dft_categorisation = forms.ChoiceField(
         choices=ApplicableSystem.SYSTEM_CATEGORISATION,
         help_text="Refer to documentation for description of these criteria",
@@ -50,6 +55,7 @@ class ApplicableSystemCreateFromCafForm(forms.Form):
             Fieldset(
                 "",
                 Field("name", css_class="form-control-lg"),
+                "essential_service",
                 "function",
                 "dft_categorisation",
                 "oes_categorisation",
@@ -73,6 +79,11 @@ class ApplicableSystemCreateFromOrgForm(forms.Form):
     function = forms.CharField(widget=forms.Textarea)
     organisation = forms.ModelChoiceField(queryset=Organisation.objects.all())
     caf = forms.ModelChoiceField(queryset=CAF.objects.all())
+    essential_service = forms.CharField(
+        widget=forms.Textarea,
+        max_length=255,
+        help_text="Description of the essential service which the system suppports.",
+    )
     dft_categorisation = forms.ChoiceField(
         choices=ApplicableSystem.SYSTEM_CATEGORISATION,
         help_text="Refer to documentation for description of these criteria",
@@ -96,6 +107,7 @@ class ApplicableSystemCreateFromOrgForm(forms.Form):
             Fieldset(
                 "",
                 Field("name", css_class="form-control-lg"),
+                "essential_service",
                 "function",
                 "dft_categorisation",
                 "oes_categorisation",
