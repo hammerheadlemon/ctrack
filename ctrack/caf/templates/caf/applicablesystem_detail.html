@@ -12,11 +12,14 @@
           <h4>{{ object.name }}</h4>
         </div>
         <div class="row">
-          <h5>Function</h5>
+            <h5>{{ object.caf.organisation }}</h5>
+        </div>
+        <div class="row">
+          <h6>Function</h6>
         </div>
         <div class="row">
           <p>{{ object.function }}</p>
-          <p>Contained within CAF: to <a href="{% url "caf:detail" object.caf.pk %}">{{ object.caf }}</a></p>
+          <p>Contained within CAF: <a href="{% url "caf:detail" object.caf.pk %}">{{ object.caf }}</a></p>
         </div>
       </div>
     </div>
