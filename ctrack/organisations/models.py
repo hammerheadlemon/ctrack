@@ -152,6 +152,10 @@ class Organisation(models.Model):
     def primary_contacts(self):
         return self.person_set.filter(primary_nis_contact=True)
 
+    def applicable_systems(self):
+        # TODO - we need to do this
+        pass
+
 
 class Address(models.Model):
     organisation = models.ForeignKey(

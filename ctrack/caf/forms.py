@@ -100,6 +100,7 @@ class ApplicableSystemCreateFromOrgForm(forms.Form):
         self.fields["caf"].queryset = CAF.objects.filter(
             pk__in=[caf.pk for caf in org_cafs]
         )
+        self.fields["caf"].label = "CAF"
         self.fields["dft_categorisation"].label = "DfT Categorisation"
         self.fields["oes_categorisation"].label = "OES Categorisation"
         self.helper = FormHelper(self)
