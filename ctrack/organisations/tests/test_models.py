@@ -1,8 +1,14 @@
+import random
+
 import pytest
+
 from slugify import slugify
 
 from ctrack.organisations.models import IncidentReport, Organisation
+from ctrack.caf.models import CAF, Grading
+from ctrack.caf.tests.factories import ApplicableSystemFactory
 from ctrack.caf.models import EssentialService
+from ctrack.core.utils import fnames
 
 pytestmark = pytest.mark.django_db
 
@@ -24,6 +30,22 @@ def test_new_address(addr):
     assert addr.organisation.name
 
 
-def test_essential_service():
-    es = EssentialService()
-    assert es
+def test_essential_service(org):
+    q1 = Grading.objects.create(descriptor="Q1", description="baws", type="QUALITY")
+    c1 = Grading.objects.create(
+        descriptor="C1", description="baws_c", type="CONFIDENCE"
+    )
+    caf = CAF.objects.create(
+        quality_grading=q1,
+        confidence_grading=c1,
+        triage_review_date=None,
+        triage_review_inspector=None,
+    )
+    ass = ApplicableSystemFactory.create(
+        name=random.choice(fnames), organisation=org, caf=caf,
+    )
+    es = EssentialService.objects.create(
+        name="Test ES", description="Test ES Description", organisation=org
+    )
+    es.systems.add(ass)
+    assert es.systems.first().organisation.name == org.name
