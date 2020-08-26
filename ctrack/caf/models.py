@@ -158,3 +158,10 @@ class CAF(models.Model):
         # Get the organisation and applicable system
         ass = ApplicableSystem.objects.filter(caf=self).first()
         return f"CAF | {ass.organisation.name}_v{self.version}"
+
+
+class EssentialService(models.Model):
+    name = models.CharField(max_length=256)
+    description = models.CharField(max_length=512)
+    organisation = models.ForeignKey(Organisation, on_delete=models.CASCADE)
+    systems = models.ManyToManyField(ApplicableSystem)
