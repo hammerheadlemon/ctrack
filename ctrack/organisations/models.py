@@ -155,6 +155,13 @@ class Organisation(models.Model):
     def applicable_systems(self):
         return self.applicablesystem_set.all()
 
+    def systems(self):
+        ess = self.essentialservice_set.all()
+        out = []
+        for es in ess:
+            out.extend(list(es.systems.all()))
+        return out
+
 
 class Address(models.Model):
     organisation = models.ForeignKey(

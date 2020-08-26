@@ -165,3 +165,6 @@ class EssentialService(models.Model):
     description = models.CharField(max_length=512)
     organisation = models.ForeignKey(Organisation, on_delete=models.CASCADE)
     systems = models.ManyToManyField(ApplicableSystem)
+
+    def __str__(self):
+        return self.name

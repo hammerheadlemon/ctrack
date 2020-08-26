@@ -44,8 +44,14 @@ def test_essential_service(org):
     ass = ApplicableSystemFactory.create(
         name=random.choice(fnames), organisation=org, caf=caf,
     )
+    ass2 = ApplicableSystemFactory.create(
+        name=random.choice(fnames), organisation=org, caf=caf,
+    )
     es = EssentialService.objects.create(
         name="Test ES", description="Test ES Description", organisation=org
     )
-    es.systems.add(ass)
+    es.systems.add(ass, ass2)
     assert es.systems.first().organisation.name == org.name
+    assert es.name == "Test ES"
+    assert es.systems.count() == 2
+    assert ass.name in [s.name for s in org.systems()]
