@@ -89,7 +89,7 @@ class ApplicableSystem(models.Model):
         return self.organisation.person_set.filter(primary_nis_contact=True)
 
     def __str__(self):
-        return f"{self.organisation.name} | {self.name}"
+        return self.name
 
     objects = ApplicableSystemManager()
 
@@ -128,6 +128,7 @@ class CAF(models.Model):
     triage_review_inspector = models.ForeignKey(
         Person, on_delete=models.CASCADE, blank=True, null=True
     )
+    systems = models.ManyToManyField(ApplicableSystem)
     comments = models.TextField(max_length=1000)
 
     class Meta:

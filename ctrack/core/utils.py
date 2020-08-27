@@ -15,7 +15,7 @@ from ctrack.assessments.models import (
     CAFObjective,
     CAFPrinciple,
 )
-from ctrack.caf.models import CAF
+from ctrack.caf.models import CAF, EssentialService
 from ctrack.caf.tests.factories import (
     ApplicableSystemFactory,
     CAFFactory,
@@ -52,6 +52,17 @@ fnames = [
 
 
 def _create_caf_app_service(c_descriptors, org, q_descriptors):
+    # Get the essential services and systems belonging to the org
+
+    es = EssentialService.objects.create(
+        name="".join(["Essential Service for ", org.name]),
+        description="Random description",
+        organisation=org,
+    )
+    as1 = ApplicableSystemFactory.create(name=random.choice(fnames))
+    as2 = ApplicableSystemFactory.create(name=random.choice(fnames))
+    es.systems.add(as1, as2)
+
     caf = CAFFactory.create(
         quality_grading__descriptor=random.choice(q_descriptors),
         confidence_grading__descriptor=random.choice(c_descriptors),
@@ -59,9 +70,7 @@ def _create_caf_app_service(c_descriptors, org, q_descriptors):
         triage_review_date=None,
         triage_review_inspector=None,
     )
-    # # Each CAF can have up to three systems associated with it
-    # for _ in range(random.randint(1, 3)):
-    #     ApplicableSystemFactory.create(name=random.choice(fnames))
+    caf.systems.add(as1, as2)
 
 
 def populate_db(**kwargs):
@@ -218,9 +227,9 @@ def populate_db(**kwargs):
     # File store
     FileStoreFactory.create(physical_location_organisation=orgs[1])
 
-    # Every org gets on CAF for now
+    # Every org gets on CAF and Essential Service for now
     for org in orgs:
-        # create a CAF and ApplicableService for it
+        # create a CAF
         _create_caf_app_service(c_descriptors, org, q_descriptors)
 
     # CAF submissions - they create EngagementEvents
