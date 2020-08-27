@@ -45,13 +45,6 @@ class DocumentFile(models.Model):
 
 
 class ApplicableSystem(models.Model):
-    CRITICAL = "CR"
-    IMPORTANT = "IM"
-    SYSTEM_CATEGORISATION = (
-        (CRITICAL, "Critical"),
-        (IMPORTANT, "Important (Legacy use only)"),
-    )
-
     def get_sentinel_org():
         """
         We need this so that we can ensure models.SET() is applied with a callable
@@ -60,6 +53,13 @@ class ApplicableSystem(models.Model):
         """
         return Organisation.objects.get_or_create(name="DELETED ORGANISATION")[0]
 
+    CRITICAL = "CR"
+    IMPORTANT = "IM"
+    SYSTEM_CATEGORISATION = (
+        (CRITICAL, "Critical"),
+        (IMPORTANT, "Important (Legacy use only)"),
+    )
+
     name = models.CharField(max_length=256, help_text="System name assigned by OES")
     function = models.TextField(
         max_length=1000,
@@ -67,22 +67,6 @@ class ApplicableSystem(models.Model):
         null=True,
         help_text="How the system is relevant to delivering or supporting the "
         "essential service",
-    )
-    organisation = models.ForeignKey(
-        Organisation, on_delete=models.SET(get_sentinel_org)
-    )
-    caf = models.ForeignKey(
-        "CAF",
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
-        related_name="applicable_systems",
-    )
-    essential_service = models.CharField(
-        max_length=255,
-        default="NA",
-        verbose_name="Essential Service",
-        help_text="Description of the essential service which the system suppports.",
     )
     dft_categorisation = models.CharField(
         max_length=2,
@@ -111,6 +95,14 @@ class ApplicableSystem(models.Model):
 
 
 class CAF(models.Model):
+    def get_sentinel_org():
+        """
+        We need this so that we can ensure models.SET() is applied with a callable
+        to handle when Users are deleted from the system, preventing the Organisation
+        objects related to them being deleted also.
+        """
+        return Organisation.objects.get_or_create(name="DELETED ORGANISATION")[0]
+
     quality_grading = models.ForeignKey(
         Grading,
         on_delete=models.CASCADE,
@@ -129,6 +121,9 @@ class CAF(models.Model):
         DocumentFile, on_delete=models.CASCADE, blank=True, null=True
     )
     version = models.CharField(max_length=10, blank=True, null=True)
+    organisation = models.ForeignKey(
+        Organisation, on_delete=models.SET(get_sentinel_org)
+    )
     triage_review_date = models.DateField(blank=True, null=True)
     triage_review_inspector = models.ForeignKey(
         Person, on_delete=models.CASCADE, blank=True, null=True
@@ -147,17 +142,17 @@ class CAF(models.Model):
         """
         return ApplicableSystem.objects.filter(caf=self)
 
-    def organisation(self):
-        first_ass = ApplicableSystem.objects.filter(caf=self).first()
-        return first_ass.organisation
+    # FIXME remove once we know we don't need it
+    # def organisation(self):
+    #     first_ass = ApplicableSystem.objects.filter(caf=self).first()
+    #     return first_ass.organisation
 
     def sub_mode(self):
         return self.organisation().submode
 
     def __str__(self):
         # Get the organisation and applicable system
-        ass = ApplicableSystem.objects.filter(caf=self).first()
-        return f"CAF | {ass.organisation.name}_v{self.version}"
+        return f"CAF | {self.organisation.name}_v{self.version}"
 
 
 class EssentialService(models.Model):

@@ -55,14 +55,13 @@ def _create_caf_app_service(c_descriptors, org, q_descriptors):
     caf = CAFFactory.create(
         quality_grading__descriptor=random.choice(q_descriptors),
         confidence_grading__descriptor=random.choice(c_descriptors),
+        organisation=org,
         triage_review_date=None,
         triage_review_inspector=None,
     )
-    # Each CAF can have up to three systems associated with it
-    for _ in range(random.randint(1, 3)):
-        ApplicableSystemFactory.create(
-            name=random.choice(fnames), organisation=org, caf=caf,
-        )
+    # # Each CAF can have up to three systems associated with it
+    # for _ in range(random.randint(1, 3)):
+    #     ApplicableSystemFactory.create(name=random.choice(fnames))
 
 
 def populate_db(**kwargs):

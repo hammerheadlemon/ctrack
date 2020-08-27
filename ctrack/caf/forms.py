@@ -15,9 +15,10 @@ from django.urls import reverse
 from ctrack.caf.models import CAF, ApplicableSystem
 from ctrack.organisations.models import Organisation
 
-CAFCreateInlineFormset = inlineformset_factory(
-    CAF, ApplicableSystem, fields=("name", "organisation"), extra=2
-)
+# TODO - Replace this to get inlineformet working
+# CAFCreateInlineFormset = inlineformset_factory(
+#     CAF, ApplicableSystem, fields=("name", "organisation"), extra=2
+# )
 
 
 class ApplicableSystemCreateFromCafForm(forms.Form):
