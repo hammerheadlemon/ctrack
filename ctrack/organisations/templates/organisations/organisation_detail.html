@@ -99,17 +99,7 @@
         <div class="col-md-12 my-2">
             <div class="card bg-light">
               <div class="card-body">
-                <div class="card-title">OES Engagements<a href="{% url "register:create" %}" class="btn btn-primary btn-sm float-right">Add
-            new...</a></div>
-                  <div class="table table-responsive">
-                    <table class="table">
-                      {% if engagement_events|length > 0 %}
-                        {% for event in engagement_events %}
-                          <tr>
-                            <td><a href="#">{{ event.type}}</a></td>
-                            <td>{{ event.short_description }}</td>
-                          </tr>
-                        {% endfor %}
+                <div class="card-title">OES Engagements<a href="{% url "register:create" %}" class="btn btn-primary btn-sm float-right">Add new...</a></div> <div class="table table-responsive"> <table class="table"> {% if engagement_events|length > 0 %} {% for event in engagement_events %} <tr> <td><a href="#">{{ event.type}}</a></td> <td>{{ event.short_description }}</td> </tr> {% endfor %}
                       {% else %}
                         <a class="btn btn-primary" href="{% url "register:create" %}" role="button">Add
                           new...</a>

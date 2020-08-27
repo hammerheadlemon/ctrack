@@ -149,7 +149,7 @@ class CAF(models.Model):
     #     return first_ass.organisation
 
     def sub_mode(self):
-        return self.organisation().submode
+        return self.organisation.submode
 
     def __str__(self):
         # Get the organisation and applicable system
