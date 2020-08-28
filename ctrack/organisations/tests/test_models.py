@@ -37,21 +37,18 @@ def test_essential_service(org):
     )
     caf = CAF.objects.create(
         quality_grading=q1,
+        organisation=org,
         confidence_grading=c1,
         triage_review_date=None,
         triage_review_inspector=None,
     )
-    ass = ApplicableSystemFactory.create(
-        name=random.choice(fnames), organisation=org, caf=caf,
-    )
-    ass2 = ApplicableSystemFactory.create(
-        name=random.choice(fnames), organisation=org, caf=caf,
-    )
+    ass = ApplicableSystemFactory.create(name=random.choice(fnames), caf=caf,)
+    ass2 = ApplicableSystemFactory.create(name=random.choice(fnames), caf=caf,)
     es = EssentialService.objects.create(
         name="Test ES", description="Test ES Description", organisation=org
     )
     es.systems.add(ass, ass2)
-    assert es.systems.first().organisation.name == org.name
+    assert es.organisation.name == org.name
     assert es.name == "Test ES"
     assert es.systems.count() == 2
     assert ass.name in [s.name for s in org.systems()]
