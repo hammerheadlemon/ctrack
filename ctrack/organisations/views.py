@@ -79,7 +79,7 @@ class OrganisationDetailView(LoginRequiredMixin, PermissionRequiredMixin, Detail
             context["addr"] = addr
         people = org.person_set.all()
         context["people"] = people
-        applicable_systems = org.systems_for_each_essential_service()
+        applicable_systems = org.applicable_systems()
         context["applicable_systems"] = applicable_systems
         context["engagement_events"] = engagement_events
         context["essential_services"] = essential_services

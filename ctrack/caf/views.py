@@ -115,8 +115,8 @@ class ApplicableSystemCreateFromOrg(
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         org = Organisation.objects.get(slug=self.kwargs["slug"])
-        asses = org.applicablesystem_set.all()
-        org_cafs = {ass.caf for ass in asses}
+        asses = org.applicable_systems()
+        org_cafs = org.caf_set.all()
         kwargs["org_id"] = org.id
         kwargs["slug"] = org.slug
         kwargs["org_name"] = org.name
