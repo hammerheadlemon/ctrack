@@ -687,6 +687,7 @@ def populate_db(**kwargs):
     _caf2 = CAF.objects.get(pk=1)
 
     _completer = Person.objects.get(pk=1)
+    breakpoint()
     caf_assessment = CAFAssessment.objects.create(
         caf_id=_caf2.id, completer_id=_completer.id, comments="Random Comments"
     )

@@ -72,7 +72,7 @@
                   <tr>
                     <td><a href="{% url "caf:ass_detail" system.id %}">{{ system.name }}</a></td>
                     <td>{{ system.function }}<br>
-                      <a href="{% url "caf:detail" system.caf.pk %}" class="small">
+                      <a href="{% url "caf:detail" system.pk %}" class="small">
                         {{ system.caf }}
                       </a> <span class="text-muted"> | <a href="#" class="small">Edit System</a></span>
                     </td>

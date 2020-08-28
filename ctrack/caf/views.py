@@ -37,7 +37,7 @@ def caf_detail_view(request, pk):
         "object": caf,
         "assessments_and_scores": _scrs,
         "organisation": caf.organisation,
-        "systems": caf.systems,
+        "systems": caf.systems.all(),
     }
     return render(request, "caf/caf_detail.html", context)
 
