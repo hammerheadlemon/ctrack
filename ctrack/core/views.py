@@ -12,7 +12,7 @@ def home_page(request):
             name=request.user.stakeholder.person.get_organisation_name()
         )
         irs = IncidentReport.objects.filter(organisation__name=org)
-        systems = org.applicablesystem_set.all()
+        systems = org.applicable_systems()
         peoples = org.person_set.all()
         engagement_events = EngagementEvent.objects.filter(participants__in=peoples)
         return render(
