@@ -65,6 +65,33 @@
             </div>
           </div>
         </div>
+
+      <div class="row">
+        <div class="col-md-12 my-2">
+            <div class="card bg-light">
+              <div class="card-body">
+                <div class="card-title">Essential Services</div>
+                  <div class="table table-responsive">
+                    <table class="table">
+                      {% if applicable_systems|length > 0 %}
+                        {% for es in essential_services %}
+                          <tr>
+                            <td style="width: 18%">{{ es.name }}</td>
+                            <td>{{ es.description }}<br>
+                               <span class="text-muted"> | <a href="#" class="small">Edit System</a></span>
+                            </td>
+                          </tr>
+                        {% endfor %}
+                      {% else %}
+                        <p>button to create new one here</p> 
+                      {% endif %}
+                    </table>
+                  </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
       <div class="row">
         <div class="col-md-12 my-2">
             <div class="card bg-light">
@@ -96,31 +123,6 @@
           </div>
       </div>
 
-      <div class="row">
-        <div class="col-md-12 my-2">
-            <div class="card bg-light">
-              <div class="card-body">
-                <div class="card-title">Essential Services</div>
-                  <div class="table table-responsive">
-                    <table class="table">
-                      {% if applicable_systems|length > 0 %}
-                        {% for es in essential_services %}
-                          <tr>
-                            <td style="width: 18%">{{ es.name }}</td>
-                            <td>{{ es.description }}<br>
-                               <span class="text-muted"> | <a href="#" class="small">Edit System</a></span>
-                            </td>
-                          </tr>
-                        {% endfor %}
-                      {% else %}
-                        <p>button to create new one here</p> 
-                      {% endif %}
-                    </table>
-                  </div>
-              </div>
-            </div>
-          </div>
-      </div>
 
       <div class="row">
         <div class="col-md-12 my-2">
