@@ -10,6 +10,7 @@ from ctrack.organisations.tests.factories import OrganisationFactory, PersonFact
 class CAFFactory(factory.DjangoModelFactory):
     quality_grading = factory.SubFactory("ctrack.caf.tests.factories.GradingFactory")
     confidence_grading = factory.SubFactory("ctrack.caf.tests.factories.GradingFactory")
+    organisation = factory.SubFactory("ctrack.organisations.tests.OrganisationFactory")
     file = None
     version = Faker("bothify", text="??##", letters="ABCD")
     triage_review_date = Faker("date_object")
@@ -29,8 +30,6 @@ class ApplicableSystemFactory(factory.DjangoModelFactory):
     function = Faker(
         "paragraph", nb_sentences=4, variable_nb_sentences=True, ext_word_list=None
     )
-    organisation = factory.SubFactory(OrganisationFactory)
-    caf = factory.SubFactory("ctrack.caf.tests.factories.CAFFactory")
     dft_categorisation = "CR"
 
     class Meta:

@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from ctrack.caf.models import CAF
+
 from .models import (
     Address,
     AddressType,
@@ -16,6 +18,10 @@ from .models import (
 # So we can get the organisation name - a reverse lookup
 def get_organisation_name(person):
     return Organisation.objects.filter(person__id=person.id).first().name
+
+
+def get_first_caf(org):
+    return CAF.objects.filter(organisation__id=org.id).first().version
 
 
 # We need this to ensure the column header in the admin does't read the func name

@@ -153,7 +153,19 @@ class Organisation(models.Model):
         return self.person_set.filter(primary_nis_contact=True)
 
     def applicable_systems(self):
-        return self.applicablesystem_set.all()
+        # return self.applicablesystem_set.all()
+        ess = self.essentialservice_set.all()
+        out = []
+        for es in ess:
+            out.extend(es.systems.all())
+        return out
+
+    def systems(self):
+        ess = self.essentialservice_set.all()
+        out = []
+        for es in ess:
+            out.extend(list(es.systems.all()))
+        return out
 
 
 class Address(models.Model):

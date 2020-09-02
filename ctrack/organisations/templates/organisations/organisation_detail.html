@@ -65,6 +65,33 @@
             </div>
           </div>
         </div>
+
+      <div class="row">
+        <div class="col-md-12 my-2">
+            <div class="card bg-light">
+              <div class="card-body">
+                <div class="card-title">Essential Services</div>
+                  <div class="table table-responsive">
+                    <table class="table">
+                      {% if applicable_systems|length > 0 %}
+                        {% for es in essential_services %}
+                          <tr>
+                            <td style="width: 18%">{{ es.name }}</td>
+                            <td>{{ es.description }}<br>
+                               <span class="text-muted"> | <a href="#" class="small">Edit System</a></span>
+                            </td>
+                          </tr>
+                        {% endfor %}
+                      {% else %}
+                        <p>button to create new one here</p> 
+                      {% endif %}
+                    </table>
+                  </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
       <div class="row">
         <div class="col-md-12 my-2">
             <div class="card bg-light">
@@ -79,7 +106,7 @@
                           <tr>
                             <td><a href="{% url "caf:ass_detail" ass.id %}">{{ ass.name }}</a></td>
                             <td>{{ ass.function }}<br>
-                              <a href="{% url "caf:detail" ass.caf.pk %}" class="small">
+                              <a href="{% url "caf:detail" ass.pk %}" class="small">
                                 {{ ass.caf }}
                               </a> <span class="text-muted"> | <a href="#" class="small">Edit System</a></span>
                             </td>
@@ -95,21 +122,13 @@
             </div>
           </div>
       </div>
+
+
       <div class="row">
         <div class="col-md-12 my-2">
             <div class="card bg-light">
               <div class="card-body">
-                <div class="card-title">OES Engagements<a href="{% url "register:create" %}" class="btn btn-primary btn-sm float-right">Add
-            new...</a></div>
-                  <div class="table table-responsive">
-                    <table class="table">
-                      {% if engagement_events|length > 0 %}
-                        {% for event in engagement_events %}
-                          <tr>
-                            <td><a href="#">{{ event.type}}</a></td>
-                            <td>{{ event.short_description }}</td>
-                          </tr>
-                        {% endfor %}
+                <div class="card-title">OES Engagements<a href="{% url "register:create" %}" class="btn btn-primary btn-sm float-right">Add new...</a></div> <div class="table table-responsive"> <table class="table"> {% if engagement_events|length > 0 %} {% for event in engagement_events %} <tr> <td><a href="#">{{ event.type}}</a></td> <td>{{ event.short_description }}</td> </tr> {% endfor %}
                       {% else %}
                         <a class="btn btn-primary" href="{% url "register:create" %}" role="button">Add
                           new...</a>

@@ -10,6 +10,7 @@ from ctrack.register.models import EngagementEvent
 
 from .forms import AddressInlineFormSet, IncidentReportForm, OrganisationCreateForm
 from .models import IncidentReport, Organisation, Person
+from ctrack.caf.models import EssentialService
 
 
 class PersonListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -66,6 +67,7 @@ class OrganisationDetailView(LoginRequiredMixin, PermissionRequiredMixin, Detail
         org = kwargs["object"]
         peoples = org.person_set.all()
         engagement_events = EngagementEvent.objects.filter(participants__in=peoples)
+        essential_services = EssentialService.objects.filter(organisation=org)
         no_addr = org.addresses.count()
         if no_addr > 1:
             context["no_addr"] = no_addr
@@ -77,9 +79,10 @@ class OrganisationDetailView(LoginRequiredMixin, PermissionRequiredMixin, Detail
             context["addr"] = addr
         people = org.person_set.all()
         context["people"] = people
-        applicable_systems = org.applicablesystem_set.all()
+        applicable_systems = org.applicable_systems()
         context["applicable_systems"] = applicable_systems
         context["engagement_events"] = engagement_events
+        context["essential_services"] = essential_services
         return context
 
 
