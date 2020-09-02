@@ -105,6 +105,9 @@ class ApplicableSystemCreateFromOrgForm(forms.Form):
         # self.fields["caf"].label = "CAF"
         self.fields["dft_categorisation"].label = "DfT Categorisation"
         self.fields["oes_categorisation"].label = "OES Categorisation"
+        self.fields["essential_service"].queryset = EssentialService.objects.filter(
+            pk=org_id
+        )
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Fieldset(
