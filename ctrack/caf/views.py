@@ -107,20 +107,22 @@ class ApplicableSystemCreateFromOrg(
         ass = ApplicableSystem.objects.create(
             name=form.cleaned_data["name"],
             function=form.cleaned_data["function"],
-            organisation=form.cleaned_data["organisation"],
-            caf=form.cleaned_data["caf"],
+            # organisation=form.cleaned_data["organisation"],
+            # caf=form.cleaned_data["caf"],
         )
+        es = form.cleaned_data["essential_service"]
+        es.systems.add(ass)
         return super().form_valid(form)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         org = Organisation.objects.get(slug=self.kwargs["slug"])
         asses = org.applicable_systems()
-        org_cafs = org.caf_set.all()
+        # org_cafs = org.caf_set.all()
         kwargs["org_id"] = org.id
         kwargs["slug"] = org.slug
         kwargs["org_name"] = org.name
-        kwargs["org_cafs"] = list(org_cafs)
+        # kwargs["org_cafs"] = list(org_cafs)
         return kwargs
 
     def get_success_url(self):

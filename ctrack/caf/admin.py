@@ -10,13 +10,21 @@ from .models import (
 )
 
 
+def get_system_org(obj):
+    es = obj.essentialservice_set.first()  # just get the first if there are many
+    return es.organisation.name
+
+
+get_system_org.short_description = "Organisation"
+
+
 class EssentialServiceAdmin(admin.ModelAdmin):
     model = EssentialService
 
 
 class ApplicableSystemListAdmin(admin.ModelAdmin):
     model = ApplicableSystem
-    list_display = ["name", "function"]
+    list_display = ["name", get_system_org, "function"]
 
 
 # FIXME
