@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from ctrack.caf.models import CAF
+from ctrack.caf.models import CAF, EssentialService
 
 from .models import (
     Address,
@@ -47,8 +47,14 @@ class AddressInLine(admin.StackedInline):
     extra = 1
 
 
+class EssentialServiceInline(admin.StackedInline):
+    model = EssentialService
+    max_num = 3
+    extra = 1
+
+
 class OrganisationAdmin(admin.ModelAdmin):
-    inlines = [AddressInLine]
+    inlines = [AddressInLine, EssentialServiceInline]
     list_display = ("name", "submode", "date_updated")
 
 
