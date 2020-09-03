@@ -36,7 +36,7 @@ def _regulation_scrambler():
     )
 
 
-class EngagementTypeFactory(factory.DjangoModelFactory):
+class EngagementTypeFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = EngagementType
 
@@ -45,7 +45,7 @@ class EngagementTypeFactory(factory.DjangoModelFactory):
     regulation_reference = factory.LazyFunction(_regulation_scrambler)
 
 
-class EngagementEventFactory(factory.DjangoModelFactory):
+class EngagementEventFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = EngagementEvent
 

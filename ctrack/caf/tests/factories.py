@@ -7,7 +7,7 @@ from ctrack.caf.models import ApplicableSystem, Grading, DocumentFile, FileStore
 from ctrack.organisations.tests.factories import OrganisationFactory, PersonFactory
 
 
-class CAFFactory(factory.DjangoModelFactory):
+class CAFFactory(factory.django.DjangoModelFactory):
     quality_grading = factory.SubFactory("ctrack.caf.tests.factories.GradingFactory")
     confidence_grading = factory.SubFactory("ctrack.caf.tests.factories.GradingFactory")
     organisation = factory.SubFactory("ctrack.organisations.tests.OrganisationFactory")
@@ -23,7 +23,7 @@ class CAFFactory(factory.DjangoModelFactory):
         model = CAF
 
 
-class ApplicableSystemFactory(factory.DjangoModelFactory):
+class ApplicableSystemFactory(factory.django.DjangoModelFactory):
     """Factory for Essential Services."""
 
     name = Faker("text", max_nb_chars=100, ext_word_list=None)
@@ -36,7 +36,7 @@ class ApplicableSystemFactory(factory.DjangoModelFactory):
         model = ApplicableSystem
 
 
-class GradingFactory(factory.DjangoModelFactory):
+class GradingFactory(factory.django.DjangoModelFactory):
     descriptor = factory.Iterator(
         ["Q1", "Q2", "Q3", "Q4", "Q5", "C1", "C2", "C3", "C4", "C5"]
     )
@@ -47,7 +47,7 @@ class GradingFactory(factory.DjangoModelFactory):
         model = Grading
 
 
-class FileStoreFactory(factory.DjangoModelFactory):
+class FileStoreFactory(factory.django.DjangoModelFactory):
     descriptor = "File Store X"
     virtual_location = Faker("street_name")
     physical_location = random.choice(["Cupboard A", "Tin Box", "The Vault"])
@@ -57,7 +57,7 @@ class FileStoreFactory(factory.DjangoModelFactory):
         model = FileStore
 
 
-class DocumentFileFactory(factory.DjangoModelFactory):
+class DocumentFileFactory(factory.django.DjangoModelFactory):
     name = Faker("file_name", extension="xlsx")
     type = random.choice([1, 2, 3, 4])
     file_store_location = factory.SubFactory(FileStoreFactory)

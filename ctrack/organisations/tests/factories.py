@@ -3,7 +3,8 @@ from datetime import datetime
 
 import factory
 from django.contrib.auth import get_user_model
-from factory import DjangoModelFactory, Faker, SubFactory, post_generation
+from factory.django import DjangoModelFactory
+from factory import Faker, SubFactory, post_generation
 
 from ctrack.organisations.models import Address, Organisation, Person, Role
 

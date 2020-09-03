@@ -14,7 +14,7 @@ black  # https://github.com/ambv/black
 
 # Django
 # ------------------------------------------------------------------------------
-factory-boy  # https://github.com/FactoryBoy/factory_boy
+factory-boy==3.0.1  # https://github.com/FactoryBoy/factory_boy
 
 django-extensions==2.2.6  # https://github.com/django-extensions/django-extensions
 pytest-django  # https://github.com/pytest-dev/pytest-django
