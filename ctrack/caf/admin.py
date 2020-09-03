@@ -20,6 +20,7 @@ get_system_org.short_description = "Organisation"
 
 class EssentialServiceAdmin(admin.ModelAdmin):
     model = EssentialService
+    list_display = ["name", "description", "organisation"]
 
 
 class ApplicableSystemListAdmin(admin.ModelAdmin):
