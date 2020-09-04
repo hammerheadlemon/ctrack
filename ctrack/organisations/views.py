@@ -1,6 +1,7 @@
 from typing import Any, Dict
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.shortcuts import render, get_object_or_404
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
@@ -11,6 +12,14 @@ from ctrack.register.models import EngagementEvent
 from .forms import AddressInlineFormSet, IncidentReportForm, OrganisationCreateForm
 from .models import IncidentReport, Organisation, Person
 from ctrack.caf.models import EssentialService
+
+# TODO - needs a permission on this view
+def essential_service_detail(request, pk):
+    es = EssentialService.objects.get(pk=pk)
+    asses = es.systems.all()
+    # es = get_object_or_404(EssentialService, organisation__pk=org_pk)
+    context = {"es": es, "asses": asses}
+    return render(request, "organisations/essential_service_detail.html", context)
 
 
 class PersonListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):

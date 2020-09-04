@@ -76,7 +76,7 @@
                       {% if applicable_systems|length > 0 %}
                         {% for es in essential_services %}
                           <tr>
-                            <td style="width: 18%">{{ es.name }}</td>
+                              <td style="width: 18%"><a href="{% url "organisations:essential_service_detail" es.pk %}">{{ es.name }}</a></td>
                             <td>{{ es.description }}<br>
                                <span class="text-muted"> | <a href="#" class="small">Edit System</a></span>
                             </td>
