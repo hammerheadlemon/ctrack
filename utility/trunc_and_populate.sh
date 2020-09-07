@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 
 echo "Truncating the database."
-sudo -u postgres psql -f utility/truncate_script.sql ctrack
+if [[ "$OSTYPE" == "openbsd"* ]]; then
+	psql -U postgres -f utility/truncate_script.sql ctrack
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+	sudo -u postgres psql -f utility/truncate_script.sql ctrack
+else
+	echo "Cannot detect operating system"
+fi
 
 sleep 1
 
