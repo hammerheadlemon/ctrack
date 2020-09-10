@@ -85,8 +85,14 @@ class ApplicableSystem(models.Model):
     class Meta:
         verbose_name = "NIS System"
 
-    def get_primary_contact(self):
-        return self.organisation.person_set.filter(primary_nis_contact=True)
+    def get_organisation(self):
+        ess = self.essentialservice_set.all()
+        org_set = [es.organisation for es in ess]
+        if len(org_set) > 1:
+            breakpoint()
+            raise ValueError("Seeking one organisation, got {}.".format(len(org_set)))
+        else:
+            return org_set[0]
 
     def __str__(self):
         return self.name

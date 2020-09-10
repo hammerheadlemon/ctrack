@@ -7,46 +7,44 @@
 
 
 <div class="container">
-	<div class="row">
-		<div class="col-sm-12">
-		<h3>Systems in Scope</h3>
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Systems in Scope</h3>
 
-		<table id="datatable" class="display compact cell-border" style="width:100%">
-			<thead>
-			<tr>
-				<th>Organisation</th>
-				<th>System</th>
-        <th>CAF</th>
-				<th>Sub Mode</th>
-				<th class="tabaligncenter">Confidence Grade</th>
-				<th>Triage Review Date</th>
-				<th>Review Inspector</th>
-        <th>POC</th>
-			</tr>
-			</thead>
-			{% for sys in object_list %}
-			<tr>
-        <td><a href="{% url "organisations:detail" slug=sys.organisation.slug %}">{{ sys.organisation.name }}</a></td>
-				<td><a href="{% url "caf:ass_detail" sys.pk %}">{{ sys.name }}</a></td>
-        <td><a href="{% url "caf:detail" pk=sys.caf.id %}">{{ sys.caf }}</a></td>
-				<td>{{ sys.organisation.submode.descriptor }}</td>
-				<td class="tabaligncenter">{{ sys.caf.confidence_grading.descriptor }}</td>
-				<td>{{ sys.caf.triage_review_date }}</td>
-				<td>{{ sys.caf.triage_review_inspector.name }}</td>
-        {% if sys.get_primary_contact %}
-          <td>{{ sys.get_primary_contact.first }}</td>
-        {% else %}
-          <td>NA</td>
-        {% endif %}
-			</tr>
-			{% endfor %}
-		</table>
-
-		</div>
-	</div>
+            <table id="datatable" class="display compact cell-border" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Organisation</th>
+                        <th>System</th>
+                        <th>CAFs</th>
+                        <th>Sub Mode</th>
+                        <th class="tabaligncenter">Confidence Grade</th>
+                        <th>Triage Review Date</th>
+                        <th>Review Inspector</th>
+                        <th>POC</th>
+                    </tr>
+                </thead>
+                {% for sys in object_list %}
+                <tr>
+                    <td><a href="{% url "organisations:detail" slug=sys.get_organisation.slug %}">{{ sys.get_organisation.name }}</a></td>
+                    <td><a href="{% url "caf:ass_detail" sys.pk %}">{{ sys.name }}</a></td>
+                    <td>
+                        <ul>
+                            {% for c in sys.caf_set.all %}
+                            <li><a href="{% url "caf:detail" c.pk %}">{{ c }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>hello</td>
+                    <td>hello</td>
+                    <td>hello</td>
+                    <td>hello</td>
+                    <td>hello</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
 </div>
 
 {% endblock content %}
-
-
-

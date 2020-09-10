@@ -50,7 +50,7 @@ class ListApplicableSystem(LoginRequiredMixin, PermissionRequiredMixin, ListView
     permission_required = "caf.view_caf"
 
     def get_queryset(self):
-        ess = ApplicableSystem.objects.all().order_by("organisation__name")
+        ess = ApplicableSystem.objects.all().order_by("name")
         return ess
 
     def get_context_data(self, **kwargs):
