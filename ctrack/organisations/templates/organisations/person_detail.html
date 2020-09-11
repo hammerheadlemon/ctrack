@@ -18,11 +18,11 @@
         <div class="col-md-12 my-2">
             <table class="table table-sm table-bordered">
                 <tr>
-                    <td><strong>Name</strong></td>
-                    <td>{{ person.get_full_name }}</td>
+                    <td class="w-25 p-3"><strong>Name</strong></td>
+                    <td class="w-25 p-3">{{ person.get_full_name }}</td>
                 </tr>
                 <tr>
-                    <td>J<strong>ob Title</strong></td>
+                    <td><strong>ob Title</strong></td>
                     <td>{{ person.job_title }}</td>
                 </tr>
                 <tr>
@@ -62,8 +62,44 @@
                     <td>{{ person.landline }}</td>
                 </tr>
                 <tr>
-                    <td><strong>Update</strong></td>
+                    <td><strong>Updated</strong></td>
                     <td>{{ person.date_updated }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Clearance Level</strong></td>
+                    <td>{{ person.clearance }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Clearance Sponsor</strong></td>
+                    <td>{{ person.clearance_sponsor.get_full_name }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Clearance Start Date</strong></td>
+                    <td>{{ person.clearance_start_date }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Clearance Last Checked</strong></td>
+                    <td>{{ person.clearance_last_checked }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Clearance Expiry</strong></td>
+                    <td>{{ person.clearance_expiry }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Active</strong></td>
+                    <td>{{ person.active }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Date Ended</strong></td>
+                    <td>{{ person.date_ended }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Predecessor</strong></td>
+                    <td>{{ person.predecessor }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Comments</strong></td>
+                    <td>{{ person.comments }}</td>
                 </tr>
             </table>
         </div>
