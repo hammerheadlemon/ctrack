@@ -28,7 +28,7 @@
               </thead>
               {% for p in object_list %}
                 <tr>
-                    <td><a href="#">{{ p.first_name }} {{ p.last_name }}</a></td>
+                    <td><a href="{% url "organisations:person-detail" p.pk %}">{{ p.first_name }} {{ p.last_name }}</a></td>
                     <td><a href="{% url "organisations:detail" p.organisation.slug %}">{{ p.organisation.name }}</a></td>
                     <td>{{ p.mobile }}</td>
                     <td><a href="mailto:{{ p.email }}">{{ p.email }}</a></td>

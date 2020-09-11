@@ -28,6 +28,11 @@ class PersonListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = "organisations.view_person"
 
 
+def person_detail(request, person_id):
+    p = get_object_or_404(Person, pk=person_id)
+    return render(request, "organisations/person_detail.html", {"person": p})
+
+
 class OrganisationCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Organisation
     template_name = "organisations/org_create_formset.html"

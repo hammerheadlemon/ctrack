@@ -7,6 +7,7 @@ from ctrack.organisations.views import (
     OrganisationListView,
     PersonListView,
     essential_service_detail,
+    person_detail,
 )
 
 app_name = "organisations"
@@ -26,5 +27,6 @@ urlpatterns = [
         essential_service_detail,
         name="essential_service_detail",
     ),
+    path("person/<int:person_id>", person_detail, name="person-detail"), 
     # path("create", view=OrganisationCreate.as_view(), name="create")
 ]

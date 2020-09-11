@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ person.get_full_name }}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container mt-3">
+    <div class="row">
+        <h3>{{ person.get_full_name }}</h3>
+    </div>
+    <div class="row">
+        <h5>{{ person.organisation.name }}</h5>
+    </div>
+    <div class="row">
+        <div class="col-md-12 my-2">
+            <table class="table table-sm table-bordered">
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td>{{ person.get_full_name }}</td>
+                </tr>
+                <tr>
+                    <td>J<strong>ob Title</strong></td>
+                    <td>{{ person.job_title }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Organisation</strong></td>
+                    <td>{{ person.organisation.name }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Role</strong></td>
+                    <td>{{ person.role.name }}</td>
+                </tr>
+                <tr>
+                    <td><strong>NIS Primary Point of Contact</strong></td>
+                    <td>{{ person.primary_nis_contact }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Voluntary Point of Contact</strong></td>
+                    <td>{{ person.voluntary_point_of_contact }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Has Egress</strong></td>
+                    <td>{{ person.has_egress }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Email</strong></td>
+                    <td>{{ person.email }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Secondary Email</strong></td>
+                    <td>{{ person.secondary_email }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Mobile Phone</strong></td>
+                    <td>{{ person.mobile }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Land line</strong></td>
+                    <td>{{ person.landline }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Update</strong></td>
+                    <td>{{ person.date_updated }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

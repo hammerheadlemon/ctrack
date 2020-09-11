@@ -90,6 +90,9 @@ class Person(models.Model):
     def get_organisation_name(self):
         return self.organisation.name
 
+    def get_full_name(self):
+        return " ".join([self.first_name, self.last_name])
+
     class Meta:
         verbose_name_plural = "People"
 
