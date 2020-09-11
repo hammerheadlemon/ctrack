@@ -15,91 +15,91 @@
         <h5>{{ person.organisation.name }}</h5>
     </div>
     <div class="row">
-        <div class="col-md-12 my-2">
-            <table class="table table-sm table-bordered">
-                <tr>
-                    <td class="w-25 p-3"><strong>Name</strong></td>
-                    <td class="w-25 p-3">{{ person.get_full_name }}</td>
+        <div class="container-fluid">
+            <table class="table table-striped table-condensed">
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Name</strong></td>
+                    <td class="col-9">{{ person.get_full_name }}</td>
                 </tr>
-                <tr>
-                    <td><strong>ob Title</strong></td>
-                    <td>{{ person.job_title }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Job Title</strong></td>
+                    <td class="col-9">{{ person.job_title }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Organisation</strong></td>
-                    <td>{{ person.organisation.name }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Organisation</strong></td>
+                    <td class="col-9">{{ person.organisation.name }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Role</strong></td>
-                    <td>{{ person.role.name }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Role</strong></td>
+                    <td class="col-9">{{ person.role.name }}</td>
                 </tr>
-                <tr>
-                    <td><strong>NIS Primary Point of Contact</strong></td>
-                    <td>{{ person.primary_nis_contact }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>NIS Primary Point of Contact</strong></td>
+                    <td class="col-9">{{ person.primary_nis_contact }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Voluntary Point of Contact</strong></td>
-                    <td>{{ person.voluntary_point_of_contact }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Voluntary Point of Contact</strong></td>
+                    <td class="col-9">{{ person.voluntary_point_of_contact }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Has Egress</strong></td>
-                    <td>{{ person.has_egress }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Has Egress</strong></td>
+                    <td class="col-9">{{ person.has_egress }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Email</strong></td>
-                    <td>{{ person.email }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Email</strong></td>
+                    <td class="col-9">{{ person.email }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Secondary Email</strong></td>
-                    <td>{{ person.secondary_email }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Secondary Email</strong></td>
+                    <td class="col-9">{{ person.secondary_email }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Mobile Phone</strong></td>
-                    <td>{{ person.mobile }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Mobile Phone</strong></td>
+                    <td class="col-9">{{ person.mobile }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Land line</strong></td>
-                    <td>{{ person.landline }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Land line</strong></td>
+                    <td class="col-9">{{ person.landline }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Updated</strong></td>
-                    <td>{{ person.date_updated }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Updated</strong></td>
+                    <td class="col-9">{{ person.date_updated }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Clearance Level</strong></td>
-                    <td>{{ person.clearance }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Clearance Level</strong></td>
+                    <td class="col-9">{{ person.clearance }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Clearance Sponsor</strong></td>
-                    <td>{{ person.clearance_sponsor.get_full_name }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Clearance Sponsor</strong></td>
+                    <td class="col-9">{{ person.clearance_sponsor.get_full_name }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Clearance Start Date</strong></td>
-                    <td>{{ person.clearance_start_date }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Clearance Start Date</strong></td>
+                    <td class="col-9">{{ person.clearance_start_date }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Clearance Last Checked</strong></td>
-                    <td>{{ person.clearance_last_checked }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Clearance Last Checked</strong></td>
+                    <td class="col-9">{{ person.clearance_last_checked }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Clearance Expiry</strong></td>
-                    <td>{{ person.clearance_expiry }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Clearance Expiry</strong></td>
+                    <td class="col-9">{{ person.clearance_expiry }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Active</strong></td>
-                    <td>{{ person.active }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Active</strong></td>
+                    <td class="col-9">{{ person.active }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Date Ended</strong></td>
-                    <td>{{ person.date_ended }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Date Ended</strong></td>
+                    <td class="col-9">{{ person.date_ended }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Predecessor</strong></td>
-                    <td>{{ person.predecessor }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Predecessor</strong></td>
+                    <td class="col-9">{{ person.predecessor }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Comments</strong></td>
-                    <td>{{ person.comments }}</td>
+                <tr class="d-flex">
+                    <td class="col-3"><strong>Comments</strong></td>
+                    <td class="col-9">{{ person.comments }}</td>
                 </tr>
             </table>
         </div>
