@@ -12,7 +12,10 @@ from .models import (
 
 def get_system_org(obj):
     es = obj.essentialservice_set.first()  # just get the first if there are many
-    return es.organisation.name
+    if es:  # return blank if there are none to copy with current admin template
+        return es.organisation.name
+    else:
+        return ""
 
 
 get_system_org.short_description = "Organisation"
