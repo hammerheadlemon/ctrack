@@ -11,14 +11,16 @@ from ctrack.register.models import EngagementEvent
 
 from .forms import AddressInlineFormSet, IncidentReportForm, OrganisationCreateForm
 from .models import IncidentReport, Organisation, Person
-from ctrack.caf.models import EssentialService
+from ctrack.caf.models import EssentialService, CAF
 
 # TODO - needs a permission on this view
 def essential_service_detail(request, pk):
     es = EssentialService.objects.get(pk=pk)
+    org = es.organisation
+    cafs = CAF.objects.filter(organisation=org.pk)
     asses = es.systems.all()
     # es = get_object_or_404(EssentialService, organisation__pk=org_pk)
-    context = {"es": es, "asses": asses}
+    context = {"es": es, "asses": asses, "cafs": cafs}
     return render(request, "organisations/essential_service_detail.html", context)
 
 

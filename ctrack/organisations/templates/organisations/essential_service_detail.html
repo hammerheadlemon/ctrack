@@ -4,30 +4,45 @@
   {{ es.name }}
 {% endblock %}
 
+
 {% block content %}
   <div class="container mt-3">
     <div class="row">
       <div class="col-sm-12 pl-0 my-2">
         <div class="row">
           <div class="col-12">
-            <h4>{{ es.name }}</h4>
+            <h3>{{ es.name }}</h3>
           </div>
         </div>
       </div>
     </div>
     <div class="row">
-        <div class="col-sm-12 pl-0 my-2">
+        <div class="col-sm-6 pl-0 my-2">
+            <h5>Description of Service</h5>
+            <hr>
             <p>{{ es.description }}</p>  
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12 pl-0 my-2">
-            <ul>
+        <div class="col-sm-6 pl-0 my-2">
+            <h5>Systems which support this service</h5>
+            <ul class="list-group list-group-flush">
             {% for ass in asses %}
-                <li><a href="{% url "caf:ass_detail" ass.pk %}">{{ ass.name }}</a></li>
+                <li class="list-group-item"><a href="{% url "caf:ass_detail" ass.pk %}">{{ ass.name }}</a></li>
             {% endfor %}
             </ul>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-6 pl-0 my-2">
+            <h5>CAFs which apply to this Service</h5>
+            <ul class="list-group list-group-flush">
+                {% for caf in cafs %}
+                <li class="list-group-item"><a href="{% url "caf:detail" caf.pk %}">{{ caf.version }} | {{ caf.organisation.name }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+
 
 {% endblock content %}
