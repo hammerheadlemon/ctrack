@@ -231,7 +231,7 @@
             <div class="col-md-7 my-2">
               <div class="card bg-light">
                 <div class="card-body">
-                  <h5 class="card-title">{{ p.first_name }} {{ p.last_name }}</h5>
+                    <h5 class="card-title"><a href="{% url "organisations:person-detail" p.id %}">{{ p.first_name }} {{ p.last_name }}</a></h5>
                   <h6 class="card-subtitle mb-2 text-muted">{{ p.job_title }}</h6>
                   <div class="table-responsive">
                     <table class="table">

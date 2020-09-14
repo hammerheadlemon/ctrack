@@ -27,7 +27,7 @@
                 </tr>
                 <tr class="d-flex">
                     <td class="col-3"><strong>Organisation</strong></td>
-                    <td class="col-9">{{ person.organisation.name }}</td>
+                    <td class="col-9"><a href="{% url "organisations:detail" person.organisation.slug %}">{{ person.organisation.name }}</a></td>
                 </tr>
                 <tr class="d-flex">
                     <td class="col-3"><strong>Role</strong></td>
@@ -35,23 +35,35 @@
                 </tr>
                 <tr class="d-flex">
                     <td class="col-3"><strong>NIS Primary Point of Contact</strong></td>
-                    <td class="col-9">{{ person.primary_nis_contact }}</td>
+                    {% if person.primary_nis_contact %}
+                        <td class="col-9">Yes</td>
+                    {% else %}
+                        <td class="col-9">No</td>
+                    {% endif %}
                 </tr>
                 <tr class="d-flex">
                     <td class="col-3"><strong>Voluntary Point of Contact</strong></td>
-                    <td class="col-9">{{ person.voluntary_point_of_contact }}</td>
+                    {% if person.voluntary_point_of_contact %}
+                        <td class="col-9">Yes</td>
+                    {% else %}
+                        <td class="col-9">No</td>
+                    {% endif %}
                 </tr>
                 <tr class="d-flex">
                     <td class="col-3"><strong>Has Egress</strong></td>
-                    <td class="col-9">{{ person.has_egress }}</td>
+                    {% if person.has_egress %}
+                        <td class="col-9">Yes</td>
+                    {% else %}
+                        <td class="col-9">No</td>
+                    {% endif %}
                 </tr>
                 <tr class="d-flex">
                     <td class="col-3"><strong>Email</strong></td>
-                    <td class="col-9">{{ person.email }}</td>
+                    <td class="col-9"><a href="mailto:{{ person.email }}">{{ person.email }}</a></td>
                 </tr>
                 <tr class="d-flex">
                     <td class="col-3"><strong>Secondary Email</strong></td>
-                    <td class="col-9">{{ person.secondary_email }}</td>
+                    <td class="col-9"><a href="mailto:{{ person.secondary_email }}">{{ person.secondary_email }}</a></td>
                 </tr>
                 <tr class="d-flex">
                     <td class="col-3"><strong>Mobile Phone</strong></td>
