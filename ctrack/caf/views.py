@@ -29,9 +29,7 @@ def caf_detail_view(request, pk):
     # caf_principles = CAFPrinciple.objects.all()
     _scrs = []
     for ass in assessments:
-        lst_scores = []
-        lst_scores.append(ass)
-        lst_scores.append(CAFAssessmentOutcomeScore.objects.filter(caf_assessment=ass))
+        lst_scores = [ass, CAFAssessmentOutcomeScore.objects.filter(caf_assessment=ass)]
         _scrs.append(lst_scores)
     context = {
         "object": caf,
