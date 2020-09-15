@@ -1,17 +1,17 @@
-from typing import Any, Dict
+from typing import Any
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.shortcuts import render, get_object_or_404
 from django.db import transaction
 from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, FormView, ListView
 
+from ctrack.caf.models import EssentialService, CAF
 from ctrack.register.models import EngagementEvent
-
 from .forms import AddressInlineFormSet, IncidentReportForm, OrganisationCreateForm
 from .models import IncidentReport, Organisation, Person
-from ctrack.caf.models import EssentialService, CAF
+
 
 # TODO - needs a permission on this view
 def essential_service_detail(request, pk):
