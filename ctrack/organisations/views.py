@@ -82,6 +82,7 @@ class OrganisationDetailView(LoginRequiredMixin, PermissionRequiredMixin, Detail
         context = super().get_context_data()
         org = kwargs["object"]
         peoples = org.person_set.all()
+        cafs = org.caf_set.all()
         engagement_events = EngagementEvent.objects.filter(participants__in=peoples)
         essential_services = EssentialService.objects.filter(organisation=org)
         no_addr = org.addresses.count()
@@ -99,6 +100,7 @@ class OrganisationDetailView(LoginRequiredMixin, PermissionRequiredMixin, Detail
         context["applicable_systems"] = applicable_systems
         context["engagement_events"] = engagement_events
         context["essential_services"] = essential_services
+        context["cafs"] = cafs
         return context
 
 

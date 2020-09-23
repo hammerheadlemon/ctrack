@@ -157,6 +157,10 @@ class CAF(models.Model):
     def sub_mode(self):
         return self.organisation.submode
 
+    def get_assessments(self):
+        return self.cafassessment_set.all()
+
+
     def __str__(self):
         # Get the organisation and applicable system
         return f"CAF | {self.organisation.name}_v{self.version}"

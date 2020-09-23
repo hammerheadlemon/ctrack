@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container mt-3">
+  <div class="container mt-3" id="main-container">
     <div class="row">
       <div class="col-sm-12 pl-0 my-2">
-        <div class="row">
+        <div class="row" id="organisation-title">
           <div class="col-12">
             <h4>{{ object.name }}</h4>
           </div>
@@ -18,20 +18,22 @@
             <h6>{{ object.submode }}</h6>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12 my-2">
+
+      <div class="row" id="top-row">
+
+          <div class="col-md-6">
             <div class="card bg-light">
               <div class="card-body">
-                <div class="card-title">Company Information</div>
+                <div class="card-title" style="font-size: 1.1rem;">Company Information</div>
                 <div class="card-text">
                   <div>
-                    <table class="table">
+                    <table class="table table-sm table-bordered">
                       <tr>
-                        <td><strong>Designation Type:</strong></td>
+                        <td class="w-25"><strong>Designation Type:</strong></td>
                         <td>{{ object.designation_type }}</td>
                       </tr>
                       <tr>
-                        <td><strong>OES:</strong></td>
+                        <td class="w-25"><strong>OES:</strong></td>
                         {% if object.oes %}
                           <td>Yes</td>
                         {% else %}
@@ -39,23 +41,23 @@
                         {% endif %}
                       </tr>
                       <tr>
-                        <td><strong>Registered Company Name:</strong></td>
+                        <td class="w-25"><strong>Registered Company Name:</strong></td>
                         <td>{{ object.registered_company_name }}</td>
                       </tr>
                       <tr>
-                        <td><strong>Date Updated:</strong></td>
+                        <td class="w-25"><strong>Date Updated:</strong></td>
                         <td>{{ object.date_updated }}</td>
                       </tr>
                       <tr>
-                        <td><strong>Updated By:</strong></td>
+                        <td class="w-25"><strong>Updated By:</strong></td>
                         <td>REMOVED</td>
                       </tr>
                       <tr>
-                        <td><strong>Active:</strong></td>
+                        <td class="w-25"><strong>Active:</strong></td>
                         <td>{{ object.active }}</td>
                       </tr>
                       <tr>
-                        <td><strong>Comments:</strong></td>
+                        <td class="w-25"><strong>Comments:</strong></td>
                         <td>{{ object.comments }}</td>
                       </tr>
                     </table>
@@ -64,162 +66,160 @@
               </div>
             </div>
           </div>
-        </div>
 
-      <div class="row">
-        <div class="col-md-12 my-2">
-            <div class="card bg-light">
-              <div class="card-body">
-                <div class="card-title">Essential Services</div>
-                  <div class="table table-responsive">
-                    <table class="table">
+          <div class="col-md-6">
+
+            <div class="row pb-2">
+              <div class="col-sm">
+                <div class="card bg-light">
+                  <div class="card-body">
+                    <div class="card-title" style="font-size: 1.1rem;">Essential Services</div>
+                    <table class="table table-sm table-bordered">
                       {% if applicable_systems|length > 0 %}
                         {% for es in essential_services %}
                           <tr>
-                              <td style="width: 18%"><a href="{% url "organisations:essential_service_detail" es.pk %}">{{ es.name }}</a></td>
-                            <td>{{ es.description }}<br>
-                               <span class="text-muted"> | <a href="#" class="small">Edit System</a></span>
+                            <td style="width: 30%"><a
+                                    href="{% url "organisations:essential_service_detail" es.pk %}">{{ es.name }}</a>
+                            </td>
+                            <td>{{ es.description }}
                             </td>
                           </tr>
                         {% endfor %}
                       {% else %}
-                        <p>button to create new one here</p> 
+                        <p>button to create new one here</p>
                       {% endif %}
                     </table>
                   </div>
-              </div>
+                </div>
             </div>
-          </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-12 my-2">
-            <div class="card bg-light">
-              <div class="card-body">
-                <div class="card-title">NIS Systems <a
-                  href="{% url "caf:as_create_from_org" object.slug %}" class="btn btn-primary btn-sm float-right">Add
-            new...</a></div>
-                  <div class="table table-responsive">
-                    <table class="table">
-                      {% if applicable_systems|length > 0 %}
-                        {% for ass in applicable_systems %}
-                          <tr>
-                            <td><a href="{% url "caf:ass_detail" ass.id %}">{{ ass.name }}</a></td>
-                            <td>{{ ass.function }}<br>
-                              <a href="{% url "caf:detail" ass.pk %}" class="small">
-                                {{ ass.caf }}
-                              </a> <span class="text-muted"> | <a href="#" class="small">Edit System</a></span>
-                            </td>
-                          </tr>
-                        {% endfor %}
-                      {% else %}
-                        <a class="btn btn-primary" href="{% url "caf:as_create_from_org" object.slug %}" role="button">Add
-                          new...</a>
-                      {% endif %}
-                    </table>
-                  </div>
-              </div>
             </div>
-          </div>
-      </div>
 
-
-      <div class="row">
-        <div class="col-md-12 my-2">
-            <div class="card bg-light">
-              <div class="card-body">
-                <div class="card-title">OES Engagements<a href="{% url "register:create" %}" class="btn btn-primary btn-sm float-right">Add new...</a></div> <div class="table table-responsive"> <table class="table"> {% if engagement_events|length > 0 %} {% for event in engagement_events %} <tr> <td><a href="#">{{ event.type}}</a></td> <td>{{ event.short_description }}</td> </tr> {% endfor %}
-                      {% else %}
-                        <a class="btn btn-primary" href="{% url "register:create" %}" role="button">Add
-                          new...</a>
-                      {% endif %}
-                    </table>
-                  </div>
-              </div>
-            </div>
-          </div>
-      </div>
-        <div class="row">
-          <div class="col-12 mt-3">
-            <h4>Addresses</h4>
-          </div>
-        </div>
-        <div class="row">
-          {% if no_addr > 1 %}
-            {% for a in addr %}
-              <div class="col-md-7 my-2">
+            <div class="row pb-2">
+              <div class="col-sm">
                 <div class="card bg-light">
                   <div class="card-body">
-                    <div class="card-title text-muted mb-1">{{ a.type }}</div>
-                    <div>
-                      <table class="table-condensed">
-                        <tr>
-                          <td>{{ a.line1 }} {{ a.line2 }}</td>
-                        </tr>
-                        <tr>
-                          <td>{{ a.line3 }}</td>
-                        </tr>
-                        <tr>
-                          <td>{{ a.city }}</td>
-                        </tr>
-                        <tr>
-                          <td>{{ a.county }}</td>
-                        </tr>
-                        <tr>
-                          <td>{{ a.postcode }}</td>
-                        </tr>
-                        <tr>
-                          <td>{{ a.country }}</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="text-muted mb-1 mt-2">Notes:</div>
-                            {{ a.other_details }}
-                          </td>
-                        </tr>
+                    <div class="card-title" style="font-size: 1.1rem;">NIS Systems <a
+                            href="{% url "caf:as_create_from_org" object.slug %}"
+                            class="btn btn-outline-primary btn-sm float-right">Add
+                      new...</a>
+                    </div>
+                    <div class="table">
+                      <table class="table table-sm table-bordered">
+                        {% if applicable_systems|length > 0 %}
+                          {% for ass in applicable_systems %}
+                            <tr>
+                              <td><a href="{% url "caf:ass_detail" ass.id %}">{{ ass.name }}</a></td>
+                              <td>{{ ass.function }}
+                              </td>
+                            </tr>
+                          {% endfor %}
+                        {% else %}
+                          <a class="btn btn-primary" href="{% url "caf:as_create_from_org" object.slug %}"
+                             role="button">Add
+                            new...</a>
+                        {% endif %}
                       </table>
                     </div>
                   </div>
                 </div>
               </div>
-            {% endfor %}
-          {% else %}
-            <div class="col-md-7 my-2">
-              <div class="card bg-light">
-                <div class="card-body">
-                  <div class="card-title mb-1 text-muted">{{ addr.type }}</div>
-                  <div class="table-responsive">
-                    <table class="table-condensed">
-                      <tr>
-                        <td>{{ addr.line1 }} {{ addr.line2 }}</td>
-                      </tr>
-                      <tr>
-                        <td>{{ addr.line3 }}</td>
-                      </tr>
-                      <tr>
-                        <td>{{ addr.city }}</td>
-                      </tr>
-                      <tr>
-                        <td>{{ addr.county }}</td>
-                      </tr>
-                      <tr>
-                        <td>{{ addr.postcode }}</td>
-                      </tr>
-                      <tr>
-                        <td>{{ addr.country }}</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="text-muted mb-1 mt-2">Notes:</div>
-                          {{ addr.other_details }}
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
+
+            </div>
+
+          </div>
+        </div>
+
+
+
+        <div class="row">
+          <div class="col-md-12 my-2">
+            <div class="card bg-light">
+              <div class="card-body">
+                <div class="card-title" style="font-size: 1.1rem;">CAFs <a href="#"
+                                                                           class="btn btn-outline-primary btn-sm float-right">Add
+                  new...</a></div>
+                <div class="table-responsive">
+                  <table class="table table-sm table-bordered">
+                    <thead>
+                    <tr>
+                      <th>Version</th>
+                      <th>Quality Grading</th>
+                      <th>Confidence Grading</th>
+                      <th>File Container</th>
+                      <th>Container Type</th>
+                      <th>File Location</th>
+                      <th>Assessments</th>
+                      <th>Comments</th>
+                    </tr>
+                    </thead>
+                    {% if cafs|length > 0 %}
+                      {% for caf in cafs %}
+                        <tr>
+                          <td>
+                            <a href="{% url "caf:detail" caf.pk %}">{{ caf.version }}</a>
+                          </td>
+                          <td>
+                            {{ caf.quality_grading }}
+                          </td>
+                          <td>
+                            {{ caf.confidence_grading }}
+                          </td>
+                          <td>
+                            {{ caf.file.name }}
+                          </td>
+                          <td>
+                            {{ caf.file.type }}
+                          </td>
+                          <td>
+                            {{ caf.file.file_store_location }}
+                          </td>
+                          <td>
+                            <ul class="list-group">
+                              {% for ass in caf.cafassessment_set.all %}
+                                <li class="list-group-item">{{ ass }} by <a
+                                        href="{% url "organisations:person-detail" ass.completer.pk %}">{{ ass.completer }}</a>
+                                </li>
+                              {% endfor %}
+                            </ul>
+                          </td>
+                          <td>
+                            {{ caf.comments }}
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    {% else %}
+                      <a class="btn btn-primary" href="{% url "caf:as_create_from_org" object.slug %}" role="button">Add
+                        new...</a>
+                    {% endif %}
+                  </table>
                 </div>
               </div>
             </div>
-          {% endif %}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 my-2">
+            <div class="card bg-light">
+              <div class="card-body">
+                <div class="card-title" style="font-size: 1.1rem;">OES Engagements<a href="{% url "register:create" %}"
+                                                                                     class="btn btn-outline-primary btn-sm float-right">Add
+                  new...</a></div>
+                <div class="table table-responsive">
+                  <table class="table table-bordered">
+                    {% if engagement_events|length > 0 %}{% for event in engagement_events %}
+                      <tr>
+                        <td><a href="#">{{ event.type }}</a></td>
+                        <td>{{ event.short_description }}</td>
+                      </tr> {% endfor %}
+                    {% else %}
+                      <a class="btn btn-outline-primary btn-sm" href="{% url "register:create" %}" role="button">Add
+                        new...</a>
+                    {% endif %}
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="row">
           <div class="col-12 mt-3">
@@ -228,13 +228,15 @@
         </div>
         <div class="row">
           {% for p in people %}
-            <div class="col-md-7 my-2">
+            <div class="col-md-12 my-2">
               <div class="card bg-light">
                 <div class="card-body">
-                    <h5 class="card-title"><a href="{% url "organisations:person-detail" p.id %}">{{ p.first_name }} {{ p.last_name }}</a></h5>
+                  <h5 class="card-title"><a
+                          href="{% url "organisations:person-detail" p.id %}">{{ p.first_name }} {{ p.last_name }}</a>
+                  </h5>
                   <h6 class="card-subtitle mb-2 text-muted">{{ p.job_title }}</h6>
                   <div class="table-responsive">
-                    <table class="table">
+                    <table class="table-sm">
                       <tr>
                         <td>Primary NIS Contact:</td>
                         {% if p.primary_nis_contact %}
@@ -270,7 +272,92 @@
             </div>
           {% endfor %}
         </div>
+
+
+        <div class="row">
+          <div class="col-12 mt-3">
+            <h4>Addresses</h4>
+          </div>
+        </div>
+        <div class="row">
+          {% if no_addr > 1 %}
+            {% for a in addr %}
+              <div class="col-md-12 my-2">
+                <div class="card bg-light">
+                  <div class="card-body">
+                    <div class="card-title text-muted mb-1">{{ a.type }}</div>
+                    <div>
+                      <table class="table table-responsive table-bordered">
+                        <tr>
+                          <td>{{ a.line1 }} {{ a.line2 }}</td>
+                        </tr>
+                        <tr>
+                          <td>{{ a.line3 }}</td>
+                        </tr>
+                        <tr>
+                          <td>{{ a.city }}</td>
+                        </tr>
+                        <tr>
+                          <td>{{ a.county }}</td>
+                        </tr>
+                        <tr>
+                          <td>{{ a.postcode }}</td>
+                        </tr>
+                        <tr>
+                          <td>{{ a.country }}</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="text-muted mb-1 mt-2">Notes:</div>
+                            {{ a.other_details }}
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="col-md-12 my-2">
+              <div class="card bg-light">
+                <div class="card-body">
+                  <div class="card-title mb-1 text-muted">{{ addr.type }}</div>
+                  <table class="table-sm table-bordered">
+                    <tr>
+                      <td>{{ addr.line1 }} {{ addr.line2 }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{ addr.line3 }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{ addr.city }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{ addr.county }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{ addr.postcode }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{ addr.country }}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="text-muted mb-1 mt-2">Notes:</div>
+                        {{ addr.other_details }}
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+
+
       </div>
     </div>
+  </div>
   </div>
 {% endblock content %}
