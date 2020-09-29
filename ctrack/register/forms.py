@@ -1,28 +1,33 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Button, ButtonHolder, Layout, Submit
+from crispy_forms.layout import Button, ButtonHolder, Layout, Submit, Hidden
 from django import forms
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 
-from ctrack.organisations.models import Person
+from ctrack.organisations.models import Person, Organisation
 from ctrack.register.models import EngagementEvent
 
 
 class EngagementEventCreateForm(forms.ModelForm):
-    def __init__(self, org_slug, *args, **kwargs):
+    def __init__(self, org_slug, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        org = get_object_or_404(Organisation, slug=org_slug)
         cancel_redirect = reverse("core:home")
         self.fields["participants"].queryset = Person.objects.filter(organisation__slug=org_slug)
+        self.fields["related_caf"].queryset = org.caf_set.all()
+        self.fields["related_caf"].label = "Related CAFs"
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             "type",
             "short_description",
             "participants",
-            "user",
+            # "user",
+            Hidden("user", "none"),
             "date",
             "end_date",
-            "document_link",
             "response_date_requested",
             "response_received",
+            "document_link",
             "related_caf",
             "comments",
             ButtonHolder(
@@ -46,6 +51,7 @@ class EngagementEventCreateForm(forms.ModelForm):
     class Meta:
         model = EngagementEvent
         fields = "__all__"
+        exclude = ["user"]
         widgets = {
             "date": forms.DateTimeInput(attrs={"type": "date"}),
             "end_date": forms.DateTimeInput(attrs={"type": "date"}),

@@ -54,19 +54,19 @@ class EngagementEvent(models.Model):
 
     type = models.ForeignKey(EngagementType, on_delete=models.CASCADE)
     short_description = models.CharField(
-        max_length=50, help_text="Short description of the event"
+        max_length=50, help_text="Short description of the event. Use Comments field for full detail."
     )
     participants = models.ManyToManyField(Person)
     user = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user))
     date = models.DateTimeField()
     end_date = models.DateTimeField(blank=True, null=True)
-    document_link = models.URLField(max_length=1000, blank=True, null=True)
+    document_link = models.URLField(max_length=1000, blank=True, null=True, help_text="URL only - do not try to drag a file here")
     response_date_requested = models.DateField(blank=True, null=True)
     response_received = models.DateField(blank=True, null=True)
     related_caf = models.ForeignKey(
-        CAF, blank=True, on_delete=models.CASCADE, null=True
+        CAF, blank=True, on_delete=models.CASCADE, null=True, help_text="If the event relates to a CAF, refer to it here."
     )
-    comments = models.TextField(max_length=1000, blank=True, null=True)
+    comments = models.TextField(max_length=1000, blank=True, null=True, help_text="Use this to provide further detail about the event.")
 
     def days_to_response_due(self) -> Optional[Dict[int, str]]:
         if self.response_date_requested:
