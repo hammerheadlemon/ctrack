@@ -3,13 +3,15 @@ from crispy_forms.layout import Button, ButtonHolder, Layout, Submit
 from django import forms
 from django.urls import reverse
 
+from ctrack.organisations.models import Person
 from ctrack.register.models import EngagementEvent
 
 
 class EngagementEventCreateForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, org_slug, *args, **kwargs):
         super().__init__(*args, **kwargs)
         cancel_redirect = reverse("core:home")
+        self.fields["participants"].queryset = Person.objects.filter(organisation__slug=org_slug)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             "type",

@@ -6,6 +6,6 @@ app_name = "register"
 
 urlpatterns = [
     path(
-        "engagement-event/create/", view=EngagementEventCreate.as_view(), name="create"
+        "engagement-event/create/from-org/<slug:slug>", view=EngagementEventCreate.as_view(), name="create"
     ),
 ]

@@ -7,6 +7,7 @@ from django.db import models
 from ctrack.caf.models import CAF
 from ctrack.organisations.models import Person
 
+
 def _style_descriptor(days: int) -> str:
     if days < 1:
         return "red"
@@ -21,6 +22,7 @@ def _day_string(days: int) -> str:
         return "days"
     else:
         return "day"
+
 
 class EngagementType(models.Model):
     """
@@ -78,5 +80,3 @@ class EngagementEvent(models.Model):
         d = self.date.date()
         iso_format_date = d.isoformat()
         return f"{iso_format_date} | {self.type.descriptor} | {self.short_description}"
-
-

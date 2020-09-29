@@ -200,7 +200,7 @@
           <div class="col-md-12 my-2">
             <div class="card bg-light">
               <div class="card-body">
-                <div class="card-title" style="font-size: 1.1rem;">OES Engagements<a href="{% url "register:create" %}"
+                <div class="card-title" style="font-size: 1.1rem;">Engagements<a href="{% url "register:create" object.slug %}"
                                                                                      class="btn btn-outline-primary btn-sm float-right">Add
                   new...</a></div>
                 <div class="table table-responsive">
@@ -210,6 +210,7 @@
                       <th>Date</th>
                       <th>Type</th>
                       <th>Description</th>
+                      <th>CAF</th>
                       <th>Response Requested</th>
                       <th>Response Due</th>
                     </tr>
@@ -220,6 +221,11 @@
                           <td>{{ event.date |date:"D d M Y H:i" }}</td>
                           <td><a href="#">{{ event.type }}</a></td>
                           <td>{{ event.short_description }}</td>
+                          {% if event.related_caf %}
+                            <td><a href="{% url "caf:detail" event.related_caf.id %}">{{ event.related_caf }}</a></td>
+                          {% else %}
+                            <td>NA</td>
+                          {% endif %}
                           {% if event.response_date_requested %}
                             <td style="color: {{ event.days_to_response_due.descriptor }}">{{ event.response_date_requested |date:"D d M Y" }}</td>
                           {% else %}
@@ -229,7 +235,7 @@
                             <td>{{ event.response_received | date:"D d M Y" }}</td>
                           {% else %}
                             {% if event.response_date_requested %}
-                              <td style="color: {{ event.days_to_response_due.descriptor }};">{{ event.days_to_response_due.days}} {{ event.days_to_response_due.day_str }}</td>
+                              <td style="color: {{ event.days_to_response_due.descriptor }};">{{ event.days_to_response_due.days }} {{ event.days_to_response_due.day_str }}</td>
                             {% else %}
                               <td>NA</td>
                             {% endif %}
@@ -237,7 +243,7 @@
                         </tr>
                       {% endfor %}
                     {% else %}
-                      <a class="btn btn-outline-primary btn-sm" href="{% url "register:create" %}" role="button">Add
+                      <a class="btn btn-outline-primary btn-sm" href="{% url "register:create"  object.slug %}" role="button">Add
                         new...</a>
                     {% endif %}
                   </table>
