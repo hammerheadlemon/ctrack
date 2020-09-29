@@ -1,9 +1,26 @@
+from datetime import date as std_date
+from typing import Optional, Dict
+
 from django.contrib.auth import get_user_model
 from django.db import models
 
 from ctrack.caf.models import CAF
 from ctrack.organisations.models import Person
 
+def _style_descriptor(days: int) -> str:
+    if days < 1:
+        return "red"
+    elif 0 < days < 5:
+        return "orange"
+    else:
+        return "black"
+
+
+def _day_string(days: int) -> str:
+    if days < 1 or days > 1:
+        return "days"
+    else:
+        return "day"
 
 class EngagementType(models.Model):
     """
@@ -49,7 +66,17 @@ class EngagementEvent(models.Model):
     )
     comments = models.TextField(max_length=1000, blank=True, null=True)
 
+    def days_to_response_due(self) -> Optional[Dict[int, str]]:
+        if self.response_date_requested:
+            today = std_date.today()
+            diff = self.response_date_requested - today
+            return dict(days=diff.days, descriptor=_style_descriptor(diff.days), day_str=_day_string(diff.days))
+        else:
+            return None
+
     def __str__(self):
         d = self.date.date()
         iso_format_date = d.isoformat()
         return f"{iso_format_date} | {self.type.descriptor} | {self.short_description}"
+
+

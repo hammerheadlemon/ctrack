@@ -83,7 +83,7 @@ class OrganisationDetailView(LoginRequiredMixin, PermissionRequiredMixin, Detail
         org = kwargs["object"]
         peoples = org.person_set.all()
         cafs = org.caf_set.all()
-        engagement_events = EngagementEvent.objects.filter(participants__in=peoples)
+        engagement_events = EngagementEvent.objects.filter(participants__in=peoples).order_by("-date")
         essential_services = EssentialService.objects.filter(organisation=org)
         no_addr = org.addresses.count()
         if no_addr > 1:
