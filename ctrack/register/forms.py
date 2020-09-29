@@ -54,5 +54,7 @@ class EngagementEventCreateForm(forms.ModelForm):
         exclude = ["user"]
         widgets = {
             "date": forms.DateTimeInput(attrs={"type": "date"}),
+            "response_date_requested": forms.DateTimeInput(attrs={"type": "date"}),
+            "response_received": forms.DateTimeInput(attrs={"type": "date"}),
             "end_date": forms.DateTimeInput(attrs={"type": "date"}),
         }

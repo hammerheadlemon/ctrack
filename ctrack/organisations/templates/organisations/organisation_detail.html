@@ -134,9 +134,7 @@
           <div class="col-md-12 my-2">
             <div class="card bg-light">
               <div class="card-body">
-                <div class="card-title" style="font-size: 1.1rem;">CAFs <a href="#"
-                                                                           class="btn btn-outline-primary btn-sm float-right">Add
-                  new...</a></div>
+                <div class="card-title" style="font-size: 1.1rem;">CAFs <a href="#" class="btn btn-outline-primary btn-sm float-right">Add new...</a></div>
                 <div class="table-responsive">
                   <table class="table table-sm table-bordered">
                     <thead>
@@ -200,9 +198,9 @@
           <div class="col-md-12 my-2">
             <div class="card bg-light">
               <div class="card-body">
-                <div class="card-title" style="font-size: 1.1rem;">Engagements & Compliance Events<a href="{% url "register:create" object.slug %}"
-                                                                                     class="btn btn-outline-primary btn-sm float-right">Add
-                  new...</a></div>
+                <div class="card-title" style="font-size: 1.1rem;">
+                  Engagements & Compliance Events
+                  <a href="{% url "register:create" object.slug %}" class="btn btn-outline-primary btn-sm float-right">Add new...</a></div>
                 <div class="table table-responsive">
                   <table class="table table-sm table-bordered">
                     <thead>
@@ -213,14 +211,15 @@
                       <th>CAF</th>
                       <th>Response Requested</th>
                       <th>Response Due</th>
+                      <th>Actions</th>
                     </tr>
                     </thead>
                     {% if engagement_events|length > 0 %}
                       {% for event in engagement_events %}
                         <tr>
-                          <td>{{ event.date |date:"D d M Y H:i" }}</td>
-                          <td><a href="#">{{ event.type }}</a></td>
-                          <td>{{ event.short_description }}</td>
+                          <td>{{ event.date |date:"d M Y H:i" }}</td>
+                          <td>{{ event.type }}</td>
+                          <td><a href="#">{{ event.short_description }}</a></td>
                           {% if event.related_caf %}
                             <td><a href="{% url "caf:detail" event.related_caf.id %}">{{ event.related_caf }}</a></td>
                           {% else %}
@@ -240,11 +239,9 @@
                               <td>NA</td>
                             {% endif %}
                           {% endif %}
+                          <td><a class="btn btn-sm btn-outline-primary" href="#" role="button">Edit</a> <a href="{% url "register:ee_delete" event.pk object.slug %}" class="btn btn-sm btn-outline-danger" role="button">Delete</a></td>
                         </tr>
                       {% endfor %}
-                    {% else %}
-                      <a class="btn btn-outline-primary btn-sm" href="{% url "register:create"  object.slug %}" role="button">Add
-                        new...</a>
                     {% endif %}
                   </table>
                 </div>
