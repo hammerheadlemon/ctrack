@@ -13,9 +13,12 @@
             </div>
             <div class="row">
                 <h5>{{ object.caf.organisation }}</h5>
+              <div class="col-12 pl-0 my-2 bg-light">
+                  <h2>{{ object.get_organisation }}</h2>
+              </div>
             </div>
             <div class="row">
-                <h5>Function</h5>
+                <h5>Function/Description</h5>
             </div>
             <div class="row">
                 <p>{{ object.function }}</p>
@@ -32,17 +35,22 @@
             </div>
             <div class="row">
               <div class="col-sm-12 pl-0 my-2">
-                <p>Described in CAFs:</p>
+                <p>Relevant CAF[s]</p>
                 <table class="table table-sm">
                  <thead>
                  <tr>
                    <th>CAF</th>
-                   <th>Status</th>
+                   <th>Comments</th>
                  </tr>
                  </thead>
                   <tbody>
-                  <tr>
-                  </tr>
+                  {% for caf in object.get_cafs %}
+                    <tr>
+                    <td><a href="{% url "caf:detail" caf.pk %}">{{ caf.version }}</a></td>
+                    <td>{{ caf.comments }}</td>
+                    </tr>
+                  {% endfor %}
+
                   </tbody>
                 </table>
               </div>
