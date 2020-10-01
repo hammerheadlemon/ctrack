@@ -217,7 +217,7 @@
                     {% if engagement_events|length > 0 %}
                       {% for event in engagement_events %}
                         <tr>
-                          <td>{{ event.date |date:"d M Y H:i" }}</td>
+                          <td>{{ event.date |date:"d M Y" }}</td>
                           <td>{{ event.type }}</td>
                           <td><a href="#">{{ event.short_description }}</a></td>
                           {% if event.related_caf %}
