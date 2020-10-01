@@ -16,11 +16,11 @@ class EngagementEventDelete(DeleteView):
         return reverse_lazy("organisations:detail", args=[self.kwargs["slug"]])
 
 
-
 class EngagementEventCreate(LoginRequiredMixin, FormView):
     fields = "__all__"
     form_class = EngagementEventCreateForm
     template_name = "register/engagementevent_form.html"
+
     # success_url = reverse_lazy("organisations:list")
 
     def form_valid(self, form):
