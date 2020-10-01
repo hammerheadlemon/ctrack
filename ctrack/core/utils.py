@@ -71,6 +71,7 @@ def _create_caf_app_service(c_descriptors, org, q_descriptors):
         triage_review_inspector=None,
     )
     caf.systems.add(as1, as2)
+    return caf
 
 
 def populate_db(**kwargs):

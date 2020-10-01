@@ -7,6 +7,9 @@ from django.test import RequestFactory
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 
+from ctrack.caf.models import CAF
+from ctrack.caf.tests.factories import GradingFactory
+from ctrack.core.utils import _create_caf_app_service
 from ctrack.organisations.models import (
     Address,
     AddressType,
@@ -144,6 +147,21 @@ def stakeholder_user(person):
 @pytest.fixture
 def request_factory() -> RequestFactory:
     return RequestFactory()
+
+
+@pytest.fixture
+def caf(org) -> CAF:
+    # Quality gradings
+    q_descriptors = ["Q1", "Q2", "Q3", "Q4", "Q5"]
+    for g in q_descriptors:
+        GradingFactory.create(descriptor=g, type="QUALITY")
+
+    # Confidence gradings
+    c_descriptors = ["C1", "C2", "C3", "C4", "C5"]
+    for g in c_descriptors:
+        GradingFactory.create(descriptor=g, type="CONFIDENCE")
+    caf = _create_caf_app_service(c_descriptors, org, q_descriptors)
+    return caf
 
 
 @pytest.fixture

@@ -94,6 +94,9 @@ class ApplicableSystem(models.Model):
         else:
             return org_set[0]
 
+    def get_cafs(self):
+        return self.caf_set.all()
+
     def __str__(self):
         return self.name
 
