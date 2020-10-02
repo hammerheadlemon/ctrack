@@ -13,15 +13,15 @@
     $(document).ready(function () {
 
       $("#id_type").change(function () {
-        var selected = $("#id_type option:selected").text();
-        console.log(selected)
-        if (selected == "CAF - Initial Submission") {
-          console.log("Yes ya bass!");
+        const selected = $("#id_type option:selected").text();
+        if (selected.includes("CAF")) {
           $("#caf_alert").removeAttr('hidden');
           $("#div_id_related_caf").addClass("border rounded p-3 border-danger");
+          $("select[name=related_caf] option:eq(1)").attr("selected", "selected");
         } else {
           $("#caf_alert").prop("hidden", true);
           $("#div_id_related_caf").removeClass("border rounded p-3 border-danger");
+          $("select[name=related_caf] option:eq(0)").attr("selected", "selected");
         }
       });
     });
@@ -31,24 +31,24 @@
   <div class="container mt-3">
     <div class="row">
       <div class="col-md-12 pl-0 my-2">
-        <h4>Register a new engagement event</h4>
+        <h4>Register a new event</h4>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-12 pl-0 my-2">
-        <h5 class="text-secondary">{{ org.name }}</h5>
+      <div class="col-md-12 pl-0 my-2 bg-light">
+        <h3 class="text-secondary">{{ org.name }}</h3>
       </div>
     </div>
     <div class="row">
       <div class="col-md-7 pt-2 border bg-light">
-        <div hidden id="caf_alert" class="alert alert-info" role="alert">
+        <div hidden id="caf_alert" class="alert alert-danger" role="alert">
           If selecting a CAF type here, you must select the CAF this event applies to in
           the "Related CAFs" field below.
         </div>
         {% crispy form %}
       </div>
-      <div class="col-sm-5">
-        <div class="card" style="width: 18rem;">
+      <div class="col-md-5">
+        <div class="card">
           <div class="card-body">
             <h5 class="card-title">Help on Engagement Events</h5>
             <p class="card-text">All key events in the compliance lifecycle need to be registered.</p>

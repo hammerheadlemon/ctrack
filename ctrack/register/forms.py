@@ -1,5 +1,5 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Button, ButtonHolder, Layout, Submit, Hidden
+from crispy_forms.layout import Button, ButtonHolder, Layout, Submit, Hidden, Field
 from django import forms
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
@@ -19,9 +19,10 @@ class EngagementEventCreateForm(forms.ModelForm):
         self.fields["related_caf"].label = "Related CAFs"
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            "type",
+            Field("type"),
             "short_description",
             "participants",
+            "related_caf",
             # "user",
             Hidden("user", "none"),
             "date",
@@ -29,7 +30,6 @@ class EngagementEventCreateForm(forms.ModelForm):
             "response_date_requested",
             "response_received",
             "document_link",
-            "related_caf",
             "comments",
             ButtonHolder(
                 Submit("submit", "Submit", css_class="btn-primary"),
