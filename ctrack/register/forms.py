@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 
 from ctrack.organisations.models import Person, Organisation
-from ctrack.register.models import EngagementEvent
+from ctrack.register.models import EngagementEvent, EngagementType
 
 
 class EngagementEventCreateForm(forms.ModelForm):
@@ -14,6 +14,7 @@ class EngagementEventCreateForm(forms.ModelForm):
         org = get_object_or_404(Organisation, slug=org_slug)
         cancel_redirect = reverse("core:home")
         self.fields["participants"].queryset = Person.objects.filter(organisation__slug=org_slug)
+        self.fields["type"].queryset = EngagementType.objects.all().order_by("descriptor")
         self.fields["related_caf"].queryset = org.caf_set.all()
         self.fields["related_caf"].label = "Related CAFs"
         self.helper = FormHelper(self)

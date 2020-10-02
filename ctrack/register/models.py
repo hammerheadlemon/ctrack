@@ -56,11 +56,11 @@ class EngagementEvent(models.Model):
     short_description = models.CharField(
         max_length=50, help_text="Short description of the event. Use Comments field for full detail."
     )
-    participants = models.ManyToManyField(Person)
+    participants = models.ManyToManyField(Person, blank=True, null=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user))
     date = models.DateTimeField()
-    end_date = models.DateTimeField(blank=True, null=True)
-    document_link = models.URLField(max_length=1000, blank=True, null=True, help_text="URL only - do not try to drag a file here")
+    end_date = models.DateTimeField(blank=True, null=True, help_text="Should be used for periodic events.")
+    document_link = models.URLField(max_length=1000, blank=True, null=True, help_text="URL only - do not try to drag a file here.")
     response_date_requested = models.DateField(blank=True, null=True)
     response_received = models.DateField(blank=True, null=True)
     related_caf = models.ForeignKey(

@@ -201,8 +201,8 @@ def populate_db(**kwargs):
     )
     inspector_user.groups.add(cct_staff_group)
 
-    etf1 = EngagementTypeFactory(descriptor="Information Notice")
-    etf2 = EngagementTypeFactory(descriptor="Designation Letter")
+    etf1 = EngagementTypeFactory(descriptor="Information Notice", enforcement_instrument=True)
+    etf2 = EngagementTypeFactory(descriptor="Designation Letter", enforcement_instrument=True)
     etf3 = EngagementTypeFactory(
         descriptor="CAF - Initial Submission", enforcement_instrument=False
     )
@@ -211,6 +211,9 @@ def populate_db(**kwargs):
         descriptor="Video Conference", enforcement_instrument=False
     )
     etf6 = EngagementTypeFactory(descriptor="Email", enforcement_instrument=False)
+    etf7 = EngagementTypeFactory(descriptor="CAF - Initial Review Complete", enforcement_instrument=False)
+    etf8 = EngagementTypeFactory(descriptor="CAF - Peer Review")
+    EngagementTypeFactory(descriptor="CAF = Validation Complete")
 
     EngagementEventFactory.create(type=etf1, user=user, participants=[p1, p2])
     EngagementEventFactory.create(type=etf2, user=user, participants=[p3])
