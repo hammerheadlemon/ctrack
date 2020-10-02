@@ -204,16 +204,23 @@ def populate_db(**kwargs):
     etf1 = EngagementTypeFactory(descriptor="Information Notice", enforcement_instrument=True)
     etf2 = EngagementTypeFactory(descriptor="Designation Letter", enforcement_instrument=True)
     etf3 = EngagementTypeFactory(
-        descriptor="CAF - Initial Submission", enforcement_instrument=False
+        descriptor="CAF - Received from OES (Egress)", enforcement_instrument=False
     )
-    etf4 = EngagementTypeFactory(descriptor="Phone Call", enforcement_instrument=False)
-    etf5 = EngagementTypeFactory(
+    EngagementTypeFactory(descriptor="Phone Call", enforcement_instrument=False)
+    EngagementTypeFactory(
         descriptor="Video Conference", enforcement_instrument=False
     )
-    etf6 = EngagementTypeFactory(descriptor="Email", enforcement_instrument=False)
-    etf7 = EngagementTypeFactory(descriptor="CAF - Initial Review Complete", enforcement_instrument=False)
-    etf8 = EngagementTypeFactory(descriptor="CAF - Peer Review")
-    EngagementTypeFactory(descriptor="CAF = Validation Complete")
+    EngagementTypeFactory(descriptor="Email", enforcement_instrument=False)
+    EngagementTypeFactory(descriptor="CAF - Initial Review", enforcement_instrument=False)
+    EngagementTypeFactory(descriptor="CAF - Peer Review")
+    EngagementTypeFactory(descriptor="CAF - Validation")
+    EngagementTypeFactory(descriptor="CAF - Sent to Rosa")
+    EngagementTypeFactory(descriptor="CAF - Received from OES (USB)")
+    EngagementTypeFactory(descriptor="Audit - Onsite")
+    EngagementTypeFactory(descriptor="Audit - Offsite")
+    EngagementTypeFactory(descriptor="Inspection - Onsite")
+    EngagementTypeFactory(descriptor="Inspection - Offsite")
+
 
     EngagementEventFactory.create(type=etf1, user=user, participants=[p1, p2])
     EngagementEventFactory.create(type=etf2, user=user, participants=[p3])
