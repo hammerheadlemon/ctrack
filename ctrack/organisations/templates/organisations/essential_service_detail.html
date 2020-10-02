@@ -14,17 +14,22 @@
             <h3>{{ es.name }}</h3>
           </div>
         </div>
+        <div class="row">
+          <div class="col-12 bg bg-light">
+            <h2>{{ es.organisation }}</h2>
+          </div>
+        </div>
       </div>
     </div>
     <div class="row">
-        <div class="col-sm-6 pl-0 my-2">
+        <div class="col-sm-12 pl-0 my-2">
             <h5>Description of Service</h5>
             <hr>
-            <p>{{ es.description }}</p>  
+            <p>{{ es.description }}</p>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-6 pl-0 my-2">
+        <div class="col-sm-12 pl-0 my-2">
             <h5>Systems which support this service</h5>
             <ul class="list-group list-group-flush">
             {% for ass in asses %}
@@ -34,7 +39,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-6 pl-0 my-2">
+        <div class="col-sm-12 pl-0 my-2">
             <h5>CAFs which apply to this Service</h5>
             <ul class="list-group list-group-flush">
                 {% for caf in cafs %}

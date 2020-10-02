@@ -7,8 +7,11 @@
   <div class="container mt-3">
 
   <div class="row">
-    <div class="col-12">
+    <div class="col-10">
       <h4>{{ object }}</h4>
+    </div>
+    <div class="col-2">
+      <h2><span class="badge badge-info float-right m-1">{{ object.quality_grading }}</span> <span class="badge badge-secondary float-right m-1">{{ object.confidence_grading }}</span></h2>
     </div>
   </div>
 
@@ -63,7 +66,8 @@
       <div class="card bg-light">
         <div class="card-body">
           <div class="card-title text-muted">NIS Systems <a
-                  href="{% url "caf:as_create_from_caf" object.pk %}" class="btn btn-outline-primary btn-sm float-right">Add
+                  href="{% url "caf:as_create_from_caf" object.pk %}"
+                  class="btn btn-outline-primary btn-sm float-right">Add
             new...</a></div>
           <div>
             <table class="table table-responsive">
@@ -93,33 +97,34 @@
     <div class="col-md-12">
       <div class="card bg-light">
         <div class="card-body">
-          <div class="card-title text-muted">CAF History <a href="#" class="btn btn-outline-primary btn-sm float-right">Add new...</a></div>
-            <div class="table table-responsive">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Event</th>
-                    <th>Inspector</th>
-                    <th>Comments</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for event in object.get_events %}
-                    <tr>
-                      <td>{{ event.date|date:"j F Y"}}</td>
-                      <td>{{ event.type }}</td>
-                      <td>{{ event.user }}</td>
-                      <td>{{ event.comments }}</td>
-                    </tr>
-                  {% endfor %}
+          <div class="card-title text-muted">CAF History <a href="#" class="btn btn-outline-primary btn-sm float-right">Add
+            new...</a></div>
+          <div class="table table-responsive">
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Date</th>
+                <th>Event</th>
+                <th>Inspector</th>
+                <th>Comments</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for event in object.get_events %}
+                <tr>
+                  <td>{{ event.date|date:"j F Y" }}</td>
+                  <td>{{ event.type }}</td>
+                  <td>{{ event.user }}</td>
+                  <td>{{ event.comments }}</td>
+                </tr>
+              {% endfor %}
 
-                  <tr>
+              <tr>
 
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+              </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
