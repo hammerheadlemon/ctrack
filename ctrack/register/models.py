@@ -29,7 +29,7 @@ class EngagementType(models.Model):
     Also official instruments such as designation letters, Information Notices, etc.
     """
 
-    descriptor = models.CharField(max_length=50, blank=False)
+    descriptor = models.CharField(max_length=100, blank=False)
     enforcement_instrument = models.BooleanField(default=False)
     regulation_reference = models.CharField(max_length=100, blank=True, null=True)
     comments = models.TextField(max_length=1000, blank=True, null=True)
@@ -55,7 +55,7 @@ class EngagementEvent(models.Model):
     short_description = models.CharField(
         max_length=50, help_text="Short description of the event. Use Comments field for full detail."
     )
-    participants = models.ManyToManyField(Person, blank=True, null=True)
+    participants = models.ManyToManyField(Person, blank=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user))
     date = models.DateTimeField()
     end_date = models.DateTimeField(blank=True, null=True, help_text="Should be used for periodic events.")

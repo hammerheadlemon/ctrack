@@ -210,17 +210,16 @@ def populate_db(**kwargs):
     EngagementTypeFactory(
         descriptor="Video Conference", enforcement_instrument=False
     )
-    EngagementTypeFactory(descriptor="Email", enforcement_instrument=False)
-    EngagementTypeFactory(descriptor="CAF - Initial Review", enforcement_instrument=False)
-    EngagementTypeFactory(descriptor="CAF - Peer Review")
-    EngagementTypeFactory(descriptor="CAF - Validation")
-    EngagementTypeFactory(descriptor="CAF - Sent to Rosa")
-    EngagementTypeFactory(descriptor="CAF - Received from OES (USB)")
-    EngagementTypeFactory(descriptor="Audit - Onsite")
-    EngagementTypeFactory(descriptor="Audit - Offsite")
-    EngagementTypeFactory(descriptor="Inspection - Onsite")
-    EngagementTypeFactory(descriptor="Inspection - Offsite")
-
+    EngagementTypeFactory.create(descriptor="Email", enforcement_instrument=False)
+    EngagementTypeFactory.create(descriptor="CAF - Initial Review", enforcement_instrument=False)
+    EngagementTypeFactory.create(descriptor="CAF - Peer Review")
+    EngagementTypeFactory.create(descriptor="CAF - Validation")
+    EngagementTypeFactory.create(descriptor="CAF - Sent to Rosa")
+    EngagementTypeFactory.create(descriptor="CAF - Received from OES (USB)")
+    EngagementTypeFactory.create(descriptor="Audit - Onsite")
+    EngagementTypeFactory.create(descriptor="Audit - Offsite")
+    EngagementTypeFactory.create(descriptor="Inspection - Onsite")
+    EngagementTypeFactory.create(descriptor="Inspection - Offsite")
 
     EngagementEventFactory.create(type=etf1, user=user, participants=[p1, p2])
     EngagementEventFactory.create(type=etf2, user=user, participants=[p3])
@@ -247,7 +246,7 @@ def populate_db(**kwargs):
     # Get a random CAF
     _caf = CAF.objects.get(pk=1)  # we should have one by now
     EngagementEventFactory.create(
-        type=etf3, user=user, participants=[inspectors[1], p2], related_caf=_caf
+        type=etf2, user=user, participants=[inspectors[1], p2], related_caf=_caf
     )
 
     # We want to simulate 4 CAF Objectives
@@ -392,7 +391,7 @@ def populate_db(**kwargs):
             designation="A1.b",
             name="Roles and Responsibilities",
             description="Your elders and betters are impressed and they continue to make money after your project "
-            "implementation.",
+                        "implementation.",
             principle_id=p_a1.id,
             order_id=2,
         ),
@@ -400,7 +399,7 @@ def populate_db(**kwargs):
             designation="A1.c",
             name="Decision-making",
             description="If you are forced to participate in the Crystal Maze, you'll choose the coorect path across "
-            "the Gordian runway.",
+                        "the Gordian runway.",
             principle_id=p_a1.id,
             order_id=3,
         ),
@@ -457,7 +456,7 @@ def populate_db(**kwargs):
             designation="B2.b",
             name="Device Management",
             description="Your devices, and their safe and sustainable use, is crucuial to the longevity of your "
-            "company.",
+                        "company.",
             principle_id=p_b2.id,
             order_id=2,
         ),
@@ -465,7 +464,7 @@ def populate_db(**kwargs):
             designation="B2.c",
             name="Privileged User Mangement",
             description="You ensure that even the most privileged members of your senior management are under the "
-            "impression that they exude inequality, in all instances.",
+                        "impression that they exude inequality, in all instances.",
             principle_id=p_b2.id,
             order_id=3,
         ),
@@ -508,7 +507,7 @@ def populate_db(**kwargs):
             designation="B4.a",
             name="Secure by Design",
             description="You have designed your systems to be secure and you're sure no one is going to hack "
-            "into them.",
+                        "into them.",
             principle_id=p_b4.id,
             order_id=1,
         ),
@@ -516,7 +515,7 @@ def populate_db(**kwargs):
             designation="B4.b",
             name="Secure Configuration",
             description="When you are able to configure your systems and software well, you can say you have Secure "
-            "Configuration. Only then, mind.",
+                        "Configuration. Only then, mind.",
             principle_id=p_b4.id,
             order_id=2,
         ),
@@ -566,7 +565,7 @@ def populate_db(**kwargs):
             designation="B6.b",
             name="Cyber Security Training",
             description="By the way, when youre staff are able to write C code, your company understands buffer "
-            "overflows.",
+                        "overflows.",
             principle_id=p_b6.id,
             order_id=2,
         ),
@@ -595,7 +594,7 @@ def populate_db(**kwargs):
             designation="C1.d",
             name="Identifying Security Incidents",
             description="You are wary of all the possible things that could go wrong and you have a plan to deal. Well "
-            "done.",
+                        "done.",
             principle_id=p_c1.id,
             order_id=4,
         ),
@@ -617,7 +616,7 @@ def populate_db(**kwargs):
             designation="C2.b",
             name="Proactive Attack Discovery",
             description="When you go out looking for the bad stuff, you usefully find it - "
-            "and you know this in spades.",
+                        "and you know this in spades.",
             principle_id=p_c2.id,
             order_id=2,
         ),
