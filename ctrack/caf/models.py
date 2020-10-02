@@ -152,11 +152,6 @@ class CAF(models.Model):
         """
         return ApplicableSystem.objects.filter(caf=self)
 
-    # FIXME remove once we know we don't need it
-    # def organisation(self):
-    #     first_ass = ApplicableSystem.objects.filter(caf=self).first()
-    #     return first_ass.organisation
-
     def sub_mode(self):
         return self.organisation.submode
 
