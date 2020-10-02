@@ -11,7 +11,7 @@ class EngagementEventAdmin(admin.ModelAdmin):
 
 class EngagementEventTypeAdmin(admin.ModelAdmin):
     model = EngagementEventAdmin
-    list_display = ("descriptor", "enforcement_instrument", "regulation_reference")
+    list_display = ("descriptor", "enforcement_instrument", "single_date_type", "regulation_reference")
 
 
 admin.site.register(EngagementEvent, EngagementEventAdmin)

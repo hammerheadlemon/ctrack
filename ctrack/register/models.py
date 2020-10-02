@@ -33,6 +33,7 @@ class EngagementType(models.Model):
     enforcement_instrument = models.BooleanField(default=False)
     regulation_reference = models.CharField(max_length=100, blank=True, null=True)
     comments = models.TextField(max_length=1000, blank=True, null=True)
+    single_date_type = models.BooleanField(default=False, blank=False)
 
     def __str__(self):
         return self.descriptor

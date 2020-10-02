@@ -16,25 +16,36 @@
 
   <div class="row">
     <div class="col-12">
-      <h3>Current status:</h3>
-      <div class="row">
-        <div class="col-md-12 m-2 p-1">
-          {% if not events %}
+      <h3>History:</h3>
+      {% if tde and sde %}
+        <div class="row">
+          <div class="col-md-12">
             No events registered for this CAF.
-            <span class="float-right"><a href="#" type="button" class="btn btn-outline-primary btn-sm">Register Event</a></span>
-          {% endif %}
+            <span class="float-right pb-1"><a href="#" type="button" class="btn btn-outline-primary btn-sm">Register Event</a></span>
+          </div>
         </div>
-      </div>
+      {% endif %}
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 my-1">
           <ul class="list-group">
-            {% for event in events %}
-              {% if not event.ended %}
-                <li class="list-group-item list-group-item-{{ event.badge_code }}"><a
-                        href="#">{{ event.event.type }}</a>
-                  <span class="float-right">Started: {{ event.event.date|date:"j M Y" }}</span></li>
+            {% for event in twin_date_events %}
+              {% if event.end_date %}
+                <li class="list-group-item list-group-item-success"><a
+                        href="#">{{ event.type }}</a>
+                  <span class="float-right">Completed: {{ event.end_date|date:"j M Y" }}</span></li>
+              {% else %}
+                <li class="list-group-item list-group-item-warning"><a
+                        href="#">{{ event.type }}</a>
+                  <span class="float-right">Started: {{ event.date|date:"j M Y" }}</span></li>
               {% endif %}
             {% endfor %}
+            {% for event in single_date_events %}
+              <li class="list-group-item list-group-item-{{ event.badge_code }}">
+                <a href="#">{{ event.type }}</a>
+                <span class="float-right">Completed: {{ event.date|date:"j M Y" }}</span></li>
+              </li>
+            {% endfor %}
+          </ul>
         </div>
       </div>
       </ul>

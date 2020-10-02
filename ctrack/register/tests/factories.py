@@ -43,6 +43,7 @@ class EngagementTypeFactory(factory.django.DjangoModelFactory):
     descriptor = "Generic Engagement Type"
     enforcement_instrument = True
     regulation_reference = factory.LazyFunction(_regulation_scrambler)
+    single_date_type = True
 
 
 class EngagementEventFactory(factory.django.DjangoModelFactory):

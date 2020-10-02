@@ -213,7 +213,7 @@ def populate_db(**kwargs):
     EngagementTypeFactory.create(descriptor="Email", enforcement_instrument=False)
     EngagementTypeFactory.create(descriptor="CAF - Initial Review", enforcement_instrument=False)
     EngagementTypeFactory.create(descriptor="CAF - Peer Review")
-    EngagementTypeFactory.create(descriptor="CAF - Validation")
+    EngagementTypeFactory.create(descriptor="CAF - Validation", single_date_type=False)
     EngagementTypeFactory.create(descriptor="CAF - Sent to Rosa")
     EngagementTypeFactory.create(descriptor="CAF - Received from OES (USB)")
     EngagementTypeFactory.create(descriptor="Audit - Onsite")
