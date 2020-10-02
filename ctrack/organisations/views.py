@@ -2,6 +2,7 @@ from typing import Any
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db import transaction
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse, reverse_lazy
@@ -83,8 +84,12 @@ class OrganisationDetailView(LoginRequiredMixin, PermissionRequiredMixin, Detail
         org = kwargs["object"]
         peoples = org.person_set.all()
         cafs = org.caf_set.all()
-        engagement_events = EngagementEvent.objects.filter(participants__in=peoples).order_by("-date")
+
+        # Some events will not involve a participant, which is what ties an event to an organisation.
+        # Because we want to list events to an organisation here we must related it via the CAF object too...
+        engagement_events = EngagementEvent.objects.filter(Q(participants__in=peoples) | Q(related_caf__in=cafs)).order_by("-date")
         essential_services = EssentialService.objects.filter(organisation=org)
+
         no_addr = org.addresses.count()
         if no_addr > 1:
             context["no_addr"] = no_addr

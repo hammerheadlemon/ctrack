@@ -4,7 +4,6 @@ from typing import Optional, Dict
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from ctrack.caf.models import CAF
 from ctrack.organisations.models import Person
 
 
@@ -64,7 +63,7 @@ class EngagementEvent(models.Model):
     response_date_requested = models.DateField(blank=True, null=True)
     response_received = models.DateField(blank=True, null=True)
     related_caf = models.ForeignKey(
-        CAF, blank=True, on_delete=models.CASCADE, null=True, help_text="If the event relates to a CAF, refer to it here."
+        "caf.CAF", blank=True, on_delete=models.CASCADE, null=True, help_text="If the event relates to a CAF, refer to it here."
     )
     comments = models.TextField(max_length=1000, blank=True, null=True, help_text="Use this to provide further detail about the event.")
 

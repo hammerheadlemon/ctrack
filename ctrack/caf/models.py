@@ -4,6 +4,8 @@ from ctrack.caf.managers import ApplicableSystemManager
 from ctrack.organisations.models import Organisation, Person
 from django.urls.base import reverse
 
+from ctrack.register.models import EngagementEvent
+
 
 class Grading(models.Model):
     GRADING_TYPE = [
@@ -158,6 +160,8 @@ class CAF(models.Model):
     def get_assessments(self):
         return self.cafassessment_set.all()
 
+    def get_events(self):
+        return EngagementEvent.objects.filter(related_caf=self).all().order_by("-date")
 
     def __str__(self):
         # Get the organisation and applicable system
