@@ -8,8 +8,36 @@
 
   <div class="row">
     <div class="col-12">
-      <h4 class="bg-info mb-2 p-2 border-top border-bottom rounded border-secondary text-white">{{ object }} <span class="badge badge-primary float-right">{{ object.confidence_grading }}</span>
-        <span class="badge badge-primary float-right">{{ object.quality_grading }}</span> </h4>
+      <h4 class="bg-info mb-2 p-2 border-top border-bottom rounded border-secondary text-white">{{ object }} <span
+              class="badge badge-primary float-right">{{ object.confidence_grading }}</span>
+        <span class="badge badge-primary float-right">{{ object.quality_grading }}</span></h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <h3>Current status:</h3>
+      <div class="row">
+        <div class="col-md-12 m-2 p-1">
+          {% if not events %}
+            No events registered for this CAF.
+            <span class="float-right"><a href="#" type="button" class="btn btn-outline-primary btn-sm">Register Event</a></span>
+          {% endif %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <ul class="list-group">
+            {% for event in events %}
+              {% if not event.ended %}
+                <li class="list-group-item list-group-item-{{ event.badge_code }}"><a
+                        href="#">{{ event.event.type }}</a>
+                  <span class="float-right">Started: {{ event.event.date|date:"j M Y" }}</span></li>
+              {% endif %}
+            {% endfor %}
+        </div>
+      </div>
+      </ul>
     </div>
   </div>
 

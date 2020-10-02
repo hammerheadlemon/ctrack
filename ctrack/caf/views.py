@@ -31,11 +31,18 @@ def caf_detail_view(request, pk):
     for ass in assessments:
         lst_scores = [ass, CAFAssessmentOutcomeScore.objects.filter(caf_assessment=ass)]
         _scrs.append(lst_scores)
+    events_related_to_caf = caf.get_events()
+    events = []
+    for event in events_related_to_caf:
+        if not event.end_date:
+            events.append(dict(event=event, ended=False, badge_code="warning"))
+
     context = {
         "object": caf,
         "assessments_and_scores": _scrs,
         "organisation": caf.organisation,
         "systems": caf.systems.all(),
+        "events": events
     }
     return render(request, "caf/caf_detail.html", context)
 
