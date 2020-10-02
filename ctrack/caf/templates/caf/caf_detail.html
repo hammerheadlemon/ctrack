@@ -7,11 +7,9 @@
   <div class="container mt-3">
 
   <div class="row">
-    <div class="col-10">
-      <h4>{{ object }}</h4>
-    </div>
-    <div class="col-2">
-      <h2><span class="badge badge-info float-right m-1">{{ object.quality_grading }}</span> <span class="badge badge-secondary float-right m-1">{{ object.confidence_grading }}</span></h2>
+    <div class="col-12">
+      <h4 class="bg-info mb-2 p-2 border-top border-bottom rounded border-secondary text-white">{{ object }} <span class="badge badge-primary float-right">{{ object.confidence_grading }}</span>
+        <span class="badge badge-primary float-right">{{ object.quality_grading }}</span> </h4>
     </div>
   </div>
 
