@@ -14,7 +14,7 @@ class EngagementEventCreateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if caf:
             org = CAF.objects.get(pk=caf).organisation
-            cancel_redirect = reverse("core:home")
+            cancel_redirect = reverse("caf:detail", args=[caf])
             self.fields["related_caf"].initial = caf
             self.fields["participants"].queryset = Person.objects.filter(organisation__pk=org.pk)
             self.fields["type"].queryset = EngagementType.objects.all().order_by("descriptor")
@@ -44,7 +44,7 @@ class EngagementEventCreateForm(forms.ModelForm):
             )
         else:
             org = get_object_or_404(Organisation, slug=org_slug)
-            cancel_redirect = reverse("core:home")
+            cancel_redirect = reverse("organisations:detail", args=[org_slug])
             self.fields["participants"].queryset = Person.objects.filter(organisation__slug=org_slug)
             self.fields["type"].queryset = EngagementType.objects.all().order_by("descriptor")
             self.fields["related_caf"].queryset = org.caf_set.all()
