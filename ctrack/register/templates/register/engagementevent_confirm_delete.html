@@ -7,8 +7,28 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <form method="post">{% csrf_token %}
-    <p>Are you sure you want to delete "{{ object }}"?</p>
-    <input type="submit" value="Confirm">
-</form>
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col-6 offset-md-2 pt-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Confirm deletion</h5>
+            <div class="card-text">Are you sure you want to delete the event <strong>{{ object.type.descriptor }} | {{ object.short_description }}</strong>?</div>
+            <div class="card-text">
+              <p>This event was created by <strong>{{ object.user }}</strong> - ensure you have their permission.</p>
+            </div>
+            <div class="col p-2">
+              <form method="post">
+                {% csrf_token %}
+                <div class="form-row">
+                  <button type="submit" class="btn btn-danger m-1" value="Confirm" id="submit-button">Delete</button>
+                  <a href="{{ view.get_success_url }}" class="btn btn-primary m-1">Cancel</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
