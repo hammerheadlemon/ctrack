@@ -287,3 +287,5 @@ ctrack/media/
 .idea/
 .sass-cache/
 .vscode/
+ctrack-291710-service-account-key-SECRET.json
+static/
