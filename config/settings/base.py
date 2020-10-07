@@ -1,6 +1,7 @@
 """
 Base settings to build other settings files upon.
 """
+import os
 
 import environ
 
@@ -40,8 +41,12 @@ LOCALE_PATHS = [ROOT_DIR.path("locale")]
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
-DATABASES = {"default": env.db("DATABASE_URL", default="postgres:///ctrack")}
-DATABASES["default"]["ATOMIC_REQUESTS"] = True
+import pymysql  # noqa: 402
+pymysql.version_info = (1, 4, 6, 'final', 0)  # change mysqlclient version
+pymysql.install_as_MySQLdb()
+
+# DATABASES = {"default": env.db("DATABASE_URL", default="postgres:///ctrack")}
+# DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # URLS
 # ------------------------------------------------------------------------------
@@ -68,7 +73,7 @@ DJANGO_APPS = [
     "django.contrib.sessions",
     "django.contrib.sites",
     "django.contrib.messages",
-    "django_pdb",  ## this needs to be before django.contrib.staticfiles according to its docs
+    # "django_pdb",  ## this needs to be before django.contrib.staticfiles according to its docs
     "django.contrib.staticfiles",
     # "django.contrib.humanize", # Handy template tags
     "django.contrib.admin",

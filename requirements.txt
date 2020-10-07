@@ -1,4 +1,4 @@
-Django==3.0.2; python_version > '3.5'
+Django==3.1.2; python_version > '3.5'
 Django==2.2.9; python_version == '3.5'
 Django==1.11.28;python_version < '3.0'
 # Uncomment the mysqlclient requirement if you are using MySQL rather than
@@ -18,3 +18,6 @@ factory-boy==3.0.1
 django-extensions==2.2.6
 django-allauth>=0.41.0
 django-environ
+PyMySQL==0.10.1
+mysql-connector-python
+django-crispy-forms==1.9.2
