@@ -267,17 +267,17 @@ class IncidentReport(models.Model):
     incident_stage = models.CharField(choices=INCIDENT_STAGE, max_length=20)
     summary = models.TextField(
         help_text="Please provide a summary of your understanding of the incident, including"
-        " any impact to services and/or users."
+                  " any impact to services and/or users."
     )
     mitigations = models.TextField(
         verbose_name="Investigations or mitigations",
         help_text="What investigations and/or mitigations have you or a third"
-        " party performed or plan to perform?",
+                  " party performed or plan to perform?",
     )
     others_informed = models.TextField(
         verbose_name="Others parties informed",
         help_text="Who else has been informed about this incident?"
-        "(CSIRT, NCSC, NCA, etc)",
+                  "(CSIRT, NCSC, NCA, etc)",
     )
     next_steps = models.TextField(
         verbose_name="Planned next steps", help_text="What are your planned next steps?"
