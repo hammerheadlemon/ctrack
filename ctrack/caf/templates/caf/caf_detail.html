@@ -7,17 +7,19 @@
   <div class="container mt-3">
 
   <div class="row">
-    <div class="col-12">
-      <h4 class="bg-info mb-2 p-2 border-top border-bottom rounded border-secondary text-white">{{ object }} <span
-              class="badge badge-primary float-right">{{ object.confidence_grading }}</span>
-        <span class="badge badge-primary float-right">{{ object.quality_grading }}</span></h4>
+    <div class="col">
+      <div class="row">
+        <div class="col-md-12">
+          <h4 class="mb-2 p-2 border rounded border-secondary">{{ object }}</h4>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="row">
     <div class="col-12">
-      <h3>History:</h3>
       {% if tde and sde %}
+        <h3>History:</h3>
         <div class="row">
           <div class="col-md-12">
             No events registered for this CAF.
@@ -65,11 +67,11 @@
               </tr>
               <tr>
                 <td><strong>Quality Grading:</strong></td>
-                <td>{{ object.quality_grading }}</td>
+                <td><h4><span class="badge badge-secondary">{{ object.quality_grading }}</span></h4></td>
               </tr>
               <tr>
                 <td><strong>Confidence Grading:</strong></td>
-                <td>{{ object.confidence_grading }}</td>
+                <td><h4><span class="badge badge-info">{{ object.confidence_grading }}</span></h4></td>
               </tr>
               <tr>
                 <td><strong>File:</strong></td>
@@ -134,7 +136,8 @@
     <div class="col-md-12">
       <div class="card bg-light">
         <div class="card-body">
-          <div class="card-title text-muted">CAF History <a href="{% url "register:create_from_caf" object.pk %}" class="btn btn-outline-primary btn-sm float-right">Add
+          <div class="card-title text-muted">CAF History <a href="{% url "register:create_from_caf" object.pk %}"
+                                                            class="btn btn-outline-primary btn-sm float-right">Add
             new...</a></div>
           <div class="table table-responsive">
             <table class="table">
