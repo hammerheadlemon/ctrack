@@ -209,7 +209,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'ctrack.db'),
+            'NAME': os.path.join(ROOT_DIR, 'ctrack.db'),
         }
     }
 # [END db_setup]
@@ -219,7 +219,7 @@ if os.getenv('TRAMPOLINE_CI', None):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+            'NAME': os.path.join(ROOT_DIR, 'db.sqlite3')
         }
     }
 

@@ -3,13 +3,17 @@
 {% load static %}
 
 {% block title %} CAF - All CAF Summary {% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+{% endblock %}
 {% block content %}
 
   <div class="col-md-12">
   <h4>CAF List</h4>
   <div class="row">
     <div class="col-md-12 bg-light my-2 py-2">
-      <table id="datatable" class="display compact cell-border" style="width:100%">
+      <table id="datatable" class="table table-bordered compact cell-border" style="width:100%">
         <thead>
         <tr>
           <th>Organisation</th>
