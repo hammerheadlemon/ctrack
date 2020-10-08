@@ -138,32 +138,25 @@
         <div class="card-body">
           <div class="card-title text-muted">CAF History <a href="{% url "register:create_from_caf" object.pk %}"
                                                             class="btn btn-outline-primary btn-sm float-right">Add
-            new...</a></div>
-          <div class="table table-responsive">
-            <table class="table">
-              <thead>
-              <tr>
-                <th>Date</th>
-                <th>Event</th>
-                <th>Inspector</th>
-                <th>Comments</th>
-              </tr>
-              </thead>
-              <tbody>
-              {% for event in object.get_events %}
-                <tr>
-                  <td>{{ event.date|date:"j F Y" }}</td>
-                  <td>{{ event.type }}</td>
-                  <td>{{ event.user }}</td>
-                  <td>{{ event.comments }}</td>
-                </tr>
-              {% endfor %}
+            new...</a>
+          </div>
 
-              <tr>
-
-              </tr>
-              </tbody>
-            </table>
+          <div class="list-group">
+            {% for event in object.get_events %}
+              <div class="list-group-item">
+                <div class="d-flex w-100 justify-content-between">
+                  <p class="mb-1"><strong>{{ event.date|date:"j F Y" }}</strong></p>
+                  <small>{{ event.type }}</small>
+                </div>
+                {% if event.comments%}
+                  <p class="mb-2">{{ event.comments }}<br>
+                  <small>(Inspector: {{ event.user }})</small>
+                </p>
+                {% else %}
+                  <p class="mb-1"><small>No comments made.</small></p>
+                {% endif %}
+              </div>
+            {% endfor %}
           </div>
         </div>
       </div>
