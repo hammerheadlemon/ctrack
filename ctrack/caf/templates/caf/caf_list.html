@@ -5,41 +5,36 @@
 {% block title %} CAF - All CAF Summary {% endblock %}
 {% block content %}
 
-  <div class="container mt-3">
-    <div class="row">
-      <div class="col-md-12 pl-0 my-2">
-        <h4>CAF List</h4>
-        <div class="row">
-          <div class="col-md-12 bg-light my-2 py-2">
-            <table id="datatable" class="display compact cell-border" style="width:100%">
-              <thead>
-              <tr>
-                <th>Organisation</th>
-                <th>Link</th>
-                <th>Sub Mode</th>
-                <th>Applicable Systems</th>
-              </tr>
-              </thead>
-              {% for caf in object_list %}
-                <tr>
-                  <td><a href="{% url "organisations:detail" slug=caf.organisation.slug %}">{{ caf.organisation }}</a>
-                  </td>
-                  <td><a href="{% url 'caf:detail' pk=caf.pk %}">{{ caf.version }}</a></td>
-                  <td>{{ caf.sub_mode }}</td>
-                  <td>
-                    <ul>
-                      {% for applicable_system in caf.applicable_systems.all %}
-                        <li><a href="{% url "caf:ass_detail" applicable_system.pk %}">{{ applicable_system.name }}</a>
-                        </li>
-                      {% endfor %}
-                    </ul>
-                  </td>
-                </tr>
-              {% endfor %}
-            </table>
-          </div>
-        </div>
-      </div>
+  <div class="col-md-12">
+  <h4>CAF List</h4>
+  <div class="row">
+    <div class="col-md-12 bg-light my-2 py-2">
+      <table id="datatable" class="display compact cell-border" style="width:100%">
+        <thead>
+        <tr>
+          <th>Organisation</th>
+          <th>Link</th>
+          <th>Sub Mode</th>
+          <th>Applicable Systems</th>
+        </tr>
+        </thead>
+        {% for caf in object_list %}
+          <tr>
+            <td><a href="{% url "organisations:detail" slug=caf.organisation.slug %}">{{ caf.organisation }}</a>
+            </td>
+            <td><a href="{% url 'caf:detail' pk=caf.pk %}">{{ caf.version }}</a></td>
+            <td>{{ caf.sub_mode }}</td>
+            <td>
+              <ul>
+                {% for applicable_system in caf.applicable_systems.all %}
+                  <li><a href="{% url "caf:ass_detail" applicable_system.pk %}">{{ applicable_system.name }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
     </div>
   </div>
 
