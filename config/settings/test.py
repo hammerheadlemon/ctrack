@@ -2,7 +2,7 @@
 With these settings, tests run faster.
 """
 
-from .base import *  # noqa
+from .gcloud_settings import *  # noqa
 from .base import env
 
 # GENERAL
