@@ -1,7 +1,6 @@
 import datetime
 
 import pytest
-from django.contrib.auth import get_user_model
 
 from ctrack.register.models import MeetingEvent
 
@@ -17,7 +16,7 @@ def test_meeting_event(person, user):
         datetime="2020-10-10T15:00",
         comments="Nice comments",
         location="Harvey's House",
-        user = user
+        user=user
     )
     e.participants.add(person)
     assert len(e.participants.all()) == 1

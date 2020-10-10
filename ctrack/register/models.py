@@ -34,6 +34,7 @@ class AuditableEventBase(models.Model):
         abstract = True
 
     def save(self, *args, **kwargs):
+        """Overriding so we can save the dates in here."""
         if not self.pk:
             self.created_date = datetime.datetime.now()
         self.modified_date = datetime.datetime.now()
