@@ -65,7 +65,7 @@ class EngagementEventBase(AuditableEventBase):
 
 class MeetingEventMixin(models.Model):
     participants = models.ManyToManyField(Person, blank=False, null=False)
-    location = models.CharField(max_length=100, blank=True, null=True)
+    location = models.CharField(max_length=100, blank=False)
 
     class Meta:
         abstract = True
