@@ -1,3 +1,4 @@
+import datetime
 from datetime import date as std_date
 from typing import Optional, Dict
 
@@ -5,6 +6,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 from ctrack.organisations.models import Person
+from ctrack.users.models import User
 
 
 def _style_descriptor(days: int) -> str:
@@ -21,6 +23,73 @@ def _day_string(days: int) -> str:
         return "days"
     else:
         return "day"
+
+
+class AuditableEventBase(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    created_date = models.DateTimeField()
+    modified_date = models.DateTimeField()
+
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.created_date = datetime.datetime.now()
+        self.modified_date = datetime.datetime.now()
+
+        return super().save(*args, **kwargs)
+
+
+class EngagementEventBase(AuditableEventBase):
+    type_descriptor = "Base Type"
+    short_description = models.CharField(
+        max_length=50,
+        help_text="Short description of the event. Use Comments field for full detail.",
+    )
+    participants = models.ManyToManyField(Person, null=True, blank=True)
+    document_link = models.URLField(
+        max_length=1000,
+        blank=True,
+        null=True,
+        help_text="URL only - do not try to drag a file here.",
+    )
+    response_date_requested = models.DateField(blank=True, null=True)
+    comments = models.TextField(max_length=1000, blank=True, null=True,
+                                help_text="Use this to provide further detail about the event.")
+
+    class Meta:
+        abstract = True
+
+
+class MeetingEventMixin(models.Model):
+    participants = models.ManyToManyField(Person, blank=False, null=False)
+    location = models.CharField(max_length=100, blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+
+class SingleDateTimeEventMixin(models.Model):
+    datetime = models.DateTimeField()
+
+    class Meta:
+        abstract = True
+
+
+# class SingleDateCAFEvent(EngagementEventBase):
+#     type = models.ForeignKey(
+#         EngagementType, default=event_type, on_delete=models.CASCADE
+#     )
+#     caf_related = models.BooleanField(default=True)
+#     date = models.DateField(blank=False, null=False)
+
+
+class MeetingEvent(EngagementEventBase, MeetingEventMixin, SingleDateTimeEventMixin):
+    MEETING_TYPES = [
+        ("Meeting", "Meeting")
+    ]
+    type_descriptor = models.CharField(max_length=50, choices=MEETING_TYPES)
 
 
 class EngagementType(models.Model):
@@ -60,13 +129,16 @@ class EngagementEvent(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user))
     date = models.DateTimeField()
     end_date = models.DateTimeField(blank=True, null=True, help_text="Should be used for periodic events.")
-    document_link = models.URLField(max_length=1000, blank=True, null=True, help_text="URL only - do not try to drag a file here.")
+    document_link = models.URLField(max_length=1000, blank=True, null=True,
+                                    help_text="URL only - do not try to drag a file here.")
     response_date_requested = models.DateField(blank=True, null=True)
     response_received = models.DateField(blank=True, null=True)
     related_caf = models.ForeignKey(
-        "caf.CAF", blank=True, on_delete=models.CASCADE, null=True, help_text="If the event relates to a CAF, refer to it here."
+        "caf.CAF", blank=True, on_delete=models.CASCADE, null=True,
+        help_text="If the event relates to a CAF, refer to it here."
     )
-    comments = models.TextField(max_length=1000, blank=True, null=True, help_text="Use this to provide further detail about the event.")
+    comments = models.TextField(max_length=1000, blank=True, null=True,
+                                help_text="Use this to provide further detail about the event.")
 
     def days_to_response_due(self) -> Optional[Dict[int, str]]:
         if self.response_date_requested:
