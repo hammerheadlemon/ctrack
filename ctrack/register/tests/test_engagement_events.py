@@ -1,3 +1,5 @@
+import datetime
+
 import pytest
 from django.contrib.auth import get_user_model
 
@@ -8,6 +10,7 @@ pytestmark = pytest.mark.django_db
 
 def test_meeting_event(person, user):
     uname = user.name
+    now = datetime.datetime.now()
     e = MeetingEvent.objects.create(
         type_descriptor="Meeting",
         short_description="Big Important Meeting",
@@ -21,3 +24,7 @@ def test_meeting_event(person, user):
     assert e.type_descriptor == "Meeting"
     assert person in e.participants.all()
     assert e.user.name == uname
+    assert e.created_date.day == now.day
+    assert e.created_date.hour == now.hour
+    assert e.modified_date.day == now.day
+    assert e.modified_date.hour == now.hour
