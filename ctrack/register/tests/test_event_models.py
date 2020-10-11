@@ -60,8 +60,7 @@ def test_caf_initial_caf_emailed_rosa(user, caf):
 
 
 def test_can_email_two_caf_on_same_date(user, caf):
-    now = datetime.datetime.now()
-    e1 = CAFSingleDateEvent.objects.create(
+    CAFSingleDateEvent.objects.create(
         type_descriptor="CAF_EMAILED_ROSA",
         related_caf=caf,
         short_description="CAF sent to Rosa for X Company",
@@ -69,16 +68,34 @@ def test_can_email_two_caf_on_same_date(user, caf):
         comments="Nice comments for this event",
         user=user,
     )
-    e2 = CAFSingleDateEvent.objects.create(
-        type_descriptor="CAF_INITIAL_CAF_EMAILED_ROSA",
+    CAFSingleDateEvent.objects.create(
+        type_descriptor="CAF_EMAILED_ROSA",
         related_caf=caf,
         short_description="CAF sent to Rosa for X Company",
         date="2020-10-10",
         comments="Nice comments for this event",
         user=user,
     )
-    assert e1.created_date.day == now.day
-    assert e2.created_date.day == now.day
+
+
+def test_cannot_receive_the_same_caf_on_the_same_day(user, caf):
+    CAFSingleDateEvent.objects.create(
+        type_descriptor="CAF_RECEIVED",
+        related_caf=caf,
+        short_description="CAF received to Rosa for X Company",
+        date="2020-10-10",
+        comments="Nice comments for this event",
+        user=user,
+    )
+    with pytest.raises(IntegrityError):
+        CAFSingleDateEvent.objects.create(
+            type_descriptor="CAF_RECEIVED",
+            related_caf=caf,
+            short_description="CAF received to Rosa for X Company",
+            date="2020-10-10",
+            comments="Nice comments for this event",
+            user=user,
+        )
 
 
 def test_event_type_enum():

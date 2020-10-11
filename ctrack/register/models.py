@@ -16,10 +16,12 @@ class EventType(Enum):
     MEETING = auto()
     PHONE_CALL = auto()
     VIDEO_CALL = auto()
+    # single date caf events
     CAF_INITIAL_CAF_RECEIVED = auto()
     CAF_FEEDBACK_EMAILED_OES = auto()
     CAF_RECEIVED = auto()
     CAF_EMAILED_ROSA = auto()
+    # twin date caf events
     CAF_PEER_REVIEW_PERIOD = auto()
     CAF_VALIDATION_PERIOD = auto()
     CAF_VALIDATION_SIGN_OFF = auto()
@@ -126,7 +128,9 @@ class MeetingEvent(EventBase, ThirdPartyEventMixin, SingleDateTimeEventMixin):
 
 class CAFSingleDateEvent(EventBase, CAFMixin, SingleDateMixin):
     AVAILABLE_TYPES = [
-        (EventType.CAF_INITIAL_CAF_RECEIVED.name, "CAF - Initial CAF Received")
+        (EventType.CAF_INITIAL_CAF_RECEIVED.name, "CAF - Initial CAF Received"),
+        (EventType.CAF_RECEIVED.name, "CAF - Received"),
+        (EventType.CAF_EMAILED_ROSA.name, "CAF - Emailed to Rosa"),
     ]
     type_descriptor = models.CharField(max_length=50, choices=AVAILABLE_TYPES)
 
