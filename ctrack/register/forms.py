@@ -29,7 +29,7 @@ class AddMeetingForm(forms.ModelForm):
         self.user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
 
-    def save(self):
+    def save(self, **kwargs):
         form = super().save(commit=False)
         form.user = self.user
         form.save()
@@ -51,7 +51,7 @@ class CAFSingleDateEventForm(forms.ModelForm):
         self.user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
 
-    def save(self):
+    def save(self, **kwargs):
         form = super().save(commit=False)
         form.user = self.user
         form.save()

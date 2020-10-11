@@ -1,4 +1,5 @@
 import pytest
+from django.db import IntegrityError
 
 from ..forms import AddMeetingForm, CAFSingleDateEventForm
 
@@ -60,3 +61,56 @@ def test_caf_initial_received_form(allowed_type, user, caf):
         user=user,
     )
     assert form.is_valid()
+
+
+def test_cannot_create_two_caf_initial_receipt_events_on_same_day(user, caf):
+    form1 = CAFSingleDateEventForm(
+        {
+            "type_descriptor": "CAF_INITIAL_CAF_RECEIVED",
+            "related_caf": caf,
+            "short_description": "Test Short Description",
+            "date": "2010-07-01",
+            "comments": "Meaningless comments",
+        },
+        user=user,
+    )
+    form2 = CAFSingleDateEventForm(
+        {
+            "type_descriptor": "CAF_INITIAL_CAF_RECEIVED",
+            "related_caf": caf,
+            "short_description": "Test Short Description",
+            "date": "2010-07-01",
+            "comments": "Meaningless comments",
+        },
+        user=user,
+    )
+    assert form1.is_valid()
+    form1.save()
+    assert form2.is_valid()
+    with pytest.raises(IntegrityError):
+        form2.save()
+
+
+def test_can_register_two_send_to_rosa_events_on_same_day(user, caf):
+    form1 = CAFSingleDateEventForm(
+        {
+            "type_descriptor": "CAF_EMAILED_ROSA",
+            "related_caf": caf,
+            "short_description": "Test Short Description",
+            "date": "2010-07-01",
+            "comments": "Meaningless comments",
+        },
+        user=user,
+    )
+    form2 = CAFSingleDateEventForm(
+        {
+            "type_descriptor": "CAF_EMAILED_ROSA",
+            "related_caf": caf,
+            "short_description": "Test Short Description 2",
+            "date": "2010-07-01",
+            "comments": "Meaningless comments 2",
+        },
+        user=user,
+    )
+    assert form1.is_valid()
+    assert form2.is_valid()
