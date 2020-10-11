@@ -54,6 +54,30 @@ def test_caf_twin_date_events(allowed_type, user, caf):
     assert e.type_descriptor == allowed_type
 
 
+def test_caf_twin_date_event_no_end_date(user, caf):
+    e = CAFTwinDateEvent.objects.create(
+        type_descriptor="CAF_PEER_REVIEW_PERIOD",
+        related_caf=caf,
+        short_description="CAF received for X Company",
+        start_date="2020-10-10",
+        comments="Nice comments for this event",
+        user=user,
+    )
+    assert e.end_date is None
+
+
+def test_caf_twin_date_event_no_start_date_not_allowed(user, caf):
+    with pytest.raises(IntegrityError):
+        CAFTwinDateEvent.objects.create(
+            type_descriptor="CAF_PEER_REVIEW_PERIOD",
+            related_caf=caf,
+            short_description="CAF received for X Company",
+            end_date="2020-10-10",
+            comments="Nice comments for this event",
+            user=user,
+        )
+
+
 def test_cannot_add_two_caf_initial_caf_received_events_on_same_date(user, caf):
     CAFSingleDateEvent.objects.create(
         type_descriptor="CAF_INITIAL_CAF_RECEIVED",

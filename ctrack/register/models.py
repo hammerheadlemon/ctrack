@@ -107,8 +107,8 @@ class SingleDateMixin(models.Model):
 
 
 class TwinDateMixin(models.Model):
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateField(blank=False, null=False)
+    end_date = models.DateField(blank=True, null=True)
 
     class Meta:
         abstract = True
