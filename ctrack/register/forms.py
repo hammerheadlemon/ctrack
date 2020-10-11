@@ -6,7 +6,12 @@ from django.urls import reverse
 
 from ctrack.caf.models import CAF
 from ctrack.organisations.models import Person, Organisation
-from ctrack.register.models import EngagementEvent, EngagementType, MeetingEvent
+from ctrack.register.models import (
+    EngagementEvent,
+    EngagementType,
+    MeetingEvent,
+    CAFSingleDateEvent,
+)
 
 
 class AddMeetingForm(forms.ModelForm):
@@ -18,6 +23,28 @@ class AddMeetingForm(forms.ModelForm):
             "datetime",
             "comments",
             "location",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop("user")
+        super().__init__(*args, **kwargs)
+
+    def save(self):
+        form = super().save(commit=False)
+        form.user = self.user
+        form.save()
+        return form
+
+
+class CAFSingleDateEventForm(forms.ModelForm):
+    class Meta:
+        model = CAFSingleDateEvent
+        fields = [
+            "type_descriptor",
+            "related_caf",
+            "short_description",
+            "date",
+            "comments",
         ]
 
     def __init__(self, *args, **kwargs):
