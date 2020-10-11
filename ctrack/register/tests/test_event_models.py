@@ -1,14 +1,19 @@
 import datetime
 
 import pytest
+from django.db import IntegrityError
 
-from ctrack.register.models import MeetingEvent, EventType, SingleDateTimeEvent, CAFSingleDateEvent
+from ctrack.register.models import (
+    MeetingEvent,
+    EventType,
+    SingleDateTimeEvent,
+    CAFSingleDateEvent,
+)
 
 pytestmark = pytest.mark.django_db
 
 
 def test_caf_initial_caf_received(user, caf):
-    uname = user.name
     now = datetime.datetime.now()
     e = CAFSingleDateEvent.objects.create(
         type_descriptor="CAF_INITIAL_CAF_RECEIVED",
@@ -16,9 +21,29 @@ def test_caf_initial_caf_received(user, caf):
         short_description="CAF received for X Company",
         date="2020-10-10",
         comments="Nice comments for this event",
-        user=user
+        user=user,
     )
     assert e.created_date.day == now.day
+
+
+def test_cannot_add_two_caf_initial_caf_received_events_on_same_date(user, caf):
+    CAFSingleDateEvent.objects.create(
+        type_descriptor="CAF_INITIAL_CAF_RECEIVED",
+        related_caf=caf,
+        short_description="CAF received for X Company",
+        date="2020-10-10",
+        comments="Nice comments for this event",
+        user=user,
+    )
+    with pytest.raises(IntegrityError):
+        CAFSingleDateEvent.objects.create(
+            type_descriptor="CAF_INITIAL_CAF_RECEIVED",
+            related_caf=caf,
+            short_description="CAF received for X Company",
+            date="2020-10-10",
+            comments="Nice comments for this event",
+            user=user,
+        )
 
 
 def test_event_type_enum():
@@ -33,7 +58,10 @@ def test_event_type_enum():
     assert EventType.CAF_PEER_REVIEW_PERIOD.name == "CAF_PEER_REVIEW_PERIOD"
     assert EventType.CAF_VALIDATION_PERIOD.name == "CAF_VALIDATION_PERIOD"
     assert EventType.CAF_VALIDATION_SIGN_OFF.name == "CAF_VALIDATION_SIGN_OFF"
-    assert EventType.CAF_VALIDATION_RECORD_EMAILED_TO_OES.name == "CAF_VALIDATION_RECORD_EMAILED_TO_OES"
+    assert (
+        EventType.CAF_VALIDATION_RECORD_EMAILED_TO_OES.name
+        == "CAF_VALIDATION_RECORD_EMAILED_TO_OES"
+    )
 
 
 def test_meeting_event(person, user):
@@ -45,7 +73,7 @@ def test_meeting_event(person, user):
         datetime="2020-10-10T15:00",
         comments="Nice comments",
         location="Harvey's House",
-        user=user
+        user=user,
     )
     e.participants.add(person)
     assert len(e.participants.all()) == 1
@@ -65,7 +93,7 @@ def test_single_date_event(person, user):
         datetime="2020-10-10T15:00",
         comments="Comments on phone call",
         # location is optional
-        user=user
+        user=user,
     )
     phone_event.participants.add(person)
     assert phone_event.type_descriptor == "Phone Call"
@@ -78,7 +106,7 @@ def test_single_date_event(person, user):
         datetime="2020-10-10T15:00",
         comments="Comments on video call",
         # location is optional
-        user=user
+        user=user,
     )
     email.participants.add(person)
     assert email.type_descriptor == "Video Call"
@@ -90,7 +118,7 @@ def test_single_date_event(person, user):
         datetime="2020-10-10T15:00",
         comments="Comments on email",
         # location is optional
-        user=user
+        user=user,
     )
     email.participants.add(person)
     assert email.type_descriptor == "Email"

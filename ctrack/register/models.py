@@ -71,8 +71,12 @@ class EventBase(AuditableEventBase):
         null=True,
         help_text="URL only - do not try to drag a file here.",
     )
-    comments = models.TextField(max_length=1000, blank=True, null=True,
-                                help_text="Use this to provide further detail about the event.")
+    comments = models.TextField(
+        max_length=1000,
+        blank=True,
+        null=True,
+        help_text="Use this to provide further detail about the event.",
+    )
 
     class Meta:
         abstract = True
@@ -107,7 +111,7 @@ class CAFMixin(models.Model):
 class SingleDateTimeEvent(EventBase, ThirdPartyEventMixin, SingleDateTimeEventMixin):
     AVAILABLE_TYPES = [
         (EventType.PHONE_CALL.name, "Phone Call"),
-        (EventType.VIDEO_CALL.name, "Video Call")
+        (EventType.VIDEO_CALL.name, "Video Call"),
     ]
     type_descriptor = models.CharField(max_length=50, choices=AVAILABLE_TYPES)
 
@@ -116,9 +120,7 @@ class SingleDateTimeEvent(EventBase, ThirdPartyEventMixin, SingleDateTimeEventMi
 
 
 class MeetingEvent(EventBase, ThirdPartyEventMixin, SingleDateTimeEventMixin):
-    AVAILABLE_TYPES = [
-        (EventType.MEETING.name, "Meeting")
-    ]
+    AVAILABLE_TYPES = [(EventType.MEETING.name, "Meeting")]
     type_descriptor = models.CharField(max_length=50, choices=AVAILABLE_TYPES)
 
 
@@ -128,8 +130,16 @@ class CAFSingleDateEvent(EventBase, CAFMixin, SingleDateMixin):
     ]
     type_descriptor = models.CharField(max_length=50, choices=AVAILABLE_TYPES)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["date", "type_descriptor"], name="unique_caf_for_date"
+            )
+        ]
+
 
 # OLD CODE BELOW
+
 
 class EngagementType(models.Model):
     """
@@ -162,28 +172,46 @@ class EngagementEvent(models.Model):
 
     type = models.ForeignKey(EngagementType, on_delete=models.CASCADE)
     short_description = models.CharField(
-        max_length=50, help_text="Short description of the event. Use Comments field for full detail."
+        max_length=50,
+        help_text="Short description of the event. Use Comments field for full detail.",
     )
     participants = models.ManyToManyField(Person, blank=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user))
     date = models.DateTimeField()
-    end_date = models.DateTimeField(blank=True, null=True, help_text="Should be used for periodic events.")
-    document_link = models.URLField(max_length=1000, blank=True, null=True,
-                                    help_text="URL only - do not try to drag a file here.")
+    end_date = models.DateTimeField(
+        blank=True, null=True, help_text="Should be used for periodic events."
+    )
+    document_link = models.URLField(
+        max_length=1000,
+        blank=True,
+        null=True,
+        help_text="URL only - do not try to drag a file here.",
+    )
     response_date_requested = models.DateField(blank=True, null=True)
     response_received = models.DateField(blank=True, null=True)
     related_caf = models.ForeignKey(
-        "caf.CAF", blank=True, on_delete=models.CASCADE, null=True,
-        help_text="If the event relates to a CAF, refer to it here."
+        "caf.CAF",
+        blank=True,
+        on_delete=models.CASCADE,
+        null=True,
+        help_text="If the event relates to a CAF, refer to it here.",
     )
-    comments = models.TextField(max_length=1000, blank=True, null=True,
-                                help_text="Use this to provide further detail about the event.")
+    comments = models.TextField(
+        max_length=1000,
+        blank=True,
+        null=True,
+        help_text="Use this to provide further detail about the event.",
+    )
 
     def days_to_response_due(self) -> Optional[Dict[int, str]]:
         if self.response_date_requested:
             today = std_date.today()
             diff = self.response_date_requested - today
-            return dict(days=diff.days, descriptor=_style_descriptor(diff.days), day_str=_day_string(diff.days))
+            return dict(
+                days=diff.days,
+                descriptor=_style_descriptor(diff.days),
+                day_str=_day_string(diff.days),
+            )
         else:
             return None
 
