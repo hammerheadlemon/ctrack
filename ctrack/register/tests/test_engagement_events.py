@@ -1,3 +1,7 @@
+"""LEGACY - SPIKE CODE _ TO BE DELETED"""
+
+# TODO - delete this code
+
 import datetime
 
 import pytest

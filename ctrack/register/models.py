@@ -1,5 +1,6 @@
 import datetime
 from datetime import date as std_date
+from enum import Enum, auto
 from typing import Optional, Dict
 
 from django.contrib.auth import get_user_model
@@ -8,6 +9,20 @@ from django.db import models
 from ctrack.organisations.models import Person
 from ctrack.users.models import User
 
+
+class EventType(Enum):
+    MEETING = auto()
+    PHONE_CALL = auto()
+    VIDEO_CALL = auto()
+    CAF_INITIAL_CAF_RECEIVED = auto()
+    CAF_INITIAL_CAF_EMAILED_ROSA = auto()
+    CAF_FEEDBACK_EMAILED_OES = auto()
+    CAF_RECEIVED = auto()
+    CAF_EMAILED_ROSA = auto()
+    CAF_PEER_REVIEW_PERIOD = auto()
+    CAF_VALIDATION_PERIOD = auto()
+    CAF_VALIDATION_SIGN_OFF = auto()
+    CAF_VALIDATION_RECORD_EMAILED_TO_OES = auto()
 
 def _style_descriptor(days: int) -> str:
     if days < 1:
@@ -34,6 +49,7 @@ class AuditableEventBase(models.Model):
         abstract = True
 
     def save(self, *args, **kwargs):
+        # TODO this also needs to include created_by and updated_by attributes
         """Overriding so we can save the dates in here."""
         if not self.pk:
             self.created_date = datetime.datetime.now()
