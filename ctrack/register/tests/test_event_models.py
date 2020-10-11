@@ -2,9 +2,23 @@ import datetime
 
 import pytest
 
-from ctrack.register.models import MeetingEvent, EventType, SingleDateTimeEvent
+from ctrack.register.models import MeetingEvent, EventType, SingleDateTimeEvent, CAFSingleDateEvent
 
 pytestmark = pytest.mark.django_db
+
+
+def test_caf_initial_caf_received(user, caf):
+    uname = user.name
+    now = datetime.datetime.now()
+    e = CAFSingleDateEvent.objects.create(
+        type_descriptor="CAF_INITIAL_CAF_RECEIVED",
+        related_caf=caf,
+        short_description="CAF received for X Company",
+        date="2020-10-10",
+        comments="Nice comments for this event",
+        user=user
+    )
+    assert e.created_date.day == now.day
 
 
 def test_event_type_enum():

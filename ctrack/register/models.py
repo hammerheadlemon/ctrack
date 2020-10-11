@@ -6,6 +6,7 @@ from typing import Optional, Dict
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from ctrack.caf.models import CAF
 from ctrack.organisations.models import Person
 from ctrack.users.models import User
 
@@ -92,6 +93,17 @@ class SingleDateTimeEventMixin(models.Model):
         abstract = True
 
 
+class SingleDateMixin(models.Model):
+    date = models.DateField()
+
+    class Meta:
+        abstract = True
+
+
+class CAFMixin(models.Model):
+    related_caf = models.ForeignKey(CAF, on_delete=models.CASCADE)
+
+
 class SingleDateTimeEvent(EventBase, ThirdPartyEventMixin, SingleDateTimeEventMixin):
     AVAILABLE_TYPES = [
         (EventType.PHONE_CALL.name, "Phone Call"),
@@ -106,6 +118,13 @@ class SingleDateTimeEvent(EventBase, ThirdPartyEventMixin, SingleDateTimeEventMi
 class MeetingEvent(EventBase, ThirdPartyEventMixin, SingleDateTimeEventMixin):
     AVAILABLE_TYPES = [
         (EventType.MEETING.name, "Meeting")
+    ]
+    type_descriptor = models.CharField(max_length=50, choices=AVAILABLE_TYPES)
+
+
+class CAFSingleDateEvent(EventBase, CAFMixin, SingleDateMixin):
+    AVAILABLE_TYPES = [
+        (EventType.CAF_INITIAL_CAF_RECEIVED.name, "CAF - Initial CAF Received")
     ]
     type_descriptor = models.CharField(max_length=50, choices=AVAILABLE_TYPES)
 
