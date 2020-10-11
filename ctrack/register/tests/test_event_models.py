@@ -7,6 +7,7 @@ from ctrack.register.models import (
     EventType,
     SingleDateTimeEvent,
     CAFSingleDateEvent,
+    CAFTwinDateEvent,
 )
 
 pytestmark = pytest.mark.django_db
@@ -28,6 +29,24 @@ def test_caf_single_date_events(allowed_type, user, caf):
         related_caf=caf,
         short_description="CAF received for X Company",
         date="2020-10-10",
+        comments="Nice comments for this event",
+        user=user,
+    )
+    assert e.created_date.day == now.day
+    assert e.type_descriptor == allowed_type
+
+
+@pytest.mark.parametrize(
+    "allowed_type", ["CAF_PEER_REVIEW_PERIOD", "CAF_VALIDATION_PERIOD"]
+)
+def test_caf_twin_date_events(allowed_type, user, caf):
+    now = datetime.datetime.now()
+    e = CAFTwinDateEvent.objects.create(
+        type_descriptor=allowed_type,
+        related_caf=caf,
+        short_description="CAF received for X Company",
+        start_date="2020-10-10",
+        end_date="2020-10-25",
         comments="Nice comments for this event",
         user=user,
     )

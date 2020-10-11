@@ -21,11 +21,11 @@ class EventType(Enum):
     CAF_FEEDBACK_EMAILED_OES = auto()
     CAF_RECEIVED = auto()
     CAF_EMAILED_ROSA = auto()
+    CAF_VALIDATION_SIGN_OFF = auto()
+    CAF_VALIDATION_RECORD_EMAILED_TO_OES = auto()
     # twin date caf events
     CAF_PEER_REVIEW_PERIOD = auto()
     CAF_VALIDATION_PERIOD = auto()
-    CAF_VALIDATION_SIGN_OFF = auto()
-    CAF_VALIDATION_RECORD_EMAILED_TO_OES = auto()
 
 
 def _style_descriptor(days: int) -> str:
@@ -106,6 +106,14 @@ class SingleDateMixin(models.Model):
         abstract = True
 
 
+class TwinDateMixin(models.Model):
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+    class Meta:
+        abstract = True
+
+
 class CAFMixin(models.Model):
     related_caf = models.ForeignKey(CAF, on_delete=models.CASCADE)
 
@@ -141,6 +149,14 @@ class CAFSingleDateEvent(EventBase, CAFMixin, SingleDateMixin):
                 name="unique_caf_for_date",
             ),
         ]
+
+
+class CAFTwinDateEvent(EventBase, CAFMixin, TwinDateMixin):
+    AVAILABLE_TYPES = [
+        (EventType.CAF_PEER_REVIEW_PERIOD.name, "CAF - Peer Review Period"),
+        (EventType.CAF_VALIDATION_PERIOD.name, "CAF - Validation Period"),
+    ]
+    type_descriptor = models.CharField(max_length=50, choices=AVAILABLE_TYPES)
 
 
 # OLD CODE BELOW
