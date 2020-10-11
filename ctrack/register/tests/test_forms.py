@@ -5,6 +5,9 @@ from ..forms import AddMeetingForm
 pytestmark = pytest.mark.django_db
 
 
+# TODO this test and the form code needs to be amended to save created_by and update_by
+#   on the model
+
 def test_init(user):
     """Here we test that we can pass in the user value from the view.
     We don't want that to be field in the form.

@@ -24,6 +24,7 @@ class EventType(Enum):
     CAF_VALIDATION_SIGN_OFF = auto()
     CAF_VALIDATION_RECORD_EMAILED_TO_OES = auto()
 
+
 def _style_descriptor(days: int) -> str:
     if days < 1:
         return "red"
@@ -41,7 +42,7 @@ def _day_string(days: int) -> str:
 
 
 class AuditableEventBase(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_date = models.DateTimeField()
     modified_date = models.DateTimeField()
 
@@ -58,20 +59,17 @@ class AuditableEventBase(models.Model):
         return super().save(*args, **kwargs)
 
 
-class EngagementEventBase(AuditableEventBase):
-    type_descriptor = "Base Type"
+class EventBase(AuditableEventBase):
     short_description = models.CharField(
         max_length=50,
         help_text="Short description of the event. Use Comments field for full detail.",
     )
-    participants = models.ManyToManyField(Person, null=True, blank=True)
     document_link = models.URLField(
         max_length=1000,
         blank=True,
         null=True,
         help_text="URL only - do not try to drag a file here.",
     )
-    response_date_requested = models.DateField(blank=True, null=True)
     comments = models.TextField(max_length=1000, blank=True, null=True,
                                 help_text="Use this to provide further detail about the event.")
 
@@ -79,9 +77,9 @@ class EngagementEventBase(AuditableEventBase):
         abstract = True
 
 
-class MeetingEventMixin(models.Model):
-    participants = models.ManyToManyField(Person, blank=False, null=False)
-    location = models.CharField(max_length=100, blank=False)
+class ThirdPartyEventMixin(models.Model):
+    participants = models.ManyToManyField(Person, null=True, blank=True)
+    location = models.CharField(max_length=100, blank=True)
 
     class Meta:
         abstract = True
@@ -94,20 +92,25 @@ class SingleDateTimeEventMixin(models.Model):
         abstract = True
 
 
-# class SingleDateCAFEvent(EngagementEventBase):
-#     type = models.ForeignKey(
-#         EngagementType, default=event_type, on_delete=models.CASCADE
-#     )
-#     caf_related = models.BooleanField(default=True)
-#     date = models.DateField(blank=False, null=False)
-
-
-class MeetingEvent(EngagementEventBase, MeetingEventMixin, SingleDateTimeEventMixin):
-    MEETING_TYPES = [
-        ("Meeting", "Meeting")
+class SingleDateTimeEvent(EventBase, ThirdPartyEventMixin, SingleDateTimeEventMixin):
+    AVAILABLE_TYPES = [
+        (EventType.PHONE_CALL.name, "Phone Call"),
+        (EventType.VIDEO_CALL.name, "Video Call")
     ]
-    type_descriptor = models.CharField(max_length=50, choices=MEETING_TYPES)
+    type_descriptor = models.CharField(max_length=50, choices=AVAILABLE_TYPES)
 
+    def __str__(self):
+        return self.type_descriptor
+
+
+class MeetingEvent(EventBase, ThirdPartyEventMixin, SingleDateTimeEventMixin):
+    AVAILABLE_TYPES = [
+        (EventType.MEETING.name, "Meeting")
+    ]
+    type_descriptor = models.CharField(max_length=50, choices=AVAILABLE_TYPES)
+
+
+# OLD CODE BELOW
 
 class EngagementType(models.Model):
     """

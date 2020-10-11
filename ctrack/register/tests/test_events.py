@@ -2,7 +2,7 @@ import datetime
 
 import pytest
 
-from ctrack.register.models import MeetingEvent, EventType
+from ctrack.register.models import MeetingEvent, EventType, SingleDateTimeEvent
 
 pytestmark = pytest.mark.django_db
 
@@ -39,6 +39,34 @@ def test_meeting_event(person, user):
     assert person in e.participants.all()
     assert e.user.name == uname
     assert e.created_date.day == now.day
-    assert e.created_date.hour == now.hour
     assert e.modified_date.day == now.day
-    assert e.modified_date.hour == now.hour
+
+
+def test_single_date_event(person, user):
+    """This tests for phone call, video call and email events"""
+    now = datetime.datetime.now()
+    phone_event = SingleDateTimeEvent.objects.create(
+        type_descriptor="Phone Call",
+        short_description="Important Phone Call",
+        datetime="2020-10-10T15:00",
+        comments="Comments on phone call",
+        # location is optional
+        user=user
+    )
+    phone_event.participants.add(person)
+    assert phone_event.type_descriptor == "Phone Call"
+    assert person in phone_event.participants.all()
+    assert phone_event.created_date.day == now.day
+
+    video_event = SingleDateTimeEvent.objects.create(
+        type_descriptor="Video Call",
+        short_description="Important Video Call",
+        datetime="2020-10-10T15:00",
+        comments="Comments on phone call",
+        # location is optional
+        user=user
+    )
+    video_event.participants.add(person)
+    assert video_event.type_descriptor == "Video Call"
+    assert person in video_event.participants.all()
+    assert video_event.created_date.day == now.day
