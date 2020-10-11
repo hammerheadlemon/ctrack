@@ -125,6 +125,7 @@ class SingleDateTimeEvent(EventBase, ThirdPartyEventMixin, SingleDateTimeEventMi
 class CAFSingleDateEvent(EventBase, CAFMixin, SingleDateMixin):
     AVAILABLE_TYPES = [
         (EventType.CAF_INITIAL_CAF_RECEIVED.name, "CAF - Initial CAF Received"),
+        (EventType.CAF_FEEDBACK_EMAILED_OES.name, "CAF - Emailed to OES"),
         (EventType.CAF_RECEIVED.name, "CAF - Received"),
         (EventType.CAF_EMAILED_ROSA.name, "CAF - Emailed to Rosa"),
     ]

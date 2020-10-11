@@ -62,9 +62,10 @@ def test_meeting_blank_data(user):
 @pytest.mark.parametrize(
     "allowed_type",
     [
-        ("CAF_INITIAL_CAF_RECEIVED"),
-        ("CAF_RECEIVED"),
-        ("CAF_EMAILED_ROSA"),
+        "CAF_INITIAL_CAF_RECEIVED",
+        "CAF_RECEIVED",
+        "CAF_FEEDBACK_EMAILED_OES",
+        "CAF_EMAILED_ROSA",
     ],
 )
 def test_allowable_caf_single_date_event_forms(allowed_type, user, caf):

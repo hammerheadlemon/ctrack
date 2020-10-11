@@ -12,10 +12,19 @@ from ctrack.register.models import (
 pytestmark = pytest.mark.django_db
 
 
-def test_caf_initial_caf_received(user, caf):
+@pytest.mark.parametrize(
+    "allowed_type",
+    [
+        "CAF_INITIAL_CAF_RECEIVED",
+        "CAF_FEEDBACK_EMAILED_OES",
+        "CAF_RECEIVED",
+        "CAF_EMAILED_ROSA",
+    ],
+)
+def test_caf_single_date_events(allowed_type, user, caf):
     now = datetime.datetime.now()
     e = CAFSingleDateEvent.objects.create(
-        type_descriptor="CAF_INITIAL_CAF_RECEIVED",
+        type_descriptor=allowed_type,
         related_caf=caf,
         short_description="CAF received for X Company",
         date="2020-10-10",
@@ -23,6 +32,7 @@ def test_caf_initial_caf_received(user, caf):
         user=user,
     )
     assert e.created_date.day == now.day
+    assert e.type_descriptor == allowed_type
 
 
 def test_cannot_add_two_caf_initial_caf_received_events_on_same_date(user, caf):
@@ -43,19 +53,6 @@ def test_cannot_add_two_caf_initial_caf_received_events_on_same_date(user, caf):
             comments="Nice comments for this event",
             user=user,
         )
-
-
-def test_caf_initial_caf_emailed_rosa(user, caf):
-    now = datetime.datetime.now()
-    e = CAFSingleDateEvent.objects.create(
-        type_descriptor="CAF_EMAILED_ROSA",
-        related_caf=caf,
-        short_description="CAF sent to Rosa for X Company",
-        date="2020-10-10",
-        comments="Nice comments for this event",
-        user=user,
-    )
-    assert e.created_date.day == now.day
 
 
 def test_can_email_two_caf_on_same_date(user, caf):
