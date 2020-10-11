@@ -112,6 +112,7 @@ class CAFMixin(models.Model):
 
 class SingleDateTimeEvent(EventBase, ThirdPartyEventMixin, SingleDateTimeEventMixin):
     AVAILABLE_TYPES = [
+        (EventType.MEETING.name, "Meeting"),
         (EventType.PHONE_CALL.name, "Phone Call"),
         (EventType.VIDEO_CALL.name, "Video Call"),
     ]
@@ -119,11 +120,6 @@ class SingleDateTimeEvent(EventBase, ThirdPartyEventMixin, SingleDateTimeEventMi
 
     def __str__(self):
         return self.type_descriptor
-
-
-class MeetingEvent(EventBase, ThirdPartyEventMixin, SingleDateTimeEventMixin):
-    AVAILABLE_TYPES = [(EventType.MEETING.name, "Meeting")]
-    type_descriptor = models.CharField(max_length=50, choices=AVAILABLE_TYPES)
 
 
 class CAFSingleDateEvent(EventBase, CAFMixin, SingleDateMixin):

@@ -27,6 +27,24 @@ def test_init(user):
     assert form.is_valid()
 
 
+def test_cannot_create_disallowed_single_date_event_type_with_form(user):
+    form = AddMeetingForm(
+        {
+            "type_descriptor": "NOT ALLOWED EVENT",
+            "short_description": "Test short description",
+            "datetime": "2020-10-10",
+            "comments": "Test Comments",
+        },
+        user=user,
+    )
+    assert form.is_valid() is False
+    assert form.errors == {
+        "type_descriptor": [
+            "Select a valid choice. NOT ALLOWED EVENT is not one of the available choices."
+        ]
+    }
+
+
 def test_meeting_blank_data(user):
     """Missing datetime fields is required. Location is optional"""
     form = AddMeetingForm(
@@ -49,7 +67,7 @@ def test_meeting_blank_data(user):
         ("CAF_EMAILED_ROSA"),
     ],
 )
-def test_caf_initial_received_form(allowed_type, user, caf):
+def test_allowable_caf_single_date_event_forms(allowed_type, user, caf):
     form = CAFSingleDateEventForm(
         {
             "type_descriptor": allowed_type,

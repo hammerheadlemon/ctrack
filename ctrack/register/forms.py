@@ -9,14 +9,14 @@ from ctrack.organisations.models import Person, Organisation
 from ctrack.register.models import (
     EngagementEvent,
     EngagementType,
-    MeetingEvent,
     CAFSingleDateEvent,
+    SingleDateTimeEvent,
 )
 
 
 class AddMeetingForm(forms.ModelForm):
     class Meta:
-        model = MeetingEvent
+        model = SingleDateTimeEvent
         fields = [
             "type_descriptor",
             "short_description",

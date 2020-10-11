@@ -4,7 +4,6 @@ import pytest
 from django.db import IntegrityError
 
 from ctrack.register.models import (
-    MeetingEvent,
     EventType,
     SingleDateTimeEvent,
     CAFSingleDateEvent,
@@ -115,10 +114,28 @@ def test_event_type_enum():
     )
 
 
-def test_meeting_event(person, user):
+@pytest.mark.parametrize("allowed_type", [("PHONE_CALL"), ("MEETING"), ("VIDEO_CALL")])
+def test_single_datetime_event(person, user, allowed_type):
+    """This tests for phone call, video call and email events"""
+    now = datetime.datetime.now()
+    event = SingleDateTimeEvent.objects.create(
+        type_descriptor=allowed_type,
+        short_description="Important event",
+        datetime="2020-10-10T15:00",
+        comments="Comments on important event",
+        # location is optional
+        user=user,
+    )
+    event.participants.add(person)
+    assert event.type_descriptor == allowed_type
+    assert person in event.participants.all()
+    assert event.created_date.day == now.day
+
+
+def test_meeting_event(user, person):
     uname = user.name
     now = datetime.datetime.now()
-    e = MeetingEvent.objects.create(
+    e = SingleDateTimeEvent.objects.create(
         type_descriptor="Meeting",
         short_description="Big Important Meeting",
         datetime="2020-10-10T15:00",
@@ -133,45 +150,3 @@ def test_meeting_event(person, user):
     assert e.user.name == uname
     assert e.created_date.day == now.day
     assert e.modified_date.day == now.day
-
-
-def test_single_date_event(person, user):
-    """This tests for phone call, video call and email events"""
-    now = datetime.datetime.now()
-    phone_event = SingleDateTimeEvent.objects.create(
-        type_descriptor="Phone Call",
-        short_description="Important Phone Call",
-        datetime="2020-10-10T15:00",
-        comments="Comments on phone call",
-        # location is optional
-        user=user,
-    )
-    phone_event.participants.add(person)
-    assert phone_event.type_descriptor == "Phone Call"
-    assert person in phone_event.participants.all()
-    assert phone_event.created_date.day == now.day
-
-    email = SingleDateTimeEvent.objects.create(
-        type_descriptor="Video Call",
-        short_description="Important Video Call",
-        datetime="2020-10-10T15:00",
-        comments="Comments on video call",
-        # location is optional
-        user=user,
-    )
-    email.participants.add(person)
-    assert email.type_descriptor == "Video Call"
-    assert person in email.participants.all()
-    assert email.created_date.day == now.day
-    email = SingleDateTimeEvent.objects.create(
-        type_descriptor="Email",
-        short_description="Important Email",
-        datetime="2020-10-10T15:00",
-        comments="Comments on email",
-        # location is optional
-        user=user,
-    )
-    email.participants.add(person)
-    assert email.type_descriptor == "Email"
-    assert person in email.participants.all()
-    assert email.created_date.day == now.day
