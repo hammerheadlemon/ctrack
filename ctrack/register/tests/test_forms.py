@@ -13,7 +13,7 @@ def test_init(user):
     We don't want that to be field in the form.
     """
     form = AddMeetingForm({
-        "type_descriptor": "Meeting",  # Must be Meeting as that is in the choices param
+        "type_descriptor": "MEETING",  # Must be Meeting as that is in the choices param
         "short_description": "Test short description",
         "datetime": "2010-10-10T13:00",
         "comments": "Test Comments",
@@ -24,10 +24,10 @@ def test_init(user):
     assert form.is_valid()
 
 
-def test_blank_data(user):
-    """Missing location and datetime fields which are required."""
+def test_meeting_blank_data(user):
+    """Missing datetime fields is required. Location is optional"""
     form = AddMeetingForm({
-        "type_descriptor": "Meeting",
+        "type_descriptor": "MEETING",
         "short_description": "Test short description",
         "comments": "Test Comments",
     },
@@ -35,6 +35,5 @@ def test_blank_data(user):
     )
     assert form.is_valid() is False
     assert form.errors == {
-        "location": ["This field is required."],
         "datetime": ["This field is required."]
     }

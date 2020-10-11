@@ -58,15 +58,27 @@ def test_single_date_event(person, user):
     assert person in phone_event.participants.all()
     assert phone_event.created_date.day == now.day
 
-    video_event = SingleDateTimeEvent.objects.create(
+    email = SingleDateTimeEvent.objects.create(
         type_descriptor="Video Call",
         short_description="Important Video Call",
         datetime="2020-10-10T15:00",
-        comments="Comments on phone call",
+        comments="Comments on video call",
         # location is optional
         user=user
     )
-    video_event.participants.add(person)
-    assert video_event.type_descriptor == "Video Call"
-    assert person in video_event.participants.all()
-    assert video_event.created_date.day == now.day
+    email.participants.add(person)
+    assert email.type_descriptor == "Video Call"
+    assert person in email.participants.all()
+    assert email.created_date.day == now.day
+    email = SingleDateTimeEvent.objects.create(
+        type_descriptor="Email",
+        short_description="Important Email",
+        datetime="2020-10-10T15:00",
+        comments="Comments on email",
+        # location is optional
+        user=user
+    )
+    email.participants.add(person)
+    assert email.type_descriptor == "Email"
+    assert person in email.participants.all()
+    assert email.created_date.day == now.day
