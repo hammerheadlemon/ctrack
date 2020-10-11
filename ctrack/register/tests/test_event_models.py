@@ -46,12 +46,46 @@ def test_cannot_add_two_caf_initial_caf_received_events_on_same_date(user, caf):
         )
 
 
+def test_caf_initial_caf_emailed_rosa(user, caf):
+    now = datetime.datetime.now()
+    e = CAFSingleDateEvent.objects.create(
+        type_descriptor="CAF_EMAILED_ROSA",
+        related_caf=caf,
+        short_description="CAF sent to Rosa for X Company",
+        date="2020-10-10",
+        comments="Nice comments for this event",
+        user=user,
+    )
+    assert e.created_date.day == now.day
+
+
+def test_can_email_two_caf_on_same_date(user, caf):
+    now = datetime.datetime.now()
+    e1 = CAFSingleDateEvent.objects.create(
+        type_descriptor="CAF_EMAILED_ROSA",
+        related_caf=caf,
+        short_description="CAF sent to Rosa for X Company",
+        date="2020-10-10",
+        comments="Nice comments for this event",
+        user=user,
+    )
+    e2 = CAFSingleDateEvent.objects.create(
+        type_descriptor="CAF_INITIAL_CAF_EMAILED_ROSA",
+        related_caf=caf,
+        short_description="CAF sent to Rosa for X Company",
+        date="2020-10-10",
+        comments="Nice comments for this event",
+        user=user,
+    )
+    assert e1.created_date.day == now.day
+    assert e2.created_date.day == now.day
+
+
 def test_event_type_enum():
     assert EventType.MEETING.name == "MEETING"
     assert EventType.PHONE_CALL.name == "PHONE_CALL"
     assert EventType.VIDEO_CALL.name == "VIDEO_CALL"
     assert EventType.CAF_INITIAL_CAF_RECEIVED.name == "CAF_INITIAL_CAF_RECEIVED"
-    assert EventType.CAF_INITIAL_CAF_EMAILED_ROSA.name == "CAF_INITIAL_CAF_EMAILED_ROSA"
     assert EventType.CAF_FEEDBACK_EMAILED_OES.name == "CAF_FEEDBACK_EMAILED_OES"
     assert EventType.CAF_RECEIVED.name == "CAF_RECEIVED"
     assert EventType.CAF_EMAILED_ROSA.name == "CAF_EMAILED_ROSA"

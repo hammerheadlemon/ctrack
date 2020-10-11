@@ -5,6 +5,7 @@ from typing import Optional, Dict
 
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models import Q
 
 from ctrack.caf.models import CAF
 from ctrack.organisations.models import Person
@@ -16,7 +17,6 @@ class EventType(Enum):
     PHONE_CALL = auto()
     VIDEO_CALL = auto()
     CAF_INITIAL_CAF_RECEIVED = auto()
-    CAF_INITIAL_CAF_EMAILED_ROSA = auto()
     CAF_FEEDBACK_EMAILED_OES = auto()
     CAF_RECEIVED = auto()
     CAF_EMAILED_ROSA = auto()
@@ -132,9 +132,13 @@ class CAFSingleDateEvent(EventBase, CAFMixin, SingleDateMixin):
 
     class Meta:
         constraints = [
+            # We can't do multiple CAFSingleDateEvents in a single day unless
+            # the type is declared with the Q expression.
             models.UniqueConstraint(
-                fields=["date", "type_descriptor"], name="unique_caf_for_date"
-            )
+                fields=["date", "type_descriptor"],
+                condition=~Q(type_descriptor="CAF_EMAILED_ROSA"),
+                name="unique_caf_for_date",
+            ),
         ]
 
 
