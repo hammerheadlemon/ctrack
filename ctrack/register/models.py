@@ -5,7 +5,7 @@ from typing import Optional, Dict
 
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, F
 
 from ctrack.caf.models import CAF
 from ctrack.organisations.models import Person
@@ -170,10 +170,22 @@ class CAFTwinDateEvent(EventBase, CAFMixin, TwinDateMixin):
         blank=False, max_length=50, choices=AVAILABLE_TYPES
     )
 
+    def __repr__(self):
+        return "".join(["CAFTwinDateEvent(", self.type_descriptor, ")"])
+
+    def __str__(self):
+        return f"CAFTwinDateEvent({self.type_descriptor}) starting {self.start_date}"
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                name="end_date_cannot_precede_start_date",
+                check=~Q(end_date__lt=F("start_date")),
+            )
+        ]
+
 
 # OLD CODE BELOW
-
-
 class EngagementType(models.Model):
     """
     Examples here are Phone, Email, Letter, Site visit, Meeting, Audit, Inspection, etc.

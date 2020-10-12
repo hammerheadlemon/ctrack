@@ -154,3 +154,50 @@ def test_caf_twin_date_event(user, caf):
         user=user,
     )
     assert form.is_valid()
+
+
+@pytest.mark.parametrize("allowed_type", ["CAF_PEER_REVIEW_PERIOD", "CAF_VALIDATION_PERIOD"])
+def test_cannot_create_twin_date_event_for_caf_whose_end_date_is_open(allowed_type, user, caf):
+    e1 = CAFTwinDateEventForm(
+        {
+            "type_descriptor": allowed_type,
+            "related_caf": caf,
+            "short_description": "caf peer review for x company",
+            "start_date": "2020-10-10",
+            "comments": "nice comments for this event",
+        },
+        user=user,
+    )
+    e2 = CAFTwinDateEventForm(
+        {
+            "type_descriptor": allowed_type,
+            "related_caf": caf,
+            "short_description": "caf peer review for x company",
+            "start_date": "2020-10-10",
+            "comments": "nice comments for this event",
+        },
+        user=user,
+    )
+    assert e1.is_valid()
+    e1.save()
+    assert e2.is_valid() is False
+    assert e2.errors == {
+        "start_date": ["You cannot have two CAF events starting on the same date."]
+    }
+
+
+@pytest.mark.parametrize("allowed_type", ["CAF_PEER_REVIEW_PERIOD", "CAF_VALIDATION_PERIOD"])
+def test_cannot_create_twin_date_event_where_end_date_precedes_start(allowed_type, user, caf):
+    "This one is done with a database integrity check instead of a form validation"
+    with pytest.raises(IntegrityError):
+        CAFTwinDateEventForm(
+            {
+                "type_descriptor": allowed_type,
+                "related_caf": caf,
+                "short_description": "caf peer review for x company",
+                "start_date": "2020-10-10",
+                "end_date": "2020-10-09",
+                "comments": "nice comments for this event",
+            },
+            user=user,
+        ).save()

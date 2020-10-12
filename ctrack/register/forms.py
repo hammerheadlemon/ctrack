@@ -1,6 +1,7 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Button, ButtonHolder, Layout, Submit, Hidden, Field
 from django import forms
+from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 
@@ -60,6 +61,16 @@ class CAFSingleDateEventForm(forms.ModelForm):
 
 
 class CAFTwinDateEventForm(forms.ModelForm):
+    # This constraint in the form prevents two such objects being created
+    # for the same CAF with the same start date, which does not make sense.
+    def clean_start_date(self):
+        data = self.cleaned_data["start_date"]
+        caf = self.cleaned_data["related_caf"]
+        existing_obj = CAFTwinDateEvent.objects.filter(start_date=data).filter(related_caf=caf).first()
+        if existing_obj:
+            raise ValidationError("You cannot have two CAF events starting on the same date.")
+        return data
+
     class Meta:
         model = CAFTwinDateEvent
         fields = [
