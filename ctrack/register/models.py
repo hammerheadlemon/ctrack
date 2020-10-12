@@ -136,6 +136,11 @@ class CAFSingleDateEvent(EventBase, CAFMixin, SingleDateMixin):
         (EventType.CAF_FEEDBACK_EMAILED_OES.name, "CAF - Emailed to OES"),
         (EventType.CAF_RECEIVED.name, "CAF - Received"),
         (EventType.CAF_EMAILED_ROSA.name, "CAF - Emailed to Rosa"),
+        (EventType.CAF_VALIDATION_SIGN_OFF.name, "CAF - Validation Sign Off"),
+        (
+            EventType.CAF_VALIDATION_RECORD_EMAILED_TO_OES.name,
+            "CAF - Validation Record Sent to OES",
+        ),
     ]
     type_descriptor = models.CharField(max_length=50, choices=AVAILABLE_TYPES)
 

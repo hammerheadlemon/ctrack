@@ -66,6 +66,8 @@ def test_meeting_blank_data(user):
         "CAF_RECEIVED",
         "CAF_FEEDBACK_EMAILED_OES",
         "CAF_EMAILED_ROSA",
+        "CAF_VALIDATION_SIGN_OFF",
+        "CAF_VALIDATION_RECORD_EMAILED_TO_OES",
     ],
 )
 def test_allowable_caf_single_date_event_forms(allowed_type, user, caf):
@@ -82,10 +84,14 @@ def test_allowable_caf_single_date_event_forms(allowed_type, user, caf):
     assert form.is_valid()
 
 
-def test_cannot_create_two_caf_initial_receipt_events_on_same_day(user, caf):
+@pytest.mark.parametrize(
+    "allowed_type",
+    ["CAF_INITIAL_CAF_RECEIVED", "CAF_VALIDATION_SIGN_OFF", "CAF_RECEIVED"],
+)
+def test_cannot_do_some_caf_single_date_events_on_same_day(allowed_type, user, caf):
     form1 = CAFSingleDateEventForm(
         {
-            "type_descriptor": "CAF_INITIAL_CAF_RECEIVED",
+            "type_descriptor": allowed_type,
             "related_caf": caf,
             "short_description": "Test Short Description",
             "date": "2010-07-01",
@@ -95,7 +101,7 @@ def test_cannot_create_two_caf_initial_receipt_events_on_same_day(user, caf):
     )
     form2 = CAFSingleDateEventForm(
         {
-            "type_descriptor": "CAF_INITIAL_CAF_RECEIVED",
+            "type_descriptor": allowed_type,
             "related_caf": caf,
             "short_description": "Test Short Description",
             "date": "2010-07-01",

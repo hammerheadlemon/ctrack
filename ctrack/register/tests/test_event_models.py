@@ -20,6 +20,8 @@ pytestmark = pytest.mark.django_db
         "CAF_FEEDBACK_EMAILED_OES",
         "CAF_RECEIVED",
         "CAF_EMAILED_ROSA",
+        "CAF_VALIDATION_SIGN_OFF",
+        "CAF_VALIDATION_RECORD_EMAILED_TO_OES",
     ],
 )
 def test_caf_single_date_events(allowed_type, user, caf):
@@ -54,9 +56,12 @@ def test_caf_twin_date_events(allowed_type, user, caf):
     assert e.type_descriptor == allowed_type
 
 
-def test_caf_twin_date_event_no_end_date(user, caf):
+@pytest.mark.parametrize(
+    "allowed_type", ["CAF_PEER_REVIEW_PERIOD", "CAF_VALIDATION_PERIOD"]
+)
+def test_caf_twin_date_event_no_end_date(allowed_type, user, caf):
     e = CAFTwinDateEvent.objects.create(
-        type_descriptor="CAF_PEER_REVIEW_PERIOD",
+        type_descriptor=allowed_type,
         related_caf=caf,
         short_description="CAF received for X Company",
         start_date="2020-10-10",
@@ -66,10 +71,13 @@ def test_caf_twin_date_event_no_end_date(user, caf):
     assert e.end_date is None
 
 
-def test_caf_twin_date_event_no_start_date_not_allowed(user, caf):
+@pytest.mark.parametrize(
+    "allowed_type", ["CAF_PEER_REVIEW_PERIOD", "CAF_VALIDATION_PERIOD"]
+)
+def test_caf_twin_date_event_no_start_date_not_allowed(allowed_type, user, caf):
     with pytest.raises(IntegrityError):
         CAFTwinDateEvent.objects.create(
-            type_descriptor="CAF_PEER_REVIEW_PERIOD",
+            type_descriptor=allowed_type,
             related_caf=caf,
             short_description="CAF received for X Company",
             end_date="2020-10-10",
