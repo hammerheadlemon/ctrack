@@ -6,7 +6,7 @@ from django.views.generic import FormView, DeleteView
 
 from ctrack.caf.models import CAF
 from ctrack.organisations.models import Organisation
-from ctrack.register.forms import EngagementEventCreateForm
+from ctrack.register.forms import EngagementEventCreateForm, AddMeetingForm
 from ctrack.register.models import EngagementEvent
 
 
@@ -70,3 +70,14 @@ class EngagementEventCreateFromCaf(LoginRequiredMixin, FormView):
     def get_success_url(self):
         org_slug = CAF.objects.get(pk=self.kwargs["caf_id"]).organisation.slug
         return reverse_lazy("organisations:detail", args=[org_slug])
+
+
+class SingleDateTimeEventCreate(LoginRequiredMixin, FormView):
+    template_name = "single_datetime_event_create.html"
+    form_class = AddMeetingForm
+    success_url = "/"
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs

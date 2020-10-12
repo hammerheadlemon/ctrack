@@ -1,6 +1,7 @@
 from django.urls import path
 
-from ctrack.register.views import EngagementEventCreate, EngagementEventDelete, EngagementEventCreateFromCaf
+from ctrack.register.views import EngagementEventCreate, EngagementEventDelete, EngagementEventCreateFromCaf, \
+    SingleDateTimeEventCreate
 
 app_name = "register"
 
@@ -13,5 +14,8 @@ urlpatterns = [
     ),
     path(
         "engagement-event/create/from-caf/<int:caf_id>", view=EngagementEventCreateFromCaf.as_view(), name="create_from_caf"
+    ),
+    path(
+        "event/create-single-datetime", view=SingleDateTimeEventCreate.as_view(), name="event_create_singledatetime"
     )
 ]
