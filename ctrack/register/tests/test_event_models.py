@@ -162,7 +162,7 @@ def test_event_type_enum():
     )
 
 
-@pytest.mark.parametrize("allowed_type", [("PHONE_CALL"), ("MEETING"), ("VIDEO_CALL")])
+@pytest.mark.parametrize("allowed_type", ["PHONE_CALL", "MEETING", "VIDEO_CALL"])
 def test_single_datetime_event(person, user, allowed_type):
     """This tests for phone call, video call and email events"""
     now = datetime.datetime.now()
@@ -180,15 +180,18 @@ def test_single_datetime_event(person, user, allowed_type):
     assert event.created_date.day == now.day
 
 
-def test_cannot_create_twin_date_event_model_end_date_precedes_start(user, caf):
+@pytest.mark.parametrize(
+    "allowed_type", ["CAF_PEER_REVIEW_PERIOD", "CAF_VALIDATION_PERIOD", "VIDEO_CALL"]
+)
+def test_cannot_create_twin_date_event_model_end_date_precedes_start(allowed_type, user, caf):
     with pytest.raises(IntegrityError):
         CAFTwinDateEvent.objects.create(
-            type_descriptor="CAF_PEER_REVIEW_PERIOD",
+            type_descriptor=allowed_type,
             related_caf=caf,
             start_date="2010-10-10",
             end_date="2010-01-01",
             short_description="Bobbins",
-            user=user
+            user=user,
         )
 
 
