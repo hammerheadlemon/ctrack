@@ -180,6 +180,18 @@ def test_single_datetime_event(person, user, allowed_type):
     assert event.created_date.day == now.day
 
 
+def test_cannot_create_twin_date_event_model_end_date_precedes_start(user, caf):
+    with pytest.raises(IntegrityError):
+        CAFTwinDateEvent.objects.create(
+            type_descriptor="CAF_PEER_REVIEW_PERIOD",
+            related_caf=caf,
+            start_date="2010-10-10",
+            end_date="2010-01-01",
+            short_description="Bobbins",
+            user=user
+        )
+
+
 def test_meeting_event(user, person):
     uname = user.name
     now = datetime.datetime.now()

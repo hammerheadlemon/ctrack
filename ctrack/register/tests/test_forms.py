@@ -20,7 +20,7 @@ def test_init(user):
             "short_description": "Test short description",
             "datetime": "2010-10-10T13:00",
             "comments": "Test Comments",
-            "location": "Transient Moabs",
+            "location": "Transient Moats",
         },
         user=user,
     )
@@ -188,7 +188,7 @@ def test_cannot_create_twin_date_event_for_caf_whose_end_date_is_open(allowed_ty
 
 @pytest.mark.parametrize("allowed_type", ["CAF_PEER_REVIEW_PERIOD", "CAF_VALIDATION_PERIOD"])
 def test_cannot_create_twin_date_event_where_end_date_precedes_start(allowed_type, user, caf):
-    "This one is done with a database integrity check instead of a form validation"
+    """This one is done with a database integrity check instead of a form validation"""
     with pytest.raises(IntegrityError):
         CAFTwinDateEventForm(
             {

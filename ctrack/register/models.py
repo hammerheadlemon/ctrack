@@ -5,7 +5,7 @@ from typing import Optional, Dict
 
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.db.models import Q, F
+from django.db.models import F
 
 from ctrack.caf.models import CAF
 from ctrack.organisations.models import Person
@@ -155,7 +155,7 @@ class CAFSingleDateEvent(EventBase, CAFMixin, SingleDateMixin):
             # the type is declared with the Q expression.
             models.UniqueConstraint(
                 fields=["date", "type_descriptor"],
-                condition=~Q(type_descriptor="CAF_EMAILED_ROSA"),
+                condition=~models.Q(type_descriptor="CAF_EMAILED_ROSA"),
                 name="unique_caf_for_date",
             ),
         ]
@@ -179,11 +179,10 @@ class CAFTwinDateEvent(EventBase, CAFMixin, TwinDateMixin):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                name="end_date_cannot_precede_start_date",
-                check=~Q(end_date__lt=F("start_date")),
+                name="%(app_label)s_%(class)s_cannot_precede_start_date",
+                check=~models.Q(end_date__lt=F("start_date")),
             )
         ]
-
 
 # OLD CODE BELOW
 class EngagementType(models.Model):
