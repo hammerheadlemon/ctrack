@@ -1,7 +1,7 @@
 import pytest
 from django.db import IntegrityError
 
-from ..forms import AddMeetingForm, CAFSingleDateEventForm
+from ..forms import AddMeetingForm, CAFSingleDateEventForm, CAFTwinDateEventForm
 
 pytestmark = pytest.mark.django_db
 
@@ -139,3 +139,18 @@ def test_can_register_two_send_to_rosa_events_on_same_day(user, caf):
     )
     assert form1.is_valid()
     assert form2.is_valid()
+
+
+def test_caf_twin_date_event(user, caf):
+    form = CAFTwinDateEventForm(
+        {
+            "type_descriptor": "CAF_PEER_REVIEW_PERIOD",
+            "related_caf": caf,
+            "short_description": "Test Description",
+            "start_date": "2009-10-01",
+            "end_date": "2015-10-1",
+            "comments": "Meaningless comments",
+        },
+        user=user,
+    )
+    assert form.is_valid()

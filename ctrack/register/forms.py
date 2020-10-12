@@ -11,6 +11,7 @@ from ctrack.register.models import (
     EngagementType,
     CAFSingleDateEvent,
     SingleDateTimeEvent,
+    CAFTwinDateEvent,
 )
 
 
@@ -44,6 +45,29 @@ class CAFSingleDateEventForm(forms.ModelForm):
             "related_caf",
             "short_description",
             "date",
+            "comments",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop("user")
+        super().__init__(*args, **kwargs)
+
+    def save(self, **kwargs):
+        form = super().save(commit=False)
+        form.user = self.user
+        form.save()
+        return form
+
+
+class CAFTwinDateEventForm(forms.ModelForm):
+    class Meta:
+        model = CAFTwinDateEvent
+        fields = [
+            "type_descriptor",
+            "related_caf",
+            "short_description",
+            "start_date",
+            "end_date",
             "comments",
         ]
 

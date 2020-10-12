@@ -45,7 +45,7 @@ def _day_string(days: int) -> str:
 
 
 class AuditableEventBase(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
     created_date = models.DateTimeField()
     modified_date = models.DateTimeField()
 
@@ -66,6 +66,7 @@ class EventBase(AuditableEventBase):
     short_description = models.CharField(
         max_length=50,
         help_text="Short description of the event. Use Comments field for full detail.",
+        blank=False,
     )
     document_link = models.URLField(
         max_length=1000,
@@ -93,14 +94,14 @@ class ThirdPartyEventMixin(models.Model):
 
 
 class SingleDateTimeEventMixin(models.Model):
-    datetime = models.DateTimeField()
+    datetime = models.DateTimeField(blank=False)
 
     class Meta:
         abstract = True
 
 
 class SingleDateMixin(models.Model):
-    date = models.DateField()
+    date = models.DateField(blank=False)
 
     class Meta:
         abstract = True
@@ -115,7 +116,7 @@ class TwinDateMixin(models.Model):
 
 
 class CAFMixin(models.Model):
-    related_caf = models.ForeignKey(CAF, on_delete=models.CASCADE)
+    related_caf = models.ForeignKey(CAF, on_delete=models.CASCADE, blank=False)
 
 
 class SingleDateTimeEvent(EventBase, ThirdPartyEventMixin, SingleDateTimeEventMixin):
@@ -124,7 +125,9 @@ class SingleDateTimeEvent(EventBase, ThirdPartyEventMixin, SingleDateTimeEventMi
         (EventType.PHONE_CALL.name, "Phone Call"),
         (EventType.VIDEO_CALL.name, "Video Call"),
     ]
-    type_descriptor = models.CharField(max_length=50, choices=AVAILABLE_TYPES)
+    type_descriptor = models.CharField(
+        blank=False, max_length=50, choices=AVAILABLE_TYPES
+    )
 
     def __str__(self):
         return self.type_descriptor
@@ -142,7 +145,9 @@ class CAFSingleDateEvent(EventBase, CAFMixin, SingleDateMixin):
             "CAF - Validation Record Sent to OES",
         ),
     ]
-    type_descriptor = models.CharField(max_length=50, choices=AVAILABLE_TYPES)
+    type_descriptor = models.CharField(
+        blank=False, max_length=50, choices=AVAILABLE_TYPES
+    )
 
     class Meta:
         constraints = [
@@ -161,7 +166,9 @@ class CAFTwinDateEvent(EventBase, CAFMixin, TwinDateMixin):
         (EventType.CAF_PEER_REVIEW_PERIOD.name, "CAF - Peer Review Period"),
         (EventType.CAF_VALIDATION_PERIOD.name, "CAF - Validation Period"),
     ]
-    type_descriptor = models.CharField(max_length=50, choices=AVAILABLE_TYPES)
+    type_descriptor = models.CharField(
+        blank=False, max_length=50, choices=AVAILABLE_TYPES
+    )
 
 
 # OLD CODE BELOW
