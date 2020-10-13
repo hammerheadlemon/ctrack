@@ -75,7 +75,7 @@ class EngagementEventCreateFromCaf(LoginRequiredMixin, FormView):
 class SingleDateTimeEventCreate(LoginRequiredMixin, FormView):
     template_name = "single_datetime_event_create.html"
     form_class = AddMeetingForm
-    success_url = "/"
+    success_url = reverse_lazy("organisations:list")
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
