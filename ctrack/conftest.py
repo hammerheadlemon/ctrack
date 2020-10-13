@@ -3,7 +3,7 @@ import os
 import pytest
 from django.contrib.auth.models import Group, Permission
 from django.db.models import Q
-from django.test import RequestFactory
+from django.test import RequestFactory, Client
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 
@@ -173,3 +173,10 @@ def browser(request):
     browser_ = webdriver.Firefox(firefox_options=options)
     yield browser_
     browser_.quit()
+
+
+@pytest.fixture
+def client(user):
+    client = Client()
+    client.force_login(user)
+    return client

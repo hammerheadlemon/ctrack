@@ -26,8 +26,8 @@ urlpatterns = [
         name="create_from_caf",
     ),
     path(
-        "event/create-single-datetime",
+        "event/create-simple-event",
         view=SingleDateTimeEventCreate.as_view(),
-        name="event_create_singledatetime",
+        name="event_create_simple_event",
     ),
 ]

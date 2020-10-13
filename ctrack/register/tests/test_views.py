@@ -1,18 +1,15 @@
 import pytest
-from django.test import Client
 from django.urls import reverse
 
 from ctrack.register.views import SingleDateTimeEventCreate
-from ctrack.users.models import User
 
 pytestmark = pytest.mark.django_db
 
 
 class TestMeetingEventFormView:
-    def test_add_meeting_form(self, user):
-        client = Client()
-        client.force_login(user)
-        url = reverse("register:event_create_singledatetime")
+
+    def test_add_meeting_form(self, client):
+        url = reverse("register:event_create_simple_event")
         response = client.get(url)
         assert response.status_code == 200
 
@@ -32,7 +29,7 @@ class TestMeetingEventFormView:
 
     def test_user_passed_as_kwarg(self, user, request_factory):
         view = SingleDateTimeEventCreate()
-        request = request_factory.get("/register/event/create-single-datetime/")
+        request = request_factory.get("/register/event/create-simple-event/")
         request.user = user
         view.request = request
         view.setup(request)

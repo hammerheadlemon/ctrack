@@ -94,7 +94,7 @@ class ThirdPartyEventMixin(models.Model):
 
 
 class SingleDateTimeEventMixin(models.Model):
-    datetime = models.DateTimeField(blank=False)
+    datetime = models.DateTimeField(blank=False, verbose_name="Date/Time")
 
     class Meta:
         abstract = True

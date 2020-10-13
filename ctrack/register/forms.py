@@ -66,9 +66,15 @@ class CAFTwinDateEventForm(forms.ModelForm):
     def clean_start_date(self):
         data = self.cleaned_data["start_date"]
         caf = self.cleaned_data["related_caf"]
-        existing_obj = CAFTwinDateEvent.objects.filter(start_date=data).filter(related_caf=caf).first()
+        existing_obj = (
+            CAFTwinDateEvent.objects.filter(start_date=data)
+            .filter(related_caf=caf)
+            .first()
+        )
         if existing_obj:
-            raise ValidationError("You cannot have two CAF events starting on the same date.")
+            raise ValidationError(
+                "You cannot have two CAF events starting on the same date."
+            )
         return data
 
     class Meta:

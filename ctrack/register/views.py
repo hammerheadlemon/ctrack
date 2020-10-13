@@ -2,12 +2,12 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import FormView, DeleteView
+from django.views.generic import FormView, DeleteView, CreateView
 
 from ctrack.caf.models import CAF
 from ctrack.organisations.models import Organisation
 from ctrack.register.forms import EngagementEventCreateForm, AddMeetingForm
-from ctrack.register.models import EngagementEvent
+from ctrack.register.models import EngagementEvent, SingleDateTimeEvent
 
 
 class EngagementEventDelete(DeleteView):
@@ -81,3 +81,7 @@ class SingleDateTimeEventCreate(LoginRequiredMixin, FormView):
         kwargs = super().get_form_kwargs()
         kwargs["user"] = self.request.user
         return kwargs
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
