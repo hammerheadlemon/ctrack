@@ -1,7 +1,7 @@
 import pytest
 from django.db import IntegrityError
 
-from ..forms import AddMeetingForm, CAFSingleDateEventForm, CAFTwinDateEventForm
+from ..forms import CreateSimpleDateTimeEventForm, CAFSingleDateEventForm, CAFTwinDateEventForm
 
 pytestmark = pytest.mark.django_db
 
@@ -14,7 +14,7 @@ def test_init(user):
     """Here we test that we can pass in the user value from the view.
     We don't want that to be field in the form.
     """
-    form = AddMeetingForm(
+    form = CreateSimpleDateTimeEventForm(
         {
             "type_descriptor": "MEETING",  # Must be Meeting as that is in the choices param
             "short_description": "Test short description",
@@ -28,7 +28,7 @@ def test_init(user):
 
 
 def test_cannot_create_disallowed_single_date_event_type_with_form(user):
-    form = AddMeetingForm(
+    form = CreateSimpleDateTimeEventForm(
         {
             "type_descriptor": "NOT ALLOWED EVENT",
             "short_description": "Test short description",
@@ -45,9 +45,38 @@ def test_cannot_create_disallowed_single_date_event_type_with_form(user):
     }
 
 
+def test_create_simple_datetime_event(user):
+    form = CreateSimpleDateTimeEventForm(
+        {
+            "type_descriptor": "PHONE_CALL",
+            "short_description": "Test Short Description",
+            "datetime": "2010-10-10 10:00",
+            "requested_response_date": "2020-12-24",
+            "response_received_date": "2020-12-25",
+            "comments": "Test Comments not needed"
+        }, user=user,
+    )
+    assert form.is_valid()
+
+
+def test_response_date_cannot_be_before_date(user):
+    form = CreateSimpleDateTimeEventForm(
+        {
+            "type_descriptor": "PHONE_CALL",
+            "short_description": "Test Short Description",
+            "datetime": "2010-10-10 10:00",
+            "requested_response_date": "2009-12-24",
+            "response_received_date": None,
+            "comments": "Test Comments not needed"
+        }, user=user,
+    )
+    assert not form.is_valid()
+    assert form.errors == {"__all__": ["Requested response cannot be before date."]}
+
+
 def test_meeting_blank_data(user):
     """Missing datetime fields is required. Location is optional"""
-    form = AddMeetingForm(
+    form = CreateSimpleDateTimeEventForm(
         {
             "type_descriptor": "MEETING",
             "short_description": "Test short description",

@@ -1,0 +1,16 @@
+{% extends  "base.html" %}
+
+{% block title %}
+  Create a new event (Meeting, Phone call, Email)
+{% endblock %}
+
+
+{% block content %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-8">
+        {% block form %}{% endblock form %}
+      </div>
+    </div>
+  </div>
+{% endblock content %}

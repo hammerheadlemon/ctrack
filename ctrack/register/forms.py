@@ -16,13 +16,15 @@ from ctrack.register.models import (
 )
 
 
-class AddMeetingForm(forms.ModelForm):
+class CreateSimpleDateTimeEventForm(forms.ModelForm):
     class Meta:
         model = SingleDateTimeEvent
         fields = [
             "type_descriptor",
             "short_description",
             "datetime",
+            "requested_response_date",
+            "response_received_date",
             "comments",
             "location",
         ]
@@ -30,6 +32,17 @@ class AddMeetingForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        date = cleaned_data.get("datetime")
+        if not date:
+            return cleaned_data
+        # WOOO - walrus operator
+        if requested := cleaned_data.get("requested_response_date"):
+            if requested < date.date():
+                raise ValidationError("Requested response cannot be before date.")
+        return cleaned_data
 
     def save(self, **kwargs):
         form = super().save(commit=False)
@@ -68,8 +81,8 @@ class CAFTwinDateEventForm(forms.ModelForm):
         caf = self.cleaned_data["related_caf"]
         existing_obj = (
             CAFTwinDateEvent.objects.filter(start_date=data)
-            .filter(related_caf=caf)
-            .first()
+                .filter(related_caf=caf)
+                .first()
         )
         if existing_obj:
             raise ValidationError(

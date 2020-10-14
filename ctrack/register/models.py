@@ -16,6 +16,7 @@ class EventType(Enum):
     MEETING = auto()
     PHONE_CALL = auto()
     VIDEO_CALL = auto()
+    EMAIL = auto()
     # single date caf events
     CAF_INITIAL_CAF_RECEIVED = auto()
     CAF_FEEDBACK_EMAILED_OES = auto()
@@ -118,12 +119,24 @@ class TwinDateMixin(models.Model):
 class CAFMixin(models.Model):
     related_caf = models.ForeignKey(CAF, on_delete=models.CASCADE, blank=False)
 
+    class Meta:
+        abstract = True
 
-class SingleDateTimeEvent(EventBase, ThirdPartyEventMixin, SingleDateTimeEventMixin):
+
+class ResponseRequiredMixin(models.Model):
+    requested_response_date = models.DateField(blank=True, null=True, help_text="DD/MM/YY format")
+    response_received_date = models.DateField(blank=True, null=True, help_text="DD/MM/YY format")
+
+    class Meta:
+        abstract = True
+
+
+class SingleDateTimeEvent(EventBase, ResponseRequiredMixin, ThirdPartyEventMixin, SingleDateTimeEventMixin):
     AVAILABLE_TYPES = [
         (EventType.MEETING.name, "Meeting"),
         (EventType.PHONE_CALL.name, "Phone Call"),
         (EventType.VIDEO_CALL.name, "Video Call"),
+        (EventType.EMAIL.name, "Email")
     ]
     type_descriptor = models.CharField(
         blank=False, max_length=50, choices=AVAILABLE_TYPES
@@ -183,6 +196,7 @@ class CAFTwinDateEvent(EventBase, CAFMixin, TwinDateMixin):
                 check=~models.Q(end_date__lt=F("start_date")),
             )
         ]
+
 
 # OLD CODE BELOW
 class EngagementType(models.Model):

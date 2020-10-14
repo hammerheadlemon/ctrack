@@ -6,7 +6,7 @@ from django.views.generic import FormView, DeleteView, CreateView
 
 from ctrack.caf.models import CAF
 from ctrack.organisations.models import Organisation
-from ctrack.register.forms import EngagementEventCreateForm, AddMeetingForm
+from ctrack.register.forms import EngagementEventCreateForm, CreateSimpleDateTimeEventForm
 from ctrack.register.models import EngagementEvent, SingleDateTimeEvent
 
 
@@ -48,7 +48,7 @@ class EngagementEventCreate(LoginRequiredMixin, FormView):
 class EngagementEventCreateFromCaf(LoginRequiredMixin, FormView):
     fields = "__all__"
     form_class = EngagementEventCreateForm
-    template_name = "register/engagementevent_form.html"
+    template_name = "snippets/event_form_base.html"
 
     def form_valid(self, form):
         ee = form.save(commit=False)
@@ -74,7 +74,7 @@ class EngagementEventCreateFromCaf(LoginRequiredMixin, FormView):
 
 class SingleDateTimeEventCreate(LoginRequiredMixin, FormView):
     template_name = "single_datetime_event_create.html"
-    form_class = AddMeetingForm
+    form_class = CreateSimpleDateTimeEventForm
     success_url = reverse_lazy("organisations:list")
 
     def get_form_kwargs(self):

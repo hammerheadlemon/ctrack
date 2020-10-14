@@ -1,24 +1,13 @@
-{% extends  "base.html" %}
+{% extends  "snippets/event_form_base.html" %}
 
 {% load static %}
 {% load crispy_forms_tags %}
 
-{% block title %}
-  Create a new event (Meeting, Phone call, Email)
-{% endblock %}
-
-
-{% block content %}
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-8">
-        <h3 class="mt-2">Create a new Simple Event</h3>
-        <form method="post">
-          {% csrf_token %}
-            {{ form|crispy}}
-          <button type="submit" class="btn btn-success">Submit</button>
-        </form>
-      </div>
-    </div>
-  </div>
-{% endblock content%}
+{% block form %}
+  <h3 class="mt-2">Create a new Simple Event (Meeting, Phone call, Email)</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
+{% endblock form %}

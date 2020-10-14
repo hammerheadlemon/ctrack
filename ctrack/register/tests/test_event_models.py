@@ -149,6 +149,7 @@ def test_event_type_enum():
     assert EventType.MEETING.name == "MEETING"
     assert EventType.PHONE_CALL.name == "PHONE_CALL"
     assert EventType.VIDEO_CALL.name == "VIDEO_CALL"
+    assert EventType.EMAIL.name == "EMAIL"
     assert EventType.CAF_INITIAL_CAF_RECEIVED.name == "CAF_INITIAL_CAF_RECEIVED"
     assert EventType.CAF_FEEDBACK_EMAILED_OES.name == "CAF_FEEDBACK_EMAILED_OES"
     assert EventType.CAF_RECEIVED.name == "CAF_RECEIVED"
@@ -162,13 +163,15 @@ def test_event_type_enum():
     )
 
 
-@pytest.mark.parametrize("allowed_type", ["PHONE_CALL", "MEETING", "VIDEO_CALL"])
+@pytest.mark.parametrize("allowed_type", ["PHONE_CALL", "MEETING", "VIDEO_CALL", "EMAIL"])
 def test_single_datetime_event(person, user, allowed_type):
     """This tests for phone call, video call and email events"""
     now = datetime.datetime.now()
     event = SingleDateTimeEvent.objects.create(
         type_descriptor=allowed_type,
         short_description="Important event",
+        requested_response_date="2021-01-24",
+        response_received_date=None,
         datetime="2020-10-10T15:00",
         comments="Comments on important event",
         # location is optional
