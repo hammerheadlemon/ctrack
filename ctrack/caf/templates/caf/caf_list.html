@@ -17,7 +17,7 @@
         <thead>
         <tr>
           <th>Organisation</th>
-          <th>Link</th>
+          <th>CAF</th>
           <th>Sub Mode</th>
           <th>Applicable Systems</th>
         </tr>
@@ -26,7 +26,7 @@
           <tr>
             <td><a href="{% url "organisations:detail" slug=caf.organisation.slug %}">{{ caf.organisation }}</a>
             </td>
-            <td><a href="{% url 'caf:detail' pk=caf.pk %}">{{ caf.version }}</a></td>
+            <td><a href="{% url 'caf:detail' pk=caf.pk %}">{{ caf }}</a></td>
             <td>{{ caf.sub_mode }}</td>
             <td>
               <ul>

@@ -31,32 +31,13 @@ def caf_detail_view(request, pk):
     for ass in assessments:
         lst_scores = [ass, CAFAssessmentOutcomeScore.objects.filter(caf_assessment=ass)]
         _scrs.append(lst_scores)
-    events_related_to_caf = caf.get_events()
-    single_date_events = []
-    twin_date_events = []
-    for event in events_related_to_caf:
-        if event.type.single_date_type:
-            single_date_events.append(event)
-        else:
-            twin_date_events.append(event)
-    if single_date_events:
-        sde = True
-    else:
-        sde = False
-
-    if twin_date_events:
-        tde = True
-    else:
-        tde = False
     context = {
         "object": caf,
         "assessments_and_scores": _scrs,
         "organisation": caf.organisation,
         "systems": caf.systems.all(),
-        "single_date_events": single_date_events,
-        "sde": sde,
-        "tde": tde,
-        "twin_date_events": twin_date_events
+        "single_date_events": caf.cafsingledateevent_set.all(),
+        "twin_date_events": caf.caftwindateevent_set.all(),
     }
     return render(request, "caf/caf_detail.html", context)
 
