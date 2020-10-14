@@ -87,7 +87,7 @@ class EventBase(AuditableEventBase):
 
 
 class ThirdPartyEventMixin(models.Model):
-    participants = models.ManyToManyField(Person, null=True, blank=True)
+    participants = models.ManyToManyField(Person, blank=True)
     location = models.CharField(max_length=100, blank=True)
 
     class Meta:
