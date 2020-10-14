@@ -22,6 +22,15 @@ class UserFactory(DjangoModelFactory):
         ).generate(extra_kwargs={})
         self.set_password(password)
 
+    @post_generation
+    def groups(self, create, extracted, **kwargs):
+        """We need to allow this user to have groups added to it for permissions."""
+        if not create:
+            return
+        if extracted:
+            for group in extracted:
+                self.groups.add(group)
+
     class Meta:
         model = get_user_model()
         django_get_or_create = ["username"]

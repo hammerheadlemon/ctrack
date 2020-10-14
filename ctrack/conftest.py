@@ -110,6 +110,13 @@ def user() -> User:
 
 
 @pytest.fixture
+def cct_user(cct_user_group) -> User:
+    # For testing views which require redirects to permission-controlled
+    # pages, we have to ensure our test user is has the requisite permissions here
+    return UserFactory(groups=[cct_user_group])
+
+
+@pytest.fixture
 def person(user, submode, org_with_people):
     org = org_with_people
     role = RoleFactory.create(name="Compliance Inspector")

@@ -11,9 +11,10 @@ pytestmark = pytest.mark.django_db
 
 
 class TestSingleDateTimeEvent:
+    url = reverse("register:event_create_simple_event")
+
     def test_add_single_datetime_event_form(self, client):
-        url = reverse("register:event_create_simple_event")
-        response = client.get(url)
+        response = client.get(self.url)
         assert response.status_code == 200
 
         form = response.context_data["form"]
@@ -30,14 +31,16 @@ class TestSingleDateTimeEvent:
         # We're keeping the use field out of the form
         assert "user" not in form.fields
 
-    @pytest.mark.parametrize("bad_date,expected_error", [
-        ("NOT A DATE", "Enter a valid date/time."),
-        ("202002-10-12", "Enter a valid date/time."),
-        ("32 May 2020", "Enter a valid date/time."),
-        ("May 2020", "Enter a valid date/time.")
-    ])
-    def test_bad_date(self, bad_date, expected_error, client):
-        url = reverse("register:event_create_simple_event")
+    @pytest.mark.parametrize(
+        "bad_date,expected_error",
+        [
+            ("NOT A DATE", "Enter a valid date/time."),
+            ("202002-10-12", "Enter a valid date/time."),
+            ("32 May 2020", "Enter a valid date/time."),
+            ("May 2020", "Enter a valid date/time."),
+        ],
+    )
+    def test_bad_date(self, bad_date, cct_user, expected_error, client):
         data = {
             "type_descriptor": "MEETING",
             "short_description": "Test Short Description",
@@ -45,10 +48,29 @@ class TestSingleDateTimeEvent:
             "comments": "Blah...",
             "location": "The Moon",
         }
-        response = client.post(url, data)
+        # we need to use the cct_user fixture here who has permissions
+        # on the redirect page
+        client.force_login(cct_user)
+        response = client.post(self.url, data)
         assert response.status_code == 200
         html = response.content.decode("utf-8")
         test_case.assertIn(expected_error, html)
+
+    @pytest.mark.parametrize("good_date", ["2010-10-10"])
+    def test_good_date(self, good_date, cct_user, client):
+        data = {
+            "type_descriptor": "PHONE_CALL",
+            "short_description": "Test Short Description",
+            "datetime": good_date,
+            "comments": "Blah...",
+            "location": "The Moon",
+        }
+        client.force_login(cct_user)
+        response = client.post(self.url, data, follow=True)
+        test_case.assertRedirects(
+            response,
+            reverse("organisations:list"),
+        )
 
     @pytest.mark.parametrize(
         "bad_type,expected_error",
@@ -66,7 +88,6 @@ class TestSingleDateTimeEvent:
     def test_add_incorrect_form_data_single_datetime(
         self, bad_type, expected_error, client
     ):
-        url = reverse("register:event_create_simple_event")
         data = {
             "type_descriptor": bad_type,
             "short_description": "Test Short Description",
@@ -74,7 +95,7 @@ class TestSingleDateTimeEvent:
             "comments": "Blah...",
             "location": "The Moon",
         }
-        response = client.post(url, data)
+        response = client.post(self.url, data)
         assert response.status_code == 200
         html = response.content.decode("utf-8")
         test_case.assertIn(expected_error, html)
@@ -90,6 +111,6 @@ class TestSingleDateTimeEvent:
 
 class TestSingleDateCAFEventViews:
     def test_initial_caf_received(self, client):
-        url = reverse("register:event_create_caf_single_date_event")
+        url = reverse("register:event_create_simple_event")
         response = client.get(url)
         assert response.status_code == 200
