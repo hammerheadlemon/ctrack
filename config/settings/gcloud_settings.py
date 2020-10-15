@@ -199,6 +199,20 @@ if os.getenv('GAE_APPLICATION', None):
             'NAME': 'ctrack',
         }
     }
+elif os.getenv("LOCAL_CLOUD_PROXY", None):
+    # Running Cloud Proxy Locally. Make sure it's running separately.
+    # This allows for us to drop and create the database, update migrations, etc.
+    # Normal development happens with SQLite as described below.
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'HOST': '127.0.0.1',
+            'USER': 'ctrack',
+            'PORT': '3306',
+            'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+            'NAME': 'ctrack',
+        }
+    }
 else:
     # Running locally so connect to either a local MySQL instance or connect to
     # Cloud SQL via the proxy. To start the proxy via command line:
