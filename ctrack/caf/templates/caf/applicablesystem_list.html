@@ -1,53 +1,63 @@
 {% extends "base.html" %}
-
 {% load static %}
 
 {% block title %}Systems in Scope{% endblock %}
+
 {% block content %}
 
-  <script>$(document).ready(function() {
-    $('#datatable').DataTable();
-    } );
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script type="application/javascript">
+    $(document).ready(function () {
+      $('#datatable').DataTable({
+        ordering: true,
+        searching: true,
+        buttons: true,
+        dom: 'B<"clear">lfrtip',
+        paging: false,
+      });
+    });
   </script>
 
-<div class="col-md-12">
-    <div class="row">
-        <div class="col-sm-12">
-            <h3>Systems in Scope</h3>
-            <table id="datatable" class="table table-striped table-bordered compact cell-border" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Organisation</th>
-                        <th>System</th>
-                        <th>CAFs</th>
-                        <th>Sub Mode</th>
-                        <th class="tabaligncenter">Confidence Grade</th>
-                        <th>Triage Review Date</th>
-                        <th>Review Inspector</th>
-                        <th>POC</th>
-                    </tr>
-                </thead>
-                {% for sys in object_list %}
-                <tr>
-                    <td><a href="{% url "organisations:detail" slug=sys.get_organisation.slug %}">{{ sys.get_organisation.name }}</a></td>
-                    <td><a href="{% url "caf:ass_detail" sys.pk %}">{{ sys.name }}</a></td>
-                    <td>
-                        <ul>
-                            {% for c in sys.caf_set.all %}
-                            <li><a href="{% url "caf:detail" c.pk %}">{{ c }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </td>
-                    <td>{{ sys.get_organisation.submode }}</td>
-                    <td>hello!</td>
-                    <td>hello</td>
-                    <td>hello</td>
-                    <td>hello</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
+  <div class="col-12 m-2">
+    <h3>Systems in Scope</h3> <span><a href="#">[Create new...]</a></span>
+    <div class="row justify-content-center">
+      <div class="col-md-12 my-2">
+        <table id="datatable" class="table table-bordered" style="width:100%">
+          <thead>
+          <tr>
+            <th>Organisation</th>
+            <th>System</th>
+            <th>CAFs</th>
+            <th>Sub Mode</th>
+            <th class="tabaligncenter">Confidence Grade</th>
+            <th>Triage Review Date</th>
+            <th>Review Inspector</th>
+            <th>POC</th>
+          </tr>
+          </thead>
+          {% for sys in object_list %}
+            <tr>
+              <td>
+                <a href="{% url "organisations:detail" slug=sys.get_organisation.slug %}">{{ sys.get_organisation.name }}</a>
+              </td>
+              <td><a href="{% url "caf:ass_detail" sys.pk %}">{{ sys.name }}</a></td>
+              <td>
+                <ul>
+                  {% for c in sys.caf_set.all %}
+                    <li><a href="{% url "caf:detail" c.pk %}">{{ c }}</a></li>
+                  {% endfor %}
+                </ul>
+              </td>
+              <td>{{ sys.get_organisation.submode }}</td>
+              <td>hello!</td>
+              <td>hello</td>
+              <td>hello</td>
+              <td>hello</td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
     </div>
-</div>
+  </div>
 
 {% endblock content %}
