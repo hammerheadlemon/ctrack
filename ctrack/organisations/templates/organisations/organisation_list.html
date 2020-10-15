@@ -40,7 +40,7 @@
                 {% if org.primary_contacts %}
                   <ul style="list-style-type:none; float:left; padding: 0">
                     {% for p in org.primary_contacts %}
-                      <li>{{ p }} | {{ p.mobile }}</li>
+                      <li><a href="mailto:{{ p.email }}">{{ p }}</a> ({{ p.mobile }})</li>
                     {% endfor %}
                   </ul>
                 {% else %}
