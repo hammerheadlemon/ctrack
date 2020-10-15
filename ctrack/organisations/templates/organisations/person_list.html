@@ -1,44 +1,47 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}
-  People
-{% endblock %}
+{% block title %} People {% endblock %}
 
 {% block content %}
 
-  <div class="container mt-3">
-    <div class="row">
-      <div class="col-md-12 pl-0 my-2">
-      <div class="row">
-        <div class="col-12">
-          <h4>People <span class="float-right align-bottom"><a href="#"><button type="button" class="btn btn-primary">Create new...</button></a></span></h4>
-        </div>
-      </div>
-        <div class="row">
-          <div class="col-md-12 border bg-light my-2">
-            <table class="table compact cell-border">
-              <thead>
-              <tr>
-                <th>Person</th>
-                <th>Organisation</th>
-                <th>Phone Number</th>
-                <th>Email</th>
-                <th>Contact History</th>
-              </tr>
-              </thead>
-              {% for p in object_list %}
-                <tr>
-                    <td><a href="{% url "organisations:person-detail" p.pk %}">{{ p.first_name }} {{ p.last_name }}</a></td>
-                    <td><a href="{% url "organisations:detail" p.organisation.slug %}">{{ p.organisation.name }}</a></td>
-                    <td>{{ p.mobile }}</td>
-                    <td><a href="mailto:{{ p.email }}">{{ p.email }}</a></td>
-                    <td><a href="#">Contact History</td>
-                </tr>
-              {% endfor %}
-            </table>
-          </div>
-        </div>
-      </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script type="application/javascript">
+    $(document).ready(function () {
+      $('#datatable').DataTable({
+        ordering: true,
+        searching: true,
+        buttons: true,
+        dom: 'B<"clear">lfrtip',
+        paging: false,
+      });
+    });
+  </script>
+
+  <div class="col-12 m-2">
+    <h3>People</h3> <span><a href="#">[Create new...]</a></span>
+    <div class="row justify-content-center">
+      <div class="col-md-12 my-2">
+        <table id="datatable" class="table table-bordered">
+          <thead>
+          <tr>
+            <th>Person</th>
+            <th>Organisation</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Contact History</th>
+          </tr>
+          </thead>
+          {% for p in object_list %}
+            <tr>
+              <td><a href="{% url "organisations:person-detail" p.pk %}">{{ p.first_name }} {{ p.last_name }}</a></td>
+              <td><a href="{% url "organisations:detail" p.organisation.slug %}">{{ p.organisation.name }}</a></td>
+              <td>{{ p.mobile }}</td>
+              <td><a href="mailto:{{ p.email }}">{{ p.email }}</a></td>
+              <td><a href="#">Contact History</a></td>
+            </tr>
+          {% endfor %}
+        </table>
     </div>
   </div>
 
