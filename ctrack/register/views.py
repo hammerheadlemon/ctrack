@@ -2,12 +2,12 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, FormView
+from django.views.generic import DeleteView, FormView
 
 from ctrack.caf.models import CAF
 from ctrack.organisations.models import Organisation
 from ctrack.register.forms import CreateSimpleDateTimeEventForm, EngagementEventCreateForm
-from ctrack.register.models import EngagementEvent, SingleDateTimeEvent
+from ctrack.register.models import EngagementEvent
 
 
 class EngagementEventDelete(DeleteView):
