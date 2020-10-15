@@ -26,10 +26,8 @@
     {#    <link href="jumbotron.css" rel="stylesheet">#}
     <!-- This file stores project-specific CSS -->
 
-    <link rel="stylesheet" type="text/css" href="{% static "css/datatables.min.css" %}/>
+    <link rel="stylesheet" type="text/css" href="{% static "DataTables/datatables.min.css" %}/>
 
-{#    <link rel="stylesheet" type="text/css"#}
-{#          href="https://cdn.datatables.net/v/dt/dt-1.10.20/af-2.3.4/b-1.6.1/b-print-1.6.1/cr-1.5.2/r-2.2.3/datatables.min.css"/>#}
     <link href="{% static 'css/project.css' %}" rel="stylesheet">
   {% endblock %}
   <style>
@@ -129,11 +127,7 @@
   <!-- place project specific Javascript in this file -->
 
   <script src="{% static 'js/project.js' %}"></script>
-  <script src="{% static 'js/dataTables.bootstrap4.js' %}"></script>
-  <script src="{% static "js/jquery.dataTables.js" %}"></script>
-  {#  <script type="text/javascript"#}
-  {#          src="https://cdn.datatables.net/v/dt/dt-1.10.20/af-2.3.4/b-1.6.1/b-print-1.6.1/cr-1.5.2/r-2.2.3/datatables.min.js"></script>#}
-
+  <script src="{% static 'DataTables/datatables.min.js' %}"></script>
 
 {% endblock javascript %}
 </body>
