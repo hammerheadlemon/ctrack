@@ -12,7 +12,6 @@
 
 {% block content %}
 
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script type="application/javascript">
     $(document).ready(function () {
@@ -24,40 +23,38 @@
         paging: false,
       });
     });
-
   </script>
 
-  <div class="col-md-12">
-  <h4>CAF List</h4>
-  <div class="row">
-    <div class="col-md-12 bg-light my-2 py-2">
-      <table id="datatable" class="table table-bordered compact cell-border" style="width:100%">
-        <thead>
-        <tr>
-          <th>Organisation</th>
-          <th>CAF</th>
-          <th>Sub Mode</th>
-          <th>Applicable Systems</th>
-        </tr>
-        </thead>
-        {% for caf in object_list %}
+  <div class="col-12 m-2">
+    <h4>All CAFs</h4>
+    <div class="row justify-content-center">
+      <div class="col-md-12 my-2 py-2 bg-light">
+        <table id="datatable" class="table table-bordered" style="width:100%">
+          <thead>
           <tr>
-            <td><a href="{% url "organisations:detail" slug=caf.organisation.slug %}">{{ caf.organisation }}</a>
-            </td>
-            <td><a href="{% url 'caf:detail' pk=caf.pk %}">{{ caf }}</a></td>
-            <td>{{ caf.sub_mode }}</td>
-            <td>
-              <ul>
-                {% for applicable_system in caf.applicable_systems.all %}
-                  <li><a href="{% url "caf:ass_detail" applicable_system.pk %}">{{ applicable_system.name }}</a>
-                  </li>
-                {% endfor %}
-              </ul>
-            </td>
+            <th>Organisation</th>
+            <th>CAF</th>
+            <th>Sub Mode</th>
+            <th>Applicable Systems</th>
           </tr>
-        {% endfor %}
-      </table>
+          </thead>
+          {% for caf in object_list %}
+            <tr>
+              <td><a href="{% url "organisations:detail" slug=caf.organisation.slug %}">{{ caf.organisation }}</a>
+              </td>
+              <td><a href="{% url 'caf:detail' pk=caf.pk %}">{{ caf }}</a></td>
+              <td>{{ caf.sub_mode }}</td>
+              <td>
+                <ul class="list-group">
+                  {% for applicable_system in caf.applicable_systems.all %}
+                    <li class="list-group-item"><a href="{% url "caf:ass_detail" applicable_system.pk %}">{{ applicable_system.name }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
     </div>
-  </div>
-
 {% endblock %}
