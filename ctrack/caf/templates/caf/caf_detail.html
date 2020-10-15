@@ -6,11 +6,11 @@
 {% block content %}
   <div class="container mt-3">
 
-  <div class="row">
+  <div class="row justify-content-center">
     <div class="col">
       <div class="row">
         <div class="col-md-12">
-          <h4 class="mb-2 p-2 border rounded border-secondary">{{ object }}</h4>
+          <h4 class="mb-2 p-2">{{ object }}</h4>
         </div>
       </div>
     </div>
@@ -60,7 +60,7 @@
         <div class="card-body">
           <div class="card-title text-muted">CAF Basic Information</div>
           <div>
-            <table class="table table-responsive">
+            <table class="table">
               <tr>
                 <td><strong>Organisation</strong></td>
                 <td><a href="{% url 'organisations:detail' organisation.slug %}">{{ organisation }}</a></td>
