@@ -1,18 +1,18 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Button, ButtonHolder, Layout, Submit, Hidden, Field
+from crispy_forms.layout import Button, ButtonHolder, Field, Hidden, Layout, Submit
 from django import forms
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 
 from ctrack.caf.models import CAF
-from ctrack.organisations.models import Person, Organisation
+from ctrack.organisations.models import Organisation, Person
 from ctrack.register.models import (
+    CAFSingleDateEvent,
+    CAFTwinDateEvent,
     EngagementEvent,
     EngagementType,
-    CAFSingleDateEvent,
     SingleDateTimeEvent,
-    CAFTwinDateEvent,
 )
 
 

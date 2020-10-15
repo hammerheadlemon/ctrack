@@ -1,8 +1,8 @@
 from django.db import models
+from django.urls.base import reverse
 
 from ctrack.caf.managers import ApplicableSystemManager
 from ctrack.organisations.models import Organisation, Person
-from django.urls.base import reverse
 
 # from ctrack.register.models import EngagementEvent
 

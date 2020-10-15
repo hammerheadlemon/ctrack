@@ -1,7 +1,7 @@
 import datetime
 from datetime import date as std_date
 from enum import Enum, auto
-from typing import Optional, Dict
+from typing import Dict, Optional
 
 from django.contrib.auth import get_user_model
 from django.db import models

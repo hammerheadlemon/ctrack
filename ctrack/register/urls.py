@@ -2,8 +2,8 @@ from django.urls import path
 
 from ctrack.register.views import (
     EngagementEventCreate,
-    EngagementEventDelete,
     EngagementEventCreateFromCaf,
+    EngagementEventDelete,
     SingleDateTimeEventCreate,
 )
 

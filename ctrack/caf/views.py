@@ -6,10 +6,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView, FormView, ListView
 
 from ctrack.assessments.models import CAFAssessmentOutcomeScore
-from ctrack.caf.forms import (
-    ApplicableSystemCreateFromCafForm,
-    ApplicableSystemCreateFromOrgForm,
-)
+from ctrack.caf.forms import ApplicableSystemCreateFromCafForm, ApplicableSystemCreateFromOrgForm
 from ctrack.caf.models import CAF, ApplicableSystem
 from ctrack.organisations.models import Organisation
 

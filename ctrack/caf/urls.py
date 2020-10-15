@@ -2,12 +2,12 @@ from django.urls import path
 from django.views.decorators.cache import cache_page
 
 from ctrack.caf.views import (
-    ListCAF,
-    ListApplicableSystem,
-    caf_detail_view,
-    ApplicableSystemDetail,
     ApplicableSystemCreateFromOrg,
+    ApplicableSystemDetail,
+    ListApplicableSystem,
+    ListCAF,
     applicable_system_create_from_caf,
+    caf_detail_view,
 )
 
 app_name = "caf"

@@ -1,5 +1,4 @@
-from django.db import connection
-from django.db import models
+from django.db import connection, models
 
 import ctrack.caf.models as caf_models  # to deal with circular import
 import ctrack.organisations.models as org_models
