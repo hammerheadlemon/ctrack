@@ -77,9 +77,18 @@ class SingleDateTimeEventCreate(LoginRequiredMixin, FormView):
     form_class = CreateSimpleDateTimeEventForm
     success_url = reverse_lazy("organisations:list")
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        if self.kwargs.get("org_slug"):
+            context["org"] = Organisation.objects.get(slug=self.kwargs["org_slug"])
+            return context
+        return context
+
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs["user"] = self.request.user
+        kwargs["org_slug"] = self.kwargs.get("org_slug")
         return kwargs
 
     def form_valid(self, form):

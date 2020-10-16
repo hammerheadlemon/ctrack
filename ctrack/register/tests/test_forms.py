@@ -22,7 +22,26 @@ def test_init(user):
             "comments": "Test Comments",
             "location": "Transient Moats",
         },
-        user=user,
+        user=user, org_slug=None
+    )
+    assert form.is_valid()
+
+
+def test_simple_event_limited_to_org_participants(user, org, person):
+    person.organisation = org
+    person.save()
+    people_from_org = org.get_people()
+    form = CreateSimpleDateTimeEventForm(
+        {
+            "type_descriptor": "PHONE_CALL",
+            "short_description": "Test Short Description",
+            "datetime": "2010-10-10 10:00",
+            "requested_response_date": "2020-12-24",
+            "response_received_date": "2020-12-25",
+            "participants": people_from_org,
+            "url": "https://fake.url.com",
+            "comments": "Test Comments not needed"
+        }, user=user, org_slug=org.slug
     )
     assert form.is_valid()
 
@@ -35,7 +54,7 @@ def test_cannot_create_disallowed_single_date_event_type_with_form(user):
             "datetime": "2020-10-10",
             "comments": "Test Comments",
         },
-        user=user,
+        user=user, org_slug=None
     )
     assert form.is_valid() is False
     assert form.errors == {
@@ -55,7 +74,7 @@ def test_create_simple_datetime_event(user):
             "response_received_date": "2020-12-25",
             "url": "https://fake.url.com",
             "comments": "Test Comments not needed"
-        }, user=user,
+        }, user=user, org_slug=None
     )
     assert form.is_valid()
 
@@ -71,7 +90,7 @@ def test_create_private_note(user):
             "url": "https://fake.url.com",
             "private": True,
             "comments": "Test Comments not needed"
-        }, user=user,
+        }, user=user, org_slug=None
     )
     assert form.is_valid()
 
@@ -85,7 +104,7 @@ def test_response_date_cannot_be_before_date(user):
             "requested_response_date": "2009-12-24",
             "response_received_date": None,
             "comments": "Test Comments not needed"
-        }, user=user,
+        }, user=user, org_slug=None
     )
     assert not form.is_valid()
     assert form.errors == {"__all__": ["Requested response cannot be before date."]}
@@ -99,7 +118,7 @@ def test_meeting_blank_data(user):
             "short_description": "Test short description",
             "comments": "Test Comments",
         },
-        user=user,
+        user=user, org_slug=None
     )
     assert form.is_valid() is False
     assert form.errors == {"datetime": ["This field is required."]}

@@ -30,6 +30,9 @@ urlpatterns = [
         view=SingleDateTimeEventCreate.as_view(),
         name="event_create_simple_event",
     ),
+    path("event/create-simple-event-from-org/<slug:org_slug>",
+         view=SingleDateTimeEventCreate.as_view(),
+         name="event_create_simple_event_from_org")
     # path(
     #     "event/create-caf-single-date-event",
     #     view=CAFSingleDateEventView.as_view(),

@@ -34,7 +34,12 @@ class CreateSimpleDateTimeEventForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop("user")
+        self.org_slug = kwargs.pop("org_slug")
         super().__init__(*args, **kwargs)
+        if self.org_slug:
+            org = Organisation.objects.get(slug=self.org_slug)
+            self.fields["participants"].queryset = org.get_people()
+            self.fields["participants"].help_text = f"Click to select participants from {org}"
 
     def clean(self):
         cleaned_data = super().clean()

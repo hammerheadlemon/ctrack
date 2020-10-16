@@ -7,8 +7,15 @@ from ctrack.caf.models import CAF, Grading
 from ctrack.caf.models import EssentialService
 from ctrack.caf.tests.factories import ApplicableSystemFactory
 from ctrack.core.utils import fnames
+from ctrack.organisations.tests.factories import PersonFactory
 
 pytestmark = pytest.mark.django_db
+
+
+def test_get_people(org, person):
+    person.organisation = org
+    person.save()
+    assert person in org.get_people()
 
 
 def test_lead_deputy_inspector(org):
@@ -45,8 +52,8 @@ def test_essential_service(org):
         triage_review_date=None,
         triage_review_inspector=None,
     )
-    ass = ApplicableSystemFactory.create(name=random.choice(fnames), caf=caf,)
-    ass2 = ApplicableSystemFactory.create(name=random.choice(fnames), caf=caf,)
+    ass = ApplicableSystemFactory.create(name=random.choice(fnames), caf=caf, )
+    ass2 = ApplicableSystemFactory.create(name=random.choice(fnames), caf=caf, )
     es = EssentialService.objects.create(
         name="Test ES", description="Test ES Description", organisation=org
     )
