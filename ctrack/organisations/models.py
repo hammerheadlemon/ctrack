@@ -136,6 +136,8 @@ class Organisation(models.Model):
     designation_type = models.IntegerField(choices=DESIGNATION_TYPE, default=1)
     registered_company_name = models.CharField(max_length=255, blank=True)
     registered_company_number = models.CharField(max_length=100, blank=True)
+    lead_inspector = models.ForeignKey("users.User", blank=False, null=True, on_delete=models.SET(get_sentinel_user), related_name="lead_inspector")
+    deputy_lead_inspector = models.ForeignKey("users.User", blank=False, null=True, on_delete=models.SET(get_sentinel_user), related_name="deputy_inspector")
     date_updated = models.DateField(auto_now=True)
     #    updated_by = models.ForeignKey(
     #        get_user_model(), on_delete=models.SET(get_sentinel_user)

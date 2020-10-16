@@ -3,10 +3,11 @@ from datetime import datetime
 
 import factory
 from django.contrib.auth import get_user_model
-from factory.django import DjangoModelFactory
 from factory import Faker, SubFactory, post_generation
+from factory.django import DjangoModelFactory
 
 from ctrack.organisations.models import Address, Organisation, Person, Role
+from ctrack.users.tests.factories import UserFactory
 
 User = get_user_model()
 
@@ -43,6 +44,8 @@ class OrganisationFactory(DjangoModelFactory):
     oes = factory.LazyFunction(lambda: random.choice([True, False]))
     registered_company_name = Faker("company")
     registered_company_number = Faker("numerify", text="######")
+    lead_inspector = factory.SubFactory(UserFactory)
+    deputy_lead_inspector = factory.SubFactory(UserFactory)
     date_updated = Faker("date_this_year", before_today=True)
     comments = Faker("paragraph", nb_sentences=3)
     active = True

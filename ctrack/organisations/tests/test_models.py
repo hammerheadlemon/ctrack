@@ -1,16 +1,19 @@
 import random
 
 import pytest
-
 from slugify import slugify
 
-from ctrack.organisations.models import IncidentReport, Organisation
 from ctrack.caf.models import CAF, Grading
-from ctrack.caf.tests.factories import ApplicableSystemFactory
 from ctrack.caf.models import EssentialService
+from ctrack.caf.tests.factories import ApplicableSystemFactory
 from ctrack.core.utils import fnames
 
 pytestmark = pytest.mark.django_db
+
+
+def test_lead_deputy_inspector(org):
+    assert org.lead_inspector
+    assert org.deputy_lead_inspector
 
 
 def test_organisation_get_absolute_url(org):

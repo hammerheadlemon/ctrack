@@ -46,6 +46,14 @@
                           <td><span class="text-danger">No</span></td>
                         {% endif %}
                       </tr>
+                    <tr>
+                      <td class="w-25"><strong>Lead Inspector:</strong></td>
+                      <td>{{ object.lead_inspector.name }}</td>
+                    </tr>
+                      <tr>
+                        <td class="w-25"><strong>Deputy Lead Inspector:</strong></td>
+                        <td>{{ object.deputy_lead_inspector.name }}</td>
+                      </tr>
                       <tr>
                         <td class="w-25"><strong>Registered Company Name:</strong></td>
                         <td>{{ object.registered_company_name }}</td>
@@ -84,7 +92,7 @@
                       {% if applicable_systems|length > 0 %}
                         {% for es in essential_services %}
                           <tr>
-                            <td style="width: 30%"><a
+                            <td class="w-25"<a
                                     href="{% url "organisations:essential_service_detail" es.pk %}">{{ es.name }}</a>
                             </td>
                             <td>{{ es.description }}
@@ -114,7 +122,7 @@
                         {% if applicable_systems|length > 0 %}
                           {% for ass in applicable_systems %}
                             <tr>
-                              <td><a href="{% url "caf:ass_detail" ass.id %}">{{ ass.name }}</a></td>
+                              <td class="w-25"><a href="{% url "caf:ass_detail" ass.id %}">{{ ass.name }}</a></td>
                               <td>{{ ass.function }}
                               </td>
                             </tr>
