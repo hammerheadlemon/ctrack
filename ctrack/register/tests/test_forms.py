@@ -60,6 +60,22 @@ def test_create_simple_datetime_event(user):
     assert form.is_valid()
 
 
+def test_create_private_note(user):
+    form = CreateSimpleDateTimeEventForm(
+        {
+            "type_descriptor": "NOTE",
+            "short_description": "Test Short Description",
+            "datetime": "2010-10-10 10:00",
+            "requested_response_date": "2020-12-24",
+            "response_received_date": "2020-12-25",
+            "url": "https://fake.url.com",
+            "private": True,
+            "comments": "Test Comments not needed"
+        }, user=user,
+    )
+    assert form.is_valid()
+
+
 def test_response_date_cannot_be_before_date(user):
     form = CreateSimpleDateTimeEventForm(
         {

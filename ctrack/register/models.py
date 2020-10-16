@@ -17,6 +17,7 @@ class EventType(Enum):
     PHONE_CALL = auto()
     VIDEO_CALL = auto()
     EMAIL = auto()
+    NOTE = auto()
     # single date caf events
     CAF_INITIAL_CAF_RECEIVED = auto()
     CAF_FEEDBACK_EMAILED_OES = auto()
@@ -157,18 +158,31 @@ class ResponseRequiredMixin(models.Model):
         abstract = True
 
 
+class PrivateEventMixin(models.Model):
+    private = models.BooleanField(
+        default=False, help_text="Private events can only be seen by you. Official records should "
+                                 "not be private, but you can use private events to track your own "
+                                 "work."
+    )
+
+    class Meta:
+        abstract = True
+
+
 class SingleDateTimeEvent(
     EventBase,
     ResponseRequiredMixin,
     URLEventMixin,
     ThirdPartyEventMixin,
     SingleDateTimeEventMixin,
+    PrivateEventMixin,
 ):
     AVAILABLE_TYPES = [
         (EventType.MEETING.name, "Meeting"),
         (EventType.PHONE_CALL.name, "Phone Call"),
         (EventType.VIDEO_CALL.name, "Video Call"),
         (EventType.EMAIL.name, "Email"),
+        (EventType.NOTE.name, "Note"),
     ]
     type_descriptor = models.CharField(
         blank=False, max_length=50, choices=AVAILABLE_TYPES

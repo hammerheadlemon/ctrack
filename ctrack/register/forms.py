@@ -21,8 +21,10 @@ class CreateSimpleDateTimeEventForm(forms.ModelForm):
         model = SingleDateTimeEvent
         fields = [
             "type_descriptor",
+            "private",
             "short_description",
             "datetime",
+            "participants",
             "requested_response_date",
             "response_received_date",
             "url",

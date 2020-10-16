@@ -150,6 +150,7 @@ def test_event_type_enum():
     assert EventType.PHONE_CALL.name == "PHONE_CALL"
     assert EventType.VIDEO_CALL.name == "VIDEO_CALL"
     assert EventType.EMAIL.name == "EMAIL"
+    assert EventType.NOTE.name == "NOTE"
     assert EventType.CAF_INITIAL_CAF_RECEIVED.name == "CAF_INITIAL_CAF_RECEIVED"
     assert EventType.CAF_FEEDBACK_EMAILED_OES.name == "CAF_FEEDBACK_EMAILED_OES"
     assert EventType.CAF_RECEIVED.name == "CAF_RECEIVED"
@@ -217,3 +218,17 @@ def test_meeting_event(user, person):
     assert e.user.name == uname
     assert e.created_date.day == now.day
     assert e.modified_date.day == now.day
+
+
+@pytest.mark.parametrize("allowed_type", ["NOTE"])
+def test_note_event(user, allowed_type):
+    e = SingleDateTimeEvent.objects.create(
+        type_descriptor=allowed_type,
+        short_description="Test short description",
+        datetime="2020-10-10 10:30",
+        comments="The guy I deal with at X Co Ltd is made of cheese,",
+        url="https://evidenceofcheese.com",
+        private=True,
+        user=user
+    )
+    assert e.type_descriptor == allowed_type
