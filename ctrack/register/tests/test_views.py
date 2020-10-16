@@ -108,9 +108,16 @@ class TestSingleDateTimeEvent:
         view.setup(request)
         assert "user" in view.get_form_kwargs()
 
+    def test_create_simple_event_without_org_means_no_participants(self, user, client):
+        client.force_login(user)
+        url = reverse("register:event_create_simple_event")
+        response = client.get(url)
+        html = response.content.decode("utf-8")
+        assert '<input type="hidden" name="participants" id="id_participants">' in html
+
     def test_can_create_simple_event_with_org_slug(self, user, org, client):
         slug = org.slug
-        url = f"/register/event/create-simple-event-from-org/{slug}"
+        url = reverse("register:event_create_simple_event_from_org", args=[slug])
         client.force_login(user)
         response = client.get(url)
         html = response.content.decode("utf-8")

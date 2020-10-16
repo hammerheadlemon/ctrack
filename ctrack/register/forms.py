@@ -39,7 +39,9 @@ class CreateSimpleDateTimeEventForm(forms.ModelForm):
         if self.org_slug:
             org = Organisation.objects.get(slug=self.org_slug)
             self.fields["participants"].queryset = org.get_people()
-            self.fields["participants"].help_text = f"Click to select participants from {org}"
+            self.fields["participants"].help_text = f"Click to select participants from {org}."
+        else:
+            self.fields["participants"].widget = forms.HiddenInput()
 
     def clean(self):
         cleaned_data = super().clean()
