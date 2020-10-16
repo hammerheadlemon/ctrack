@@ -88,14 +88,36 @@ class EventBase(AuditableEventBase):
 
 class ThirdPartyEventMixin(models.Model):
     participants = models.ManyToManyField(Person, blank=True)
-    location = models.CharField(max_length=100, blank=True)
+    location = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="If event involved a physical location, indicate here.",
+    )
+
+    class Meta:
+        abstract = True
+
+
+class URLEventMixin(models.Model):
+    url = models.URLField(
+        max_length=400,
+        blank=True,
+        null=True,
+        verbose_name="URL",
+        help_text=(
+            "If recording an email, please link to it here. "
+            "Do not paste the text in the comments box."
+        ),
+    )  # these fuckers can get long with SharePoint
 
     class Meta:
         abstract = True
 
 
 class SingleDateTimeEventMixin(models.Model):
-    datetime = models.DateTimeField(blank=False, verbose_name="Date/Time", help_text="DD/MM/YY HH:MM format please!")
+    datetime = models.DateTimeField(
+        blank=False, verbose_name="Date/Time", help_text="DD/MM/YY HH:MM format please!"
+    )
 
     class Meta:
         abstract = True
@@ -124,19 +146,29 @@ class CAFMixin(models.Model):
 
 
 class ResponseRequiredMixin(models.Model):
-    requested_response_date = models.DateField(blank=True, null=True, help_text="DD/MM/YY format")
-    response_received_date = models.DateField(blank=True, null=True, help_text="DD/MM/YY format")
+    requested_response_date = models.DateField(
+        blank=True, null=True, help_text="DD/MM/YY format"
+    )
+    response_received_date = models.DateField(
+        blank=True, null=True, help_text="DD/MM/YY format"
+    )
 
     class Meta:
         abstract = True
 
 
-class SingleDateTimeEvent(EventBase, ResponseRequiredMixin, ThirdPartyEventMixin, SingleDateTimeEventMixin):
+class SingleDateTimeEvent(
+    EventBase,
+    ResponseRequiredMixin,
+    URLEventMixin,
+    ThirdPartyEventMixin,
+    SingleDateTimeEventMixin,
+):
     AVAILABLE_TYPES = [
         (EventType.MEETING.name, "Meeting"),
         (EventType.PHONE_CALL.name, "Phone Call"),
         (EventType.VIDEO_CALL.name, "Video Call"),
-        (EventType.EMAIL.name, "Email")
+        (EventType.EMAIL.name, "Email"),
     ]
     type_descriptor = models.CharField(
         blank=False, max_length=50, choices=AVAILABLE_TYPES

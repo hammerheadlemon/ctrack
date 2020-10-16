@@ -53,6 +53,7 @@ def test_create_simple_datetime_event(user):
             "datetime": "2010-10-10 10:00",
             "requested_response_date": "2020-12-24",
             "response_received_date": "2020-12-25",
+            "url": "https://fake.url.com",
             "comments": "Test Comments not needed"
         }, user=user,
     )

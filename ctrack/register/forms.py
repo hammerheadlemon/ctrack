@@ -25,8 +25,9 @@ class CreateSimpleDateTimeEventForm(forms.ModelForm):
             "datetime",
             "requested_response_date",
             "response_received_date",
-            "comments",
+            "url",
             "location",
+            "comments",
         ]
 
     def __init__(self, *args, **kwargs):

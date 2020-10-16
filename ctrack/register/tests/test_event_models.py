@@ -170,6 +170,7 @@ def test_single_datetime_event(person, user, allowed_type):
     event = SingleDateTimeEvent.objects.create(
         type_descriptor=allowed_type,
         short_description="Important event",
+        url = "http://fake.url.com",
         requested_response_date="2021-01-24",
         response_received_date=None,
         datetime="2020-10-10T15:00",
