@@ -154,6 +154,9 @@ class Organisation(models.Model):
     def __str__(self):
         return self.name
 
+    def get_people(self):
+        return self.person_set.all()
+
     def primary_contacts(self):
         return self.person_set.filter(primary_nis_contact=True)
 

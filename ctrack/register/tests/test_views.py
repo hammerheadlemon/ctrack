@@ -108,6 +108,25 @@ class TestSingleDateTimeEvent:
         view.setup(request)
         assert "user" in view.get_form_kwargs()
 
+    def test_can_create_simple_event_with_org_slug(self, user, org, client):
+        slug = org.slug
+        url = f"/register/event/create-simple-event-from-org/{slug}"
+        client.force_login(user)
+        response = client.get(url)
+        html = response.content.decode("utf-8")
+        assert response.status_code == 200
+        test_case.assertInHTML("Create a new simple event", html)
+
+    def test_org_passed_as_kwarg(self, user, org, request_factory):
+        slug = org.slug
+        view = SingleDateTimeEventCreate()
+        url = f"/register/event/create-simple-event-from-org/{slug}"
+        request = request_factory.get(url)
+        request.user = user
+        view.request = request
+        view.setup(request)
+        assert "org_slug" in view.get_form_kwargs()
+
 
 class TestSingleDateCAFEventViews:
     def test_initial_caf_received(self, client):
