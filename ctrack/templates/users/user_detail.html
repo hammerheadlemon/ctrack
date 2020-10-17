@@ -4,35 +4,56 @@
 {% block title %}User: {{ object.username }}{% endblock %}
 
 {% block content %}
-<div class="container">
+  <div class="container">
 
-  <div class="row">
-    <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-12">
 
-      <h2>User: {{ object.username }}</h2>
-      {% if object.name %}
-      <p>{{ object.name }}</p>
-      {% else %}
-        <p>Email: {{ object.email }}</p>
-      {% endif %}
+        <h1 class="display-4">{{ object.name }}</h1>
+        {% if object.name %}
+          <p>{{ object.name }}</p>
+        {% else %}
+          <p>Email: {{ object.email }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    {#{% if object == request.user %}#}
+    {#<!-- Action buttons -->#}
+    {#<div class="row">#}
+    {##}
+    {#  <div class="col-sm-12 mb-3">#}
+    {#    <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>#}
+    {#    <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>#}
+    {#    <!-- Your Stuff: Custom user template urls -->#}
+    {#  </div>#}
+    {#</div>#}
+    {#<!-- End Action buttons -->#}
+    {#{% endif %}#}
+  </div>
+  <hr>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-12 m-2">
+        <h3 class="h3">Recent Events</h3>
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th>Event</th>
+            <th>Comments</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for event in single_date_events %}
+            <tr>
+              <td>{{ event.short_description }}</td>
+              <td>{{ event.comments }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-
-{% if object == request.user %}
-<!-- Action buttons -->
-<div class="row">
-
-  <div class="col-sm-12">
-    <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
-    <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
-    <!-- Your Stuff: Custom user template urls -->
-  </div>
-
-</div>
-<!-- End Action buttons -->
-{% endif %}
-
-
-</div>
 {% endblock content %}
 

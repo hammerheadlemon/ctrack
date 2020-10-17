@@ -1,12 +1,47 @@
 import pytest
 from django.contrib.auth.models import Permission
-from django.test import RequestFactory
+from django.test import RequestFactory, TestCase
+from django.urls import reverse
 
 from ctrack.core.views import home_page
+from ctrack.register.models import SingleDateTimeEvent
 from ctrack.users.models import User
 from ctrack.users.views import UserDetailView, UserRedirectView, UserUpdateView
 
 pytestmark = pytest.mark.django_db
+
+test_case = TestCase("run")
+
+
+class TestUserProfilePage:
+
+    def test_their_full_name_in_h3(self, user: User, client):
+        full_name = user.name
+        client.force_login(user)
+        response = client.get(reverse("users:detail", args=[user.username]))
+        assert response.status_code == 200
+        html = response.content.decode("utf-8")
+        test_string = f"<h3>{full_name}</h3>"
+        assert test_string in html
+
+    def test_view_has_all_events_related_to_user(self, user, client):
+        SingleDateTimeEvent.objects.create(
+            type_descriptor="PHONE_CALL",
+            short_description="Important event",
+            url="http://fake.url.com",
+            requested_response_date="2021-01-24",
+            response_received_date=None,
+            datetime="2020-10-10T15:00",
+            comments="Comments on important event",
+            # location is optional
+            user=user,
+        )
+        client.force_login(user)
+        response = client.get(reverse("users:detail", args=[user.username]))
+        assert response.status_code == 200
+        html = response.content.decode("utf-8")
+        test_case.assertInHTML("Comments on important event", html)
+
 
 
 class TestUserUpdateView:
@@ -87,25 +122,23 @@ def test_home_page_h1_tag_with_client(client, django_user_model):
     client.login(username="toss", password="knob")
     response = client.get("/")
     assert response.status_code == 200
-    assert b"<title>ctrack - Department for Transport</title>" in response.content
-    # assert b"<h1>Welcome to ctrack - Department for Transport</h1>" in response.content
+    assert b"<title>ctrack - NIS Tracker</title>" in response.content
     assert b"</html>" in response.content
 
 
-@pytest.mark.skip("Need to examine the HTML for this to work. Minor test.")
 def test_regular_user_redirected_to_their_template_on_login(
     django_user_model, request_factory: RequestFactory
 ):
     """
-    When a user logs in without a stakeholder mapping, they get sent to the regular user
-    template.
+    When a user logs in without a stakeholder mapping, they get sent to the site home
+    page.
     """
     user = django_user_model.objects.create_user(username="toss", password="knob")
     request = request_factory.get("/")
     request.user = user
     response = home_page(request)
     assert response.status_code == 200
-    assert b"<p>THIS IS A TEMPLATE FOR A REGULAR USER</p>" in response.content
+    assert b'<h1 class="display-3">ctrack</h1>' in response.content
 
 
 def test_stakeholder_redirected_to_their_template_on_login(

@@ -5,11 +5,12 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
 
+from ctrack.register.models import SingleDateTimeEvent
+
 User = get_user_model()
 
 
 class UserDetailView(DetailView):
-
     model = User
 
     # This names the field in the model that contains the slug. Want it to be thise so that is a good
@@ -20,12 +21,18 @@ class UserDetailView(DetailView):
     # we have to pass 'username' as the argument when testing UserDetailView because of this.
     slug_url_kwarg = "username"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        user = self.request.user
+        single_date_events = SingleDateTimeEvent.objects.filter(user=user).all()
+        context["single_date_events"] = single_date_events
+        return context
+
 
 user_detail_view = UserDetailView.as_view()
 
 
 class UserUpdateView(UpdateView):
-
     model = User
     fields = ["name", "first_name", "last_name"]
 
@@ -46,7 +53,6 @@ user_update_view = UserUpdateView.as_view()
 
 
 class UserRedirectView(RedirectView):
-
     permanent = False
 
     def get_redirect_url(self):
