@@ -172,13 +172,17 @@ MIDDLEWARE = [
     'config.middleware.LoginRequiredMiddleware'
 ]
 
+LOGIN_REDIRECT_URL = "users:redirect"
+
 ROOT_URLCONF = 'config.urls'
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+LOGIN_URL = "/accounts/login"
+
 LOGIN_EXEMPT_URLS = (
-    r"account/login",
-    r"account/logout"
+    r"^account/login/$",
+    r"^account/logout/$"
 )
 
 # Database
