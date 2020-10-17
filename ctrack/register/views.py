@@ -17,7 +17,7 @@ class EngagementEventDelete(DeleteView):
         return reverse_lazy("organisations:detail", args=[self.kwargs["slug"]])
 
 
-class EngagementEventCreate(LoginRequiredMixin, FormView):
+class EngagementEventCreate(FormView):
     fields = "__all__"
     form_class = EngagementEventCreateForm
     template_name = "register/engagementevent_form.html"
@@ -45,7 +45,7 @@ class EngagementEventCreate(LoginRequiredMixin, FormView):
         return reverse_lazy("organisations:detail", args=[self.kwargs["slug"]])
 
 
-class EngagementEventCreateFromCaf(LoginRequiredMixin, FormView):
+class EngagementEventCreateFromCaf(FormView):
     fields = "__all__"
     form_class = EngagementEventCreateForm
     template_name = "snippets/event_form_base.html"
@@ -72,7 +72,7 @@ class EngagementEventCreateFromCaf(LoginRequiredMixin, FormView):
         return reverse_lazy("organisations:detail", args=[org_slug])
 
 
-class SingleDateTimeEventCreate(LoginRequiredMixin, FormView):
+class SingleDateTimeEventCreate(FormView):
     template_name = "single_datetime_event_create.html"
     form_class = CreateSimpleDateTimeEventForm
     success_url = reverse_lazy("organisations:list")

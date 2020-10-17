@@ -11,13 +11,12 @@ from ctrack.caf.models import CAF, ApplicableSystem
 from ctrack.organisations.models import Organisation
 
 
-class ListCAF(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class ListCAF(PermissionRequiredMixin, ListView):
     model = CAF
     permission_required = "caf.view_caf"
 
 
 # Let's write a traditional function view!
-@login_required()
 @permission_required("caf.view_caf")
 def caf_detail_view(request, pk):
     caf = CAF.objects.get(pk=pk)
@@ -39,7 +38,7 @@ def caf_detail_view(request, pk):
     return render(request, "caf/caf_detail.html", context)
 
 
-class ListApplicableSystem(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class ListApplicableSystem(PermissionRequiredMixin, ListView):
     model = ApplicableSystem
     # apparently you can pass a list of model objects to a template if you name it
     # here - otherwise you need to provide a QuerySet
@@ -55,7 +54,7 @@ class ListApplicableSystem(LoginRequiredMixin, PermissionRequiredMixin, ListView
         return context
 
 
-class ApplicableSystemDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class ApplicableSystemDetail(PermissionRequiredMixin, DetailView):
     model = ApplicableSystem
     template_name = "caf/applicablesystem_detail.html"
     permission_required = "caf.view_applicablesystem"
@@ -88,8 +87,7 @@ def applicable_system_create_from_caf(request, caf_id):
     )
 
 
-class ApplicableSystemCreateFromOrg(
-    LoginRequiredMixin, PermissionRequiredMixin, FormView
+class ApplicableSystemCreateFromOrg(PermissionRequiredMixin, FormView
 ):
     form_class = ApplicableSystemCreateFromOrgForm
     template_name = "caf/applicable_system_create_from_org.html"

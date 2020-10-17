@@ -8,7 +8,7 @@ from django.views.generic import DetailView, RedirectView, UpdateView
 User = get_user_model()
 
 
-class UserDetailView(LoginRequiredMixin, DetailView):
+class UserDetailView(DetailView):
 
     model = User
 
@@ -24,7 +24,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 user_detail_view = UserDetailView.as_view()
 
 
-class UserUpdateView(LoginRequiredMixin, UpdateView):
+class UserUpdateView(UpdateView):
 
     model = User
     fields = ["name", "first_name", "last_name"]
@@ -45,7 +45,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 user_update_view = UserUpdateView.as_view()
 
 
-class UserRedirectView(LoginRequiredMixin, RedirectView):
+class UserRedirectView(RedirectView):
 
     permanent = False
 

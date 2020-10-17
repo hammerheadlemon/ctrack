@@ -5,7 +5,6 @@ from ctrack.organisations.models import IncidentReport, Organisation
 from ctrack.register.models import EngagementEvent
 
 
-@login_required
 def home_page(request):
     if request.user.is_stakeholder:
         org = Organisation.objects.get(

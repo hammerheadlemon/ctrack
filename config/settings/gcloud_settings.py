@@ -169,12 +169,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'config.middleware.LoginRequiredMiddleware'
 ]
 
 ROOT_URLCONF = 'config.urls'
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+LOGIN_EXEMPT_URLS = (
+    r"account/login",
+    r"account/logout"
+)
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases

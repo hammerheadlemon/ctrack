@@ -25,7 +25,7 @@ def essential_service_detail(request, pk):
     return render(request, "organisations/essential_service_detail.html", context)
 
 
-class PersonListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class PersonListView(PermissionRequiredMixin, ListView):
     model = Person
     template_name = "organisations/person_list.html"
     permission_required = "organisations.view_person"
@@ -36,7 +36,7 @@ def person_detail(request, person_id):
     return render(request, "organisations/person_detail.html", {"person": p})
 
 
-class OrganisationCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class OrganisationCreate(PermissionRequiredMixin, CreateView):
     model = Organisation
     template_name = "organisations/org_create_formset.html"
     form_class = OrganisationCreateForm
@@ -65,7 +65,7 @@ class OrganisationCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView
         return reverse_lazy("organisations:detail", kwargs={"slug": self.object.slug})
 
 
-class OrganisationListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class OrganisationListView(PermissionRequiredMixin, ListView):
     model = Organisation
     permission_required = "organisations.view_organisation"
 
@@ -75,7 +75,7 @@ class OrganisationListView(LoginRequiredMixin, PermissionRequiredMixin, ListView
         return context
 
 
-class OrganisationDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class OrganisationDetailView(PermissionRequiredMixin, DetailView):
     model = Organisation
     permission_required = "organisations.view_organisation"
 
@@ -109,7 +109,7 @@ class OrganisationDetailView(LoginRequiredMixin, PermissionRequiredMixin, Detail
         return context
 
 
-class IncidentReportCreateView(LoginRequiredMixin, FormView):
+class IncidentReportCreateView(FormView):
     model = IncidentReport
     form_class = IncidentReportForm
     template_name = "organisations/incidentreport_form.html"
