@@ -263,8 +263,14 @@
                           d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
                   </svg>
                   <a href="{% url "register:event_create_simple_event_from_org_with_type" object.slug 'NOTE' %}">New note</a>
-
                 </div>
+
+              <div>
+                {% for event in single_datetime_events %}
+                  {{ event }} {{ event.short_description }}
+                {% endfor %}
+
+              </div>
 
                 <div class="table table-responsive">
                   <table class="table table-sm table-striped table-bordered">

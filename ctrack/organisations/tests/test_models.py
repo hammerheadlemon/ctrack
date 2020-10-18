@@ -7,7 +7,7 @@ from ctrack.caf.models import CAF, Grading
 from ctrack.caf.models import EssentialService
 from ctrack.caf.tests.factories import ApplicableSystemFactory
 from ctrack.core.utils import fnames
-from ctrack.organisations.tests.factories import PersonFactory
+from ctrack.organisations.tests.factories import PersonFactory, SingleDateTimeEventFactory
 
 pytestmark = pytest.mark.django_db
 
@@ -26,6 +26,13 @@ def test_lead_deputy_inspector(org):
 def test_organisation_get_absolute_url(org):
     slug = slugify(org.name)
     assert org.get_absolute_url() == f"/organisations/{slug}/"
+
+
+def test_can_get_all_single_datetime_events_involving_person(person):
+    e = SingleDateTimeEventFactory.create(type_descriptor="MEETING", short_description="No desc")
+    e.participants.add(person)
+    events_involving_person = person.get_single_datetime_events()
+    assert events_involving_person.first().short_description == "No desc"
 
 
 def test_update_organisation(org_with_people):

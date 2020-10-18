@@ -93,6 +93,10 @@ class Person(models.Model):
     def get_full_name(self):
         return " ".join([self.first_name, self.last_name])
 
+    def get_single_datetime_events(self):
+        from ctrack.register.models import SingleDateTimeEvent
+        return SingleDateTimeEvent.objects.filter(participants__id=self.pk)
+
     class Meta:
         verbose_name_plural = "People"
 
@@ -136,8 +140,20 @@ class Organisation(models.Model):
     designation_type = models.IntegerField(choices=DESIGNATION_TYPE, default=1)
     registered_company_name = models.CharField(max_length=255, blank=True)
     registered_company_number = models.CharField(max_length=100, blank=True)
-    lead_inspector = models.ForeignKey("users.User", blank=False, null=True, on_delete=models.SET(get_sentinel_user), related_name="lead_inspector")
-    deputy_lead_inspector = models.ForeignKey("users.User", blank=False, null=True, on_delete=models.SET(get_sentinel_user), related_name="deputy_inspector")
+    lead_inspector = models.ForeignKey(
+        "users.User",
+        blank=False,
+        null=True,
+        on_delete=models.SET(get_sentinel_user),
+        related_name="lead_inspector",
+    )
+    deputy_lead_inspector = models.ForeignKey(
+        "users.User",
+        blank=False,
+        null=True,
+        on_delete=models.SET(get_sentinel_user),
+        related_name="deputy_inspector",
+    )
     date_updated = models.DateField(auto_now=True)
     #    updated_by = models.ForeignKey(
     #        get_user_model(), on_delete=models.SET(get_sentinel_user)
@@ -260,7 +276,8 @@ class IncidentReport(models.Model):
     email = models.EmailField(blank=False)
     internal_incident_number = models.CharField(max_length=30, blank=True)
     date_time_incident_detected = models.DateTimeField(
-        verbose_name="Date/Time incident detected", auto_now=False,
+        verbose_name="Date/Time incident detected",
+        auto_now=False,
     )
     date_time_incident_reported = models.DateTimeField(
         verbose_name="Date/Time incident reported", auto_now=True
@@ -272,17 +289,17 @@ class IncidentReport(models.Model):
     incident_stage = models.CharField(choices=INCIDENT_STAGE, max_length=20)
     summary = models.TextField(
         help_text="Please provide a summary of your understanding of the incident, including"
-                  " any impact to services and/or users."
+        " any impact to services and/or users."
     )
     mitigations = models.TextField(
         verbose_name="Investigations or mitigations",
         help_text="What investigations and/or mitigations have you or a third"
-                  " party performed or plan to perform?",
+        " party performed or plan to perform?",
     )
     others_informed = models.TextField(
         verbose_name="Others parties informed",
         help_text="Who else has been informed about this incident?"
-                  "(CSIRT, NCSC, NCA, etc)",
+        "(CSIRT, NCSC, NCA, etc)",
     )
     next_steps = models.TextField(
         verbose_name="Planned next steps", help_text="What are your planned next steps?"

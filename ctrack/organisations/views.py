@@ -1,3 +1,4 @@
+import itertools
 from typing import Any
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -85,6 +86,10 @@ class OrganisationDetailView(PermissionRequiredMixin, DetailView):
         peoples = org.person_set.all()
         cafs = org.caf_set.all()
 
+        # simple datetime events for org
+        _sdes = [person.get_single_datetime_events() for person in peoples]
+        flat_sdes = list(itertools.chain.from_iterable(_sdes))
+
         # Some events will not involve a participant, which is what ties an event to an organisation.
         # Because we want to list events to an organisation here we must related it via the CAF object too...
         engagement_events = EngagementEvent.objects.filter(Q(participants__in=peoples) | Q(related_caf__in=cafs)).order_by("-date")
@@ -106,6 +111,7 @@ class OrganisationDetailView(PermissionRequiredMixin, DetailView):
         context["engagement_events"] = engagement_events
         context["essential_services"] = essential_services
         context["cafs"] = cafs
+        context["single_datetime_events"] = flat_sdes
         return context
 
 

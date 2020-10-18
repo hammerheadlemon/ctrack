@@ -5,7 +5,10 @@ from django.test import RequestFactory
 from django.urls import reverse
 
 from ctrack.caf.tests.factories import PersonFactory
-from ctrack.organisations.tests.factories import OrganisationFactory
+from ctrack.organisations.tests.factories import (
+    OrganisationFactory,
+    SingleDateTimeEventFactory,
+)
 from ctrack.organisations.views import IncidentReportCreateView
 
 from ..views import OrganisationListView
@@ -13,9 +16,30 @@ from ..views import OrganisationListView
 pytestmark = pytest.mark.django_db
 
 
-# TODO - come back to this
-def test_meetings_in_organisation_detail_view(user, client):
-    pass
+def test_meetings_in_organisation_detail_view(user, client, org_with_people):
+    org_list_permission = Permission.objects.get(name="Can view organisation")
+    assert user.user_permissions.count() == 0
+    user.user_permissions.add(org_list_permission)
+    assert user.has_perm("organisations.view_organisation")
+    user.save()
+    person = org_with_people.person_set.first()
+    e1 = SingleDateTimeEventFactory.create(
+        type_descriptor="MEETING", short_description="First Meeting"
+    )
+    e2 = SingleDateTimeEventFactory.create(
+        type_descriptor="MEETING", short_description="Second Meeting"
+    )
+    e1.participants.add(person)
+    e1.save()
+    e2.participants.add(person)
+    e2.save()
+    client.force_login(user)
+    response = client.get(
+        reverse("organisations:detail", kwargs={"slug": org_with_people.slug})
+    )
+    assert response.status_code == 200
+    html = response.content.decode("utf-8")
+    assert "First Meeting" in html
 
 
 # https://docs.djangoproject.com/en/3.0/topics/testing/advanced/#example
