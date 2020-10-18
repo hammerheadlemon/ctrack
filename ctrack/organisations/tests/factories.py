@@ -7,6 +7,7 @@ from factory import Faker, SubFactory, post_generation
 from factory.django import DjangoModelFactory
 
 from ctrack.organisations.models import Address, Organisation, Person, Role
+from ctrack.register.models import SingleDateTimeEvent
 from ctrack.users.tests.factories import UserFactory
 
 User = get_user_model()
@@ -119,3 +120,15 @@ class AddressFactory(DjangoModelFactory):
 
     class Meta:
         model = Address
+
+
+class SingleDateTimeEventFactory(DjangoModelFactory):
+    type_descriptor = None  # must pass this in
+    short_description = "Nothing short description"
+    datetime = "2020-02-10 10:00"
+    comments = "Nothing comments"
+    location = "Gark's basin"
+    user = SubFactory(UserFactory)
+
+    class Meta:
+        model = SingleDateTimeEvent

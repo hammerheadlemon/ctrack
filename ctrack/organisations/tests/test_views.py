@@ -5,8 +5,7 @@ from django.test import RequestFactory
 from django.urls import reverse
 
 from ctrack.caf.tests.factories import PersonFactory
-from ctrack.organisations.models import Mode, Submode
-from ctrack.organisations.tests.factories import OrganisationFactory, RoleFactory
+from ctrack.organisations.tests.factories import OrganisationFactory
 from ctrack.organisations.views import IncidentReportCreateView
 
 from ..views import OrganisationListView
@@ -14,9 +13,13 @@ from ..views import OrganisationListView
 pytestmark = pytest.mark.django_db
 
 
+# TODO - come back to this
+def test_meetings_in_organisation_detail_view(user, client):
+    pass
+
+
 # https://docs.djangoproject.com/en/3.0/topics/testing/advanced/#example
 def test_organisation_list_view():
-
     OrganisationFactory.create()
     OrganisationFactory.create()
     OrganisationFactory.create()
@@ -39,7 +42,6 @@ def test_organisation_list_view():
 
 
 def test_only_member_of_cct_user_group_can_view_org_list():
-
     OrganisationFactory.create()
     OrganisationFactory.create()
     OrganisationFactory.create()
