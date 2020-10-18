@@ -185,7 +185,7 @@ class SingleDateTimeEvent(
         (EventType.NOTE.name, "Note"),
     ]
     type_descriptor = models.CharField(
-        blank=False, max_length=50, choices=AVAILABLE_TYPES
+        blank=False, max_length=50, choices=AVAILABLE_TYPES, verbose_name="Event Type"
     )
 
     def __str__(self):
