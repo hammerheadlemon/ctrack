@@ -16,12 +16,11 @@ test_case = TestCase("run")
 class TestUserProfilePage:
 
     def test_their_full_name_in_h3(self, user: User, client):
-        full_name = user.name
         client.force_login(user)
         response = client.get(reverse("users:detail", args=[user.username]))
         assert response.status_code == 200
         html = response.content.decode("utf-8")
-        test_string = f"<h3>{full_name}</h3>"
+        test_string = f'<h1 class="display-4">{user.name}</h1>'
         assert test_string in html
 
     def test_view_has_all_events_related_to_user(self, user, client):
@@ -41,7 +40,6 @@ class TestUserProfilePage:
         assert response.status_code == 200
         html = response.content.decode("utf-8")
         test_case.assertInHTML("Comments on important event", html)
-
 
 
 class TestUserUpdateView:
