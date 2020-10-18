@@ -16,5 +16,6 @@
     {% csrf_token %}
     {{ form|crispy }}
     <button type="submit" class="btn btn-success">Submit</button>
+    <a href="{{ org.get_absolute_url }}" class="btn btn-danger" type="button">Cancel</a>
   </form>
 {% endblock form %}
