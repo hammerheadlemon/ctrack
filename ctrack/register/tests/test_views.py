@@ -127,12 +127,25 @@ class TestSingleDateTimeEvent:
     def test_org_passed_as_kwarg(self, user, org, request_factory):
         slug = org.slug
         view = SingleDateTimeEventCreate()
-        url = f"/register/event/create-simple-event-from-org/{slug}"
+        url = reverse("register:event_create_simple_event_from_org", args=[slug])
         request = request_factory.get(url)
         request.user = user
         view.request = request
         view.setup(request)
         assert "org_slug" in view.get_form_kwargs()
+
+    def test_meeting_type_and_org_passed_as_kwarg(
+        self, user, org, request_factory
+    ):
+        event_type = "PHONE_CALL"
+        slug = org.slug
+        view = SingleDateTimeEventCreate()
+        url = reverse("register:event_create_simple_event_from_org_with_type", args=[slug, event_type])
+        request = request_factory.get(url)
+        request.user = user
+        view.request = request
+        view.setup(request)
+        assert "event_type" in view.get_form_kwargs()
 
 
 class TestSingleDateCAFEventViews:

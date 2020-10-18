@@ -35,11 +35,14 @@ class CreateSimpleDateTimeEventForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop("user")
         self.org_slug = kwargs.pop("org_slug")
+        self.event_type = kwargs.pop("event_type")
         super().__init__(*args, **kwargs)
         if self.org_slug:
             org = Organisation.objects.get(slug=self.org_slug)
             self.fields["participants"].queryset = org.get_people()
             self.fields["participants"].help_text = f"Click to select participants from {org}."
+            if self.event_type:
+                self.fields["type_descriptor"].initial = self.event_type
         else:
             self.fields["participants"].widget = forms.HiddenInput()
 

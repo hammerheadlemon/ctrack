@@ -84,11 +84,11 @@ class SingleDateTimeEventCreate(FormView):
             return context
         return context
 
-
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs["user"] = self.request.user
         kwargs["org_slug"] = self.kwargs.get("org_slug")
+        kwargs["event_type"] = self.kwargs.get("event_type")
         return kwargs
 
     def form_valid(self, form):
