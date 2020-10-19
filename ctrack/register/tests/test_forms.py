@@ -10,10 +10,11 @@ pytestmark = pytest.mark.django_db
 #   on the model
 
 
-def test_init(user):
+def test_init(user, org_with_people):
     """Here we test that we can pass in the user value from the view.
     We don't want that to be field in the form.
     """
+    people_from_org = org_with_people.get_people()
     form = CreateSimpleDateTimeEventForm(
         {
             "type_descriptor": "MEETING",  # Must be Meeting as that is in the choices param
@@ -21,6 +22,7 @@ def test_init(user):
             "datetime": "2010-10-10T13:00",
             "comments": "Test Comments",
             "location": "Transient Moats",
+            "participants": people_from_org
         },
         user=user, org_slug=None
     )
@@ -46,13 +48,14 @@ def test_simple_event_limited_to_org_participants(user, org, person):
     assert form.is_valid()
 
 
-def test_cannot_create_disallowed_single_date_event_type_with_form(user):
+def test_cannot_create_disallowed_single_date_event_type_with_form(user, org_with_people):
     form = CreateSimpleDateTimeEventForm(
         {
             "type_descriptor": "NOT ALLOWED EVENT",
             "short_description": "Test short description",
             "datetime": "2020-10-10",
             "comments": "Test Comments",
+            "participants": org_with_people.get_people()
         },
         user=user, org_slug=None
     )
@@ -64,7 +67,7 @@ def test_cannot_create_disallowed_single_date_event_type_with_form(user):
     }
 
 
-def test_create_simple_datetime_event(user):
+def test_create_simple_datetime_event(user, org_with_people):
     form = CreateSimpleDateTimeEventForm(
         {
             "type_descriptor": "PHONE_CALL",
@@ -73,13 +76,14 @@ def test_create_simple_datetime_event(user):
             "requested_response_date": "2020-12-24",
             "response_received_date": "2020-12-25",
             "url": "https://fake.url.com",
-            "comments": "Test Comments not needed"
+            "comments": "Test Comments not needed",
+            "participants": org_with_people.get_people()
         }, user=user, org_slug=None
     )
     assert form.is_valid()
 
 
-def test_create_private_note(user):
+def test_create_private_note(user, org_with_people):
     form = CreateSimpleDateTimeEventForm(
         {
             "type_descriptor": "NOTE",
@@ -89,13 +93,14 @@ def test_create_private_note(user):
             "response_received_date": "2020-12-25",
             "url": "https://fake.url.com",
             "private": True,
+            "participants": org_with_people.get_people(),
             "comments": "Test Comments not needed"
         }, user=user, org_slug=None
     )
     assert form.is_valid()
 
 
-def test_response_date_cannot_be_before_date(user):
+def test_response_date_cannot_be_before_date(user, org_with_people):
     form = CreateSimpleDateTimeEventForm(
         {
             "type_descriptor": "PHONE_CALL",
@@ -103,20 +108,22 @@ def test_response_date_cannot_be_before_date(user):
             "datetime": "2010-10-10 10:00",
             "requested_response_date": "2009-12-24",
             "response_received_date": None,
-            "comments": "Test Comments not needed"
+            "comments": "Test Comments not needed",
+            "participants": org_with_people.get_people()
         }, user=user, org_slug=None
     )
     assert not form.is_valid()
     assert form.errors == {"__all__": ["Requested response cannot be before date."]}
 
 
-def test_meeting_blank_data(user):
+def test_meeting_blank_data(user, org_with_people):
     """Missing datetime fields is required. Location is optional"""
     form = CreateSimpleDateTimeEventForm(
         {
             "type_descriptor": "MEETING",
             "short_description": "Test short description",
             "comments": "Test Comments",
+            "participants": org_with_people.get_people()
         },
         user=user, org_slug=None
     )
