@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from ctrack.register.models import EngagementEvent, SingleDateTimeEvent
+from ctrack.register.models import EngagementEvent, SingleDateTimeEvent, NoteEvent
 from ctrack.register.models import EngagementType
 
 
@@ -19,6 +19,12 @@ class SingleDateTimeEventAdmin(admin.ModelAdmin):
     list_display = ("type_descriptor", "short_description", "datetime", "user", "created_date")
 
 
+class NoteEventAdmin(admin.ModelAdmin):
+    model = NoteEvent
+    list_display = ("short_description", "organisation", "user")
+
+
 admin.site.register(EngagementEvent, EngagementEventAdmin)
 admin.site.register(EngagementType, EngagementEventTypeAdmin)
 admin.site.register(SingleDateTimeEvent, SingleDateTimeEventAdmin)
+admin.site.register(NoteEvent, NoteEventAdmin)

@@ -1,8 +1,7 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import DeleteView, FormView, UpdateView
+from django.views.generic import DeleteView, FormView, UpdateView, CreateView
 
 from ctrack.caf.models import CAF
 from ctrack.organisations.models import Organisation
@@ -10,7 +9,7 @@ from ctrack.register.forms import (
     CreateSimpleDateTimeEventForm,
     EngagementEventCreateForm,
 )
-from ctrack.register.models import EngagementEvent, SingleDateTimeEvent
+from ctrack.register.models import EngagementEvent, SingleDateTimeEvent, NoteEvent
 
 
 class EngagementEventDelete(DeleteView):
@@ -73,6 +72,29 @@ class EngagementEventCreateFromCaf(FormView):
     def get_success_url(self):
         org_slug = CAF.objects.get(pk=self.kwargs["caf_id"]).organisation.slug
         return reverse_lazy("organisations:detail", args=[org_slug])
+
+
+class CreateNoteEvent(CreateView):
+    model = NoteEvent
+    fields = [
+        "short_description",
+        "organisation",
+        "comments",
+        "private",
+        "url",
+        "requested_response_date",
+        "response_received_date",
+    ]
+    template_name = "register/create_note_event_form.html"
+
+    def form_valid(self, form):
+        note = form.save(commit=False)
+        note.user = self.request.user
+        note.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy("organisations:detail", args=[self.object.organisation.slug])
 
 
 class SingleDateTimeEventUpdate(UpdateView):

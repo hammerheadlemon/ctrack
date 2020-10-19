@@ -127,6 +127,13 @@ class TestSingleDateTimeEvent:
         html = response.content.decode("utf-8")
         test_case.assertInHTML(f"Create a new simple event involving {org.name}", html)
 
+    def test_create_note_view(self, user, org, client):
+        client.force_login(user)
+        response = client.get(reverse("register:event_create_note"))
+        assert response.status_code == 200
+        html = response.content.decode("utf-8")
+        assert "Create a Note" in html
+
     def test_org_passed_as_kwarg(self, user, org, request_factory):
         slug = org.slug
         view = SingleDateTimeEventCreate()

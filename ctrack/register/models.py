@@ -182,6 +182,9 @@ class NoteEvent(
         "organisations.Organisation", on_delete=models.CASCADE, blank=False
     )
 
+    def __str__(self):
+        return " ".join(["Note: ", self.short_description])
+
 
 class SingleDateTimeEvent(
     EventBase,
