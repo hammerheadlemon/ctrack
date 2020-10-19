@@ -16,6 +16,9 @@ from .models import IncidentReport, Organisation, Person
 
 
 # TODO - needs a permission on this view
+from .utils import filter_private_events
+
+
 def essential_service_detail(request, pk):
     es = EssentialService.objects.get(pk=pk)
     org = es.organisation
@@ -87,12 +90,19 @@ class OrganisationDetailView(PermissionRequiredMixin, DetailView):
         cafs = org.caf_set.all()
 
         # simple datetime events for org
-        _sdes = [person.get_single_datetime_events() for person in peoples]
+        _sdes = [
+            filter_private_events(
+                person.get_single_datetime_events(), self.request.user
+            )
+            for person in peoples
+        ]
         flat_sdes = list(itertools.chain.from_iterable(_sdes))
 
         # Some events will not involve a participant, which is what ties an event to an organisation.
         # Because we want to list events to an organisation here we must related it via the CAF object too...
-        engagement_events = EngagementEvent.objects.filter(Q(participants__in=peoples) | Q(related_caf__in=cafs)).order_by("-date")
+        engagement_events = EngagementEvent.objects.filter(
+            Q(participants__in=peoples) | Q(related_caf__in=cafs)
+        ).order_by("-date")
         essential_services = EssentialService.objects.filter(organisation=org)
 
         no_addr = org.addresses.count()
