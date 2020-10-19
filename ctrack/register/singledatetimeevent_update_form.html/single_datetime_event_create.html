@@ -1,0 +1,21 @@
+{% extends  "snippets/event_form_base.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block form %}
+  {% if org %}
+    <h3 class="mt-2">Create a new simple event involving {{ org }}</h3>
+  {% else %}
+    <h3 class="mt-2">Create a new simple event</h3>
+  {% endif %}
+  <p>Simple events are emails, phone calls, basic meetings, notes, deadlines, etc.
+    If you arrived at this page from an organisation's page, you are able to select
+    participants in the event from that organisation.</p>
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-success">Submit</button>
+    <a href="{{ org.get_absolute_url }}" class="btn btn-danger" type="button">Cancel</a>
+  </form>
+{% endblock form %}

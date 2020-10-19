@@ -2,6 +2,7 @@ import pytest
 from django.test import TestCase
 from django.urls import reverse
 
+from ctrack.organisations.tests.factories import SingleDateTimeEventFactory
 from ctrack.register.views import SingleDateTimeEventCreate
 
 # Doing this allows us to use TestCase assertions (assertIn, etc)
@@ -120,8 +121,8 @@ class TestSingleDateTimeEvent:
         url = reverse("register:event_create_simple_event_from_org", args=[slug])
         client.force_login(user)
         response = client.get(url)
-        html = response.content.decode("utf-8")
         assert response.status_code == 200
+        html = response.content.decode("utf-8")
         test_case.assertInHTML(f"Create a new simple event involving {org.name}", html)
 
     def test_org_passed_as_kwarg(self, user, org, request_factory):
@@ -146,6 +147,23 @@ class TestSingleDateTimeEvent:
         view.request = request
         view.setup(request)
         assert "event_type" in view.get_form_kwargs()
+
+    def test_can_update_single_datetime_event_from_org(self, user, org_with_people, client):
+        org_slug = org_with_people.slug
+        people = org_with_people.person_set.all()
+        e1 = SingleDateTimeEventFactory(type_descriptor="MEETING")
+        _collected_p = []
+        for p in people:
+            e1.participants.add(p)
+            _collected_p.append((p.first_name, p.last_name))
+        e1.save()
+        pk = e1.pk
+        url = reverse("register:event_update_simple_event_from_org", args=[pk, org_slug])
+        client.force_login(user)
+        response = client.get(url)
+        assert response.status_code == 200
+        html = response.content.decode("utf-8")
+        test_case.assertInHTML(" ".join(_collected_p[0]), html)
 
 
 class TestSingleDateCAFEventViews:

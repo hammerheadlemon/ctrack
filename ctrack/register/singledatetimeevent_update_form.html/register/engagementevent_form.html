@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Register a new OES event
+{% endblock title %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script>
+    $(document).ready(function () {
+
+      $("#id_type").change(function () {
+        const selected = $("#id_type option:selected").text();
+        if (selected.includes("CAF")) {
+          $("#caf_alert").removeAttr('hidden');
+          $("#div_id_related_caf").addClass("border rounded p-3 border-danger");
+          $("select[name=related_caf] option:eq(1)").attr("selected", "selected");
+        } else {
+          $("#caf_alert").prop("hidden", true);
+          $("#div_id_related_caf").removeClass("border rounded p-3 border-danger");
+          $("select[name=related_caf] option:eq(0)").attr("selected", "selected");
+        }
+      });
+    });
+  </script>
+
+
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col-md-12 pl-0 my-2">
+        <h4>Register a new event</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 pl-0 my-2 bg-light">
+        <h3 class="text-secondary">{{ org.name }}</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-7 py-2 mb-3 border bg-light">
+        <div hidden id="caf_alert" class="alert alert-danger" role="alert">
+          If selecting a CAF type here, you must select the CAF this event applies to in
+          the "Related CAFs" field below.
+        </div>
+        {% crispy form %}
+      </div>
+      <div class="col-md-5">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Help on Engagement Events</h5>
+            <p class="card-text">All key events in the compliance lifecycle need to be registered.</p>
+            <p class="card-text">Events can be <em>singular</em> (such as an email) or <em>periodic</em> (such as a CAF
+              analysis period).</p>
+            <p class="card-text">All events should be registered here.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

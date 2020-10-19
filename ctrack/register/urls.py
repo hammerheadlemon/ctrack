@@ -4,7 +4,7 @@ from ctrack.register.views import (
     EngagementEventCreate,
     EngagementEventCreateFromCaf,
     EngagementEventDelete,
-    SingleDateTimeEventCreate,
+    SingleDateTimeEventCreate, SingleDateTimeEventUpdate,
 )
 
 app_name = "register"
@@ -29,6 +29,11 @@ urlpatterns = [
         "event/create-simple-event",
         view=SingleDateTimeEventCreate.as_view(),
         name="event_create_simple_event",
+    ),
+    path(
+        "event/update-simple-event/<int:pk>/<slug:org_slug>",
+        view=SingleDateTimeEventUpdate.as_view(),
+        name="event_update_simple_event_from_org",
     ),
     path(
         "event/create-simple-event-from-org/<slug:org_slug>",

@@ -2,12 +2,15 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import DeleteView, FormView
+from django.views.generic import DeleteView, FormView, UpdateView
 
 from ctrack.caf.models import CAF
 from ctrack.organisations.models import Organisation
-from ctrack.register.forms import CreateSimpleDateTimeEventForm, EngagementEventCreateForm
-from ctrack.register.models import EngagementEvent
+from ctrack.register.forms import (
+    CreateSimpleDateTimeEventForm,
+    EngagementEventCreateForm,
+)
+from ctrack.register.models import EngagementEvent, SingleDateTimeEvent
 
 
 class EngagementEventDelete(DeleteView):
@@ -72,6 +75,33 @@ class EngagementEventCreateFromCaf(FormView):
         return reverse_lazy("organisations:detail", args=[org_slug])
 
 
+class SingleDateTimeEventUpdate(UpdateView):
+    model = SingleDateTimeEvent
+    fields = [
+        "type_descriptor",
+        "short_description",
+        "datetime",
+        "private",
+        "document_link",
+        "comments",
+        "participants",
+        "requested_response_date",
+        "response_received_date",
+    ]
+    template_name_suffix = "_update_form"
+    success_url = reverse_lazy("organisations:list")
+
+    def get_success_url(self):
+        # We might not have org_slug if we are not setting this from an org detail page
+        try:
+            self.success_url = reverse_lazy(
+                "organisations:detail", args=[self.kwargs["org_slug"]]
+            )
+            return super().get_success_url()
+        except KeyError:
+            return super().get_success_url()
+
+
 class SingleDateTimeEventCreate(FormView):
     template_name = "single_datetime_event_create.html"
     form_class = CreateSimpleDateTimeEventForm
@@ -80,7 +110,9 @@ class SingleDateTimeEventCreate(FormView):
     def get_success_url(self):
         # We might not have org_slug if we are not setting this from an org detail page
         try:
-            self.success_url = reverse_lazy("organisations:detail", args=[self.kwargs["org_slug"]])
+            self.success_url = reverse_lazy(
+                "organisations:detail", args=[self.kwargs["org_slug"]]
+            )
             return super().get_success_url()
         except KeyError:
             return super().get_success_url()
