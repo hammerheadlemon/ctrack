@@ -17,7 +17,6 @@ class EventType(Enum):
     PHONE_CALL = auto()
     VIDEO_CALL = auto()
     EMAIL = auto()
-    NOTE = auto()
     # single date caf events
     CAF_INITIAL_CAF_RECEIVED = auto()
     CAF_FEEDBACK_EMAILED_OES = auto()
@@ -88,7 +87,9 @@ class EventBase(AuditableEventBase):
 
 
 class ThirdPartyEventMixin(models.Model):
-    participants = models.ManyToManyField(Person, blank=False)
+    participants = models.ManyToManyField(
+        Person, blank=False
+    )  # cannot enforce this at DB level
     location = models.CharField(
         max_length=100,
         blank=True,
@@ -160,13 +161,26 @@ class ResponseRequiredMixin(models.Model):
 
 class PrivateEventMixin(models.Model):
     private = models.BooleanField(
-        default=False, help_text="Private events can only be seen by you. Official records should "
-                                 "not be private, but you can use private events to track your own "
-                                 "work."
+        default=False,
+        help_text="Private events can only be seen by you. Official records should "
+        "not be private, but you can use private events to track your own "
+        "work.",
     )
 
     class Meta:
         abstract = True
+
+
+class NoteEvent(
+    EventBase,
+    ResponseRequiredMixin,
+    URLEventMixin,
+    PrivateEventMixin,
+):
+    type_descriptor = models.CharField(blank=False, max_length=50, default="NOTE")
+    organisation = models.ForeignKey(
+        "organisations.Organisation", on_delete=models.CASCADE, blank=False
+    )
 
 
 class SingleDateTimeEvent(
@@ -182,7 +196,6 @@ class SingleDateTimeEvent(
         (EventType.PHONE_CALL.name, "Phone Call"),
         (EventType.VIDEO_CALL.name, "Video Call"),
         (EventType.EMAIL.name, "Email"),
-        (EventType.NOTE.name, "Note"),
     ]
     type_descriptor = models.CharField(
         blank=False, max_length=50, choices=AVAILABLE_TYPES, verbose_name="Event Type"

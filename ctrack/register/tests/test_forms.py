@@ -1,7 +1,7 @@
 import pytest
 from django.db import IntegrityError
 
-from ..forms import CreateSimpleDateTimeEventForm, CAFSingleDateEventForm, CAFTwinDateEventForm
+from ..forms import CreateSimpleDateTimeEventForm, CAFSingleDateEventForm, CAFTwinDateEventForm, CreateNoteEventForm
 
 pytestmark = pytest.mark.django_db
 
@@ -83,23 +83,6 @@ def test_create_simple_datetime_event(user, org_with_people):
     assert form.is_valid()
 
 
-def test_create_private_note(user, org_with_people):
-    form = CreateSimpleDateTimeEventForm(
-        {
-            "type_descriptor": "NOTE",
-            "short_description": "Test Short Description",
-            "datetime": "2010-10-10 10:00",
-            "requested_response_date": "2020-12-24",
-            "response_received_date": "2020-12-25",
-            "url": "https://fake.url.com",
-            "private": True,
-            "participants": org_with_people.get_people(),
-            "comments": "Test Comments not needed"
-        }, user=user, org_slug=None
-    )
-    assert form.is_valid()
-
-
 def test_response_date_cannot_be_before_date(user, org_with_people):
     form = CreateSimpleDateTimeEventForm(
         {
@@ -129,6 +112,23 @@ def test_meeting_blank_data(user, org_with_people):
     )
     assert form.is_valid() is False
     assert form.errors == {"datetime": ["This field is required."]}
+
+
+# TODO - write the template and test the view for this and link from org detail page
+def test_create_note(user, org_with_people):
+    """
+    A note is related to an organisation rather than to persons in that organisation.
+    """
+    form = CreateNoteEventForm(
+        {
+            "type_descriptor": "NOTE",
+            "short_description": "Test note",
+            "organisation": org_with_people,
+            "private": True,
+            "url": "https://www.bobbins.com/there-bos"
+        }, user=user
+    )
+    assert form.is_valid()
 
 
 @pytest.mark.parametrize(

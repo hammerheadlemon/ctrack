@@ -14,7 +14,33 @@ from ctrack.register.models import (
     EngagementEvent,
     EngagementType,
     SingleDateTimeEvent,
+    NoteEvent,
 )
+
+
+class CreateNoteEventForm(forms.ModelForm):
+    class Meta:
+        model = NoteEvent
+        fields = [
+            "type_descriptor",
+            "short_description",
+            "comments",
+            "private",
+            "url",
+            "requested_response_date",
+            "response_received_date",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop("user")
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True, **kwargs):
+        new_note = super().save(commit=False)
+        new_note.user = self.user
+        new_note.save()
+        self.save_m2m()
+        return new_note
 
 
 class CreateSimpleDateTimeEventForm(forms.ModelForm):
@@ -32,9 +58,7 @@ class CreateSimpleDateTimeEventForm(forms.ModelForm):
             "location",
             "comments",
         ]
-        widgets = {
-            "participants": forms.CheckboxSelectMultiple()
-        }
+        widgets = {"participants": forms.CheckboxSelectMultiple()}
 
     def __init__(self, *args, **kwargs):
         self.event_type = None
@@ -48,8 +72,10 @@ class CreateSimpleDateTimeEventForm(forms.ModelForm):
         if self.org_slug:
             org = Organisation.objects.get(slug=self.org_slug)
             self.fields["participants"].queryset = org.get_people()
-            self.fields["participants"].help_text = mark_safe(f"Click to select participants from {org}. <strong>IMPORTANT:</strong>" \
-                                                    f"You must select at least one participant.")
+            self.fields["participants"].help_text = mark_safe(
+                f"Click to select participants from {org}. <strong>IMPORTANT:</strong>"
+                f"You must select at least one participant."
+            )
             if self.event_type:
                 self.fields["type_descriptor"].initial = self.event_type
         else:
@@ -104,8 +130,8 @@ class CAFTwinDateEventForm(forms.ModelForm):
         caf = self.cleaned_data["related_caf"]
         existing_obj = (
             CAFTwinDateEvent.objects.filter(start_date=data)
-                .filter(related_caf=caf)
-                .first()
+            .filter(related_caf=caf)
+            .first()
         )
         if existing_obj:
             raise ValidationError(
