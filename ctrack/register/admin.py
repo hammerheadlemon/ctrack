@@ -16,6 +16,7 @@ class EngagementEventTypeAdmin(admin.ModelAdmin):
 
 class SingleDateTimeEventAdmin(admin.ModelAdmin):
     model = SingleDateTimeEvent
+    list_display = ("type_descriptor", "short_description", "datetime", "user", "created_date")
 
 
 admin.site.register(EngagementEvent, EngagementEventAdmin)

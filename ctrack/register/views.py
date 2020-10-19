@@ -77,6 +77,10 @@ class SingleDateTimeEventCreate(FormView):
     form_class = CreateSimpleDateTimeEventForm
     success_url = reverse_lazy("organisations:list")
 
+    def get_success_url(self):
+        self.success_url = reverse_lazy("organisations:detail", args=[self.kwargs["org_slug"]])
+        return super().get_success_url()
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         if self.kwargs.get("org_slug"):

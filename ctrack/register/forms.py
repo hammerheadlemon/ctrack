@@ -4,6 +4,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from django.utils.safestring import mark_safe
 
 from ctrack.caf.models import CAF
 from ctrack.organisations.models import Organisation, Person
@@ -31,6 +32,9 @@ class CreateSimpleDateTimeEventForm(forms.ModelForm):
             "location",
             "comments",
         ]
+        widgets = {
+            "participants": forms.CheckboxSelectMultiple()
+        }
 
     def __init__(self, *args, **kwargs):
         self.event_type = None
@@ -44,7 +48,8 @@ class CreateSimpleDateTimeEventForm(forms.ModelForm):
         if self.org_slug:
             org = Organisation.objects.get(slug=self.org_slug)
             self.fields["participants"].queryset = org.get_people()
-            self.fields["participants"].help_text = f"Click to select participants from {org}."
+            self.fields["participants"].help_text = mark_safe(f"Click to select participants from {org}. <strong>IMPORTANT:</strong>" \
+                                                    f"You must select at least one participant.")
             if self.event_type:
                 self.fields["type_descriptor"].initial = self.event_type
         else:
@@ -61,11 +66,12 @@ class CreateSimpleDateTimeEventForm(forms.ModelForm):
                 raise ValidationError("Requested response cannot be before date.")
         return cleaned_data
 
-    def save(self, **kwargs):
-        form = super().save(commit=False)
-        form.user = self.user
-        form.save()
-        return form
+    def save(self, commit=True, **kwargs):
+        new_event = super().save(commit=False)
+        new_event.user = self.user
+        new_event.save()
+        self.save_m2m()
+        return new_event
 
 
 class CAFSingleDateEventForm(forms.ModelForm):
