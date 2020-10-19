@@ -1,20 +1,18 @@
 import itertools
 from typing import Any
 
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import transaction
-from django.db.models import Q, QuerySet
+from django.db.models import Q
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, FormView, ListView
 
-from ctrack.caf.models import EssentialService, CAF
+from ctrack.caf.models import CAF, EssentialService
 from ctrack.register.models import EngagementEvent
 from .forms import AddressInlineFormSet, IncidentReportForm, OrganisationCreateForm
 from .models import IncidentReport, Organisation, Person
-
-
 # TODO - needs a permission on this view
 from .utils import filter_private_events
 
@@ -96,7 +94,11 @@ class OrganisationDetailView(PermissionRequiredMixin, DetailView):
             )
             for person in peoples
         ]
-        flat_sdes = list(itertools.chain.from_iterable(_sdes))
+        flat_sdes = sorted(
+            list(itertools.chain.from_iterable(_sdes)),
+            key=lambda e: e.datetime,
+            reverse=True,
+        )
 
         # Some events will not involve a participant, which is what ties an event to an organisation.
         # Because we want to list events to an organisation here we must related it via the CAF object too...
