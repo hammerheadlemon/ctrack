@@ -43,12 +43,12 @@
               and other attributes:</p>
 
             <ul class="list-group">
-              <li class="list-group-item list-group-item-dark"><a href="{% url "organisations:list" %}">All
-                organisations</a></li>
-              <li class="list-group-item list-group-item-dark"><a href="{% url "organisations:people" %}">All
-                people</a></li>
-              <li class="list-group-item list-group-item-dark"><a href="#">All
-                essential services</a></li>
+              <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"><a href="{% url "organisations:list" %}">All
+                organisations</a><span class="badge badge-secondary">{{ no_orgs }}</span></li>
+              <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"><a href="{% url "organisations:people" %}">All
+                people</a><span class="badge badge-secondary">{{ no_people }}</span></li>
+              <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"><a href="#">All
+                essential services</a><span class="badge badge-secondary">{{ no_essential_services }}</span></li>
             </ul>
           </div>
           <div class="col-sm-12 m-1 border rounded p-2">
@@ -62,7 +62,7 @@
               </svg>
               CAFs
             </h3>
-            <p>There are <span class="lead font-weight-bold">93</span> <a href="{% url "caf:caf_list" %}">CAFs</a> on
+            <p>There are <span class="lead font-weight-bold">{{ no_cafs }}</span> <a href="{% url "caf:caf_list" %}">CAFs</a> on
               ctrack, providing data on <span class="lead font-weight-bold">{{ no_systems }}</span> <a
                       href="{% url "caf:es_list" %}">critical systems</a>. Of these, <span
                       class="lead font-weight-bold">12</span> have been validated. <span
@@ -72,10 +72,10 @@
             <p class="small">Use these high level lists to view things by <strong>lead inspector</strong>, <strong>sub-mode</strong>
               and other attributes:</p>
             <ul class="list-group">
-              <li class="list-group-item list-group-item-dark"><a href="{% url "caf:caf_list" %}">All
-                CAFs</a></li>
-              <li class="list-group-item list-group-item-dark"><a href="{% url "caf:es_list" %}">All
-                critical systems</a></li>
+              <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"><a href="{% url "caf:caf_list" %}">All
+                CAFs</a><span class="badge badge-secondary">{{ no_cafs }}</span></li>
+              <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"><a href="{% url "caf:es_list" %}">All
+                critical systems</a><span class="badge badge-secondary">{{ no_systems }}</span></li>
             </ul>
           </div>
         </div>
