@@ -1,7 +1,7 @@
 import pytest
 
 from ctrack.organisations.models import Organisation, Submode, Mode
-from ctrack.organisations.views import inspectors_for_each_mode
+from ctrack.organisations.utils import inspectors_for_each_mode
 from ctrack.organisations.tests.factories import OrganisationFactory
 
 pytestmark = pytest.mark.django_db

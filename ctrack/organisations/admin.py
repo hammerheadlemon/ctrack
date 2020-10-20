@@ -55,7 +55,13 @@ class EssentialServiceInline(admin.StackedInline):
 
 class OrganisationAdmin(admin.ModelAdmin):
     inlines = [AddressInLine, EssentialServiceInline]
-    list_display = ("name", "submode", "date_updated")
+    list_display = (
+        "name",
+        "submode",
+        "date_updated",
+        "lead_inspector",
+        "deputy_lead_inspector",
+    )
 
 
 class PersonAdmin(admin.ModelAdmin):

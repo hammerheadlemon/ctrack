@@ -3,6 +3,7 @@ from django.shortcuts import render
 
 from ctrack.caf.models import EssentialService, CAF, ApplicableSystem
 from ctrack.organisations.models import IncidentReport, Organisation, Person, Submode
+from ctrack.organisations.utils import inspectors_for_each_mode
 from ctrack.register.models import EngagementEvent
 
 
@@ -33,6 +34,8 @@ def home_page(request):
         no_essential_services = EssentialService.objects.count()
         no_systems = ApplicableSystem.objects.count()
         submodes = Submode.objects.all().order_by("descriptor")
+        submode_inspector_dict = inspectors_for_each_mode("lead_inspector")
+        submode_deputy_inspector_dict = inspectors_for_each_mode("deputy_lead_inspector")
         context = {
             "no_orgs": no_orgs,
             "no_people": no_people,
@@ -41,5 +44,7 @@ def home_page(request):
             "no_systems": no_systems,
             "caf_users": caf_users,
             "submodes": submodes,
+            "submode_inspector_dict": submode_inspector_dict,
+            "submode_deputy_inspector_dict": submode_deputy_inspector_dict,
         }
         return render(request, "pages/home.html", context)

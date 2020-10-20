@@ -90,14 +90,26 @@
               </svg>
               Inspectors
             </h3>
-            <ul class="list-group">
-            {% for submode in submodes %}
-                {{ submode }}
-            {% endfor %}
-
+          <p>Inspectors are allocated to an organisation and can therefore be grouped by
+          the sector that organisation belongs to. This usually means there is one lead
+          inspector for each submode, but it is possible for an inspector to lead for an
+          organistion in another sector. The applies for deputy inspector roles.</p>
+            <h5>Lead Inspectors</h5>
+            <ul>
+              {% for k, v in submode_inspector_dict.items %}
+                <li><strong>{{ k }}</strong> &nbsp; {% for x in v %} {{ x.name }}{% endfor %}</li>
+              {% endfor %}
+            </ul>
+            <h5>Deputy Lead Inspectors</h5>
+            <ul>
+              {% for k, v in submode_deputy_inspector_dict.items %}
+                <li><strong>{{ k }}</strong> &nbsp; {% for x in v %} {{ x.name }}{% endfor %}</li>
+              {% endfor %}
             </ul>
           </div>
         </div>
+      </div>
+    </div>
 
         <div class="row mt-2">
           <p><a class="btn btn-primary btn-lg" href="#" role="button">Get help using ctrack &raquo;</a></p>

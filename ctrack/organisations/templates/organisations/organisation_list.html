@@ -45,7 +45,7 @@
             <tr>
               <td><a href="{% url "organisations:detail" org.slug %}">{{ org.name }}</a></td>
               <td>{{ org.submode }}</td>
-              <td>{{ org.lead_inspector }}</td>
+              <td>{{ org.lead_inspector.name }}</td>
               <td>
                 {% if org.primary_contacts %}
                   <ul style="list-style-type:none; float:left; padding: 0">
