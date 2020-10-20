@@ -145,7 +145,10 @@ class IncidentReportCreateView(FormView):
         return HttpResponseRedirect(reverse("core:home"))
 
 
-def inspectors_for_each_mode(lead_type="lead_inspector") -> Dict[str, List[str]]:
+def inspectors_for_each_mode(lead_type="lead_inspector") -> Dict[str, Set[str]]:
+    """
+    We want to be able to group lead inspectors by submode.
+    """
     if lead_type not in ["lead_inspector", "deputy_lead_inspector"]:
         raise ValueError("Can only query for lead_inspector and deputy_lead_inspector attributes.")
     submodes = Submode.objects.all()
@@ -155,6 +158,6 @@ def inspectors_for_each_mode(lead_type="lead_inspector") -> Dict[str, List[str]]
         orgs = sm.organisation_set.all()
         for org in orgs:
             insp.add(getattr(org, lead_type))
-        out[sm.descriptor] = list(insp)
+        out[sm.descriptor] = insp
         del insp
     return out

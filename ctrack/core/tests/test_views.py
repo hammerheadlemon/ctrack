@@ -15,18 +15,18 @@ def test_group_lead_inspector_by_submode(
     submode2 = Submode.objects.create(
         descriptor="Metro Rail", mode=Mode.objects.create(descriptor="Rail"))
 
-    org1 = OrganisationFactory(submode=submode1, lead_inspector=inspector1)
-    org2 = OrganisationFactory(submode=submode1, lead_inspector=inspector1)
-    org3 = OrganisationFactory(submode=submode1, lead_inspector=inspector1)
-    org4 = OrganisationFactory(submode=submode1, lead_inspector=inspector1)
+    OrganisationFactory(submode=submode1, lead_inspector=inspector1, deputy_lead_inspector=inspector2)
+    OrganisationFactory(submode=submode1, lead_inspector=inspector1, deputy_lead_inspector=inspector2)
+    OrganisationFactory(submode=submode1, lead_inspector=inspector1, deputy_lead_inspector=inspector2)
+    OrganisationFactory(submode=submode1, lead_inspector=inspector1, deputy_lead_inspector=inspector2)
 
-    org5 = OrganisationFactory(submode=submode2, lead_inspector=inspector2)
-    org6 = OrganisationFactory(submode=submode2, lead_inspector=inspector2)
-    org7 = OrganisationFactory(submode=submode2, lead_inspector=inspector2)
-    org8 = OrganisationFactory(submode=submode2, lead_inspector=inspector2)
+    OrganisationFactory(submode=submode2, lead_inspector=inspector2, deputy_lead_inspector=inspector1)
+    OrganisationFactory(submode=submode2, lead_inspector=inspector2, deputy_lead_inspector=inspector1)
+    OrganisationFactory(submode=submode2, lead_inspector=inspector2, deputy_lead_inspector=inspector1)
+    OrganisationFactory(submode=submode2, lead_inspector=inspector2, deputy_lead_inspector=inspector1)
 
     # We have two lead inspectors for submode1!
-    org8 = OrganisationFactory(submode=submode1, lead_inspector=inspector2)
+    org8 = OrganisationFactory(submode=submode1, lead_inspector=inspector2, deputy_lead_inspector=inspector1)
 
     orgs = Organisation.objects.filter(submode=submode)
     leads = [org.lead_inspector for org in orgs]
@@ -36,6 +36,9 @@ def test_group_lead_inspector_by_submode(
     for lead in leads[4:]:
         assert lead.first_name == "Ogilvie"
 
-    inspector_dict = inspectors_for_each_mode(lead_type="lead_inspector")
-    assert inspector_dict["Light Rail"] == [inspector1, inspector2]
-    assert inspector_dict["Metro Rail"] == [inspector2]
+    lead_inspectors = inspectors_for_each_mode(lead_type="lead_inspector")
+    deputy_lead_inspectors = inspectors_for_each_mode(lead_type="deputy_lead_inspector")
+    assert lead_inspectors["Light Rail"] == {inspector1, inspector2}
+    assert lead_inspectors["Metro Rail"] == {inspector2}
+    assert deputy_lead_inspectors["Light Rail"] == {inspector2, inspector1}
+    assert deputy_lead_inspectors["Metro Rail"] == {inspector1}
