@@ -1,7 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
-from ctrack.organisations.models import IncidentReport, Organisation
+from ctrack.caf.models import EssentialService, CAF, ApplicableSystem
+from ctrack.organisations.models import IncidentReport, Organisation, Person
 from ctrack.register.models import EngagementEvent
 
 
@@ -25,4 +26,16 @@ def home_page(request):
             },
         )
     else:
-        return render(request, "pages/home.html")
+        no_orgs = Organisation.objects.count()
+        no_people = Person.objects.count()
+        no_cafs = CAF.objects.count()
+        no_essential_services = EssentialService.objects.count()
+        no_systems = ApplicableSystem.objects.count()
+        context = {
+            "no_orgs": no_orgs,
+            "no_people": no_people,
+            "no_cafs": no_cafs,
+            "no_essential_services": no_essential_services,
+            "no_systems": no_systems,
+        }
+        return render(request, "pages/home.html", context)

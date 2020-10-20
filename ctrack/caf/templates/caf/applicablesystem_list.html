@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Systems in Scope{% endblock %}
+{% block title %}Critical Systems{% endblock %}
 
 {% block content %}
 
@@ -19,14 +19,14 @@
   </script>
 
   <div class="col-12 m-2">
-    <h3>Systems in Scope</h3> <span><a href="#">[Create new...]</a></span>
+    <h3>Critical Systems</h3> <span><a href="#">[Create new...]</a></span>
     <div class="row justify-content-center">
       <div class="col-md-12 my-2">
         <table id="datatable" class="table table-bordered" style="width:100%">
           <thead>
           <tr>
-            <th>Organisation</th>
             <th>System</th>
+            <th>Organisation</th>
             <th>CAFs</th>
             <th>Sub Mode</th>
             <th class="tabaligncenter">Confidence Grade</th>
@@ -37,10 +37,10 @@
           </thead>
           {% for sys in object_list %}
             <tr>
+              <td><a href="{% url "caf:ass_detail" sys.pk %}">{{ sys.name }}</a></td>
               <td>
                 <a href="{% url "organisations:detail" slug=sys.get_organisation.slug %}">{{ sys.get_organisation.name }}</a>
               </td>
-              <td><a href="{% url "caf:ass_detail" sys.pk %}">{{ sys.name }}</a></td>
               <td>
                 <ul>
                   {% for c in sys.caf_set.all %}
