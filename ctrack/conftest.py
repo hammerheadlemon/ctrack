@@ -29,7 +29,22 @@ from ctrack.users.tests.factories import UserFactory
 
 
 @pytest.fixture
-def submode():
+def user() -> User:
+    return UserFactory()
+
+
+@pytest.fixture
+def inspector1() -> User:
+    return UserFactory()
+
+
+@pytest.fixture
+def inspector2() -> User:
+    return UserFactory()
+
+
+@pytest.fixture
+def submode(inspector1, inspector2):
     return Submode.objects.create(
         descriptor="Light Rail", mode=Mode.objects.create(descriptor="Rail")
     )
@@ -102,11 +117,6 @@ def cct_user_group() -> Group:
     )
     group.permissions.add(*ctrack_permissions)
     return group
-
-
-@pytest.fixture
-def user() -> User:
-    return UserFactory()
 
 
 @pytest.fixture

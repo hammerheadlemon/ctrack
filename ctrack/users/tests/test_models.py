@@ -1,8 +1,20 @@
 import pytest
 
-from ctrack.organisations.models import Stakeholder
+from ctrack.organisations.models import Stakeholder, Submode
 
 pytestmark = pytest.mark.django_db
+
+
+def test_user_can_be_lead_inspector(inspector1, org):
+    org.lead_inspector = inspector1
+    org.save()
+    assert inspector1.get_lead_inspector_organisations().first() == org
+
+
+def test_user_can_be_deputy_lead_inspector(inspector1, org):
+    org.deputy_lead_inspector = inspector1
+    org.save()
+    assert inspector1.get_deputy_lead_inspector_organisations().first() == org
 
 
 def test_user_get_absolute_url(user):
@@ -10,7 +22,6 @@ def test_user_get_absolute_url(user):
 
 
 def test_user_is_person_object(user):
-
     """User comes from ctrack.conftest.
     """
     assert user
