@@ -19,35 +19,45 @@
   </script>
 
   <div class="col-12 m-2">
-    <h3>All CAFs</h3>
-    <div class="row justify-content-center">
-      <div class="col-md-12 my-2 py-2">
-        <table id="datatable" class="table table-bordered" style="width:100%">
-          <thead>
+  <h3>
+    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-checklist" fill="currentColor"
+         xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd"
+            d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+      <path fill-rule="evenodd"
+            d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+    </svg>
+    All CAFs
+  </h3>
+  <div class="row justify-content-center">
+    <div class="col-md-12 my-2 py-2">
+      <table id="datatable" class="table table-bordered" style="width:100%">
+        <thead>
+        <tr>
+          <th>Organisation</th>
+          <th>CAF</th>
+          <th>Sub Mode</th>
+          <th>Applicable Systems</th>
+        </tr>
+        </thead>
+        {% for caf in object_list %}
           <tr>
-            <th>Organisation</th>
-            <th>CAF</th>
-            <th>Sub Mode</th>
-            <th>Applicable Systems</th>
+            <td><a href="{% url "organisations:detail" slug=caf.organisation.slug %}">{{ caf.organisation }}</a>
+            </td>
+            <td><a href="{% url 'caf:detail' pk=caf.pk %}">{{ caf }}</a></td>
+            <td>{{ caf.sub_mode }}</td>
+            <td>
+              <ul class="list-group">
+                {% for applicable_system in caf.applicable_systems.all %}
+                  <li class="list-group-item"><a
+                          href="{% url "caf:ass_detail" applicable_system.pk %}">{{ applicable_system.name }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </td>
           </tr>
-          </thead>
-          {% for caf in object_list %}
-            <tr>
-              <td><a href="{% url "organisations:detail" slug=caf.organisation.slug %}">{{ caf.organisation }}</a>
-              </td>
-              <td><a href="{% url 'caf:detail' pk=caf.pk %}">{{ caf }}</a></td>
-              <td>{{ caf.sub_mode }}</td>
-              <td>
-                <ul class="list-group">
-                  {% for applicable_system in caf.applicable_systems.all %}
-                    <li class="list-group-item"><a href="{% url "caf:ass_detail" applicable_system.pk %}">{{ applicable_system.name }}</a>
-                    </li>
-                  {% endfor %}
-                </ul>
-              </td>
-            </tr>
-          {% endfor %}
-        </table>
-      </div>
+        {% endfor %}
+      </table>
     </div>
+  </div>
 {% endblock %}
