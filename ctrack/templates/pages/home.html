@@ -43,11 +43,14 @@
               and other attributes:</p>
 
             <ul class="list-group">
-              <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"><a href="{% url "organisations:list" %}">All
+              <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"><a
+                      href="{% url "organisations:list" %}">All
                 organisations</a><span class="badge badge-secondary">{{ no_orgs }}</span></li>
-              <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"><a href="{% url "organisations:people" %}">All
+              <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"><a
+                      href="{% url "organisations:people" %}">All
                 people</a><span class="badge badge-secondary">{{ no_people }}</span></li>
-              <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"><a href="#">All
+              <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"><a
+                      href="#">All
                 essential services</a><span class="badge badge-secondary">{{ no_essential_services }}</span></li>
             </ul>
           </div>
@@ -62,7 +65,8 @@
               </svg>
               CAFs
             </h3>
-            <p>There are <span class="lead font-weight-bold">{{ no_cafs }}</span> <a href="{% url "caf:caf_list" %}">CAFs</a> on
+            <p>There are <span class="lead font-weight-bold">{{ no_cafs }}</span> <a href="{% url "caf:caf_list" %}">CAFs</a>
+              on
               ctrack, providing data on <span class="lead font-weight-bold">{{ no_systems }}</span> <a
                       href="{% url "caf:es_list" %}">critical systems</a>. Of these, <span
                       class="lead font-weight-bold">12</span> have been validated. <span
@@ -72,9 +76,11 @@
             <p class="small">Use these high level lists to view things by <strong>lead inspector</strong>, <strong>sub-mode</strong>
               and other attributes:</p>
             <ul class="list-group">
-              <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"><a href="{% url "caf:caf_list" %}">All
+              <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"><a
+                      href="{% url "caf:caf_list" %}">All
                 CAFs</a><span class="badge badge-secondary">{{ no_cafs }}</span></li>
-              <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"><a href="{% url "caf:es_list" %}">All
+              <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"><a
+                      href="{% url "caf:es_list" %}">All
                 critical systems</a><span class="badge badge-secondary">{{ no_systems }}</span></li>
             </ul>
           </div>
@@ -90,32 +96,38 @@
               </svg>
               Inspectors
             </h3>
-          <p>Inspectors are allocated to an organisation and can therefore be grouped by
-          the sector that organisation belongs to. This usually means there is one lead
-          inspector for each submode, but it is possible for an inspector to lead for an
-          organistion in another sector. The applies for deputy inspector roles.</p>
-            <h5>Lead Inspectors</h5>
-            <ul>
-              {% for k, v in submode_inspector_dict.items %}
-                <li><strong>{{ k }}</strong> &nbsp; {% for x in v %} {{ x.name }}{% endfor %}</li>
-              {% endfor %}
-            </ul>
-            <h5>Deputy Lead Inspectors</h5>
-            <ul>
-              {% for k, v in submode_deputy_inspector_dict.items %}
-                <li><strong>{{ k }}</strong> &nbsp; {% for x in v %} {{ x.name }}{% endfor %}</li>
-              {% endfor %}
-            </ul>
+            <p>Inspectors are allocated to an organisation and can therefore be grouped by
+              the sector that organisation belongs to. This usually means there is one lead
+              inspector for each submode, but it is possible for an inspector to lead for an
+              organistion in another sector. The applies for deputy inspector roles.</p>
+            <div class="row">
+              <div class="col-6">
+                <h5>Lead Inspectors</h5>
+                <ul class="list-unstyled">
+                  {% for k, v in submode_inspector_dict.items %}
+                    <li><strong>{{ k }}</strong> &nbsp; {% for x in v %} <a href="#">{{ x.name }}</a> -{% endfor %}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="col-6">
+                <h5>Deputy Lead Inspectors</h5>
+                <ul class="list-unstyled">
+                  {% for k, v in submode_deputy_inspector_dict.items %}
+                    <li><strong>{{ k }}</strong> &nbsp; {% for x in v %} <a href="#">{{ x.name }}</a> -{% endfor %}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-        <div class="row mt-2">
-          <p><a class="btn btn-primary btn-lg" href="#" role="button">Get help using ctrack &raquo;</a></p>
-        </div>
-      </div>
+    <div class="row mt-2">
+      <p><a class="btn btn-primary btn-lg" href="#" role="button">Get help using ctrack &raquo;</a></p>
     </div>
+  </div>
+  </div>
   </div>
 
   <!-- Example row of columns -->
