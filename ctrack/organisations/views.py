@@ -1,5 +1,5 @@
 import itertools
-from typing import Any
+from typing import Any, Dict, List, Set
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import transaction
@@ -11,8 +11,9 @@ from django.views.generic import CreateView, DetailView, FormView, ListView
 
 from ctrack.caf.models import CAF, EssentialService
 from ctrack.register.models import EngagementEvent
+
 from .forms import AddressInlineFormSet, IncidentReportForm, OrganisationCreateForm
-from .models import IncidentReport, Organisation, Person
+from .models import IncidentReport, Organisation, Person, Submode
 from .utils import filter_private_events
 
 
@@ -142,3 +143,18 @@ class IncidentReportCreateView(FormView):
     def form_valid(self, form):
         form.save()
         return HttpResponseRedirect(reverse("core:home"))
+
+
+def inspectors_for_each_mode(lead_type="lead_inspector") -> Dict[str, List[str]]:
+    if lead_type not in ["lead_inspector", "deputy_lead_inspector"]:
+        raise ValueError("Can only query for lead_inspector and deputy_lead_inspector attributes.")
+    submodes = Submode.objects.all()
+    out = {}
+    for sm in submodes:
+        insp = set()
+        orgs = sm.organisation_set.all()
+        for org in orgs:
+            insp.add(getattr(org, lead_type))
+        out[sm.descriptor] = list(insp)
+        del insp
+    return out

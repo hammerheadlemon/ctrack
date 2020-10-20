@@ -35,16 +35,16 @@ def user() -> User:
 
 @pytest.fixture
 def inspector1() -> User:
-    return UserFactory()
+    return UserFactory(first_name="Cyril", last_name="Bloanssette_Ridgewell")
 
 
 @pytest.fixture
 def inspector2() -> User:
-    return UserFactory()
+    return UserFactory(first_name="Ogilvie", last_name="Cathroyd-Marylls")
 
 
 @pytest.fixture
-def submode(inspector1, inspector2):
+def submode():
     return Submode.objects.create(
         descriptor="Light Rail", mode=Mode.objects.create(descriptor="Rail")
     )

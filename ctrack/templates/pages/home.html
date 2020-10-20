@@ -91,9 +91,10 @@
               Inspectors
             </h3>
             <ul class="list-group">
-              {% for user in caf_users %}
-                <li class="list-group-item list-group-item-dark">{{ user.name }}</li>
-              {% endfor %}
+            {% for submode in submodes %}
+                {{ submode }}
+            {% endfor %}
+
             </ul>
           </div>
         </div>

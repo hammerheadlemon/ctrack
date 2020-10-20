@@ -1,9 +1,8 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from ctrack.caf.models import EssentialService, CAF, ApplicableSystem
-from ctrack.organisations.models import IncidentReport, Organisation, Person
+from ctrack.organisations.models import IncidentReport, Organisation, Person, Submode
 from ctrack.register.models import EngagementEvent
 
 
@@ -33,6 +32,7 @@ def home_page(request):
         no_cafs = CAF.objects.count()
         no_essential_services = EssentialService.objects.count()
         no_systems = ApplicableSystem.objects.count()
+        submodes = Submode.objects.all().order_by("descriptor")
         context = {
             "no_orgs": no_orgs,
             "no_people": no_people,
@@ -40,5 +40,6 @@ def home_page(request):
             "no_essential_services": no_essential_services,
             "no_systems": no_systems,
             "caf_users": caf_users,
+            "submodes": submodes,
         }
         return render(request, "pages/home.html", context)
