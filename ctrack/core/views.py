@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
@@ -26,6 +27,7 @@ def home_page(request):
             },
         )
     else:
+        caf_users = get_user_model().objects.all()
         no_orgs = Organisation.objects.count()
         no_people = Person.objects.count()
         no_cafs = CAF.objects.count()
@@ -37,5 +39,6 @@ def home_page(request):
             "no_cafs": no_cafs,
             "no_essential_services": no_essential_services,
             "no_systems": no_systems,
+            "caf_users": caf_users,
         }
         return render(request, "pages/home.html", context)
