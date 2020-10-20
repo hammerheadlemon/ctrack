@@ -22,8 +22,8 @@ class CreateNoteEventForm(forms.ModelForm):
     class Meta:
         model = NoteEvent
         fields = [
-            "type_descriptor",
             "short_description",
+            "organisation",
             "comments",
             "private",
             "url",
@@ -34,6 +34,7 @@ class CreateNoteEventForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
+        self.fields["organisation"].queryset = Organisation.objects.all().order_by('name')
 
     def save(self, commit=True, **kwargs):
         new_note = super().save(commit=False)

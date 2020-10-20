@@ -7,7 +7,7 @@ from ctrack.caf.models import CAF
 from ctrack.organisations.models import Organisation
 from ctrack.register.forms import (
     CreateSimpleDateTimeEventForm,
-    EngagementEventCreateForm,
+    EngagementEventCreateForm, CreateNoteEventForm,
 )
 from ctrack.register.models import EngagementEvent, SingleDateTimeEvent, NoteEvent
 
@@ -75,17 +75,14 @@ class EngagementEventCreateFromCaf(FormView):
 
 
 class CreateNoteEvent(CreateView):
+    form_class = CreateNoteEventForm
     model = NoteEvent
-    fields = [
-        "short_description",
-        "organisation",
-        "comments",
-        "private",
-        "url",
-        "requested_response_date",
-        "response_received_date",
-    ]
     template_name = "register/create_note_event_form.html"
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
 
     def form_valid(self, form):
         note = form.save(commit=False)

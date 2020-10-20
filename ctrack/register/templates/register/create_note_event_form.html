@@ -4,10 +4,15 @@
 {% load crispy_forms_tags %}
 
 {% block form %}
-    <h3 class="mt-2">Create a Note</h3>
+  <h3 class="mt-2">Create a Note</h3>
   <p>Notes are associated with an organisation and are not intended to be
-  formal records of events should not involve any interaction with a person
-    from that organisation. Use them to record observations, notes, reminders, etc</p>
+    formal records of events. They should not formally record any interaction with a person
+    from that organisation. Use them to record observations, notes, reminders, etc.</p>
+
+  <p>Mark the note as <strong>private</strong> if you wish it only to be available to you.</p>
+
+  <p>Formal records such as emails, phone calls and meetings can be recorded from that
+    organisations detail page.</p>
   <form method="post">
     {% csrf_token %}
     {{ form|crispy }}

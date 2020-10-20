@@ -13,10 +13,10 @@ from ctrack.caf.models import CAF, EssentialService
 from ctrack.register.models import EngagementEvent
 from .forms import AddressInlineFormSet, IncidentReportForm, OrganisationCreateForm
 from .models import IncidentReport, Organisation, Person
-# TODO - needs a permission on this view
 from .utils import filter_private_events
 
 
+# TODO - needs a permission on this view
 def essential_service_detail(request, pk):
     es = EssentialService.objects.get(pk=pk)
     org = es.organisation

@@ -6,10 +6,6 @@ from ..forms import CreateSimpleDateTimeEventForm, CAFSingleDateEventForm, CAFTw
 pytestmark = pytest.mark.django_db
 
 
-# TODO this test and the form code needs to be amended to save created_by and update_by
-#   on the model
-
-
 def test_init(user, org_with_people):
     """Here we test that we can pass in the user value from the view.
     We don't want that to be field in the form.
@@ -114,7 +110,6 @@ def test_meeting_blank_data(user, org_with_people):
     assert form.errors == {"datetime": ["This field is required."]}
 
 
-# TODO - write the template and test the view for this and link from org detail page
 def test_create_note(user, org_with_people):
     """
     A note is related to an organisation rather than to persons in that organisation.
