@@ -16,6 +16,13 @@ from ..views import OrganisationListView
 pytestmark = pytest.mark.django_db
 
 
+def test_organisation_by_inspector_view(inspector1, inspector2, client, submode):
+    org = OrganisationFactory(submode=submode, lead_inspector=inspector1, deputy_lead_inspector=inspector2)
+    client.force_login(inspector1)
+    response = client.get(reverse("organisations:list_by_inspector", args=[inspector1.id]))
+    assert response.status_code == 200
+
+
 def test_meetings_in_organisation_detail_view(user, client, org_with_people):
     org_list_permission = Permission.objects.get(name="Can view organisation")
     assert user.user_permissions.count() == 0

@@ -25,7 +25,11 @@
         <path fill-rule="evenodd"
               d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
       </svg>
-      Organisations
+      {% if inspector %}
+        Organisations (Lead inspector: {{ inspector.name }})
+      {% else %}
+        Organisations
+      {% endif %}
     </h3>
     <span><a href="{% url "organisations:create" %}">[Create new...]</a></span></h3>
     <p>Use the search box to filter the table. The table can be exported in various formats using the buttons below. These
@@ -38,6 +42,7 @@
             <th>Organisation</th>
             <th>Sub-mode</th>
             <th>Lead Inspector</th>
+            <th>Deputy Lead Inspector</th>
             <th>Point of Contact</th>
           </tr>
           </thead>
@@ -45,7 +50,12 @@
             <tr>
               <td><a href="{% url "organisations:detail" org.slug %}">{{ org.name }}</a></td>
               <td>{{ org.submode }}</td>
-              <td>{{ org.lead_inspector.name }}</td>
+                {% if org.lead_inspector %}
+                  <td><a href="{% url "organisations:list_by_inspector" org.lead_inspector.pk %}">{{ org.lead_inspector.name }}</a></td>
+                  {% else %}
+                  <td>{{ org.lead_inspector.name }}</td>
+                {% endif %}
+              <td>{{ org.deputy_lead_inspector.name }}</td>
               <td>
                 {% if org.primary_contacts %}
                   <ul style="list-style-type:none; float:left; padding: 0">

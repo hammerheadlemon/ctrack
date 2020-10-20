@@ -105,7 +105,7 @@
                 <h5>Lead Inspectors</h5>
                 <ul class="list-unstyled">
                   {% for k, v in submode_inspector_dict.items %}
-                    <li><strong>{{ k }}</strong> &nbsp; {% for x in v %} <a href="#">{{ x.name }}</a> -{% endfor %}</li>
+                    <li><strong>{{ k }}</strong> &nbsp; {% for x in v %} <a href="{% url "organisations:list_by_inspector" x.id %}">{{ x.name }}</a> -{% endfor %}</li>
                   {% endfor %}
                 </ul>
               </div>

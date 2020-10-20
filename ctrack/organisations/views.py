@@ -1,6 +1,7 @@
 import itertools
 from typing import Any
 
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import transaction
 from django.db.models import Q
@@ -26,6 +27,18 @@ def essential_service_detail(request, pk):
     # es = get_object_or_404(EssentialService, organisation__pk=org_pk)
     context = {"es": es, "asses": asses, "cafs": cafs}
     return render(request, "organisations/essential_service_detail.html", context)
+
+
+class OrganisationListViewByLeadInspector(ListView):
+    model = Organisation
+    template_name = "organisations/organisation_list.html"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        inspector = get_user_model().objects.get(id=self.kwargs.get("id"))
+        context["organisation_list"] = Organisation.objects.filter(lead_inspector=inspector)
+        context["inspector"] = inspector
+        return context
 
 
 class PersonListView(PermissionRequiredMixin, ListView):
