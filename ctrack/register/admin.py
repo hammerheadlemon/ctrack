@@ -16,7 +16,7 @@ class EngagementEventTypeAdmin(admin.ModelAdmin):
 
 class SingleDateTimeEventAdmin(admin.ModelAdmin):
     model = SingleDateTimeEvent
-    list_display = ("type_descriptor", "short_description", "datetime", "user", "created_date")
+    list_display = ("type_descriptor", "short_description", "date", "user", "created_date")
 
 
 class CAFSingleDateEventAdmin(admin.ModelAdmin):

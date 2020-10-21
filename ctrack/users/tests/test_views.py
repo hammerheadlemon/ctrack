@@ -30,7 +30,7 @@ class TestUserProfilePage:
             url="http://fake.url.com",
             requested_response_date="2021-01-24",
             response_received_date=None,
-            datetime="2020-10-10T15:00",
+            date="2020-10-10T15:00",
             comments="Comments on important event",
             # location is optional
             user=user,

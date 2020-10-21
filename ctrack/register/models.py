@@ -117,7 +117,7 @@ class URLEventMixin(models.Model):
 
 
 class SingleDateTimeEventMixin(models.Model):
-    datetime = models.DateTimeField(
+    date = models.DateTimeField(
         blank=False, verbose_name="Date/Time", help_text="DD/MM/YY HH:MM format please!"
     )
 
@@ -133,7 +133,7 @@ class SingleDateMixin(models.Model):
 
 
 class TwinDateMixin(models.Model):
-    start_date = models.DateField(blank=False, null=False)
+    date = models.DateField(blank=False, null=False)
     end_date = models.DateField(blank=True, null=True)
 
     class Meta:
@@ -249,13 +249,13 @@ class CAFTwinDateEvent(EventBase, CAFMixin, TwinDateMixin):
         return "".join(["CAFTwinDateEvent(", self.type_descriptor, ")"])
 
     def __str__(self):
-        return f"CAFTwinDateEvent({self.type_descriptor}) starting {self.start_date}"
+        return f"CAFTwinDateEvent({self.type_descriptor}) starting {self.date}"
 
     class Meta:
         constraints = [
             models.CheckConstraint(
                 name="%(app_label)s_%(class)s_cannot_precede_start_date",
-                check=~models.Q(end_date__lt=F("start_date")),
+                check=~models.Q(end_date__lt=F("date")),
             )
         ]
 

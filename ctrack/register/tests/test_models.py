@@ -47,7 +47,7 @@ def test_caf_twin_date_events(allowed_type, user, caf):
         type_descriptor=allowed_type,
         related_caf=caf,
         short_description="CAF received for X Company",
-        start_date="2020-10-10",
+        date="2020-10-10",
         end_date="2020-10-25",
         comments="Nice comments for this event",
         user=user,
@@ -64,7 +64,7 @@ def test_caf_twin_date_event_no_end_date(allowed_type, user, caf):
         type_descriptor=allowed_type,
         related_caf=caf,
         short_description="CAF received for X Company",
-        start_date="2020-10-10",
+        date="2020-10-10",
         comments="Nice comments for this event",
         user=user,
     )
@@ -173,7 +173,7 @@ def test_single_datetime_event(person, user, allowed_type):
         url="http://fake.url.com",
         requested_response_date="2021-01-24",
         response_received_date=None,
-        datetime="2020-10-10T15:00",
+        date="2020-10-10T15:00",
         comments="Comments on important event",
         # location is optional
         user=user,
@@ -192,7 +192,7 @@ def test_cannot_create_twin_date_event_model_end_date_precedes_start(allowed_typ
         CAFTwinDateEvent.objects.create(
             type_descriptor=allowed_type,
             related_caf=caf,
-            start_date="2010-10-10",
+            date="2010-10-10",
             end_date="2010-01-01",
             short_description="Bobbins",
             user=user,
@@ -205,7 +205,7 @@ def test_meeting_event(user, person):
     e = SingleDateTimeEvent.objects.create(
         type_descriptor="Meeting",
         short_description="Big Important Meeting",
-        datetime="2020-10-10T15:00",
+        date="2020-10-10T15:00",
         comments="Nice comments",
         location="Harvey's House",
         user=user,

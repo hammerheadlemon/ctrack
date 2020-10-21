@@ -122,7 +122,7 @@ class OrganisationDetailView(PermissionRequiredMixin, DetailView):
         ]
         flat_sdes = sorted(
             list(itertools.chain.from_iterable(_sdes)),
-            key=lambda e: e.datetime,
+            key=lambda e: e.date,
             reverse=True,
         )
 

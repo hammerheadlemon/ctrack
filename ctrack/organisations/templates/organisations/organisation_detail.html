@@ -150,7 +150,7 @@
                             </h5>
                             <div class="card-subtitle mb-2">
                               <span class="badge badge-info">{{ event.type_descriptor }}</span>
-                              <span class="badge badge-light">{{ event.datetime|date:"l j F Y" }}, {{ event.datetime|date:"G:i" }}</span></h5>
+                              <span class="badge badge-light">{{ event.date|date:"l j F Y" }}, {{ event.datetime|date:"G:i" }}</span></h5>
                             </div>
                             <p class="card-text">{{ event.comments }}</p>
                             Participants:

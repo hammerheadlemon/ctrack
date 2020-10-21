@@ -51,7 +51,7 @@ class CreateSimpleDateTimeEventForm(forms.ModelForm):
             "type_descriptor",
             "private",
             "short_description",
-            "datetime",
+            "date",
             "participants",
             "requested_response_date",
             "response_received_date",
@@ -84,7 +84,7 @@ class CreateSimpleDateTimeEventForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        date = cleaned_data.get("datetime")
+        date = cleaned_data.get("date")
         if not date:
             return cleaned_data
         # WOOO - walrus operator
@@ -128,11 +128,11 @@ class CAFSingleDateEventForm(forms.ModelForm):
 class CAFTwinDateEventForm(forms.ModelForm):
     # This constraint in the form prevents two such objects being created
     # for the same CAF with the same start date, which does not make sense.
-    def clean_start_date(self):
-        data = self.cleaned_data["start_date"]
+    def clean_date(self):
+        data = self.cleaned_data["date"]
         caf = self.cleaned_data["related_caf"]
         existing_obj = (
-            CAFTwinDateEvent.objects.filter(start_date=data)
+            CAFTwinDateEvent.objects.filter(date=data)
             .filter(related_caf=caf)
             .first()
         )
@@ -148,7 +148,7 @@ class CAFTwinDateEventForm(forms.ModelForm):
             "type_descriptor",
             "related_caf",
             "short_description",
-            "start_date",
+            "date",
             "end_date",
             "comments",
         ]

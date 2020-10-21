@@ -99,7 +99,7 @@ class SingleDateTimeEventUpdate(UpdateView):
     fields = [
         "type_descriptor",
         "short_description",
-        "datetime",
+        "date",
         "private",
         "document_link",
         "comments",

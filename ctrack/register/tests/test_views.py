@@ -25,7 +25,7 @@ class TestSingleDateTimeEvent:
         expected_fields = [
             "type_descriptor",
             "short_description",
-            "datetime",
+            "date",
             "comments",
             "location",
         ]
@@ -47,7 +47,7 @@ class TestSingleDateTimeEvent:
         data = {
             "type_descriptor": "MEETING",
             "short_description": "Test Short Description",
-            "datetime": bad_date,
+            "date": bad_date,
             "comments": "Blah...",
             "location": "The Moon",
         }

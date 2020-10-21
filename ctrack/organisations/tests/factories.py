@@ -125,7 +125,7 @@ class AddressFactory(DjangoModelFactory):
 class SingleDateTimeEventFactory(DjangoModelFactory):
     type_descriptor = None  # must pass this in
     short_description = "Nothing short description"
-    datetime = "2020-02-10 10:00"
+    date = "2020-02-10 10:00"
     comments = "Nothing comments"
     location = "Gark's basin"
     user = SubFactory(UserFactory)
