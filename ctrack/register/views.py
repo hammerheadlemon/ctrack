@@ -166,6 +166,10 @@ class CAFCreateSingleDateEventView(FormView):
         kwargs["caf_id"] = self.kwargs.get("caf_id")
         return kwargs
 
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
     def get_success_url(self):
         self.success_url = reverse_lazy("caf:detail", args=[self.kwargs.get("caf_id")])
         return super().get_success_url()

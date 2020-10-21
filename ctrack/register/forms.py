@@ -107,7 +107,6 @@ class CAFSingleDateEventForm(forms.ModelForm):
         fields = [
             "type_descriptor",
             "date",
-            "related_caf",
             "short_description",
             "document_link",
             "comments",
@@ -121,6 +120,7 @@ class CAFSingleDateEventForm(forms.ModelForm):
     def save(self, **kwargs):
         form = super().save(commit=False)
         form.user = self.user
+        form.related_caf = CAF.objects.get(id=self.caf_id)
         form.save()
         return form
 

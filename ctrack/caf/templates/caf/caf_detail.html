@@ -128,19 +128,19 @@
             <thead>
             <tr class="d-flex">
               <th class="col-1">Date</th>
-              <th class="col-2">Event</th>
+              <th class="col-3">Event</th>
               <th class="col-2">Inspector</th>
-              <th class="col-3">Description</th>
+              <th class="col-2">Description</th>
               <th class="col-4">Comments</th>
             </tr>
             </thead>
             <tbody>
             {% for event in all_events %}
               <tr class="d-flex">
-                <td class="col-1">{{ event.date }}</td>
-                <td class="col-2">{{ event.type_descriptor }}</td>
+                <td class="col-1">{{ event.date|date:"j/n/y" }}</td>
+                <td class="col-3">{{ event.type_descriptor }}</td>
                 <td class="col-2">{{ event.user.name }}</td>
-                <td class="col-3">{{ event.short_description }}</td>
+                <td class="col-2">{{ event.short_description }}</td>
                 <td class="col-4">{{ event.comments }}</td>
               </tr>
             {% endfor %}

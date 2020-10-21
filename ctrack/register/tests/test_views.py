@@ -203,3 +203,4 @@ class TestSingleDateCAFEventViews:
             f"Register a single date event for {caf.version} ({caf.organisation.name})",
             html,
         )
+        assert "Related caf" not in html

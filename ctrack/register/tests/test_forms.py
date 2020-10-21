@@ -137,7 +137,7 @@ def test_create_note(user, org_with_people):
         "CAF_VALIDATION_RECORD_EMAILED_TO_OES",
     ],
 )
-def test_allowable_caf_single_date_event_forms(allowed_type, user, caf):
+def test_caf_single_date_event_forms(allowed_type, user, caf):
     form = CAFSingleDateEventForm(
         {
             "type_descriptor": allowed_type,
@@ -146,7 +146,7 @@ def test_allowable_caf_single_date_event_forms(allowed_type, user, caf):
             "date": "2010-07-01",
             "comments": "Meaningless comments",
         },
-        user=user,
+        user=user, caf_id=caf.id
     )
     assert form.is_valid()
 
