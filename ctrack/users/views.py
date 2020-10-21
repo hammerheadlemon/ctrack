@@ -1,3 +1,5 @@
+import itertools
+
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -5,7 +7,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
 
-from ctrack.register.models import SingleDateTimeEvent
+from ctrack.register.models import SingleDateTimeEvent, CAFSingleDateEvent, CAFTwinDateEvent
 
 User = get_user_model()
 
@@ -24,8 +26,12 @@ class UserDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         user = self.request.user
-        single_date_events = SingleDateTimeEvent.objects.filter(user=user).all()
-        context["single_date_events"] = single_date_events
+        _single_date_events = SingleDateTimeEvent.objects.filter(user=user).all()
+        _caf_single_date_events = CAFSingleDateEvent.objects.all()
+        _caf_twin_date_events = CAFTwinDateEvent.objects.all()
+        _combined = list(itertools.chain(_caf_twin_date_events, _caf_single_date_events, _single_date_events))
+        all_events = sorted(_combined, key=lambda x: x.date, reverse=True)
+        context["all_events"] = all_events
         return context
 
 

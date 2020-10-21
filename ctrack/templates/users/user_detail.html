@@ -39,13 +39,15 @@
         <table class="table table-bordered">
           <thead>
           <tr>
-            <th class="w-25">Event</th>
+            <th class="w-25">Type</th>
+            <th>Event</th>
             <th>Comments</th>
           </tr>
           </thead>
           <tbody>
-          {% for event in single_date_events %}
+          {% for event in all_events %}
             <tr>
+              <td>{{ event.type_descriptor }}</td>
               <td>{{ event.short_description }}</td>
               <td>{{ event.comments }}</td>
             </tr>
