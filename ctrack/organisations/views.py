@@ -36,8 +36,11 @@ class OrganisationListViewByLeadInspector(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         inspector = get_user_model().objects.get(id=self.kwargs.get("id"))
-        context["organisation_list"] = Organisation.objects.filter(lead_inspector=inspector)
+        context["organisation_list"] = Organisation.objects.filter(
+            lead_inspector=inspector, oes=True
+        )
         context["inspector"] = inspector
+        context["is_oes"] = True
         return context
 
 
@@ -50,6 +53,15 @@ class PersonListView(PermissionRequiredMixin, ListView):
 def person_detail(request, person_id):
     p = get_object_or_404(Person, pk=person_id)
     return render(request, "organisations/person_detail.html", {"person": p})
+
+
+def oes_list(request):
+    oes = Organisation.objects.filter(oes=True)
+    return render(
+        request,
+        "organisations/organisation_list.html",
+        {"organisation_list": oes, "is_oes": True},
+    )
 
 
 class OrganisationCreate(PermissionRequiredMixin, CreateView):

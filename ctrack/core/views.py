@@ -31,12 +31,14 @@ def home_page(request):
         no_orgs = Organisation.objects.count()
         no_people = Person.objects.count()
         no_cafs = CAF.objects.count()
+        no_oes = Organisation.objects.filter(oes=True).count()
         no_essential_services = EssentialService.objects.count()
         no_systems = ApplicableSystem.objects.count()
         submodes = Submode.objects.all().order_by("descriptor")
         submode_inspector_dict = inspectors_for_each_mode("lead_inspector")
         submode_deputy_inspector_dict = inspectors_for_each_mode("deputy_lead_inspector")
         context = {
+            "no_oes": no_oes,
             "no_orgs": no_orgs,
             "no_people": no_people,
             "no_cafs": no_cafs,

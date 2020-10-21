@@ -7,12 +7,13 @@ from ctrack.organisations.views import (
     OrganisationListView,
     PersonListView,
     essential_service_detail,
-    person_detail, OrganisationListViewByLeadInspector,
+    person_detail, OrganisationListViewByLeadInspector, oes_list,
 )
 
 app_name = "organisations"
 
 urlpatterns = [
+    path("oes/", oes_list, name="list_oes"),
     path("people/", view=PersonListView.as_view(), name="people"),
     path("<slug:slug>/", view=OrganisationDetailView.as_view(), name="detail"),
     path(

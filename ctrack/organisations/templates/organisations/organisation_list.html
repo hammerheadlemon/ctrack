@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %} Organisations{% endblock %}
+{% block title %}Organisations/OES{% endblock %}
 
 {% block content %}
 
@@ -25,14 +25,17 @@
         <path fill-rule="evenodd"
               d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
       </svg>
-      {% if inspector %}
-        Organisations (Lead inspector: {{ inspector.name }})
+      {% if inspector and is_oes %}
+        OES (Lead inspector: {{ inspector.name }})
+      {% elif is_oes %}
+        OES
       {% else %}
         Organisations
       {% endif %}
     </h3>
     <span><a href="{% url "organisations:create" %}">[Create new...]</a></span></h3>
-    <p>Use the search box to filter the table. The table can be exported in various formats using the buttons below. These
+    <p>Use the search box to filter the table. The table can be exported in various formats using the buttons below.
+      These
       downloads will respect the filtering used.</p>
     <div class="row justify-content-center">
       <div class="col-md-12 my-2 py-2">
@@ -44,17 +47,20 @@
             <th>Lead Inspector</th>
             <th>Deputy Lead Inspector</th>
             <th>Point of Contact</th>
+            <th>OES</th>
           </tr>
           </thead>
           {% for org in organisation_list %}
             <tr>
               <td><a href="{% url "organisations:detail" org.slug %}">{{ org.name }}</a></td>
               <td>{{ org.submode }}</td>
-                {% if org.lead_inspector %}
-                  <td><a href="{% url "organisations:list_by_inspector" org.lead_inspector.pk %}">{{ org.lead_inspector.name }}</a></td>
-                  {% else %}
-                  <td>{{ org.lead_inspector.name }}</td>
-                {% endif %}
+              {% if org.lead_inspector %}
+                <td>
+                  <a href="{% url "organisations:list_by_inspector" org.lead_inspector.pk %}">{{ org.lead_inspector.name }}</a>
+                </td>
+              {% else %}
+                <td>{{ org.lead_inspector.name }}</td>
+              {% endif %}
               <td>{{ org.deputy_lead_inspector.name }}</td>
               <td>
                 {% if org.primary_contacts %}
@@ -67,6 +73,11 @@
                   No contact listed
                 {% endif %}
               </td>
+              {% if org.oes is True %}
+                <td>Yes</td>
+              {% else %}
+                <td>No</td>
+              {% endif %}
             </tr>
           {% endfor %}
         </table>

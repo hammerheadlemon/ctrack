@@ -9,7 +9,7 @@ from ctrack.organisations.tests.factories import (
     OrganisationFactory,
     SingleDateTimeEventFactory,
 )
-from ctrack.organisations.views import IncidentReportCreateView, OrganisationDetailView
+from ctrack.organisations.views import IncidentReportCreateView, OrganisationDetailView, oes_list
 from ..utils import filter_private_events
 from ..views import OrganisationListView
 
@@ -47,7 +47,6 @@ def test_meetings_in_organisation_detail_view(user, client, org_with_people):
     assert response.status_code == 200
     html = response.content.decode("utf-8")
     assert "First Meeting" in html
-
 
 
 def test_private_event_filter(user, org_with_people):
@@ -204,6 +203,29 @@ def test_organisation_list_view():
     response = OrganisationListView.as_view()(request)
     assert response.status_code == 200
     assert len(response.context_data["organisation_list"]) == 3
+
+
+def test_oes_list_view():
+    OrganisationFactory.create(oes=True)
+    OrganisationFactory.create(oes=True)
+    OrganisationFactory.create(oes=True)
+
+    factory = RequestFactory()
+    user = get_user_model().objects.create_user(
+        username="testy", email="testy@test.com", password="test1020"
+    )
+    # This user needs permission to acccess the list view
+    org_list_permission = Permission.objects.get(name="Can view organisation")
+    assert user.user_permissions.count() == 0
+    user.user_permissions.add(org_list_permission)
+    assert user.has_perm("organisations.view_organisation")
+    user.save()
+    request = factory.get("/organisations/oes")
+    request.user = user
+    response = oes_list(request)
+    assert response.status_code == 200
+    html = response.content.decode("utf-8")
+    assert "OES" in html
 
 
 def test_only_member_of_cct_user_group_can_view_org_list():

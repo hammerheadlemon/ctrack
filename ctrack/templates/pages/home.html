@@ -29,7 +29,8 @@
               OES/Organisations
             </h3>
             <p>There are currently <span class="lead font-weight-bold">{{ no_orgs }}</span> <a
-                    href="{% url "organisations:list" %}">organisations</a> on ctrack, comprising <span
+                    href="{% url "organisations:list" %}">organisations</a> on ctrack, of which <span
+                    class="lead font-weight-bold">{{ no_oes }}</span> are OES, comprising <span
                     class="lead font-weight-bold">{{ no_people }}</span> <a href="{% url "organisations:people" %}">people</a>.
               OES are responsible for <span class="lead font-weight-bold">{{ no_essential_services }}</span> NIS <a
                       href="#">essential services</a>. There have been a total of <span
@@ -46,6 +47,9 @@
               <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"><a
                       href="{% url "organisations:list" %}">All
                 organisations</a><span class="badge badge-secondary">{{ no_orgs }}</span></li>
+              <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"><a
+                      href="{% url "organisations:list_oes" %}">All
+                OES</a><span class="badge badge-secondary">{{ no_oes }}</span></li>
               <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"><a
                       href="{% url "organisations:people" %}">All
                 people</a><span class="badge badge-secondary">{{ no_people }}</span></li>
@@ -105,7 +109,8 @@
                 <h5>Lead Inspectors</h5>
                 <ul class="list-unstyled">
                   {% for k, v in submode_inspector_dict.items %}
-                    <li><strong>{{ k }}</strong> &nbsp; {% for x in v %} <a href="{% url "organisations:list_by_inspector" x.id %}">{{ x.name }}</a> -{% endfor %}</li>
+                    <li><strong>{{ k }}</strong> &nbsp; {% for x in v %}
+                      <a href="{% url "organisations:list_by_inspector" x.id %}">{{ x.name }}</a> -{% endfor %}</li>
                   {% endfor %}
                 </ul>
               </div>
