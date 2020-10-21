@@ -59,14 +59,18 @@
                   <a href="{% url "organisations:list_by_inspector" org.lead_inspector.pk %}">{{ org.lead_inspector.name }}</a>
                 </td>
               {% else %}
-                <td>{{ org.lead_inspector.name }}</td>
+                <td><span class="text-muted">Not nominated</span></td>
               {% endif %}
-              <td>{{ org.deputy_lead_inspector.name }}</td>
+              {% if org.deputy_lead_inspector %}
+                <td>{{ org.deputy_lead_inspector.name }}</td>
+                {% else %}
+                <td><span class="text-muted">Not nominated</span></td>
+              {% endif %}
               <td>
                 {% if org.primary_contacts %}
                   <ul style="list-style-type:none; float:left; padding: 0">
                     {% for p in org.primary_contacts %}
-                      <li><a href="mailto:{{ p.email }}">{{ p }}</a> ({{ p.mobile }})</li>
+                      <li><a href="mailto:{{ p.email }}">{{ p }}</a><br><span class="font-italic">{{ p.mobile }}</span></li>
                     {% endfor %}
                   </ul>
                 {% else %}
