@@ -164,7 +164,7 @@ def test_cannot_do_some_caf_single_date_events_on_same_day(allowed_type, user, c
             "date": "2010-07-01",
             "comments": "Meaningless comments",
         },
-        user=user,
+        user=user, caf_id=caf.id
     )
     form2 = CAFSingleDateEventForm(
         {
@@ -174,7 +174,7 @@ def test_cannot_do_some_caf_single_date_events_on_same_day(allowed_type, user, c
             "date": "2010-07-01",
             "comments": "Meaningless comments",
         },
-        user=user,
+        user=user, caf_id=caf.id
     )
     assert form1.is_valid()
     form1.save()
@@ -192,7 +192,7 @@ def test_can_register_two_send_to_rosa_events_on_same_day(user, caf):
             "date": "2010-07-01",
             "comments": "Meaningless comments",
         },
-        user=user,
+        user=user, caf_id=caf.id
     )
     form2 = CAFSingleDateEventForm(
         {
@@ -202,7 +202,7 @@ def test_can_register_two_send_to_rosa_events_on_same_day(user, caf):
             "date": "2010-07-01",
             "comments": "Meaningless comments 2",
         },
-        user=user,
+        user=user, caf_id=caf.id
     )
     assert form1.is_valid()
     assert form2.is_valid()
