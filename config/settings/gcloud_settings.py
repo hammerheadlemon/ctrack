@@ -165,6 +165,7 @@ INSTALLED_APPS = [
     "ctrack.register.apps.RegisterConfig",
     "ctrack.assessments.apps.AssessmentsConfig",
     "ctrack.core.apps.CoreConfig",
+    "ctrack.compliance.apps.ComplianceConfig",
 ]
 
 MIDDLEWARE = [

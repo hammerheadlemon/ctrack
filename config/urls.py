@@ -10,6 +10,7 @@ admin.site.site_header = "ctrack admin"
 
 urlpatterns = [
     path("", include("ctrack.core.urls", namespace="core")),
+    path("compliance/", include("ctrack.compliance.urls", namespace="compliance")),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),
