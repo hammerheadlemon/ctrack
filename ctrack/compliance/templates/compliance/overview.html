@@ -30,63 +30,87 @@
     </svg>
     Overview
   </h3>
-  <p>Use the search box to filter the table</p>
   <div class="row justify-content-center">
     <div class="col-md-12 my-2 py-2">
+      <h4>Summary</h4>
       <div class="row">
-        <div class="col">
-          <h5>Summary</h5>
-          <p>CAFs at Initial Submission: 12</p>
+        <div class="col mb-2">
+          <table class="table table-compact table-striped table-bordered">
+            <tr>
+              <td>CAF Initial Submitted</td>
+              <td>12</td>
+            </tr>
+            <tr>
+              <td>CAF Reviewed</td>
+              <td>8</td>
+            </tr>
+            <tr>
+              <td>OES Revisions Submitted</td>
+              <td>12</td>
+            </tr>
+            <tr>
+              <td>Validation Agreed</td>
+              <td>11</td>
+            </tr>
+            <tr>
+              <td>Improvement Plan Submitted</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <td>Improvement Plan Reviewed</td>
+              <td>0</td>
+            </tr>
+          </table>
         </div>
       </div>
       <div class="row">
-        <table id="datatable" class="table table-bordered" style="width:100%">
-          <thead>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
+        <div class="col mt-2">
+          <h4>Progress Chart</h4>
+          <p>Use the search box to filter the table.</p>
+          <table id="datatable" class="table table-bordered" style="width:100%">
+            <thead>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
 
-          </thead>
-          <tbody>
-          <tr>
-            <td>ORG NAME 1</td>
-            <td class="bg bg-success text-white">CAF Initial Submission</td>
-            <td class="bg bg-success text-white">CAF Review</td>
-            <td class="bg bg-warning text-white">OES Revisions</td>
-            <td>Inspector Validation</td>
-            <td>Validation Agreed</td>
-            <td>Improvement Plan Submission</td>
-            <td>Improvement Plan Review</td>
-          </tr>
-          <tr>
-            <td>ORG NAME 2</td>
-            <td class="bg bg-primary text-white">CAF Initial Submission</td>
-            <td>CAF Review</td>
-            <td>OES Revisions</td>
-            <td>Inspector Validation</td>
-            <td>Validation Agreed</td>
-            <td>Improvement Plan Submission</td>
-            <td>Improvement Plan Review</td>
-          </tr>
-          <tr>
-            <td>ORG NAME 3</td>
-            <td class="bg bg-success text-white">CAF Initial Submission</td>
-            <td class="bg bg-success text-white">CAF Review</td>
-            <td class="bg bg-success text-white">OES Revisions</td>
-            <td class="bg bg-success text-white">Inspector Validation</td>
-            <td>Validation Agreed</td>
-            <td>Improvement Plan Submission</td>
-            <td>Improvement Plan Review</td>
-          </tr>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+            <tr>
+              <td>ORG NAME 1</td>
+              <td class="bg bg-success text-white">CAF Initial Submitted</td>
+              <td class="bg bg-success text-white">CAF Reviewed</td>
+              <td class="bg bg-warning text-white">OES Revisions Submitted</td>
+              <td>Validation Agreed</td>
+              <td>Improvement Plan Submitted</td>
+              <td>Improvement Plan Review</td>
+            </tr>
+            <tr>
+              <td>ORG NAME 2</td>
+              <td class="bg bg-primary text-white">CAF Initial Submitted</td>
+              <td>CAF Reviewed</td>
+              <td>OES Revisions Submitted</td>
+              <td>Validation Agreed</td>
+              <td>Improvement Plan Submitted</td>
+              <td>Improvement Plan Review</td>
+            </tr>
+            <tr>
+              <td>ORG NAME 3</td>
+              <td class="bg bg-success text-white">CAF Initial Submitted</td>
+              <td class="bg bg-success text-white">CAF Reviewed</td>
+              <td class="bg bg-success text-white">OES Revisions Submitted</td>
+              <td>Validation Agreed</td>
+              <td>Improvement Plan Submitted</td>
+              <td>Improvement Plan Review</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
