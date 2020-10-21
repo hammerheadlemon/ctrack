@@ -19,6 +19,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = environ.Path(__file__) - 3  # (ctrack/config/settings/base.py - 3 = ctrack/)
 APPS_DIR = ROOT_DIR.path("ctrack")
 
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+#         "LOCATION": "ctrack_cache_table",
+#     }
+# }
 
 # STATIC
 # ------------------------------------------------------------------------------
