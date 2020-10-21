@@ -2,6 +2,8 @@ import pytest
 from django.test import TestCase
 from django.urls import reverse
 
+from ctrack.caf.models import CAF
+from ctrack.caf.tests.factories import CAFFactory
 from ctrack.organisations.tests.factories import SingleDateTimeEventFactory
 from ctrack.register.views import SingleDateTimeEventCreate
 
@@ -66,10 +68,17 @@ class TestSingleDateTimeEvent:
             "datetime": good_date,
             "comments": "Blah...",
             "location": "The Moon",
-            "participants": org_with_people.get_people()
+            "participants": org_with_people.get_people(),
         }
         client.force_login(cct_user)
-        response = client.post(reverse("register:event_create_simple_event_from_org", args=[org_with_people.slug]), data, follow=True)
+        response = client.post(
+            reverse(
+                "register:event_create_simple_event_from_org",
+                args=[org_with_people.slug],
+            ),
+            data,
+            follow=True,
+        )
         test_case.assertRedirects(
             response,
             reverse("organisations:detail", args=[org_with_people.slug]),
@@ -144,20 +153,23 @@ class TestSingleDateTimeEvent:
         view.setup(request)
         assert "org_slug" in view.get_form_kwargs()
 
-    def test_meeting_type_and_org_passed_as_kwarg(
-        self, user, org, request_factory
-    ):
+    def test_meeting_type_and_org_passed_as_kwarg(self, user, org, request_factory):
         event_type = "PHONE_CALL"
         slug = org.slug
         view = SingleDateTimeEventCreate()
-        url = reverse("register:event_create_simple_event_from_org_with_type", args=[slug, event_type])
+        url = reverse(
+            "register:event_create_simple_event_from_org_with_type",
+            args=[slug, event_type],
+        )
         request = request_factory.get(url)
         request.user = user
         view.request = request
         view.setup(request)
         assert "event_type" in view.get_form_kwargs()
 
-    def test_can_update_single_datetime_event_from_org(self, user, org_with_people, client):
+    def test_can_update_single_datetime_event_from_org(
+        self, user, org_with_people, client
+    ):
         org_slug = org_with_people.slug
         people = org_with_people.person_set.all()
         e1 = SingleDateTimeEventFactory(type_descriptor="MEETING")
@@ -167,7 +179,9 @@ class TestSingleDateTimeEvent:
             _collected_p.append((p.first_name, p.last_name))
         e1.save()
         pk = e1.pk
-        url = reverse("register:event_update_simple_event_from_org", args=[pk, org_slug])
+        url = reverse(
+            "register:event_update_simple_event_from_org", args=[pk, org_slug]
+        )
         client.force_login(user)
         response = client.get(url)
         assert response.status_code == 200
@@ -176,7 +190,16 @@ class TestSingleDateTimeEvent:
 
 
 class TestSingleDateCAFEventViews:
-    def test_initial_caf_received(self, client):
-        url = reverse("register:event_create_simple_event")
+    def test_initial_caf_received(self, client, user, caf):
+        client.force_login(user)
+        url = reverse(
+            "register:event_caf_create_single_date_event_from_caf",
+            kwargs={"caf_id": caf.id},
+        )
         response = client.get(url)
         assert response.status_code == 200
+        html = response.content.decode("utf-8")
+        test_case.assertInHTML(
+            f"Register a single date event for {caf.version} ({caf.organisation.name})",
+            html,
+        )

@@ -58,11 +58,11 @@
     <div class="col-md-12 my-2">
       <div class="card bg-light">
         <div class="card-body">
-          <div class="card-title text-muted">CAF Basic Information</div>
+          <div class="card-title" style="font-size: 1.1rem;">Basic Information</div>
           <div>
-            <table class="table">
+            <table class="table table-sm table-bordered">
               <tr>
-                <td><strong>Organisation</strong></td>
+                <td class="w-25"><strong>Organisation</strong></td>
                 <td><a href="{% url 'organisations:detail' organisation.slug %}">{{ organisation }}</a></td>
               </tr>
               <tr>
@@ -100,20 +100,90 @@
     </div>
   </div>
 
+
+  <div class="row">
+  <div class="col-md-12 my-2">
+    <div class="card bg-light">
+      <div class="card-body">
+        <div class="card-title" style="font-size: 1.1rem;">CAF History</div>
+        <div class="mb-2">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-date" fill="currentColor"
+               xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+                  d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+            <path d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z"/>
+          </svg>
+          <a href="{% url "register:event_caf_create_single_date_event_from_caf" object.id %}">New Single Date Event</a> |
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-range" fill="currentColor"
+               xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+                  d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+            <path d="M9 7a1 1 0 0 1 1-1h5v2h-5a1 1 0 0 1-1-1zM1 9h4a1 1 0 0 1 0 2H1V9z"/>
+          </svg>
+          <a href="#">New Period Event</a>
+        </div>
+
+        <div class="container-fluid p-0">
+          <table class="table table-sm table-bordered table-striped">
+            <thead>
+            <tr class="d-flex">
+              <th class="col-1">Date</th>
+              <th class="col-2">Event</th>
+              <th class="col-2">Inspector</th>
+              <th class="col-3">Description</th>
+              <th class="col-4">Comments</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for event in all_events %}
+              <tr class="d-flex">
+                <td class="col-1">{{ event.date }}</td>
+                <td class="col-2">{{ event.type_descriptor }}</td>
+                <td class="col-2">{{ event.user.name }}</td>
+                <td class="col-3">{{ event.short_description }}</td>
+                <td class="col-4">{{ event.comments }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          </div.container>
+
+          {#          <div class="list-group">#}
+          {#            {% for event in single_date_events %}#}
+          {#              <div class="list-group-item">#}
+          {#                <div class="d-flex w-100 justify-content-between">#}
+          {#                  <p class="mb-1"><strong>{{ event.date|date:"j F Y" }}</strong></p>#}
+          {#                  <small>{{ event.type }}</small>#}
+          {#                </div>#}
+          {#                {% if event.comments%}#}
+          {#                  <p class="mb-2">{{ event.comments }}<br>#}
+          {#                  <small>(Inspector: {{ event.user }})</small>#}
+          {#                </p>#}
+          {#                {% else %}#}
+          {#                  <p class="mb-1"><small>No comments made.</small></p>#}
+          {#                {% endif %}#}
+          {#              </div>#}
+          {#            {% endfor %}#}
+          {#          </div>#}
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-md-12 my-2">
       <div class="card bg-light">
         <div class="card-body">
-          <div class="card-title text-muted">NIS Systems <a
+          <div class="card-title" style="font-size: 1.1rem;">NIS Systems <a
                   href="{% url "caf:as_create_from_caf" object.pk %}"
                   class="btn btn-outline-primary btn-sm float-right">Add
             new...</a></div>
           <div>
-            <table class="table table-responsive">
+            <table class="table table-bordered">
               {% if systems|length > 0 %}
                 {% for system in systems %}
                   <tr>
-                    <td><a href="{% url "caf:ass_detail" system.id %}">{{ system.name }}</a></td>
+                    <td class="w-25"><a href="{% url "caf:ass_detail" system.id %}">{{ system.name }}</a></td>
                     <td>{{ system.function }}<br>
                       <a href="{% url "caf:detail" system.pk %}" class="small">
                         {{ system.caf }}
@@ -132,36 +202,7 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card bg-light">
-        <div class="card-body">
-          <div class="card-title text-muted">CAF History <a href="{% url "register:create_from_caf" object.pk %}"
-                                                            class="btn btn-outline-primary btn-sm float-right">Add
-            new...</a>
-          </div>
 
-          <div class="list-group">
-            {% for event in object.get_events %}
-              <div class="list-group-item">
-                <div class="d-flex w-100 justify-content-between">
-                  <p class="mb-1"><strong>{{ event.date|date:"j F Y" }}</strong></p>
-                  <small>{{ event.type }}</small>
-                </div>
-                {% if event.comments%}
-                  <p class="mb-2">{{ event.comments }}<br>
-                  <small>(Inspector: {{ event.user }})</small>
-                </p>
-                {% else %}
-                  <p class="mb-1"><small>No comments made.</small></p>
-                {% endif %}
-              </div>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <div class="row">
     <div class="col-md-12 my-2">

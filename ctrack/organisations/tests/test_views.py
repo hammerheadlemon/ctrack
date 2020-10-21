@@ -49,6 +49,7 @@ def test_meetings_in_organisation_detail_view(user, client, org_with_people):
     assert "First Meeting" in html
 
 
+
 def test_private_event_filter(user, org_with_people):
     """
     In this test we are creating five events, using two different users.

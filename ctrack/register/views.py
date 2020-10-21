@@ -7,9 +7,9 @@ from ctrack.caf.models import CAF
 from ctrack.organisations.models import Organisation
 from ctrack.register.forms import (
     CreateSimpleDateTimeEventForm,
-    EngagementEventCreateForm, CreateNoteEventForm,
+    EngagementEventCreateForm, CreateNoteEventForm, CAFSingleDateEventForm,
 )
-from ctrack.register.models import EngagementEvent, SingleDateTimeEvent, NoteEvent
+from ctrack.register.models import EngagementEvent, SingleDateTimeEvent, NoteEvent, CAFSingleDateEvent
 
 
 class EngagementEventDelete(DeleteView):
@@ -122,7 +122,7 @@ class SingleDateTimeEventUpdate(UpdateView):
 
 
 class SingleDateTimeEventCreate(FormView):
-    template_name = "single_datetime_event_create.html"
+    template_name = "register/single_datetime_event_create.html"
     form_class = CreateSimpleDateTimeEventForm
     success_url = reverse_lazy("organisations:list")
 
@@ -153,3 +153,24 @@ class SingleDateTimeEventCreate(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+
+class CAFCreateSingleDateEventView(FormView):
+    template_name = "register/caf_single_date_event_form.html"
+    form_class = CAFSingleDateEventForm
+    success_url = reverse_lazy("caf:detail")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        kwargs["caf_id"] = self.kwargs.get("caf_id")
+        return kwargs
+
+    def get_success_url(self):
+        self.success_url = reverse_lazy("caf:detail", args=[self.kwargs.get("caf_id")])
+        return super().get_success_url()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["caf"] = CAF.objects.get(id=self.kwargs.get("caf_id"))
+        return context

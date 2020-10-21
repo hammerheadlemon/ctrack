@@ -106,14 +106,16 @@ class CAFSingleDateEventForm(forms.ModelForm):
         model = CAFSingleDateEvent
         fields = [
             "type_descriptor",
+            "date",
             "related_caf",
             "short_description",
-            "date",
+            "document_link",
             "comments",
         ]
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop("user")
+        self.caf_id = kwargs.pop("caf_id")
         super().__init__(*args, **kwargs)
 
     def save(self, **kwargs):

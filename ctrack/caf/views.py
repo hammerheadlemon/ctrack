@@ -1,3 +1,5 @@
+import itertools
+
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponseRedirect
@@ -24,6 +26,8 @@ def caf_detail_view(request, pk):
     assessments = caf.cafassessment_set.all()
     # caf_principles = CAFPrinciple.objects.all()
     _scrs = []
+    _events = list(itertools.chain(caf.cafsingledateevent_set.all(), caf.caftwindateevent_set.all()))
+    all_events = sorted(_events, key=lambda x: x.date, reverse=True)
     for ass in assessments:
         lst_scores = [ass, CAFAssessmentOutcomeScore.objects.filter(caf_assessment=ass)]
         _scrs.append(lst_scores)
@@ -34,6 +38,7 @@ def caf_detail_view(request, pk):
         "systems": caf.systems.all(),
         "single_date_events": caf.cafsingledateevent_set.all(),
         "twin_date_events": caf.caftwindateevent_set.all(),
+        "all_events": all_events,
     }
     return render(request, "caf/caf_detail.html", context)
 
