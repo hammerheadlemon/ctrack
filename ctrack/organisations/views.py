@@ -8,11 +8,11 @@ from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 from django.views.generic import CreateView, DetailView, FormView, ListView
 
 from ctrack.caf.models import CAF, EssentialService
-from ctrack.register.models import EngagementEvent
-
+from ctrack.register.models import EngagementEvent, NoteEvent
 from .forms import AddressInlineFormSet, IncidentReportForm, OrganisationCreateForm
 from .models import IncidentReport, Organisation, Person
 from .utils import filter_private_events
@@ -114,17 +114,22 @@ class OrganisationDetailView(PermissionRequiredMixin, DetailView):
         cafs = org.caf_set.all()
 
         # simple datetime events for org
+        # TODO - a note is not getting registered on org detail page after renamed datetime field so fix!
+        notes = NoteEvent.objects.filter(user=self.request.user)
         _sdes = [
             filter_private_events(
                 person.get_single_datetime_events(), self.request.user
             )
             for person in peoples
         ]
-        flat_sdes = sorted(
-            list(itertools.chain.from_iterable(_sdes)),
-            key=lambda e: e.date,
-            reverse=True,
-        )
+        _all = list(itertools.chain(list(itertools.chain.from_iterable(_sdes)), notes))
+        for x in _all:
+            if isinstance(x, NoteEvent):
+                setattr(x, "date", timezone.now())
+        flat_sdes = sorted(_all, key=lambda e: e.date, reverse=True)
+        for x in flat_sdes:
+            if isinstance(x, NoteEvent):
+                delattr(x, "date")
 
         # Some events will not involve a participant, which is what ties an event to an organisation.
         # Because we want to list events to an organisation here we must related it via the CAF object too...
