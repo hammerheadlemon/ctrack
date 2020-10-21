@@ -73,7 +73,7 @@ class EventBase(AuditableEventBase):
         max_length=1000,
         blank=True,
         null=True,
-        help_text="URL only - do not try to drag a file here.",
+        help_text="Use this to link to documents on TiME/Sharepoint or elsewhere.",
     )
     comments = models.TextField(
         max_length=1000,
@@ -126,7 +126,7 @@ class SingleDateTimeEventMixin(models.Model):
 
 
 class SingleDateMixin(models.Model):
-    date = models.DateField(blank=False)
+    date = models.DateField(blank=False, help_text="DD/MM/YY format")
 
     class Meta:
         abstract = True
@@ -221,7 +221,7 @@ class CAFSingleDateEvent(EventBase, CAFMixin, SingleDateMixin):
         ),
     ]
     type_descriptor = models.CharField(
-        blank=False, max_length=50, choices=AVAILABLE_TYPES
+        blank=False, max_length=50, choices=AVAILABLE_TYPES, verbose_name="Type", help_text="Select the event type"
     )
 
     class Meta:
