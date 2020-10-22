@@ -12,8 +12,14 @@ class Swimlane:
     def __init__(self, org_name: str, events: List[EventBase]):
         self.events = events
         self.attrs_added = []
+        self.attrs_ordered = []
         self.org_name = org_name
         self._process_args()
+
+    def _sort_func(self, type_name):
+        for e in self.attrs_ordered:
+            if list(type_name.keys())[0] == e[1]:
+                return e[0]
 
     def tag_attrs(self, event) -> TagAttributes:
         if event.type_descriptor == EventType.CAF_INITIAL_CAF_RECEIVED.name:
@@ -44,23 +50,31 @@ class Swimlane:
             raise ValueError("Cannot handle an empty list")
         tmpl = "<td{0}>{1}</td>"
         org = self.events[0].related_caf.organisation.name
-        _tds = [
-            tmpl.format(self.tag_attrs(e).inline_style, e.type_descriptor)
-            for e in self.events
-        ]
-        empties = [
-            tmpl.format("", e)
-            for e in self.attrs_added
-            if e[:3] == "CAF"
-        ]
+        _tds = sorted(
+            [
+                {
+                    e.type_descriptor: tmpl.format(
+                        self.tag_attrs(e).inline_style, e.type_descriptor
+                    )
+                }
+                for e in self.events
+            ],
+            key=self._sort_func,
+        )
+        empties = [{e: tmpl.format("", e)} for e in self.attrs_added if e[:3] == "CAF"]
+        _tds = [list(x.values())[0] for x in _tds]
+        empties = [list(x.values())[0] for x in empties]
         tds = "\n".join(_tds)
         empties_strs = "\n".join(empties)
-        return "".join(["<tr>\n", f"<td>{org}</td>\n", tds, "\n", empties_strs, "\n", "</tr>"])
+        return "".join(
+            ["<tr>\n", f"<td>{org}</td>\n", tds, "\n", empties_strs, "\n", "</tr>"]
+        )
 
     def _process_args(self):
         for v in EventType:
             setattr(self, v.name, None)
             self.attrs_added.append(v.name)
+            self.attrs_ordered = list(enumerate(self.attrs_added))
         for e in self.events:
             setattr(self, str(e.type_descriptor), e)
 

@@ -129,5 +129,12 @@ def test_table_row_builder(user, caf):
         f"<td>{caf.organisation.name}</td>\n"
         '<td style="background-color: green; color: white;">CAF_INITIAL_CAF_RECEIVED</td>\n'
         '<td style="background-color: green; color: white;">CAF_INITIAL_REVIEW_COMPLETE</td>\n'
+        "<td>CAF_FEEDBACK_EMAILED_OES</td>\n"
+        "<td>CAF_RECEIVED</td>\n"
+        "<td>CAF_EMAILED_ROSA</td>\n"
+        "<td>CAF_VALIDATION_SIGN_OFF</td>\n"
+        "<td>CAF_VALIDATION_RECORD_EMAILED_TO_OES</td>\n"
+        "<td>CAF_PEER_REVIEW_PERIOD</td>\n"
+        "<td>CAF_VALIDATION_PERIOD</td>\n"
         "</tr>"
     )

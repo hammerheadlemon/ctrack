@@ -13,6 +13,9 @@ from ctrack.users.models import User
 
 
 class EventType(Enum):
+    """
+    This is important - throughout the codebase! Do not fuck with me.
+    """
     MEETING = auto()
     PHONE_CALL = auto()
     VIDEO_CALL = auto()
