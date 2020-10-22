@@ -81,6 +81,7 @@
             </div>
           </div>
 
+{#          TODO - split off the notes#}
 
           <div class="col-md-12 mb-2">
             <div class="row">
@@ -139,6 +140,47 @@
                     </div>
 
                     <div>
+                      <table class="table table-small table-bordered">
+                        <thead>
+                        <tr>
+                          <th scope="col">Type</th>
+                          <th scope="col">Date</th>
+                          <th scope="col">Description</th>
+                          <th scope="col">Participants</th>
+                          <th scope="col">Comments</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for event in single_datetime_events %}
+                          <tr>
+                            <td>
+                              {{ event.type_descriptor }}
+                              {% if event.private %}
+                                <span class="badge badge-warning float-right">PRIVATE</span>
+                              {% endif %}
+                            </td>
+                            <td>
+                              {% if event.date %}
+                                {{ event.date|date:"j M Y G:H" }}
+                              {% else %}
+                                NA
+                              {% endif %}
+                            </td>
+                            <td>{{ event.short_description }}</td>
+                            <td>
+                              {% if event.participants %}
+                                {% for person in event.participants.all %}
+                                  <a href="{% url "organisations:person-detail" person.id %}">{{ person }}</a> &nbsp;
+                                {% endfor %}
+                              {% else %}
+                                NA
+                              {% endif %}
+                            </td>
+                            <td>{{ event.comments }}</td>
+                          </tr>
+                        {% endfor %}
+                        </tbody>
+                      </table>
                       {% for event in single_datetime_events %}
                         <div class="card" style="width: 100%">
                           <div class="card-body">
