@@ -19,6 +19,7 @@ class EventType(Enum):
     EMAIL = auto()
     # single date caf events
     CAF_INITIAL_CAF_RECEIVED = auto()
+    CAF_INITIAL_REVIEW_COMPLETE = auto()
     CAF_FEEDBACK_EMAILED_OES = auto()
     CAF_RECEIVED = auto()
     CAF_EMAILED_ROSA = auto()
@@ -211,6 +212,7 @@ class SingleDateTimeEvent(
 class CAFSingleDateEvent(EventBase, CAFMixin, SingleDateMixin):
     AVAILABLE_TYPES = [
         (EventType.CAF_INITIAL_CAF_RECEIVED.name, "CAF - Initial CAF Received"),
+        (EventType.CAF_INITIAL_REVIEW_COMPLETE.name, "CAF - Initial Review Complete"),
         (EventType.CAF_FEEDBACK_EMAILED_OES.name, "CAF - Emailed to OES"),
         (EventType.CAF_RECEIVED.name, "CAF - Received"),
         (EventType.CAF_EMAILED_ROSA.name, "CAF - Emailed to Rosa"),

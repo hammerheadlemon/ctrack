@@ -17,6 +17,7 @@ pytestmark = pytest.mark.django_db
     "allowed_type",
     [
         "CAF_INITIAL_CAF_RECEIVED",
+        "CAF_INITIAL_REVIEW_COMPLETE",
         "CAF_FEEDBACK_EMAILED_OES",
         "CAF_RECEIVED",
         "CAF_EMAILED_ROSA",
@@ -151,6 +152,7 @@ def test_event_type_enum():
     assert EventType.VIDEO_CALL.name == "VIDEO_CALL"
     assert EventType.EMAIL.name == "EMAIL"
     assert EventType.CAF_INITIAL_CAF_RECEIVED.name == "CAF_INITIAL_CAF_RECEIVED"
+    assert EventType.CAF_INITIAL_REVIEW_COMPLETE.name == "CAF_INITIAL_REVIEW_COMPLETE"
     assert EventType.CAF_FEEDBACK_EMAILED_OES.name == "CAF_FEEDBACK_EMAILED_OES"
     assert EventType.CAF_RECEIVED.name == "CAF_RECEIVED"
     assert EventType.CAF_EMAILED_ROSA.name == "CAF_EMAILED_ROSA"

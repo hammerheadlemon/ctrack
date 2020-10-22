@@ -131,6 +131,7 @@ def test_create_note(user, org_with_people):
     [
         "CAF_INITIAL_CAF_RECEIVED",
         "CAF_RECEIVED",
+        "CAF_INITIAL_REVIEW_COMPLETE",
         "CAF_FEEDBACK_EMAILED_OES",
         "CAF_EMAILED_ROSA",
         "CAF_VALIDATION_SIGN_OFF",
