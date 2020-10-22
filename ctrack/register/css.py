@@ -47,10 +47,19 @@ class Swimlane:
             )
 
     def table_row_builder(self):
+        org = self.org_name
         if len(self.events) == 0:
-            raise ValueError("Cannot handle an empty list")
+            tmpl = "<td{0}>{1}</td>"
+            processing_these_attrs = [x.type_descriptor for x in self.__dict__.values() if isinstance(x, EventBase)]
+            empties = [{e: tmpl.format("", e)} for e in self.attrs_added if
+                       e[:3] == "CAF" and e not in processing_these_attrs]
+            empties = sorted(empties, key=self._sort_func)
+            empties = [list(x.values())[0] for x in empties]
+            empties = "\n".join(empties)
+            return "".join(
+                ["<tr>\n", f"<td>{org}</td>\n", empties, "\n", "</tr>"]
+            )
         tmpl = "<td{0}>{1}</td>"
-        org = self.events[0].related_caf.organisation.name
         processing_these_attrs = [x.type_descriptor for x in self.__dict__.values() if isinstance(x, EventBase)]
         empties = [{e: tmpl.format("", e)} for e in self.attrs_added if
                    e[:3] == "CAF" and e not in processing_these_attrs]

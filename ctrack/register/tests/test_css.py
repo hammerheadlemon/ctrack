@@ -138,3 +138,22 @@ def test_table_row_builder(user, caf):
         "<td>CAF_VALIDATION_PERIOD</td>\n"
         "</tr>"
     )
+
+
+def test_table_row_builder_with_no_events(user, caf):
+    org_name = caf.organisation.name
+    sl = Swimlane(org_name, [])
+    assert sl.table_row_builder() == (
+        "<tr>\n"
+        f"<td>{caf.organisation.name}</td>\n"
+        "<td>CAF_INITIAL_CAF_RECEIVED</td>\n"
+        '<td>CAF_INITIAL_REVIEW_COMPLETE</td>\n'
+        "<td>CAF_FEEDBACK_EMAILED_OES</td>\n"
+        "<td>CAF_RECEIVED</td>\n"
+        "<td>CAF_EMAILED_ROSA</td>\n"
+        "<td>CAF_VALIDATION_SIGN_OFF</td>\n"
+        "<td>CAF_VALIDATION_RECORD_EMAILED_TO_OES</td>\n"
+        "<td>CAF_PEER_REVIEW_PERIOD</td>\n"
+        "<td>CAF_VALIDATION_PERIOD</td>\n"
+        "</tr>"
+    )
