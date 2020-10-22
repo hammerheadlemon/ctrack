@@ -1,3 +1,4 @@
+import itertools
 from typing import NamedTuple, List
 
 from ctrack.register.models import EventType, EventBase
@@ -50,24 +51,23 @@ class Swimlane:
             raise ValueError("Cannot handle an empty list")
         tmpl = "<td{0}>{1}</td>"
         org = self.events[0].related_caf.organisation.name
-        _tds = sorted(
-            [
-                {
-                    e.type_descriptor: tmpl.format(
-                        self.tag_attrs(e).inline_style, e.type_descriptor
-                    )
-                }
-                for e in self.events
-            ],
-            key=self._sort_func,
-        )
-        empties = [{e: tmpl.format("", e)} for e in self.attrs_added if e[:3] == "CAF"]
+        processing_these_attrs = [x.type_descriptor for x in self.__dict__.values() if isinstance(x, EventBase)]
+        empties = [{e: tmpl.format("", e)} for e in self.attrs_added if
+                   e[:3] == "CAF" and e not in processing_these_attrs]
+        _tds = [
+            {
+                e.type_descriptor: tmpl.format(
+                    self.tag_attrs(e).inline_style, e.type_descriptor
+                )
+            }
+            for e in self.events
+        ]
+        _tds = list(itertools.chain(_tds, empties))
+        _tds = sorted(_tds, key=self._sort_func)
         _tds = [list(x.values())[0] for x in _tds]
-        empties = [list(x.values())[0] for x in empties]
         tds = "\n".join(_tds)
-        empties_strs = "\n".join(empties)
         return "".join(
-            ["<tr>\n", f"<td>{org}</td>\n", tds, "\n", empties_strs, "\n", "</tr>"]
+            ["<tr>\n", f"<td>{org}</td>\n", tds, "\n", "</tr>"]
         )
 
     def _process_args(self):
