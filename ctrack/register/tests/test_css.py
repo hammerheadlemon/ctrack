@@ -16,7 +16,7 @@ class TagAttributes(NamedTuple):
 def tag_attrs(event) -> TagAttributes:
     if event.type_descriptor == EventType.CAF_INITIAL_CAF_RECEIVED.name:
         return TagAttributes(
-            inline_style="style=\"background-color: green; color: white;\"",
+            inline_style='style="background-color: green; color: white;"',
             id_str="caf-initial-received-event",
         )
 
@@ -26,7 +26,7 @@ def tag_attrs(event) -> TagAttributes:
     [
         (
             EventType.CAF_INITIAL_CAF_RECEIVED.name,
-            "style=\"background-color: green; color: white;\"",
+            'style="background-color: green; color: white;"',
             "caf-initial-received-event",
         )
     ],
@@ -39,15 +39,17 @@ def test_can_get_class_string(caf, user, e_type, css_str, id_str):
     assert tag_attrs(event).id_str == id_str
 
 
-template = ("<tr>\n"
-            "   <td>{0}</td>\n"
-            "   <td {1}>CAF Initial Submitted</td>\n"
-            "   <td>CAF Reviewed</td>\n"
-            "   <td>OES Revisions Submitted</td>\n"
-            "   <td>Validation Agreed</td>\n"
-            "   <td>Improvement Plan Submitted</td>\n"
-            "   <td>Improvement Plan Review</td>\n"
-            "</tr>\n")
+template = (
+    "<tr>\n"
+    "   <td>{0}</td>\n"
+    "   {1}\n"
+    "   <td>CAF Reviewed</td>\n"
+    "   <td>OES Revisions Submitted</td>\n"
+    "   <td>Validation Agreed</td>\n"
+    "   <td>Improvement Plan Submitted</td>\n"
+    "   <td>Improvement Plan Review</td>\n"
+    "</tr>\n"
+)
 
 
 class Swimlane:
@@ -58,8 +60,17 @@ class Swimlane:
 
     @property
     def tr(self):
+        initial_submitted_str = "".join(
+            [
+                "<td ",
+                tag_attrs(self.slots.initial_submitted).inline_style,
+                ">",
+                self.slots.initial_submitted.type_descriptor,
+                "</td>"
+            ]
+        )
         return template.format(
-            self.org_name, tag_attrs(self.slots.initial_submitted).inline_style
+            self.org_name, initial_submitted_str
         )
 
 
@@ -97,15 +108,17 @@ def test_swimlane_slots():
 
 
 def test_progress_chart_slots(caf, user):
-    accept = ("<tr>\n"
-              "   <td>{}</td>\n"
-              "   <td style=\"background-color: green; color: white;\">CAF Initial Submitted</td>\n"
-              "   <td>CAF Reviewed</td>\n"
-              "   <td>OES Revisions Submitted</td>\n"
-              "   <td>Validation Agreed</td>\n"
-              "   <td>Improvement Plan Submitted</td>\n"
-              "   <td>Improvement Plan Review</td>\n"
-              "</tr>\n")
+    accept = (
+        "<tr>\n"
+        "   <td>{}</td>\n"
+        '   <td style="background-color: green; color: white;">CAF_INITIAL_CAF_RECEIVED</td>\n'
+        "   <td>CAF Reviewed</td>\n"
+        "   <td>OES Revisions Submitted</td>\n"
+        "   <td>Validation Agreed</td>\n"
+        "   <td>Improvement Plan Submitted</td>\n"
+        "   <td>Improvement Plan Review</td>\n"
+        "</tr>\n"
+    )
     org_name = caf.organisation.name
     caf_initial = CAFSingleDateEvent.objects.create(
         type_descriptor=EventType.CAF_INITIAL_CAF_RECEIVED.name,
