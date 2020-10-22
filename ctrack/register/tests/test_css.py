@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import NamedTuple, List
+from typing import NamedTuple, List, Optional
 
 import pytest
 
@@ -16,7 +16,7 @@ class TagAttributes(NamedTuple):
 def tag_attrs(event) -> TagAttributes:
     if event.type_descriptor == EventType.CAF_INITIAL_CAF_RECEIVED.name:
         return TagAttributes(
-            inline_style="background-color: green; color: white;",
+            inline_style="style=\"background-color: green; color: white;\"",
             id_str="caf-initial-received-event",
         )
 
@@ -26,7 +26,7 @@ def tag_attrs(event) -> TagAttributes:
     [
         (
             EventType.CAF_INITIAL_CAF_RECEIVED.name,
-            "background-color: green; color: white;",
+            "style=\"background-color: green; color: white;\"",
             "caf-initial-received-event",
         )
     ],
@@ -39,94 +39,79 @@ def test_can_get_class_string(caf, user, e_type, css_str, id_str):
     assert tag_attrs(event).id_str == id_str
 
 
+template = ("<tr>\n"
+            "   <td>{0}</td>\n"
+            "   <td {1}>CAF Initial Submitted</td>\n"
+            "   <td>CAF Reviewed</td>\n"
+            "   <td>OES Revisions Submitted</td>\n"
+            "   <td>Validation Agreed</td>\n"
+            "   <td>Improvement Plan Submitted</td>\n"
+            "   <td>Improvement Plan Review</td>\n"
+            "</tr>\n")
+
+
 class Swimlane:
-    def __init__(self, events: List[EventBase]):
+    def __init__(self, org_name: str, events: List[EventBase]):
         self.events = events
-        self.slots = []
+        self.org_name = org_name
+        self.slots = CAFSwimlaneSlots(*events)  # type: CAFSwimlaneSlots
+
+    @property
+    def tr(self):
+        return template.format(
+            self.org_name, tag_attrs(self.slots.initial_submitted).inline_style
+        )
 
 
+@dataclass(frozen=True)
 class CAFSwimlaneSlots:
     """
     The pre-compliance stages we expect.
     """
 
-    def __init__(self, events):
-        for e in events:
-            if e.type_descriptor == "CAF Initial Submitted":
-                self._initial_submitted = e
-            else:
-                self._initial_submitted = None
-            if e.type_descriptor == "CAF Reviewed":
-                self._reviewed = e
-            else:
-                self._reviewed = None
-            if e.type_descriptor == "CAF Revisions Submitted":
-                self._revisions_submitted = e
-            else:
-                self._revisions_submitted = None
-            if e.type_descriptor == "CAF Validation Agreed":
-                self._validation_agreed = e
-            else:
-                self._validation_agreed = None
-            if e.type_descriptor == "Improvement Plan Submitted":
-                self._improvement_plan_submitted = e
-            else:
-                self._improvement_plan_submitted = None
-            if e.type_descriptor == "Improvement Plan Reviewed":
-                self._improvement_plan_reviewed = e
-            else:
-                self._improvement_plan_reviewed = None
-            if e.type_descriptor == "Improvement Plan Agreed":
-                self._improvement_plan_agreed = e
-            else:
-                self._improvement_plan_agreed = None
+    initial_submitted: CAFSingleDateEvent = None
+    reviewed: CAFSingleDateEvent = None
+    revisions_submitted: CAFSingleDateEvent = None
+    validation_agreed: CAFSingleDateEvent = None
+    improvement_plan_submitted: CAFSingleDateEvent = None
+    improvement_plan_reviewed: CAFSingleDateEvent = None
+    improvement_plan_agreed: CAFSingleDateEvent = None
 
-    @property
-    def initial_submitted(self):
-        return self._initial_submitted
 
-    @property
-    def improvement_plan_agreed(self):
-        return self._improvement_plan_agreed
+class _TestEvent(CAFSingleDateEvent):
+    def __init__(self, event):
+        self.type_descriptor = event
 
 
 def test_swimlane_slots():
-    class _TestEvent:
-        def __init__(self, type_descriptor):
-            self.type_descriptor = type_descriptor
-
     slots = CAFSwimlaneSlots(
-        [
-            _TestEvent("CAF Initial Submitted"),
-            _TestEvent("CAF Reviewed"),
-            _TestEvent("CAF Revisions Submitted"),
-            _TestEvent("CAF Validation Agreed"),
-            _TestEvent("Improvement Plan Submitted"),
-            _TestEvent("Improvement Plan Reviewed"),
-            # _TestEvent("Improvement Plan Agreed")
-        ]
+        initial_submitted=_TestEvent("CAF Initial Submitted"),
+        # reviewed=_TestEvent("CAF Reviewed"),
+        # revisions_submitted=_TestEvent("CAF Revisions Submitted"),
+        # validation_agreed=_TestEvent("CAF Validation Agreed"),
+        # improvement_plan_submitted=_TestEvent("Improvement Plan Submitted"),
+        # improvement_plan_reviewed=_TestEvent("Improvement Plan Reviewed"),
+        # improvement_plan_agreed=_TestEvent("Improvement Plan Agreed"),
     )
     assert slots.initial_submitted.type_descriptor == "CAF Initial Submitted"
-    assert slots.improvement_plan_agreed is None
 
 
 def test_progress_chart_slots(caf, user):
-    accept = """
-            <tr>
-              <td>ORG NAME 1</td>
-              <td style="background-color: green; color: white;">CAF Initial Submitted</td>
-              <td>CAF Reviewed</td>
-              <td>OES Revisions Submitted</td>
-              <td>Validation Agreed</td>
-              <td>Improvement Plan Submitted</td>
-              <td>Improvement Plan Review</td>
-            </tr>
-            """
+    accept = ("<tr>\n"
+              "   <td>{}</td>\n"
+              "   <td style=\"background-color: green; color: white;\">CAF Initial Submitted</td>\n"
+              "   <td>CAF Reviewed</td>\n"
+              "   <td>OES Revisions Submitted</td>\n"
+              "   <td>Validation Agreed</td>\n"
+              "   <td>Improvement Plan Submitted</td>\n"
+              "   <td>Improvement Plan Review</td>\n"
+              "</tr>\n")
+    org_name = caf.organisation.name
     caf_initial = CAFSingleDateEvent.objects.create(
         type_descriptor=EventType.CAF_INITIAL_CAF_RECEIVED.name,
         related_caf=caf,
         date="2020-10-20",
         user=user,
     )
-    output = Swimlane([caf_initial])
-    assert output.tr == accept
+    output = Swimlane(org_name, [caf_initial])
+    assert output.tr == accept.format(org_name)
