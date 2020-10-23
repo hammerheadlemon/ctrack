@@ -5,6 +5,7 @@ from ctrack.register.views import (
     EngagementEventCreateFromCaf,
     EngagementEventDelete,
     SingleDateTimeEventCreate, SingleDateTimeEventUpdate, CreateNoteEvent, CAFCreateSingleDateEventView,
+    CreateNoteEventFromOrg,
 )
 
 app_name = "register"
@@ -49,6 +50,11 @@ urlpatterns = [
         "event/create-note",
         view=CreateNoteEvent.as_view(),
         name="event_create_note"
+    ),
+    path(
+        "event/create-note-for-org/<slug:org_slug>",
+        view=CreateNoteEventFromOrg.as_view(),
+        name="event_create_note_from_org"
     ),
     path(
         "event/create-caf-single-date-event/<int:caf_id>",

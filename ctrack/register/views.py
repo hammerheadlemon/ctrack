@@ -94,6 +94,24 @@ class CreateNoteEvent(CreateView):
         return reverse_lazy("organisations:detail", args=[self.object.organisation.slug])
 
 
+class CreateNoteEventFromOrg(CreateView):
+    form_class = CreateNoteEventForm
+    model = NoteEvent
+    template_name = "register/create_note_event_form.html"
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        kwargs["org_slug"] = self.kwargs.get("org_slug")
+        return kwargs
+
+    def form_valid(self, form):
+        note = form.save(commit=False)
+        note.user = self.request.user
+        note.save()
+        return super().form_valid(form)
+
+
 class SingleDateTimeEventUpdate(UpdateView):
     model = SingleDateTimeEvent
     fields = [
