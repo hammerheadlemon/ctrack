@@ -4,17 +4,58 @@
 {% block title %}User: {{ object.username }}{% endblock %}
 
 {% block content %}
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script type="application/javascript">
+    $(document).ready(function () {
+      $('#datatable').DataTable({
+        ordering: true,
+        searching: true,
+        buttons: true,
+        dom: 'B<"clear">lfrtip',
+        paging: false,
+      });
+    });
+  </script>
+
   <div class="container">
 
     <div class="row">
       <div class="col-sm-12">
 
-        <h1 class="display-4">{{ object.name }}</h1>
         {% if object.name %}
-          <p>{{ object.name }}</p>
+          <h1 class="display-4">{{ object.name }}</h1>
         {% else %}
-          <p>Email: {{ object.email }}</p>
+          <h1 class="display-4">{{ object.username }}</h1>
         {% endif %}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <p class="h3">Lead inspector</p>
+        <ul class="list-group">
+          {% for oes in lead_oes %}
+            <li class="list-group-item list-group-item-light">
+              <a href="{% url "organisations:detail" oes.slug %}">{{ oes.name }}</a><br>
+              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor"
+                   xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+              </svg>
+
+              {% if oes.get_people|length > 1 %}
+                <a href="{% url "organisations:person-detail" oes.get_people.0.pk %}">{{ oes.get_people.0 }}</a>
+                {{ oes.get_people.0.mobile }} <a href="{% url "organisations:detail" oes.slug %}"> [...]</a>
+              {% else %}
+                {% for person in oes.get_people %}
+                  <a href="{% url "organisations:person-detail" person.pk %}">{{ person }}</a> ({{ person.mobile }})
+                {% endfor %}
+              {% endif %}
+              <span class="float-right">{{ oes.submode }}</span>
+            </li>
+          {% endfor %}
+        </ul>
       </div>
     </div>
 
@@ -36,20 +77,29 @@
     <div class="row justify-content-center">
       <div class="col-md-12 m-2">
         <h3 class="h3">Recent Events</h3>
-        <table class="table table-bordered">
+        <table id="datatable" class="table table-bordered table-striped">
           <thead>
           <tr>
-            <th class="w-25">Type</th>
-            <th>Event</th>
-            <th>Comments</th>
+            <th class="col-2">Type</th>
+            <th class="col-2">Date</th>
+            <th class="col-2">Event</th>
+            <th class="col-2">Organisation</th>
+            <th class="col-4">Comments</th>
           </tr>
           </thead>
           <tbody>
           {% for event in all_events %}
             <tr>
-              <td>{{ event.type_descriptor }}</td>
-              <td>{{ event.short_description }}</td>
-              <td>{{ event.comments }}</td>
+              <td class="col-2">
+                {{ event.type_descriptor }}
+                {% if event.private %}
+                  <span class="badge badge-warning float-right">PRIVATE</span>
+                {% endif %}
+              </td>
+              <td class="col-2">{{ event.date|date:"d M Y" }}</td>
+              <td class="col-2">{{ event.short_description }}</td>
+              <td class="col-2">{{ event.organisation }}</td>
+              <td class="col-4">{{ event.comments }}</td>
             </tr>
           {% endfor %}
           </tbody>
