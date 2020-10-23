@@ -115,17 +115,14 @@ class OrganisationDetailView(PermissionRequiredMixin, DetailView):
 
         # simple datetime events for org
         # TODO - a note is not getting registered on org detail page after renamed datetime field so fix!
-        notes = NoteEvent.objects.filter(user=self.request.user)
+        notes = NoteEvent.objects.filter(user=self.request.user, organisation=self.object).order_by("-created_date")
         _sdes = [
             filter_private_events(
                 person.get_single_datetime_events(), self.request.user
             )
             for person in peoples
         ]
-        _all = list(itertools.chain(list(itertools.chain.from_iterable(_sdes)), notes))
-        for x in _all:
-            if isinstance(x, NoteEvent):
-                setattr(x, "date", timezone.now())
+        _all = list(itertools.chain(list(itertools.chain.from_iterable(_sdes))))
         flat_sdes = sorted(_all, key=lambda e: e.date, reverse=True)
         for x in flat_sdes:
             if isinstance(x, NoteEvent):
@@ -150,6 +147,7 @@ class OrganisationDetailView(PermissionRequiredMixin, DetailView):
         people = org.person_set.all()
         context["people"] = people
         applicable_systems = org.applicable_systems()
+        context["notes"] = notes
         context["applicable_systems"] = applicable_systems
         context["engagement_events"] = engagement_events
         context["essential_services"] = essential_services
