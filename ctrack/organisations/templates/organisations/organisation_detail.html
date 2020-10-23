@@ -181,27 +181,6 @@
                         {% endfor %}
                         </tbody>
                       </table>
-                      {% for event in single_datetime_events %}
-                        <div class="card" style="width: 100%">
-                          <div class="card-body">
-                            <h5 class="card-title">{{ event.short_description }} | <a
-                                    href="{% url "register:event_update_simple_event_from_org" event.pk object.slug %}">Edit</a>
-                              {% if event.private %}
-                                <span class="badge badge-warning float-right">PRIVATE</span>
-                              {% endif %}
-                            </h5>
-                            <div class="card-subtitle mb-2">
-                              <span class="badge badge-info">{{ event.type_descriptor }}</span>
-                              <span class="badge badge-light">{{ event.date|date:"l j F Y" }}, {{ event.datetime|date:"G:i" }}</span></h5>
-                            </div>
-                            <p class="card-text">{{ event.comments }}</p>
-                            Participants:
-                            {% for person in event.participants.all %}
-                              <a href="{% url "organisations:person-detail" person.id %}">{{ person }}</a> &nbsp;
-                            {% endfor %}
-                          </div>
-                        </div>
-                      {% endfor %}
                     </div>
                   </div>
                 </div>
