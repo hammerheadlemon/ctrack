@@ -32,7 +32,7 @@
             </h3>
             <p>There are currently <span class="lead font-weight-bold">{{ no_orgs }}</span> <a
                     href="{% url "organisations:list" %}">organisations</a> on ctrack, of which <span
-                    class="lead font-weight-bold">{{ no_oes }}</span> are OES, comprising <span
+                    class="lead font-weight-bold">{{ no_oes }}</span> are <a href="{% url "organisations:list_oes" %}">OES</a>, comprising <span
                     class="lead font-weight-bold">{{ no_people }}</span> <a href="{% url "organisations:people" %}">people</a>.
               OES are responsible for <span class="lead font-weight-bold">{{ no_essential_services }}</span> NIS <a
                       href="#">essential services</a>. There have been a total of <span
