@@ -128,7 +128,7 @@
                     </div>
 
                     <div>
-                      <table class="table table-small table-bordered">
+                      <table class="table table-small table-bordered table-striped">
                         <thead>
                         <tr class="d-flex">
                           <th scope="col" class="col-2">Type</th>
@@ -206,7 +206,7 @@
                         </div>
 
                         <div>
-                          <table class="table table-small table-bordered">
+                          <table class="table table-small table-bordered table-striped">
                             <thead>
                             <tr class="d-flex">
                               <th scope="col" class="col-2">Created</th>
@@ -248,133 +248,11 @@
                   </div>
                 </div>
 
-                <div class="row pb-2">
-                  <div class="col-sm">
-                    <div class="card bg-light">
-                      <div class="card-body">
-                        <div class="card-title" style="font-size: 1.1rem;">Essential Services</div>
-                        <table class="table table-bordered">
-                          {% if applicable_systems|length > 0 %}
-                            {% for es in essential_services %}
-                              <tr>
-                                <td class="w-25"
-                                <a
-                                        href="{% url "organisations:essential_service_detail" es.pk %}">{{ es.name }}</a>
-                                </td>
-                                <td>{{ es.description }}
-                                </td>
-                              </tr>
-                            {% endfor %}
-                          {% else %}
-                            <p>button to create new one here</p>
-                          {% endif %}
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row pb-2">
-                  <div class="col-sm">
-                    <div class="card bg-light">
-                      <div class="card-body">
-                        <div class="card-title" style="font-size: 1.1rem;">NIS Systems <a
-                                href="{% url "caf:as_create_from_org" object.slug %}"
-                                class="btn btn-outline-primary btn-sm float-right">Add
-                          new...</a>
-                        </div>
-                        <div class="table">
-                          <table class="table table-bordered">
-                            {% if applicable_systems|length > 0 %}
-                              {% for ass in applicable_systems %}
-                                <tr>
-                                  <td class="w-25"><a href="{% url "caf:ass_detail" ass.id %}">{{ ass.name }}</a></td>
-                                  <td>{{ ass.function }}
-                                  </td>
-                                </tr>
-                              {% endfor %}
-                            {% else %}
-                              <a class="btn btn-primary" href="{% url "caf:as_create_from_org" object.slug %}"
-                                 role="button">Add
-                                new...</a>
-                            {% endif %}
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-            </div>
-
-            <div class="row pb-2">
-              <div class="col-sm">
-                <div class="card bg-light">
-                  <div class="card-body">
-                    <div class="card-title" style="font-size: 1.1rem;">Essential Services</div>
-                    <table class="table table-bordered">
-                      {% if applicable_systems|length > 0 %}
-                        {% for es in essential_services %}
-                          <tr>
-                            <td class="w-25"
-                            <a
-                                    href="{% url "organisations:essential_service_detail" es.pk %}">{{ es.name }}</a>
-                            </td>
-                            <td>{{ es.description }}
-                            </td>
-                          </tr>
-                        {% endfor %}
-                      {% else %}
-                        <p>button to create new one here</p>
-                      {% endif %}
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row pb-2">
-              <div class="col-sm">
-                <div class="card bg-light">
-                  <div class="card-body">
-                    <div class="card-title" style="font-size: 1.1rem;">NIS Systems <a
-                            href="{% url "caf:as_create_from_org" object.slug %}"
-                            class="btn btn-outline-primary btn-sm float-right">Add
-                      new...</a>
-                    </div>
-                    <div class="table">
-                      <table class="table table-bordered">
-                        {% if applicable_systems|length > 0 %}
-                          {% for ass in applicable_systems %}
-                            <tr>
-                              <td class="w-25"><a href="{% url "caf:ass_detail" ass.id %}">{{ ass.name }}</a></td>
-                              <td>{{ ass.function }}
-                              </td>
-                            </tr>
-                          {% endfor %}
-                        {% else %}
-                          <a class="btn btn-primary" href="{% url "caf:as_create_from_org" object.slug %}"
-                             role="button">Add
-                            new...</a>
-                        {% endif %}
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="row">
+             <div class="row">
           <div class="col-md-12 my-2">
             <div class="card bg-light">
               <div class="card-body">
-                <div class="card-title" style="font-size: 1.1rem;">CAFs <a href="#"
-                                                                           class="btn btn-outline-primary btn-sm float-right">Add
+                <div class="card-title" style="font-size: 1.1rem;">CAFs <a href="#" class="btn btn-outline-primary btn-sm float-right">Add
                   new...</a></div>
                 <div class="table-responsive">
                   <table class="table table-sm table-striped table-bordered">
@@ -421,10 +299,7 @@
                             </ul>
                           </td>
                           <td>
-                            <ul class="list-group">
-                              <li class="list-group-item">
-                                {{ caf.comments }}</li>
-                            </ul>
+                            {{ caf.comments }}
                           </td>
                         </tr>
                       {% endfor %}
@@ -438,6 +313,93 @@
             </div>
           </div>
         </div>
+
+
+
+                <div class="row pb-2">
+                  <div class="col-sm">
+                    <div class="card bg-light">
+                      <div class="card-body">
+                        <div class="card-title" style="font-size: 1.1rem;">Essential Services</div>
+                        <table class="table table-bordered table-striped">
+                          <thead>
+                          <tr class="d-flex">
+                            <th class="col-3">Name</th>
+                            <th class="col-8">Description</th>
+                            <th class="col-1">Action</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          {% if applicable_systems|length > 0 %}
+                            {% for es in essential_services %}
+                              <tr class="d-flex">
+                                <td class="col-3">
+                                  <a href="{% url "organisations:essential_service_detail" es.pk %}">{{ es.name }}</a>
+                                </td>
+                                <td class="col-8">{{ es.description }}
+                                </td>
+                                <td class="col-1">
+                                  <a href="#" class="btn btn-outline-secondary btn-sm" role="button">Edit</a>
+                                </td>
+                              </tr>
+                            {% endfor %}
+                          {% else %}
+                            <p>button to create new one here</p>
+                          {% endif %}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row pb-2">
+                  <div class="col-sm">
+                    <div class="card bg-light">
+                      <div class="card-body">
+                        <div class="card-title" style="font-size: 1.1rem;">NIS Systems <a
+                                href="{% url "caf:as_create_from_org" object.slug %}"
+                                class="btn btn-outline-primary btn-sm float-right">Add
+                          new...</a>
+                        </div>
+                        <div class="table">
+                          <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr class="d-flex">
+                              <th class="col-3">Name</th>
+                              <th class="col-8">Description</th>
+                              <th class="col-1">Action</th>
+                            </tr>
+                            </thead>
+                            {% if applicable_systems|length > 0 %}
+                              {% for ass in applicable_systems %}
+                                <tr class="d-flex">
+                                  <td class="col-3"><a href="{% url "caf:ass_detail" ass.id %}">{{ ass.name }}</a></td>
+                                  <td class="col-8">{{ ass.function }}
+                                  </td>
+                                  <td class="col-1">
+                                    <a href="#" class="btn btn-outline-secondary btn-sm" role="button">Edit</a>
+                                  </td>
+                                </tr>
+                              {% endfor %}
+                            {% else %}
+                              <a class="btn btn-primary" href="{% url "caf:as_create_from_org" object.slug %}"
+                                 role="button">Add
+                                new...</a>
+                            {% endif %}
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
 
         <div class="row">
           <div class="col-12 mt-3">
