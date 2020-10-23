@@ -135,7 +135,7 @@ def populate_db(**kwargs):
     else:
         orgs = [
             OrganisationFactory.create(submode=submodes[randint(0, len(submodes) - 1)])
-            for org in range(40)
+            for org in range(60)
         ]
 
     # Create Address objects
