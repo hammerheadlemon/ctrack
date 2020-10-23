@@ -29,9 +29,61 @@
           <div class="col-md-12 my-2">
             <div class="card bg-light">
               <div class="card-body">
-                <div class="card-title" style="font-size: 1.1rem;">Company Information</div>
+{#                <div class="card-title" style="font-size: 1.1rem;">Company Information</div>#}
                 <div class="card-text">
+                  <div class="row">
+                    {% for p in people %}
+                      <div class="col-md-6 my-2">
+                        <div class="card bg-light">
+                          <div class="card-body">
+                            <h5 class="card-title"><a
+                                    href="{% url "organisations:person-detail" p.id %}">{{ p.first_name }} {{ p.last_name }}</a>
+                            </h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ p.job_title }}</h6>
+                            <div class="table-responsive">
+                              <table class="table-sm">
+                                <tr>
+                                  <td>Primary NIS Contact:</td>
+                                  {% if p.primary_nis_contact %}
+                                    <td class="text-success">Yes</td>
+                                  {% else %}
+                                    <td>No</td>
+                                  {% endif %}
+                                </tr>
+                                <tr>
+                                  <td>Email:</td>
+                                  <td><a href="mailto:{{ p.email }}">{{ p.email }}</a></td>
+                                </tr>
+                                <tr>
+                                  <td>Mobile:</td>
+                                  <td>{{ p.mobile }}</td>
+                                </tr>
+                                <tr>
+                                  <td>Landline:</td>
+                                  <td>{{ p.landline }}</td>
+                                </tr>
+                                <tr>
+                                  <td>Clearance:</td>
+                                  <td>{{ p.clearance }}</td>
+                                </tr>
+                                <tr>
+                                  <td>Clearance Expiry:</td>
+                                  <td>{{ p.clearance_expiry }}</td>
+                                </tr>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+
                   <div>
+                    <div class="row">
+                      <div class="col-12 my-1">
+                        <p class="h5">Company Information</p>
+                      </div>
+                    </div>
                     <table class="table table-bordered">
                       <tr>
                         <td class="w-25"><strong>Designation Type:</strong></td>
@@ -248,72 +300,73 @@
                   </div>
                 </div>
 
-             <div class="row">
-          <div class="col-md-12 my-2">
-            <div class="card bg-light">
-              <div class="card-body">
-                <div class="card-title" style="font-size: 1.1rem;">CAFs <a href="#" class="btn btn-outline-primary btn-sm float-right">Add
-                  new...</a></div>
-                <div class="table-responsive">
-                  <table class="table table-sm table-striped table-bordered">
-                    <thead>
-                    <tr>
-                      <th>Version</th>
-                      <th>Quality Grading</th>
-                      <th>Confidence Grading</th>
-                      <th>File Container</th>
-                      <th>Container Type</th>
-                      <th>File Location</th>
-                      <th>Assessments</th>
-                      <th>Comments</th>
-                    </tr>
-                    </thead>
-                    {% if cafs|length > 0 %}
-                      {% for caf in cafs %}
-                        <tr>
-                          <td>
-                            <a href="{% url "caf:detail" caf.pk %}">{{ caf.version }}</a>
-                          </td>
-                          <td>
-                            {{ caf.quality_grading }}
-                          </td>
-                          <td>
-                            {{ caf.confidence_grading }}
-                          </td>
-                          <td>
-                            {{ caf.file.name }}
-                          </td>
-                          <td>
-                            {{ caf.file.type }}
-                          </td>
-                          <td>
-                            {{ caf.file.file_store_location }}
-                          </td>
-                          <td>
-                            <ul class="list-group">
-                              {% for ass in caf.cafassessment_set.all %}
-                                <li class="list-group-item">{{ ass }} by <a
-                                        href="{% url "organisations:person-detail" ass.completer.pk %}">{{ ass.completer }}</a>
-                                </li>
+                <div class="row">
+                  <div class="col-md-12 my-2">
+                    <div class="card bg-light">
+                      <div class="card-body">
+                        <div class="card-title" style="font-size: 1.1rem;">CAFs <a href="#"
+                                                                                   class="btn btn-outline-primary btn-sm float-right">Add
+                          new...</a></div>
+                        <div class="table-responsive">
+                          <table class="table table-sm table-striped table-bordered">
+                            <thead>
+                            <tr>
+                              <th>Version</th>
+                              <th>Quality Grading</th>
+                              <th>Confidence Grading</th>
+                              <th>File Container</th>
+                              <th>Container Type</th>
+                              <th>File Location</th>
+                              <th>Assessments</th>
+                              <th>Comments</th>
+                            </tr>
+                            </thead>
+                            {% if cafs|length > 0 %}
+                              {% for caf in cafs %}
+                                <tr>
+                                  <td>
+                                    <a href="{% url "caf:detail" caf.pk %}">{{ caf.version }}</a>
+                                  </td>
+                                  <td>
+                                    {{ caf.quality_grading }}
+                                  </td>
+                                  <td>
+                                    {{ caf.confidence_grading }}
+                                  </td>
+                                  <td>
+                                    {{ caf.file.name }}
+                                  </td>
+                                  <td>
+                                    {{ caf.file.type }}
+                                  </td>
+                                  <td>
+                                    {{ caf.file.file_store_location }}
+                                  </td>
+                                  <td>
+                                    <ul class="list-group">
+                                      {% for ass in caf.cafassessment_set.all %}
+                                        <li class="list-group-item">{{ ass }} by <a
+                                                href="{% url "organisations:person-detail" ass.completer.pk %}">{{ ass.completer }}</a>
+                                        </li>
+                                      {% endfor %}
+                                    </ul>
+                                  </td>
+                                  <td>
+                                    {{ caf.comments }}
+                                  </td>
+                                </tr>
                               {% endfor %}
-                            </ul>
-                          </td>
-                          <td>
-                            {{ caf.comments }}
-                          </td>
-                        </tr>
-                      {% endfor %}
-                    {% else %}
-                      <a class="btn btn-primary" href="{% url "caf:as_create_from_org" object.slug %}" role="button">Add
-                        new...</a>
-                    {% endif %}
-                  </table>
+                            {% else %}
+                              <a class="btn btn-primary" href="{% url "caf:as_create_from_org" object.slug %}"
+                                 role="button">Add
+                                new...</a>
+                            {% endif %}
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
 
 
                 <div class="row pb-2">
@@ -397,62 +450,6 @@
             </div>
           </div>
         </div>
-
-
-
-
-        <div class="row">
-          <div class="col-12 mt-3">
-            <h4>People</h4>
-          </div>
-        </div>
-        <div class="row">
-          {% for p in people %}
-            <div class="col-md-12 my-2">
-              <div class="card bg-light">
-                <div class="card-body">
-                  <h5 class="card-title"><a
-                          href="{% url "organisations:person-detail" p.id %}">{{ p.first_name }} {{ p.last_name }}</a>
-                  </h5>
-                  <h6 class="card-subtitle mb-2 text-muted">{{ p.job_title }}</h6>
-                  <div class="table-responsive">
-                    <table class="table-sm">
-                      <tr>
-                        <td>Primary NIS Contact:</td>
-                        {% if p.primary_nis_contact %}
-                          <td class="text-success">Yes</td>
-                        {% else %}
-                          <td>No</td>
-                        {% endif %}
-                      </tr>
-                      <tr>
-                        <td>Email:</td>
-                        <td><a href="mailto:{{ p.email }}">{{ p.email }}</a></td>
-                      </tr>
-                      <tr>
-                        <td>Mobile:</td>
-                        <td>{{ p.mobile }}</td>
-                      </tr>
-                      <tr>
-                        <td>Landline:</td>
-                        <td>{{ p.landline }}</td>
-                      </tr>
-                      <tr>
-                        <td>Clearance:</td>
-                        <td>{{ p.clearance }}</td>
-                      </tr>
-                      <tr>
-                        <td>Clearance Expiry:</td>
-                        <td>{{ p.clearance_expiry }}</td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          {% endfor %}
-        </div>
-
 
         <div class="row">
           <div class="col-12 mt-3">
