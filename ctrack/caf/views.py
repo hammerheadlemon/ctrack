@@ -27,7 +27,7 @@ def caf_detail_view(request, pk):
     # caf_principles = CAFPrinciple.objects.all()
     _scrs = []
     _events = list(itertools.chain(caf.cafsingledateevent_set.all(), caf.caftwindateevent_set.all()))
-    all_events = sorted(_events, key=lambda x: x.date, reverse=True)
+    all_events = sorted(_events, key=lambda x: x.date, reverse=False)
     for ass in assessments:
         lst_scores = [ass, CAFAssessmentOutcomeScore.objects.filter(caf_assessment=ass)]
         _scrs.append(lst_scores)
