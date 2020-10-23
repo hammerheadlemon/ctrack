@@ -35,9 +35,9 @@ class UserDetailView(DetailView):
         context = super().get_context_data()
         user = self.request.user
         lead_oes = Organisation.objects.filter(lead_inspector=user).order_by("name")
-        _single_date_events = SingleDateTimeEvent.objects.filter(user=user).all()
-        _caf_single_date_events = CAFSingleDateEvent.objects.all()
-        _caf_twin_date_events = CAFTwinDateEvent.objects.all()
+        _single_date_events = SingleDateTimeEvent.objects.filter(user=user).order_by("date")
+        _caf_single_date_events = CAFSingleDateEvent.objects.order_by("date")
+        _caf_twin_date_events = CAFTwinDateEvent.objects.order_by("date")
         _combined = list(itertools.chain(_caf_twin_date_events, _caf_single_date_events, _single_date_events))
         all_events = sorted(_combined, key=self._comp_dates, reverse=True)
         for event in all_events:
@@ -46,6 +46,7 @@ class UserDetailView(DetailView):
                 setattr(event, "organisation", org)
             except AttributeError:
                 setattr(event, "organisation", None)
+        all_events = sorted(_combined, key=self._comp_dates, reverse=True)
         context["all_events"] = all_events
         context["lead_oes"] = lead_oes
         return context

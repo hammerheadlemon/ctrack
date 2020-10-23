@@ -187,7 +187,8 @@
                           <th scope="col" class="col-1">Date</th>
                           <th scope="col" class="col-2">Description</th>
                           <th scope="col" class="col-2">Participants</th>
-                          <th scope="col" class="col-4">Comments</th>
+                          <th scope="col" class="col-2">Comments</th>
+                          <th scope="col" class="col-2">Response</th>
                           <th scope="col" class="col-1">Action</th>
                         </tr>
                         </thead>
@@ -217,11 +218,14 @@
                                 NA
                               {% endif %}
                             </td>
-                            <td class="col-4">{{ event.comments }}<br>
+                            <td class="col-2">{{ event.comments }}<br>
                               {% if event.document_link %}
-                                <a class="small" href="{{ event.document_link }}">Link</a>
+                                <a class="small" href="{{ event.document_link }}">[URL]</a>
                               {% endif %}
                             </td>
+                          <td class="col-2">
+                            {{ event.requested_response_date }}
+                          </td>
                             <td class="col-1"><a
                                     href="{% url "register:event_update_simple_event_from_org" event.pk object.slug %}"
                                     class="btn btn-outline-secondary btn-sm" role="button">Edit</a>
@@ -285,7 +289,7 @@
                                 <td class="col-3">{{ event.short_description }}</td>
                                 <td class="col-4">{{ event.comments }}<br>
                                   {% if event.document_link %}
-                                    <a class="small" href="{{ event.document_link }}">Link</a>
+                                    <a class="small" href="{{ event.document_link }}">[URL]</a>
                                   {% endif %}
                                 </td>
                                 <td class="col-1"><a href="#" class="btn btn-outline-secondary btn-sm" role="button">Edit</a>
