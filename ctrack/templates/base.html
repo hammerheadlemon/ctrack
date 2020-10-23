@@ -45,7 +45,8 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
 
-      <li class="nav-item dropdown">
+      {% if request.user.is_authenticated%}
+        <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
            aria-expanded="false">Organisations</a>
         <div class="dropdown-menu" aria-labelledby="dropdown01">
@@ -73,10 +74,11 @@
           <a class="dropdown-item" href="#">Inspection/Audit Programme</a>
         </div>
       </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'about' %}">Help</a>
+        </li>
+      {% endif %}
 
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'about' %}">Help</a>
-      </li>
       {% if request.user.is_authenticated %}
         <li class="nav-item">
           {# URL provided by django-allauth/account/urls.py #}
