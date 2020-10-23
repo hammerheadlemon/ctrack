@@ -4,7 +4,7 @@ from django.shortcuts import render
 from ctrack.caf.models import EssentialService, CAF, ApplicableSystem
 from ctrack.organisations.models import IncidentReport, Organisation, Person, Submode
 from ctrack.organisations.utils import inspectors_for_each_mode
-from ctrack.register.models import EngagementEvent
+from ctrack.register.models import EngagementEvent, SingleDateTimeEvent
 
 
 def home_page(request):
@@ -30,6 +30,11 @@ def home_page(request):
         caf_users = get_user_model().objects.all()
         no_orgs = Organisation.objects.count()
         no_people = Person.objects.count()
+        no_singledatetime_events = SingleDateTimeEvent.objects.count()
+        no_meetings = SingleDateTimeEvent.objects.filter(type_descriptor="MEETING").count()
+        no_emails = SingleDateTimeEvent.objects.filter(type_descriptor="EMAIL").count()
+        no_phone_calls = SingleDateTimeEvent.objects.filter(type_descriptor="PHONE_CALL").count()
+        no_video_conferences = SingleDateTimeEvent.objects.filter(type_descriptor="VIDEO_CALL").count()
         no_cafs = CAF.objects.count()
         no_oes = Organisation.objects.filter(oes=True).count()
         no_essential_services = EssentialService.objects.count()
@@ -41,9 +46,14 @@ def home_page(request):
             "no_oes": no_oes,
             "no_orgs": no_orgs,
             "no_people": no_people,
+            "no_singledatetime_events": no_singledatetime_events,
+            "no_meetings": no_meetings,
             "no_cafs": no_cafs,
             "no_essential_services": no_essential_services,
             "no_systems": no_systems,
+            "no_emails": no_emails,
+            "no_phone_calls": no_phone_calls,
+            "no_video_conferences": no_video_conferences,
             "caf_users": caf_users,
             "submodes": submodes,
             "submode_inspector_dict": submode_inspector_dict,

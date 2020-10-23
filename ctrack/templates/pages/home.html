@@ -32,16 +32,18 @@
             </h3>
             <p>There are currently <span class="lead font-weight-bold">{{ no_orgs }}</span> <a
                     href="{% url "organisations:list" %}">organisations</a> on ctrack, of which <span
-                    class="lead font-weight-bold">{{ no_oes }}</span> are <a href="{% url "organisations:list_oes" %}">OES</a>, comprising <span
-                    class="lead font-weight-bold">{{ no_people }}</span> <a href="{% url "organisations:people" %}">people</a>.
+                    class="lead font-weight-bold">{{ no_oes }}</span> are <a href="{% url "organisations:list_oes" %}">OES</a>,
+              comprising <span
+                      class="lead font-weight-bold">{{ no_people }}</span> <a href="{% url "organisations:people" %}">people</a>.
               OES are responsible for <span class="lead font-weight-bold">{{ no_essential_services }}</span> NIS <a
                       href="#">essential services</a>. There have been a total of <span
-                      class="lead font-weight-bold">X</span> <a href="#">interactions</a> with OES by inspectors,
-              including <span class="lead font-weight-bold">X</span> emails, <span
-                      class="lead font-weight-bold">X</span>
-              phone calls, <span class="lead font-weight-bold">X</span> video conferences, and <span
-                      class="lead font-weight-bold">X</span>
-              meetings.</p>
+                      class="lead font-weight-bold">{{ no_singledatetime_events }}</span> interactions with OES by
+              inspectors,
+              including <span class="lead font-weight-bold">{{ no_emails }}</span> emails, <span
+                      class="lead font-weight-bold">{{ no_phone_calls }}</span>
+              phone calls, <span class="lead font-weight-bold">{{ no_video_conferences }}</span> video conferences, and
+              <span
+                      class="lead font-weight-bold">{{ no_meetings }}</span> meetings.</p>
             <p class="small">Use these high level lists to view things by <strong>lead inspector</strong>, <strong>sub-mode</strong>
               and other attributes:</p>
 
@@ -137,29 +139,6 @@
   </div>
   </div>
 
-  <!-- Example row of columns -->
-  {#  <div class="row">#}
-  {#    <div class="col-md-4">#}
-  {#      <h1>OES/Organisations</h1>#}
-  {#      <p>There are currently <span class="lead font-weight-bold">53</span> <a#}
-  {#              href="{% url "organisations:list" %}">organisations</a> on ctrack, comprising <span#}
-  {#              class="lead font-weight-bold">124</span> <a href="{% url "organisations:people" %}">people</a>.</p>#}
-  {#      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>#}
-  {#    </div>#}
-  {#    <div class="col-md-4">#}
-  {#      <h1>CAFs</h1>#}
-  {#      <p>There are <span class="lead font-weight-bold">93</span> <a href="{% url "caf:caf_list" %}">CAFs</a> on ctrack.#}
-  {#      </p>#}
-  {#      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>#}
-  {#    </div>#}
-  {#    <div class="col-md-4">#}
-  {#      <h2>Heading</h2>#}
-  {#      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta#}
-  {#        felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum#}
-  {#        massa justo sit amet risus.</p>#}
-  {#      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>#}
-  {#    </div>#}
-  {#  </div>#}
 
   <hr>
   <div class="container">
