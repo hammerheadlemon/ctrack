@@ -84,7 +84,8 @@
             <th class="col-2">Date</th>
             <th class="col-2">Event</th>
             <th class="col-2">Organisation</th>
-            <th class="col-4">Comments</th>
+            <th class="col-3">Comments</th>
+            <th class="col-1">Actions</th>
           </tr>
           </thead>
           <tbody>
@@ -98,8 +99,15 @@
               </td>
               <td class="col-2">{{ event.date|date:"d M Y" }}</td>
               <td class="col-2">{{ event.short_description }}</td>
-              <td class="col-2">{{ event.organisation }}</td>
-              <td class="col-4">{{ event.comments }}</td>
+              <td class="col-2">
+                {% if event.organisation %}
+                  <a href="{% url "organisations:detail" event.organisation.slug %}">{{ event.organisation }}</a>
+                {% else %}
+                  NA (DEBUG: THESE EVENTS HAVE TO PARTICIP.)
+                {% endif %}
+              </td>
+              <td class="col-3">{{ event.comments }}</td>
+              <td class="col-1"><a class="btn btn-sm btn-secondary" href="#" role="button">Edit</a></td>
             </tr>
           {% endfor %}
           </tbody>

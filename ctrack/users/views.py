@@ -40,6 +40,12 @@ class UserDetailView(DetailView):
         _caf_twin_date_events = CAFTwinDateEvent.objects.all()
         _combined = list(itertools.chain(_caf_twin_date_events, _caf_single_date_events, _single_date_events))
         all_events = sorted(_combined, key=self._comp_dates, reverse=True)
+        for event in all_events:
+            try:
+                org = event.participants.first().organisation
+                setattr(event, "organisation", org)
+            except AttributeError:
+                setattr(event, "organisation", None)
         context["all_events"] = all_events
         context["lead_oes"] = lead_oes
         return context
