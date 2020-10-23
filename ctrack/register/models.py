@@ -78,6 +78,7 @@ class EventBase(AuditableEventBase):
         blank=True,
         null=True,
         help_text="Use this to link to documents on TiME/Sharepoint or elsewhere.",
+        verbose_name="URL",
     )
     comments = models.TextField(
         max_length=1000,

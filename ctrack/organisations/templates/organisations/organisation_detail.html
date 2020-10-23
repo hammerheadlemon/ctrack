@@ -29,7 +29,7 @@
           <div class="col-md-12 my-2">
             <div class="card bg-light">
               <div class="card-body">
-{#                <div class="card-title" style="font-size: 1.1rem;">Company Information</div>#}
+                {#                <div class="card-title" style="font-size: 1.1rem;">Company Information</div>#}
                 <div class="card-text">
                   <div class="row">
                     {% for p in people %}
@@ -142,6 +142,13 @@
                     <div class="card-title" style="font-size: 1.1rem;">
                       Engagement Events
                     </div>
+                    <p>Record here official conversations with the organisation. Any events marked as not private
+                      are visible to all users of the system and this should be the default for most events to ensure
+                      visibility across the team. Sensitive conversations should <strong>not</strong> be detailed here.
+                    </p>
+                    <p>Please include a summary in the comments
+                      box but provide a link in the URL field on the form to a more detailed summary on TiME. Links
+                      included in this way will show upin the comments box in this summary table.</p>
                     <div class="mb-2">
                       <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-month" fill="currentColor"
                            xmlns="http://www.w3.org/2000/svg">
@@ -177,39 +184,41 @@
 
                       <a href="{% url "register:event_create_simple_event_from_org_with_type" object.slug 'EMAIL' %}">New
                         email</a>
+                      &nbsp;<a href="#">[Help]</a>
                     </div>
 
+
                     <div>
-                      <table class="table table-small table-bordered table-striped">
+                      <table class="table table-small table-bordered">
                         <thead>
-                        <tr class="d-flex">
-                          <th scope="col" class="col-2">Type</th>
-                          <th scope="col" class="col-1">Date</th>
-                          <th scope="col" class="col-2">Description</th>
-                          <th scope="col" class="col-2">Participants</th>
-                          <th scope="col" class="col-2">Comments</th>
-                          <th scope="col" class="col-2">Response</th>
-                          <th scope="col" class="col-1">Action</th>
+                        <tr>
+                          <th scope="col">Type</th>
+                          <th scope="col">Date</th>
+                          <th scope="col">Description</th>
+                          <th scope="col">Participants</th>
+                          <th scope="col">Comments</th>
+                          <th scope="col">Response</th>
+                          <th scope="col">Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for event in single_datetime_events %}
-                          <tr class="d-flex">
-                            <td class="col-2">
+                          <tr>
+                            <td>
                               {{ event.type_descriptor }}
                               {% if event.private %}
                                 <span class="badge badge-warning float-right">PRIVATE</span>
                               {% endif %}
                             </td>
-                            <td class="col-1">
+                            <td>
                               {% if event.date %}
                                 {{ event.date|date:"j M Y G:H" }}
                               {% else %}
                                 NA
                               {% endif %}
                             </td>
-                            <td class="col-2">{{ event.short_description }}</td>
-                            <td class="col-2">
+                            <td>{{ event.short_description }}</td>
+                            <td>
                               {% if event.participants %}
                                 {% for person in event.participants.all %}
                                   <a href="{% url "organisations:person-detail" person.id %}">{{ person }}</a> &nbsp;
@@ -218,15 +227,27 @@
                                 NA
                               {% endif %}
                             </td>
-                            <td class="col-2">{{ event.comments }}<br>
+                            <td>
+                              {% if event.comments %}
+                                {{ event.comments }}
+                              {% else %}
+                                NA
+                              {% endif %}
+                              <br>
                               {% if event.document_link %}
                                 <a class="small" href="{{ event.document_link }}">[URL]</a>
                               {% endif %}
                             </td>
-                          <td class="col-2">
-                            {{ event.requested_response_date }}
-                          </td>
-                            <td class="col-1"><a
+                              {% if event.requested_response_date and not event.response_received_date %}
+                                <td class="col-1" style="background-color: #f7def1;">
+                                  <strong>{{ event.requested_response_date }}</strong>
+                                </td>
+                                {% else %}
+                                <td class="col-1">
+                                  &nbsp;
+                                </td>
+                              {% endif %}
+                            <td><a
                                     href="{% url "register:event_update_simple_event_from_org" event.pk object.slug %}"
                                     class="btn btn-outline-secondary btn-sm" role="button">Edit</a>
                             </td>
@@ -262,42 +283,46 @@
                         </div>
 
                         <div>
-                          <table class="table table-small table-bordered table-striped">
+                          {% if notes%}
+                            <table class="table table-small table-bordered">
                             <thead>
-                            <tr class="d-flex">
-                              <th scope="col" class="col-2">Created</th>
-                              <th scope="col" class="col-2">User</th>
-                              <th scope="col" class="col-3">Description</th>
-                              <th scope="col" class="col-4">Comments</th>
-                              <th scope="col" class="col-1">Action</th>
+                            <tr>
+                              <th scope="col">Created</th>
+                              <th scope="col">User</th>
+                              <th scope="col">Description</th>
+                              <th scope="col">Comments</th>
+                              <th scope="col">Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for event in notes %}
-                              <tr class="d-flex">
-                                <td class="col-2">
+                              <tr>
+                                <td>
                                   {{ event.created_date|date:"j M Y" }}
                                   {% if event.private %}
                                     <span class="badge badge-warning float-right">PRIVATE</span>
                                   {% endif %}
                                 </td>
                                 {% if event.user.name %}
-                                  <td class="col-2">{{ event.user.name }}</td>
+                                  <td>{{ event.user.name }}</td>
                                 {% else %}
                                   <td class="col-2">{{ event.user.username }}</td>
                                 {% endif %}
-                                <td class="col-3">{{ event.short_description }}</td>
-                                <td class="col-4">{{ event.comments }}<br>
+                                <td>{{ event.short_description }}</td>
+                                <td>{{ event.comments }}<br>
                                   {% if event.document_link %}
                                     <a class="small" href="{{ event.document_link }}">[URL]</a>
                                   {% endif %}
                                 </td>
-                                <td class="col-1"><a href="#" class="btn btn-outline-secondary btn-sm" role="button">Edit</a>
+                                <td><a href="#" class="btn btn-outline-secondary btn-sm" role="button">Edit</a>
                                 </td>
                               </tr>
                             {% endfor %}
                             </tbody>
                           </table>
+                            {% else %}
+                            <p>No notes.</p>
+                          {% endif %}
                         </div>
                       </div>
                     </div>
