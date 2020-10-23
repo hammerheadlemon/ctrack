@@ -122,7 +122,8 @@ class OrganisationDetailView(PermissionRequiredMixin, DetailView):
             )
             for person in peoples
         ]
-        _all = list(itertools.chain(list(itertools.chain.from_iterable(_sdes))))
+        _all = list(itertools.chain.from_iterable(_sdes))
+        _all = set(_all)
         flat_sdes = sorted(_all, key=lambda e: e.date, reverse=True)
         for x in flat_sdes:
             if isinstance(x, NoteEvent):
