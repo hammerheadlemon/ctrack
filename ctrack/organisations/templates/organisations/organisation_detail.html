@@ -189,7 +189,8 @@
 
 
                     <div>
-                      <table class="table table-small table-bordered">
+                      {% if single_datetime_events %}
+                        <table class="table table-small table-bordered">
                         <thead>
                         <tr>
                           <th scope="col">Type</th>
@@ -255,6 +256,9 @@
                         {% endfor %}
                         </tbody>
                       </table>
+                        {% else %}
+                        <p><em>No events.</em></p>
+                      {% endif %}
                     </div>
                   </div>
                 </div>
@@ -321,7 +325,7 @@
                             </tbody>
                           </table>
                             {% else %}
-                            <p>No notes.</p>
+                            <p><em>No notes.</em></p>
                           {% endif %}
                         </div>
                       </div>
