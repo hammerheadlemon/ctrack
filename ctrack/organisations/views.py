@@ -8,11 +8,10 @@ from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
-from django.utils import timezone
 from django.views.generic import CreateView, DetailView, FormView, ListView
 
 from ctrack.caf.models import CAF, EssentialService
-from ctrack.register.models import EngagementEvent, NoteEvent
+from ctrack.register.models import EngagementEvent, NoteEvent, SingleDateTimeEvent
 from .forms import AddressInlineFormSet, IncidentReportForm, OrganisationCreateForm
 from .models import IncidentReport, Organisation, Person
 from .utils import filter_private_events
@@ -27,6 +26,18 @@ def essential_service_detail(request, pk):
     # es = get_object_or_404(EssentialService, organisation__pk=org_pk)
     context = {"es": es, "asses": asses, "cafs": cafs}
     return render(request, "organisations/essential_service_detail.html", context)
+
+
+def person_contact_history(request, person_id):
+    events = SingleDateTimeEvent.objects.filter(participants__id=person_id).order_by(
+        "-date"
+    )
+    person = get_object_or_404(Person, id=person_id)
+    return render(
+        request,
+        "organisations/contact_history.html",
+        {"events": events, "person": person},
+    )
 
 
 class OrganisationListViewByLeadInspector(ListView):
@@ -115,7 +126,9 @@ class OrganisationDetailView(PermissionRequiredMixin, DetailView):
 
         # simple datetime events for org
         # TODO - a note is not getting registered on org detail page after renamed datetime field so fix!
-        notes = NoteEvent.objects.filter(user=self.request.user, organisation=self.object).order_by("-created_date")
+        notes = NoteEvent.objects.filter(
+            user=self.request.user, organisation=self.object
+        ).order_by("-created_date")
         _sdes = [
             filter_private_events(
                 person.get_single_datetime_events(), self.request.user

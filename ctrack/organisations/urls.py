@@ -7,8 +7,7 @@ from ctrack.organisations.views import (
     OrganisationListView,
     PersonListView,
     essential_service_detail,
-    person_detail, OrganisationListViewByLeadInspector, oes_list,
-)
+    person_detail, OrganisationListViewByLeadInspector, oes_list, person_contact_history, )
 
 app_name = "organisations"
 
@@ -21,6 +20,7 @@ urlpatterns = [
         view=IncidentReportCreateView.as_view(),
         name="create_incident_report",
     ),
+    path("contact-history-for-person/<int:person_id>", view=person_contact_history, name="person_contact_history"),
     path("", view=OrganisationListView.as_view(), name="list"),
     path("lead-inspector/<int:id>", view=OrganisationListViewByLeadInspector.as_view(), name="list_by_inspector"),
     path("create", view=OrganisationCreate.as_view(), name="create"),

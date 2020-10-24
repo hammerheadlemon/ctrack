@@ -16,9 +16,9 @@
           {% elif person.voluntary_point_of_contact %}
             <span class="badge badge-dark">Voluntary Point of Contact</span>
           {% else %}
-            &nbsp;
           {% endif %}
         </h3>
+      <p><a href="{% url "organisations:person_contact_history" person.pk %}">Contact History</a></p>
       </div>
     </div>
     <div class="row">

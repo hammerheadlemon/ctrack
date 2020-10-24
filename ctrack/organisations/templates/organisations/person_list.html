@@ -57,7 +57,7 @@
             <td><a href="{% url "organisations:detail" p.organisation.slug %}">{{ p.organisation.name }}</a></td>
             <td>{{ p.mobile }}</td>
             <td><a href="mailto:{{ p.email }}">{{ p.email }}</a></td>
-            <td><a href="#">Contact History</a></td>
+            <td><a href="{% url "organisations:person_contact_history" p.pk %} ">Contact History</a></td>
           </tr>
         {% endfor %}
       </table>

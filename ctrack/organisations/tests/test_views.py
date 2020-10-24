@@ -16,6 +16,27 @@ from ..views import OrganisationListView
 pytestmark = pytest.mark.django_db
 
 
+def test_person_history_view(user, client, org_with_people):
+    person = org_with_people.person_set.first()
+    e1 = SingleDateTimeEventFactory.create(
+        type_descriptor="MEETING", short_description="First Meeting"
+    )
+    e2 = SingleDateTimeEventFactory.create(
+        type_descriptor="MEETING", short_description="Second Meeting"
+    )
+    e1.participants.add(person)
+    e1.save()
+    e2.participants.add(person)
+    e2.save()
+    client.force_login(user)
+    response = client.get(
+        reverse("organisations:person_contact_history", kwargs={"person_id": person.pk})
+    )
+    assert response.status_code == 200
+    html = response.content.decode("utf-8")
+    assert "First Meeting" in html
+
+
 def test_organisation_by_inspector_view(inspector1, inspector2, client, submode):
     org = OrganisationFactory(submode=submode, lead_inspector=inspector1, deputy_lead_inspector=inspector2)
     client.force_login(inspector1)
