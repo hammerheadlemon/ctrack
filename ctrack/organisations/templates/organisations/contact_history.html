@@ -22,7 +22,8 @@
   <div class="col-12 m-2">
     <div class="row">
       <div class="col-12 mb-2">
-        <h3>Contact history for {{ person }} | <span class="text-muted">{{ person.organisation.name }}</span></h3>
+        <h3>Contact history for <a href="{% url "organisations:person-detail" person.pk %}">{{ person }}</a> | <span class="text-muted"><a
+                href="{% url "organisations:detail" person.organisation.slug %}">{{ person.organisation.name }}</a></span></h3>
       </div>
     </div>
     <div class="row justify-content-center">
