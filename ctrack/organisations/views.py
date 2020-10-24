@@ -34,19 +34,18 @@ def person_contact_history(request, person_id):
     )
     person = get_object_or_404(Person, id=person_id)
 
-    _sdes = [
+    filtered_out_private = [
         filter_private_events(
             person.get_single_datetime_events(), request.user
         )
     ]
-    _all = list(itertools.chain.from_iterable(_sdes))
-    _all = set(_all)
-    flat_sdes = sorted(_all, key=lambda e: e.date, reverse=True)
+    all_events = list(itertools.chain.from_iterable(filtered_out_private))
+    sorted_events = sorted(all_events, key=lambda e: e.date, reverse=True)
 
     return render(
         request,
         "organisations/contact_history.html",
-        {"events": flat_sdes, "person": person},
+        {"events": sorted_events, "person": person},
     )
 
 
@@ -138,16 +137,16 @@ class OrganisationDetailView(PermissionRequiredMixin, DetailView):
         notes = NoteEvent.objects.filter(
             user=self.request.user, organisation=self.object
         ).order_by("-created_date")
-        _sdes = [
+        filtered_out_private = [
             filter_private_events(
                 person.get_single_datetime_events(), self.request.user
             )
             for person in peoples
         ]
-        _all = list(itertools.chain.from_iterable(_sdes))
-        _all = set(_all)
-        flat_sdes = sorted(_all, key=lambda e: e.date, reverse=True)
-        for x in flat_sdes:
+        all_events = list(itertools.chain.from_iterable(filtered_out_private))
+        all_events = set(all_events)
+        sorted_events = sorted(all_events, key=lambda e: e.date, reverse=True)
+        for x in sorted_events:
             if isinstance(x, NoteEvent):
                 delattr(x, "date")
 
@@ -175,7 +174,7 @@ class OrganisationDetailView(PermissionRequiredMixin, DetailView):
         context["engagement_events"] = engagement_events
         context["essential_services"] = essential_services
         context["cafs"] = cafs
-        context["single_datetime_events"] = flat_sdes
+        context["single_datetime_events"] = sorted_events
         return context
 
 
