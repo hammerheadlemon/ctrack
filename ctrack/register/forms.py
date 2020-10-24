@@ -34,12 +34,11 @@ class CreateNoteEventForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop("user")
         if kwargs.get("org_slug"):
-            got_org = True
             self.org_slug = kwargs.pop("org_slug")
-        super().__init__(*args, **kwargs)
-        if got_org :
+            super().__init__(*args, **kwargs)
             self.fields["organisation"].queryset = Organisation.objects.filter(slug=self.org_slug)
         else:
+            super().__init__(*args, **kwargs)
             self.fields["organisation"].queryset = Organisation.objects.all().order_by('name')
 
     def save(self, commit=True, **kwargs):
