@@ -33,10 +33,20 @@ def person_contact_history(request, person_id):
         "-date"
     )
     person = get_object_or_404(Person, id=person_id)
+
+    _sdes = [
+        filter_private_events(
+            person.get_single_datetime_events(), request.user
+        )
+    ]
+    _all = list(itertools.chain.from_iterable(_sdes))
+    _all = set(_all)
+    flat_sdes = sorted(_all, key=lambda e: e.date, reverse=True)
+
     return render(
         request,
         "organisations/contact_history.html",
-        {"events": events, "person": person},
+        {"events": flat_sdes, "person": person},
     )
 
 
@@ -125,7 +135,6 @@ class OrganisationDetailView(PermissionRequiredMixin, DetailView):
         cafs = org.caf_set.all()
 
         # simple datetime events for org
-        # TODO - a note is not getting registered on org detail page after renamed datetime field so fix!
         notes = NoteEvent.objects.filter(
             user=self.request.user, organisation=self.object
         ).order_by("-created_date")

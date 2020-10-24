@@ -9,7 +9,8 @@ from ctrack.organisations.tests.factories import (
     OrganisationFactory,
     SingleDateTimeEventFactory,
 )
-from ctrack.organisations.views import IncidentReportCreateView, OrganisationDetailView, oes_list
+from ctrack.organisations.views import IncidentReportCreateView, OrganisationDetailView, oes_list, \
+    person_contact_history
 from ..utils import filter_private_events
 from ..views import OrganisationListView
 
@@ -68,6 +69,66 @@ def test_meetings_in_organisation_detail_view(user, client, org_with_people):
     assert response.status_code == 200
     html = response.content.decode("utf-8")
     assert "First Meeting" in html
+
+
+# TODO - parameterize this test with the almost identical test below
+def test_private_event_filter_for_contact_history_page(user, client, org_with_people):
+    """
+    In this test we are creating five events, using two different users.
+    Each event will be set to either private or not private. We are testing
+    a function that will only allow private notes belonging to the logged in,
+    or request.user user to be added to the view context. The context is not
+    referred to here - only the utility function under test. The output from
+    that filter function will go forward into the view context.
+    """
+    person = org_with_people.person_set.first()
+    e1_user = SingleDateTimeEventFactory(
+        type_descriptor="MEETING",
+        short_description="First Event with user",
+        private=True,
+        user=user,
+    )
+    e2_user = SingleDateTimeEventFactory(
+        type_descriptor="MEETING",
+        short_description="Second Event with user",
+        private=False,
+        user=user,
+    )
+    e3_user = SingleDateTimeEventFactory(
+        type_descriptor="MEETING",
+        short_description="Third Event with user",
+        private=True,
+        user=user,
+    )
+    e1_user.participants.add(person)
+    e1_user.save()
+    e2_user.participants.add(person)
+    e2_user.save()
+    e3_user.participants.add(person)
+    e3_user.save()
+    user2 = get_user_model().objects.create(username="sam", email="asd@asdsd.com", password="123")
+    e1_user2 = SingleDateTimeEventFactory(
+        type_descriptor="MEETING",
+        short_description="First Event with USER2",
+        private=False,
+        user=user2,
+    )
+    e2_user2 = SingleDateTimeEventFactory(
+        type_descriptor="MEETING",
+        short_description="Second Event with USER2",
+        private=True,
+        user=user2,
+    )
+    e1_user2.participants.add(person)
+    e1_user2.save()
+    e2_user2.participants.add(person)
+    e2_user2.save()
+    client.force_login(user2)
+    response = client.get(reverse("organisations:person_contact_history", kwargs={"person_id": person.pk}))
+    assert response.status_code == 200
+    html = response.content.decode("utf-8")
+    assert "First Event with user" not in html
+    assert "Third Event with user" not in html
 
 
 def test_private_event_filter(user, org_with_people):
