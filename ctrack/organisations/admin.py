@@ -58,6 +58,7 @@ class OrganisationAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "submode",
+        "oes",
         "date_updated",
         "lead_inspector",
         "deputy_lead_inspector",
