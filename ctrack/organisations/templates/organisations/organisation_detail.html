@@ -240,11 +240,11 @@
                               {% endif %}
                             </td>
                               {% if event.requested_response_date and not event.response_received_date %}
-                                <td class="col-1" style="background-color: #f7def1;">
+                                <td style="background-color: #f7def1;">
                                   <strong>{{ event.requested_response_date }}</strong>
                                 </td>
                                 {% else %}
-                                <td class="col-1">
+                                <td>
                                   &nbsp;
                                 </td>
                               {% endif %}
@@ -313,7 +313,13 @@
                                   <td class="col-2">{{ event.user.username }}</td>
                                 {% endif %}
                                 <td>{{ event.short_description }}</td>
-                                <td>{{ event.comments }}<br>
+                                <td>
+                                  {% if event.comments %}
+                                    {{ event.comments }}
+                                  {% else %}
+                                    NA
+                                  {% endif %}
+                                  <br>
                                   {% if event.document_link %}
                                     <a class="small" href="{{ event.document_link }}">[URL]</a>
                                   {% endif %}

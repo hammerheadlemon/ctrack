@@ -119,7 +119,17 @@
                 <td class="col-3">{{ event.type_descriptor }}</td>
                 <td class="col-2">{{ event.user.name }}</td>
                 <td class="col-2">{{ event.short_description }}</td>
-                <td class="col-4">{{ event.comments }}</td>
+                <td class="col-4">
+                  {% if event.comments %}
+                    {{ event.comments }}
+                  {% else %}
+                    NA
+                  {% endif %}
+                  <br>
+                  {% if event.document_link %}
+                    <a class="small" href="{{ event.document_link }}">[URL]</a>
+                  {% endif %}
+                </td>
               </tr>
             {% endfor %}
             </tbody>
