@@ -59,7 +59,7 @@ Set up the ctrack database:
 
 * `sudo -u postgres psql postgres`
 * `CREATE DATABASE ctrack;`
-* `ALTER ROLE postgres WITH PASSWORD 'postgres;'
+* `ALTER ROLE postgres WITH PASSWORD 'postgres;'`
 * `\q` (to quit `psql`)`
 
 Note - never use this default username/password configuration on a production
