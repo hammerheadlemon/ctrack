@@ -11,6 +11,9 @@ application that handles contacts, events, etc.
 There is, in the background, some facility to store CAF data, but this is not
 currently brought out in the user interface. Find it in the admin interface.
 
+It does work nicely for what it is though - and it is still in development so
+consider it to be very unstable. Email me at y at yulqen dot org.
+
 ---
 
 To install `ctrack` to enable testing and development on your local machine
